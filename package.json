@@ -13,7 +13,7 @@
     "clean": "trash build test",
     "test": "jest",
     "lint": "tslint 'src/**/*.ts?(x)'",
-    "docs": "typedoc"
+    "docs": "trash docs && typedoc && touch docs/.nojekyll"
   },
   "repository": {
     "type": "git",
