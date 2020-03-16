@@ -32,9 +32,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 10
-      - run: declare -x VERSION=$(jq -r '.version' package.json)
-      - run: echo $VERSION
-      - run: git tag v$VERSION
-        continue-on-error: true
-      - run: git push --tags
-        continue-on-error: true
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_OWNER: VeryBigThings
