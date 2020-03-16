@@ -1,0 +1,22 @@
+name: Test and Build
+
+on:
+  pull_request:
+    branches:
+      - master
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10
+      - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN_NPM}}" >> ~/.npmrc
+      - run: echo "@verybigthings:registry=https://npm.pkg.github.com" >> ~/.npmrc
+      - run: npm i
+      - run: npm run lint
+      - run: npm run test
+      - run: npm run build
