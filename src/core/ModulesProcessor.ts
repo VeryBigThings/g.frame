@@ -19,7 +19,7 @@ class ModulesProcessor extends EventDispatcher {
         this.prepareRenderer();
         this.modulesPreInitialization()
             .then(() => this.modulesInitialization())
-            .then(() => this.modulesAfterInitialization())
+            .then(() => this.modulesAfterInitialization());
 
     }
 
@@ -32,7 +32,7 @@ class ModulesProcessor extends EventDispatcher {
 
     private async modulesInitialization(): Promise<void> {
         for (const module of this.configuration.modules) {
-            if(!this.modulesStatus.get(module)) continue;
+            if (!this.modulesStatus.get(module)) continue;
             const instances: Array<any> = await module.onInit(null);
             this.modulesInstances.set(module, instances);
         }
@@ -41,7 +41,7 @@ class ModulesProcessor extends EventDispatcher {
 
     private async modulesAfterInitialization(): Promise<void> {
         for (const module of this.configuration.modules) {
-            if(!this.modulesStatus.get(module)) continue;
+            if (!this.modulesStatus.get(module)) continue;
             module.afterInit();
         }
     }
