@@ -26,6 +26,8 @@
     //    "noImplicitReturns": true /* Report error when not all code paths in function return a value. */,
     //    "noFallthroughCasesInSwitch": true /* Report errors for fallthrough cases in switch statement. */,
 
+    "skipLibCheck": true,
+  
     /* Debugging Options */
     "traceResolution": false /* Report module resolution log messages. */,
     "listEmittedFiles": false /* Print names of generated files part of the compilation. */,
