@@ -1,17 +1,21 @@
 import {Object3D, PerspectiveCamera, Scene, Vector3, WebGLRenderer} from 'three';
 import {IViewerConfig} from './IViewerConfig';
+import { OrbitControls } from '../controls/OrbitControls';
 
 
 export default class FrameworkViewer {
     public renderer: WebGLRenderer;
     public scene: Scene;
     public camera: PerspectiveCamera;
-    public container: Element;
+    public container: HTMLDivElement;
 
     public cameraWrapParent: Object3D;
     public cameraWrap: Object3D;
 
-    constructor(private config: IViewerConfig) {
+    public controls: OrbitControls;
+
+    // constructor(private config: IViewerConfig) {
+    constructor(private config: any) {
         const webglCanvas: any = document.createElement('canvas');
         const glContext = FrameworkViewer.getContext(webglCanvas);
 
@@ -45,8 +49,16 @@ export default class FrameworkViewer {
 
         // SCENE
         this.scene = new Scene();
-        this.scene.overrideMaterial = this.config.scene.overrideMaterial;
+        // this.scene.overrideMaterial = this.config.scene.overrideMaterial;
+
         // CAMERA
+        this.initCamera();
+
+        // CONTROLS
+        this.initControls();
+    }
+
+    initCamera() {
         this.cameraWrapParent = new Object3D();
         this.scene.add(this.cameraWrapParent);
 
@@ -57,10 +69,23 @@ export default class FrameworkViewer {
             (this.config.renderer.width || window.innerWidth) / (this.config.renderer.height || window.innerHeight),
             this.config.camera.near,
             this.config.camera.far);
+
         this.camera.position.copy(this.config.camera.position);
-        this.camera.userData.target = new Vector3().copy(this.config.camera.target);
-        this.camera.lookAt(this.camera.userData.target);
+        // this.camera.userData.target = new Vector3().copy(this.config.camera.target);
+        this.camera.lookAt(new Vector3());
         this.cameraWrap.add(this.camera);
+    }
+
+    initControls() {
+        this.controls = new OrbitControls(this.camera, this.container);
+
+        this.controls.enabled = true;
+        this.controls.enableRotate = true;
+        this.controls.rotateSpeed = 1;
+        this.controls.enableZoom = true;
+        this.controls.enablePan = true;
+
+        // this.actionController = new ActionController(this.camera, this.vrControls, this.zSpaceControls || null, this.renderer);
     }
 
     static getContext(webglCanvas) {
@@ -79,14 +104,14 @@ export default class FrameworkViewer {
     update = (_time, frame) => {
         // const time = performance.now();
 
-        // if (this.controls.enabled) this.controls.update();
+        this.controls && this.controls.update();
 
         // TWEEN.update(time);
 
         // this.fire('update', new ParentEvent('update', {time: time, frame: frame}));
 
         this.render();
-    };
+    }
 
     render() {
         this.renderer.render(this.scene, this.camera);

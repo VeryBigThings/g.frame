@@ -13,24 +13,33 @@ export class EventDispatcher {
         this.events = [];
     }
 
-    on(eventName: string, callback1: Function, callback2?: Function) {
-        const condition = callback2 ? callback1 : null;
-        const callback = callback2 ? callback2 : callback1;
-        this.events.push(new EventDescriptor(eventName, callback, condition));
+    /**
+     * Method for subscribing to event
+     * @param eventName Name of event
+     * @param callback Callback function
+     */
+    on(eventName: string, callback: Function) {
+        this.events.push(new EventDescriptor(eventName, callback));
         return this;
     }
 
-    once(eventName: string, callback1: Function, callback2?: Function) {
-        const condition = callback2 ? callback1 : null;
-        const callback = callback2 ? callback2 : callback1;
+    /**
+     * Method for subscribing to event, but callback will be called only one time and will automatically unsubscribe.
+     * @param eventName Name of event
+     * @param callback Callback function
+     */
+    once(eventName: string, callback: Function) {
         let savedEvent;
         this.events.push(new EventDescriptor(eventName, savedEvent = (event: ParentEvent) => {
             this.off(eventName, savedEvent);
             callback(event);
-        }, condition));
+        }));
         return this;
     }
 
+    /**
+     * Method for unsubscribing.
+     */
     off(eventName?: string, callback?: Function) {
         this.events.filter(event =>
             (event.eventName === eventName && !callback) ||
@@ -40,6 +49,11 @@ export class EventDispatcher {
         return this;
     }
 
+    /**
+     * Method for calling all listeners.
+     * @param eventName
+     * @param data
+     */
     fire(eventName: string, data: ParentEvent = new ParentEvent('')) {
         const events = eventName.split(' ');
         if (events.length > 1)

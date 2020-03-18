@@ -13,15 +13,15 @@ export interface IViewerConfig {
         height: number;
         autoResize: boolean;
         containerID: string;
-    },
+    };
     scene: {
         overrideMaterial: Material;
-    },
+    };
     camera: {
         fov: number;
         near: number;
         far: number;
         position: Vector3;
         target: Vector3;
-    }
+    };
 }
