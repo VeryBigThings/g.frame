@@ -39,7 +39,9 @@ export default class ResourcesManagerClass extends EventDispatcher {
         newResources.forEach((resource) => {
             const loader = this.getLoader(resource.type);
             if (loader) {
-                loader.addRaw(resource);
+                if (!loader.addRaw(resource)) {
+                    everyResourceAdded = false;
+                }
             } else {
                 everyResourceAdded = false;
             }
