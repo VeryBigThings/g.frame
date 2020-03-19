@@ -13,6 +13,7 @@ export default class ResourcesManagerClass extends EventDispatcher {
 
     constructor() {
         super();
+        this.loaders = new Map<string, Loader<any>>();
     }
 
     addLoader(loader: Loader<any>): boolean {
@@ -26,7 +27,7 @@ export default class ResourcesManagerClass extends EventDispatcher {
     }
 
     loadAll() {
-        Promise.all(Array.from(this.loaders.values()).map(loader => loader.load())).then(() => {
+        return Promise.all(Array.from(this.loaders.values()).map(loader => loader.load())).then(() => {
             this.fire('loaded');
             return true;
         }, () => {
