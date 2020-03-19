@@ -1,6 +1,6 @@
 import {Loader} from './ResourcesManager';
 
-export default class VideoLoader extends Loader<HTMLVideoElement> {
+export default class VideosLoader extends Loader<HTMLVideoElement> {
 
     constructor() {
         super('video');
