@@ -1,20 +1,22 @@
 import {EventDispatcher} from './EventDispatcher';
 import {AbstractModule, AbstractModuleStatus} from './AbstractModule';
-import Viewer from '../rendering/FrameworkViewer';
+import FrameworkViewer from '../rendering/FrameworkViewer';
 import {IViewerConfig} from '../rendering/IViewerConfig';
 import {ViewerModule} from './ViewerModule';
 
-class ModulesProcessor extends EventDispatcher {
+interface ModulesProcessorConfiguration {
+    modules: Array<AbstractModule>;
+    viewerConfig: IViewerConfig;
+    bootstrap: ViewerModule;
+}
+
+export class ModulesProcessor extends EventDispatcher {
     private modulesStatus: Map<AbstractModule, AbstractModuleStatus>;
     private modulesInstances: Map<AbstractModule, Array<any>>;
-    private viewer: Viewer;
+    private viewer: FrameworkViewer;
 
 
-    constructor(private configuration: {
-        modules: Array<AbstractModule>,
-        viewerConfig: IViewerConfig,
-        bootstrap: ViewerModule
-    }) {
+    constructor(private configuration: ModulesProcessorConfiguration) {
         super();
         this.prepareRenderer();
         this.modulesPreInitialization()
