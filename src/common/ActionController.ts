@@ -2,6 +2,11 @@ import {Group, Intersection, Mesh, Object3D, Ray, Raycaster, Scene, Vector3} fro
 import {MeshEventDescriptor, MeshEventDispatcher} from '../core/MeshEventDispatcher';
 import {ParentEvent} from '../core/EventDispatcher';
 
+export interface IActionControllerConfig {
+    controllersQuantity: number;
+    minRaycasterDistance: number;
+    maxRaycasterDistance: number;
+}
 
 export enum ActionControllerEventName {
     buttonUp = 'buttonUp',
@@ -37,12 +42,36 @@ export interface IntersectionExt extends Intersection {
  */
 export class ActionController extends MeshEventDispatcher {
     private buttonDownRayDirections: Array<Vector3>;
+    protected currentValues: Array<{
+        raycaster: Raycaster;
+        startPosition: Vector3;
+        endPosition: Vector3;
+        controllerNumber: number;
+    }> = [];
 
     /**
      * Constructor of the ActionController
      */
-    constructor() {
+    constructor(protected config: IActionControllerConfig) {
         super();
+
+        for (let i = 0; i < this.config.controllersQuantity; i++) {
+            this.currentValues.push({
+                raycaster: new Raycaster(),
+                startPosition: new Vector3(),
+                endPosition: new Vector3(),
+                controllerNumber: i,
+            });
+        }
+
+        this.updateRaycaster();
+    }
+
+    public updateRaycaster() {
+        this.currentValues.forEach(controller => {
+            controller.raycaster.near = this.config.minRaycasterDistance;
+            controller.raycaster.far = this.config.maxRaycasterDistance;
+        });
     }
 
     /**
