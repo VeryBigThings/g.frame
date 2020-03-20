@@ -1,8 +1,11 @@
 import { ActionController, ActionControllerEventName } from './ActionController';
 import { WebGLRenderer, Camera, Raycaster, Vector3, Vector2 } from 'three';
 
+/**
+ * A special config for TouchActionController class to store the most important options
+ * Such as near/far parameters of the raycaster
+ */
 interface ITouchActionControllerConfig {
-    controllersQuantity: number;
     minRaycasterDistance: number;
     maxRaycasterDistance: number;
 }
@@ -15,6 +18,11 @@ export class TouchActionController extends ActionController {
     constructor(protected config: ITouchActionControllerConfig, protected renderer: WebGLRenderer, protected camera: Camera) {
         super();
 
+        // Check if they were undefined
+        this.config.minRaycasterDistance = this.config.minRaycasterDistance || 0;
+        this.config.maxRaycasterDistance = this.config.maxRaycasterDistance || Infinity;
+
+        // Define the callbacks
         this.onTouchStart = (event: TouchEvent) => {
             event.preventDefault();
             this.update(ActionControllerEventName.buttonDown, TouchActionController.getRaycaster(config, TouchActionController.getClickPosition(<TouchEvent>event), this.camera));
@@ -28,6 +36,7 @@ export class TouchActionController extends ActionController {
             this.update(ActionControllerEventName.buttonUp, TouchActionController.getRaycaster(config, TouchActionController.getClickPosition(<TouchEvent>event), this.camera));
         };
 
+        // Subscribe on events
         this.renderer.domElement.addEventListener('touchstart', this.onTouchStart, false);
         this.renderer.domElement.addEventListener('touchmove', this.onTouchMove, false);
         this.renderer.domElement.addEventListener('touchend', this.onTouchEnd, false);
@@ -50,6 +59,12 @@ export class TouchActionController extends ActionController {
         return mouse;
     }
 
+    /**
+     * 
+     * @param config 
+     * @param mouse 
+     * @param camera 
+     */
     protected static getRaycaster(config: ITouchActionControllerConfig, mouse: Vector2, camera: Camera) {
         const raycaster = new Raycaster(new Vector3(), new Vector3(), config.minRaycasterDistance, config.maxRaycasterDistance);
 
@@ -57,6 +72,9 @@ export class TouchActionController extends ActionController {
         return raycaster;
     }
 
+    /**
+     * Function to unsubscribe TouchActionController from all the events
+     */
     dispose() {
         this.renderer.domElement.removeEventListener('touchstart', this.onTouchStart, false);
         this.renderer.domElement.removeEventListener('touchend', this.onTouchEnd, false);

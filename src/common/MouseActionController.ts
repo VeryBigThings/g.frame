@@ -1,30 +1,46 @@
 import { ActionController, ActionControllerEventName } from './ActionController';
 import { WebGLRenderer, Camera, Vector2, Raycaster, Vector3 } from 'three';
 
-interface IMoveActionControllerConfig {
-    controllersQuantity: number;
+/**
+ * A special config for MouseActionController to store the most important options
+ * Such as near/far parameters of the raycaster
+ */
+interface IMouseActionControllerConfig {
     minRaycasterDistance: number;
     maxRaycasterDistance: number;
 }
 
-export class MoveActionController extends ActionController {
+export class MouseActionController extends ActionController {
     protected onMouseDown: (event: MouseEvent) => void;
     protected onMouseUp: (event: MouseEvent) => void;
     protected onMouseMove: (event: MouseEvent) => void;
 
-    constructor(protected config: IMoveActionControllerConfig, protected renderer: WebGLRenderer, protected camera: Camera) {
+    /**
+     * Initialises mouse events for ActionController
+     * @param config Config for the class
+     * @param renderer Your three.js WebGLRenderer
+     * @param camera Camera you use on the Scene
+     */
+    constructor(protected config: IMouseActionControllerConfig, protected renderer: WebGLRenderer, protected camera: Camera) {
         super();
 
+        this.dispose()
+        // Check if they were undefined
+        this.config.minRaycasterDistance = this.config.minRaycasterDistance || 0;
+        this.config.maxRaycasterDistance = this.config.maxRaycasterDistance || Infinity;
+
+        // Define the callbacks
         this.onMouseDown = (event: MouseEvent) => {
-            this.update(ActionControllerEventName.buttonDown, MoveActionController.getRaycaster(config, MoveActionController.getClickPosition(<MouseEvent>event), this.camera));
+            this.update(ActionControllerEventName.buttonDown, MouseActionController.getRaycaster(config, MouseActionController.getClickPosition(<MouseEvent>event), this.camera));
         };
         this.onMouseUp = (event: MouseEvent) => {
-            this.update(ActionControllerEventName.buttonUp, MoveActionController.getRaycaster(config, MoveActionController.getClickPosition(<MouseEvent>event), this.camera));
+            this.update(ActionControllerEventName.buttonUp, MouseActionController.getRaycaster(config, MouseActionController.getClickPosition(<MouseEvent>event), this.camera));
         };
         this.onMouseMove = (event: MouseEvent) => {
-            this.update(ActionControllerEventName.move, MoveActionController.getRaycaster(config, MoveActionController.getClickPosition(<MouseEvent>event), this.camera));
+            this.update(ActionControllerEventName.move, MouseActionController.getRaycaster(config, MouseActionController.getClickPosition(<MouseEvent>event), this.camera));
         };
 
+        // Subscribe on events
         this.renderer.domElement.addEventListener('mousedown', this.onMouseDown, false);
         this.renderer.domElement.addEventListener('mouseup', this.onMouseUp, false);
         this.renderer.domElement.addEventListener('mousemove', this.onMouseMove, false);
@@ -47,13 +63,22 @@ export class MoveActionController extends ActionController {
         return mouse;
     }
 
-    protected static getRaycaster(config: IMoveActionControllerConfig, mouse: Vector2, camera: Camera) {
+    /**
+     * 
+     * @param config 
+     * @param mouse 
+     * @returns {Raycaster} 
+     */
+    protected static getRaycaster(config: IMouseActionControllerConfig, mouse: Vector2, camera: Camera) {
         const raycaster = new Raycaster(new Vector3(), new Vector3(), config.minRaycasterDistance, config.maxRaycasterDistance);
 
         raycaster.setFromCamera(mouse, camera);
         return raycaster;
     }
 
+    /**
+     * Function to unsubscribe MouseActionController from all listened the events
+     */
     dispose() {
         this.renderer.domElement.removeEventListener('mousedown', this.onMouseDown, false);
         this.renderer.domElement.removeEventListener('mouseup', this.onMouseUp, false);

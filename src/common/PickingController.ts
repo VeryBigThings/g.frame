@@ -1,6 +1,7 @@
 import {Intersection, Matrix4, Object3D, Quaternion, Raycaster, Vector3} from 'three';
 import {MeshEventDispatcher} from '../core/MeshEventDispatcher';
 import {ParentEvent} from '../core/EventDispatcher';
+import { MouseActionController } from './MouseActionController';
 
 export enum PickingControllerEvents {
     PICKED = 'picked', MOVED = 'moved', RELEASED = 'released'
