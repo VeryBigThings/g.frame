@@ -1,26 +1,31 @@
-import { ActionController, IActionControllerConfig, ActionControllerEventName } from '../action_controller/ActionController';
 import OculusQuestController from '../../components/gamepad/OculusQuestController';
-import { VRControlsEvent } from '../vr_controls/VRControlsEvent';
+import {VRControlsEvent} from '../vr_controls/VRControlsEvent';
+import {ActionController, ActionControllerEventName} from './ActionController';
+import {Raycaster, Vector3} from 'three';
+
+
+export interface IOculusQuestActionControllerConfig {
+    minRaycasterDistance: number;
+    maxRaycasterDistance: number;
+}
+
 
 export class OculusQuestActionController extends ActionController {
     protected buttonDown: (event: VRControlsEvent) => void;
     protected buttonUp: (event: VRControlsEvent) => void;
     protected move: (event: VRControlsEvent) => void;
 
-    constructor(protected config: IActionControllerConfig, protected oculusQuestController: OculusQuestController) {
-        super(config);
+    constructor(protected config: IOculusQuestActionControllerConfig, protected oculusQuestController: OculusQuestController) {
+        super();
 
         this.buttonDown = (event: VRControlsEvent) => {
-            this.setRaycast(event);
-            this.update(ActionControllerEventName.buttonDown, event.controllerNumber);
+            this.update(ActionControllerEventName.buttonDown, OculusQuestActionController.getRaycaster(config, event.position, event.direction), event.controllerNumber);
         };
         this.buttonUp = (event: VRControlsEvent) => {
-            this.setRaycast(event);
-            this.update(ActionControllerEventName.buttonUp, event.controllerNumber);
+            this.update(ActionControllerEventName.buttonUp, OculusQuestActionController.getRaycaster(config, event.position, event.direction), event.controllerNumber);
         };
         this.move = (event: VRControlsEvent) => {
-            this.setRaycast(event);
-            this.update(ActionControllerEventName.move, event.controllerNumber);
+            this.update(ActionControllerEventName.move, OculusQuestActionController.getRaycaster(config, event.position, event.direction), event.controllerNumber);
         };
 
         this.oculusQuestController.on('buttonDown', this.buttonDown);
@@ -28,12 +33,8 @@ export class OculusQuestActionController extends ActionController {
         this.oculusQuestController.on('move', this.move);
     }
 
-    protected setRaycast(event: VRControlsEvent) {
-        this.currentValues.forEach(controller => {
-            if (controller.controllerNumber === event.controllerNumber) {
-                controller.raycaster.set(event.startPosition, event.direction);
-            }
-        });
+    static getRaycaster(config: IOculusQuestActionControllerConfig, position: Vector3, direction: Vector3) {
+        return new Raycaster(position, direction, config.minRaycasterDistance, config.maxRaycasterDistance);
     }
 
     public dispose() {
