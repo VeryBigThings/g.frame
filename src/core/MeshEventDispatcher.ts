@@ -30,7 +30,7 @@ export class MeshEventDispatcher {
         return savedEvent;
     }
 
-    off(eventName?: string, mesh?: Object3D, callback?: Function) {
+    off(eventName?: string, mesh?: Object3D, callback1?: Function) {
         this.events.filter(event =>
             (event.eventName === eventName || !eventName) &&
             (event.mesh === mesh || !mesh) &&
