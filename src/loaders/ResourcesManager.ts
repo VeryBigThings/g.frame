@@ -53,7 +53,7 @@ export default class ResourcesManagerClass extends EventDispatcher {
     getLoader(type: string): Loader<any> {
         const loader = this.loaders.get(type);
         if (!loader) {
-            console.warn('no Loaders found with this type');
+            console.warn('no Loaders found with ' + type + ' type');
         }
 
         return loader;
@@ -76,9 +76,12 @@ export class Loader<T> extends EventDispatcher {
         this.loaderType = loaderType;
     }
 
-    public addRaw(resource: ResourceRaw): boolean {
+    addRaw(resource: ResourceRaw): boolean {
         if (resource.type === this.loaderType && resource.name.length && resource.url.length) {
             this.resourcesRaw.push(resource);
+            if (this.resourcesRaw.find(el => el.name === resource.name)) {
+                console.warn('a resource with name ' + resource.name + ' was found in the ' + this.loaderType + ' Loader library. It be replaced with new one, once loaded');
+            }
             return true;
         }
         return false;
