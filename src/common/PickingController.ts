@@ -1,6 +1,7 @@
 import {Intersection, Matrix4, Object3D, Quaternion, Raycaster, Vector3} from 'three';
 import {MeshEventDispatcher} from '../core/MeshEventDispatcher';
 import {ParentEvent} from '../core/EventDispatcher';
+import {PickingControllerAgent} from '../agents/PickingControllerAgent';
 
 export enum PickingControllerEvents {
     PICKED = 'picked', MOVED = 'moved', RELEASED = 'released'
@@ -13,7 +14,12 @@ export interface IPickingControllerConfig {
 }
 
 
-export abstract class PickingController extends MeshEventDispatcher {
+export class PickingController extends MeshEventDispatcher {
+    /**
+     * @ignore
+     */
+    public __agentConstructor: Function = PickingControllerAgent
+    ;
     protected currentValues: Array<{
         currentPickedObject: Object3D;
         raycaster: Raycaster;
@@ -176,13 +182,17 @@ export abstract class PickingController extends MeshEventDispatcher {
 
     }
 
-    protected abstract onObjectPick(pickedObject: Object3D);
+    protected onObjectPick(pickedObject: Object3D) {
+    }
 
-    protected abstract onObjectRelease();
+    protected onObjectRelease() {
+    }
 
-    protected abstract onObjectMove()
+    protected onObjectMove() {
+    }
 
-    protected abstract onEmptyControllerMove(intersection?: Intersection);
+    protected onEmptyControllerMove(intersection?: Intersection) {
+    }
 }
 
 
