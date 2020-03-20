@@ -36,7 +36,7 @@ export interface IntersectionExt extends Intersection {
  * Use next events for callbacks 'buttonDown', 'move', 'buttonUp', 'over', 'out', 'click'
  */
 export class ActionController extends MeshEventDispatcher {
-    private buttonDownRayDirections: Array<Vector3>;
+    private buttonDownRayDirections: Array<Vector3> = [];
 
     /**
      * Constructor of the ActionController
@@ -153,14 +153,35 @@ export class ActionController extends MeshEventDispatcher {
      * ```
      * @param eventName
      * @param mesh
-     * @param callback
+     * @param callback1 callback or condition if callback2 is defined
+     * @param callback2 callback if condition callback1 is defined
      */
-    on(eventName: ActionControllerEventName, mesh?: Object3D, callback?: Function) {
+    on(eventName: ActionControllerEventName, mesh?: Object3D, callback1?: Function, callback2?: Function) {
         if (mesh instanceof Object3D) {
-            mesh.userData.isButtonDown = [];
-            mesh.userData.isOver = [];
+            !mesh.userData.isButtonDown && (mesh.userData.isButtonDown = []);
+            !mesh.userData.isOver && (mesh.userData.isOver = []);
         }
-        super.on(eventName, mesh, callback);
+        super.on(eventName, mesh, callback1, callback2);
+    }
+
+    /**
+     * Override of the MeshEventDispatcher.on function to use only ActionControllerEventName as eventName
+     * Adds next arrays to mesh.userData (if mesh is presented):
+     * ```typescript
+     * mesh.userData.isButtonDown = [];
+     * mesh.userData.isOver = [];
+     * ```
+     * @param eventName
+     * @param mesh
+     * @param callback1 callback or condition if callback2 is defined
+     * @param callback2 callback if condition callback1 is defined
+     */
+    once(eventName: ActionControllerEventName, mesh?: Object3D, callback1?: Function, callback2?: Function) {
+        if (mesh instanceof Object3D) {
+            !mesh.userData.isButtonDown && (mesh.userData.isButtonDown = []);
+            !mesh.userData.isOver && (mesh.userData.isOver = []);
+        }
+        super.on(eventName, mesh, callback1, callback2);
     }
 
     /**
