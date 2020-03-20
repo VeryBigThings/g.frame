@@ -1,41 +1,42 @@
-import { ActionController, IActionControllerConfig, ActionControllerEventName } from '../action_controller/ActionController';
-import { ZSpaceControls } from './ZSpaceControls';
-import { VRControlsEvent } from '../vr_controls/VRControlsEvent';
+import { ActionController, ActionControllerEventName } from './ActionController';
+import { VRControlsEvent } from './VRControlsEvent';
+import { Vector3, Raycaster } from 'three';
+
+export interface IZSpaceActionControllerConfig {
+    minRaycasterDistance: number;
+    maxRaycasterDistance: number;
+}
 
 export class ZSpaceActionController extends ActionController {
-    protected buttonDown: (event: VRControlsEvent) => void;
-    protected buttonUp: (event: VRControlsEvent) => void;
-    protected move: (event: VRControlsEvent) => void;
+    protected onButtonDown: (event: VRControlsEvent) => void;
+    protected onButtonUp: (event: VRControlsEvent) => void;
+    protected onMove: (event: VRControlsEvent) => void;
 
-    constructor(protected config: IActionControllerConfig, protected zSpaceControls: ZSpaceControls) {
-        super(config);
+    constructor(protected config: IZSpaceActionControllerConfig, protected zSpaceControls: any) {
+        super();
 
-        this.buttonDown = (event: VRControlsEvent) => {
-            this.update(ActionControllerEventName.buttonDown, 0);
+        this.onButtonDown = (event: VRControlsEvent) => {
+            this.update(ActionControllerEventName.buttonDown, ZSpaceActionController.getRaycaster(config, event.position, event.direction));
         };
-        this.buttonUp = (event: VRControlsEvent) => {
-            this.update(ActionControllerEventName.buttonUp, 0);
+        this.onButtonUp = (event: VRControlsEvent) => {
+            this.update(ActionControllerEventName.buttonUp, ZSpaceActionController.getRaycaster(config, event.position, event.direction));
         };
-        this.move = (event: VRControlsEvent) => {
-            this.update(ActionControllerEventName.move, 0);
+        this.onMove = (event: VRControlsEvent) => {
+            this.update(ActionControllerEventName.move, ZSpaceActionController.getRaycaster(config, event.position, event.direction));
         };
 
-        this.zSpaceControls.on('buttonDown', this.buttonDown);
-        this.zSpaceControls.on('buttonUp', this.buttonUp);
-        this.zSpaceControls.on('move', this.move);
+        this.zSpaceControls.on('buttonDown', this.onButtonDown);
+        this.zSpaceControls.on('buttonUp', this.onButtonUp);
+        this.zSpaceControls.on('move', this.onMove);
     }
 
-    protected setRaycast(event: VRControlsEvent) {
-        this.currentValues.forEach(controller => {
-            if (controller.controllerNumber === event.controllerNumber) {
-                controller.raycaster.set(event.startPosition, event.direction);
-            }
-        });
+    protected static getRaycaster(config: IZSpaceActionControllerConfig, position: Vector3, direction: Vector3) {
+        return new Raycaster(position, direction, config.minRaycasterDistance, config.maxRaycasterDistance);
     }
 
-    public dispose() {
-        this.zSpaceControls.off('buttonDown', this.buttonDown);
-        this.zSpaceControls.off('buttonUp', this.buttonUp);
-        this.zSpaceControls.off('move', this.move);
+    dispose() {
+        this.zSpaceControls.off('buttonDown', this.onButtonDown);
+        this.zSpaceControls.off('buttonUp', this.onButtonUp);
+        this.zSpaceControls.off('move', this.onMove);
     }
 }

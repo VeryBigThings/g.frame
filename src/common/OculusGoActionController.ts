@@ -1,44 +1,50 @@
-import { ActionController, IActionControllerConfig, ActionControllerEventName } from './ActionController';
-import OculusQuestController from '../../components/gamepad/OculusQuestController';
-import { VRControlsEvent } from '../vr_controls/VRControlsEvent';
+import { ActionController, ActionControllerEventName } from './ActionController';
+import { VRControlsEvent } from './VRControlsEvent';
+import { Vector3, Raycaster } from 'three';
+
+const RIGHT_CONTROLLER = 1;
+
+export interface IOculusGoActionControllerConfig {
+    minRaycasterDistance: number;
+    maxRaycasterDistance: number;
+}
 
 export class OculusGoActionController extends ActionController {
-    protected buttonDown: (event: VRControlsEvent) => void;
-    protected buttonUp: (event: VRControlsEvent) => void;
-    protected move: (event: VRControlsEvent) => void;
+    protected onButtonDown: (event: VRControlsEvent) => void;
+    protected onButtonUp: (event: VRControlsEvent) => void;
+    protected onMove: (event: VRControlsEvent) => void;
 
-    constructor(protected config: IActionControllerConfig, protected oculusGoController: OculusQuestController) {
-        super(config);
+    constructor(protected config: IOculusGoActionControllerConfig, protected oculusGoController: any) {
+        super();
 
-        this.buttonDown = (event: VRControlsEvent) => {
-            this.setRaycast(event);
-            this.update(ActionControllerEventName.buttonDown, event.controllerNumber);
+        this.onButtonDown = (event: VRControlsEvent) => {
+            this.update(ActionControllerEventName.buttonDown,
+                            OculusGoActionController.getRaycaster(config, event.position, event.direction),
+                                RIGHT_CONTROLLER);
         };
-        this.buttonUp = (event: VRControlsEvent) => {
-            this.setRaycast(event);
-            this.update(ActionControllerEventName.buttonUp, event.controllerNumber);
+        this.onButtonUp = (event: VRControlsEvent) => {
+            this.update(ActionControllerEventName.buttonUp,
+                            OculusGoActionController.getRaycaster(config, event.position, event.direction),
+                                RIGHT_CONTROLLER);
         };
-        this.move = (event: VRControlsEvent) => {
-            this.setRaycast(event);
-            this.update(ActionControllerEventName.move, event.controllerNumber);
+        this.onMove = (event: VRControlsEvent) => {
+            this.update(ActionControllerEventName.move,
+                            OculusGoActionController.getRaycaster(config, event.position, event.direction),
+                                RIGHT_CONTROLLER);
         };
 
-        this.oculusGoController.on('buttonDown', this.buttonDown);
-        this.oculusGoController.on('buttonUp', this.buttonUp);
-        this.oculusGoController.on('move', this.move);
+        this.oculusGoController.on('buttonDown', this.onButtonDown);
+        this.oculusGoController.on('buttonUp', this.onButtonUp);
+        this.oculusGoController.on('move', this.onMove);
     }
 
-    protected setRaycast(event: VRControlsEvent) {
-        this.currentValues.forEach(controller => {
-            if (controller.controllerNumber === event.controllerNumber) {
-                controller.raycaster.set(event.startPosition, event.direction);
-            }
-        });
+    protected static getRaycaster(config: IOculusGoActionControllerConfig, position: Vector3, direction: Vector3) {
+        return new Raycaster(position, direction, config.minRaycasterDistance, config.maxRaycasterDistance);
     }
 
-    public dispose() {
-        this.oculusGoController.off('buttonDown', this.buttonDown);
-        this.oculusGoController.off('buttonUp', this.buttonUp);
-        this.oculusGoController.off('move', this.move);
+    dispose() {
+        this.oculusGoController.off('buttonDown', this.onButtonDown);
+        this.oculusGoController.off('buttonUp', this.onButtonUp);
+        this.oculusGoController.off('move', this.onMove);
     }
 }
