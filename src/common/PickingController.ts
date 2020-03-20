@@ -180,7 +180,7 @@ export abstract class PickingController extends MeshEventDispatcher {
 
     protected abstract onObjectRelease();
 
-    protected abstract onObjectMove()
+    protected abstract onObjectMove();
 
     protected abstract onEmptyControllerMove(intersection?: Intersection);
 }
