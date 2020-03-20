@@ -32,7 +32,7 @@ export class MoveActionController extends ActionController {
 
     /**
      * Function to get position of the mouse from -1 to 1 in decart coordinates
-     * @param {MouseEvent} event  mouse event
+     * @param {MouseEvent} event mouse event
      * @returns {Vector2} coordinates of the mouse
      */
     protected static getClickPosition(event: MouseEvent) {

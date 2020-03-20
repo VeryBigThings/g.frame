@@ -35,7 +35,7 @@ export class TouchActionController extends ActionController {
 
     /**
      * Function to get position of the mouse from -1 to 1 in decart coordinates
-     * @param {TouchEvent} event  touch event
+     * @param {TouchEvent} event touch event
      * @returns {Vector2} coordinates of the mouse
      */
     protected static getClickPosition(event: TouchEvent) {
