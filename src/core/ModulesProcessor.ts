@@ -22,7 +22,7 @@ class ModulesProcessor extends EventDispatcher {
         this.prepareRenderer();
         this.modulesPreInitialization()
             .then(() => this.modulesInitialization())
-            .then(() => this.modulesAfterInitialization())
+            .then(() => this.modulesAfterInitialization());
 
     }
 
