@@ -1,17 +1,15 @@
 import {EventDispatcher} from './EventDispatcher';
 import {AbstractModule, AbstractModuleStatus} from './AbstractModule';
 import Viewer from '../rendering/Viewer';
+import FrameworkViewer from '../rendering/Viewer';
 import {IViewerConfig} from '../rendering/IViewerConfig';
 import {ViewerModule} from './ViewerModule';
 import {AgentsFabric} from '../agents/AgentsFabric';
+import {addDefaultLoaders, Loader, ResourcesManager} from '../loaders';
 import createUniversalAgent = AgentsFabric.createUniversalAgent;
 
-class ModulesProcessor extends EventDispatcher {
+export class ModulesProcessor extends EventDispatcher {
     private modulesStatus: Map<AbstractModule, AbstractModuleStatus>;
-    private modulesInstances: Map<AbstractModule, Array<any>>;
-    private viewer: Viewer;
-    private agents: Map<any, any>;
-
 
     constructor(private configuration: {
         modules: Array<AbstractModule>,
@@ -20,10 +18,37 @@ class ModulesProcessor extends EventDispatcher {
     }) {
         super();
         this.prepareRenderer();
+        this.prepareResourcesManager();
         this.modulesPreInitialization()
             .then(() => this.modulesInitialization())
-            .then(() => this.modulesAfterInitialization());
+            .then(() => this.modulesAfterInitialization())
+            .then(() => this.viewer.setCurrentViewer(this.configuration.bootstrap))
+            .then(() => this._viewer.on('update', (event) => this.update(event.data.frame)));
 
+    }
+
+    private _agents: Map<any, any>;
+
+    get agents(): Map<any, any> {
+        return this._agents;
+    }
+
+    private _modulesInstances: Map<AbstractModule, Array<any>>;
+
+    get modulesInstances(): Map<AbstractModule, Array<any>> {
+        return this._modulesInstances;
+    }
+
+    private _viewer: Viewer;
+
+    get viewer(): FrameworkViewer {
+        return this._viewer;
+    }
+
+    private _resourcesManager: ResourcesManager;
+
+    get resourcesManager(): ResourcesManager {
+        return this._resourcesManager;
     }
 
     private async modulesPreInitialization(): Promise<void> {
@@ -37,21 +62,29 @@ class ModulesProcessor extends EventDispatcher {
         const modulesInstances = [];
         for (const module of this.configuration.modules) {
             if (!this.modulesStatus.get(module)) continue;
-            const instances: Array<any> = await module.onInit(null);
-            this.modulesInstances.set(module, instances);
+            const instances: Array<any> = await module.onInit({
+                viewer: this._viewer,
+                resourcesManager: this._resourcesManager,
+            });
+            this._modulesInstances.set(module, instances);
             modulesInstances.splice(modulesInstances.length, 0, ...instances);
         }
         // create agents
         const instancesParent = new Map<any, Array<any>>();
         for (const instance of modulesInstances) {
-            if (!(instancesParent.get(instance.prototype) instanceof Array)) instancesParent.set(instance.__proto__, []);
-            instancesParent.get(instance.prototype).push(instance);
+            const instanceProto = instance.__proto__.__proto__;
+            if (!instanceProto) continue;
+            if (instanceProto.constructor.name === 'Object') continue;
+            if (!(instancesParent.get(instanceProto) instanceof Array)) instancesParent.set(instanceProto, []);
+            instancesParent.get(instanceProto).push(instance);
         }
-        this.agents = new Map();
+        this._agents = new Map();
         instancesParent.forEach((instances, instancesParentKey) => {
             if (instancesParentKey.hasOwnProperty('__agentConstructor')) {
-                this.agents.set(instancesParentKey, new instancesParentKey.__agentConstructor(instances))
-            } else if (instances.length > 1) this.agents.set(instancesParentKey, createUniversalAgent(instances));
+                this._agents.set(instancesParentKey, new instancesParentKey.__agentConstructor(instances));
+            } else if (instancesParentKey === Loader.prototype) {
+                instances.forEach(instance => this.resourcesManager.addLoader(instance));
+            } else if (instances.length > 1) this._agents.set(instancesParentKey, createUniversalAgent(instances));
         });
     }
 
@@ -63,7 +96,12 @@ class ModulesProcessor extends EventDispatcher {
     }
 
     private prepareRenderer(): void {
-        this.viewer = new Viewer(this.configuration.viewerConfig);
+        this._viewer = new Viewer(this.configuration.viewerConfig);
+    }
+
+    private prepareResourcesManager(): void {
+        this._resourcesManager = new ResourcesManager();
+        addDefaultLoaders(this._resourcesManager);
     }
 
     private update(frame: any) {

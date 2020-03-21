@@ -1,4 +1,4 @@
-import VideosLoader from '../../../src/loaders/VideosLoader';
+import VideosLoader from '../../../src/loaders/default/VideosLoader';
 
 const videosLoader = new VideosLoader();
 

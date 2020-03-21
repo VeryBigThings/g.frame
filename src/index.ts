@@ -1,21 +1,5 @@
-/**
- * Project's entry point. Overwrite this file in future.
- * @packageDocumentation
- */
-
-import {Object3D} from 'three';
-
-/**
- * Just main class after initial commit. Can be removed
- */
-export default class MainClass {
-    private obj: Object3D;
-
-    /**
-     * Constructor of class MainClass
-     * @param obj Just object that comes in constructor
-     */
-    constructor(obj: Object3D) {
-        this.obj = new Object3D();
-    }
-}
+export * from './rendering';
+export * from './core';
+export * from './common';
+export * from './loaders';
+export * from './agents';

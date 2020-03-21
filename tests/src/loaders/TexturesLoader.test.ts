@@ -1,4 +1,4 @@
-import TexturesLoader from '../../../src/loaders/TexturesLoader';
+import TexturesLoader from '../../../src/loaders/default/TexturesLoader';
 
 const textureLoader = new TexturesLoader();
 

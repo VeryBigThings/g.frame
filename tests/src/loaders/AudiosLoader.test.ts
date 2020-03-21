@@ -1,4 +1,4 @@
-import AudiosLoader from '../../../src/loaders/AudiosLoader';
+import AudiosLoader from '../../../src/loaders/default/AudiosLoader';
 
 const audiosLoader = new AudiosLoader();
 

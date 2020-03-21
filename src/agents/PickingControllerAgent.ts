@@ -20,7 +20,7 @@ export class PickingControllerAgent extends PickingController {
 
     off(eventName?: PickingControllerEvents, mesh?: Object3D, callback?: Function): void {
         for (let i = 0; i < this.instances.length; i++) {
-            this.instances[i].off(eventName, mesh, callback)
+            this.instances[i].off(eventName, mesh, callback);
         }
     }
 

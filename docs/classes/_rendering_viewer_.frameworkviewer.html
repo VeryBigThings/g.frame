@@ -73,7 +73,12 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">FrameworkViewer</span>
+						<a href="_core_eventdispatcher_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">FrameworkViewer</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -84,7 +89,7 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_rendering_viewer_.frameworkviewer.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="_rendering_viewer_.frameworkviewer.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -95,6 +100,8 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_rendering_viewer_.frameworkviewer.html#camerawrapparent" class="tsd-kind-icon">camera<wbr>Wrap<wbr>Parent</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_rendering_viewer_.frameworkviewer.html#config" class="tsd-kind-icon">config</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_rendering_viewer_.frameworkviewer.html#container" class="tsd-kind-icon">container</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_rendering_viewer_.frameworkviewer.html#currentviewer" class="tsd-kind-icon">current<wbr>Viewer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_rendering_viewer_.frameworkviewer.html#events" class="tsd-kind-icon">events</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_rendering_viewer_.frameworkviewer.html#renderer" class="tsd-kind-icon">renderer</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_rendering_viewer_.frameworkviewer.html#scene" class="tsd-kind-icon">scene</a></li>
 							</ul>
@@ -102,7 +109,12 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_rendering_viewer_.frameworkviewer.html#fire" class="tsd-kind-icon">fire</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_rendering_viewer_.frameworkviewer.html#off" class="tsd-kind-icon">off</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_rendering_viewer_.frameworkviewer.html#on" class="tsd-kind-icon">on</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_rendering_viewer_.frameworkviewer.html#once" class="tsd-kind-icon">once</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_rendering_viewer_.frameworkviewer.html#render" class="tsd-kind-icon">render</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_rendering_viewer_.frameworkviewer.html#setcurrentviewer" class="tsd-kind-icon">set<wbr>Current<wbr>Viewer</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_rendering_viewer_.frameworkviewer.html#update" class="tsd-kind-icon">update</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_rendering_viewer_.frameworkviewer.html#getcontext" class="tsd-kind-icon">get<wbr>Context</a></li>
 							</ul>
@@ -112,17 +124,18 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">new <wbr>Framework<wbr>Viewer<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="../interfaces/_rendering_iviewerconfig_.iviewerconfig.html" class="tsd-signature-type">IViewerConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_rendering_viewer_.frameworkviewer.html" class="tsd-signature-type">FrameworkViewer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="_core_eventdispatcher_.eventdispatcher.html">EventDispatcher</a>.<a href="_core_eventdispatcher_.eventdispatcher.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/1e0e4eb/src/rendering/Viewer.ts#L12">rendering/Viewer.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/rendering/Viewer.ts#L15">src/rendering/Viewer.ts:15</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -144,7 +157,7 @@
 					<div class="tsd-signature tsd-kind-icon">camera<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PerspectiveCamera</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/1e0e4eb/src/rendering/Viewer.ts#L8">rendering/Viewer.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/rendering/Viewer.ts#L10">src/rendering/Viewer.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -154,7 +167,7 @@
 					<div class="tsd-signature tsd-kind-icon">camera<wbr>Wrap<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Object3D</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/1e0e4eb/src/rendering/Viewer.ts#L12">rendering/Viewer.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/rendering/Viewer.ts#L14">src/rendering/Viewer.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -164,7 +177,7 @@
 					<div class="tsd-signature tsd-kind-icon">camera<wbr>Wrap<wbr>Parent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Object3D</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/1e0e4eb/src/rendering/Viewer.ts#L11">rendering/Viewer.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/rendering/Viewer.ts#L13">src/rendering/Viewer.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -174,7 +187,7 @@
 					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_rendering_iviewerconfig_.iviewerconfig.html" class="tsd-signature-type">IViewerConfig</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/1e0e4eb/src/rendering/Viewer.ts#L14">rendering/Viewer.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/rendering/Viewer.ts#L17">src/rendering/Viewer.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -184,7 +197,28 @@
 					<div class="tsd-signature tsd-kind-icon">container<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Element</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/1e0e4eb/src/rendering/Viewer.ts#L9">rendering/Viewer.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/rendering/Viewer.ts#L11">src/rendering/Viewer.ts:11</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="currentviewer" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> current<wbr>Viewer</h3>
+					<div class="tsd-signature tsd-kind-icon">current<wbr>Viewer<span class="tsd-signature-symbol">:</span> <a href="_core_viewermodule_.viewermodule.html" class="tsd-signature-type">ViewerModule</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/rendering/Viewer.ts#L15">src/rendering/Viewer.ts:15</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="events" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> events</h3>
+					<div class="tsd-signature tsd-kind-icon">events<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="_core_eventdispatcher_.eventdescriptor.html" class="tsd-signature-type">EventDescriptor</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_core_eventdispatcher_.eventdispatcher.html">EventDispatcher</a>.<a href="_core_eventdispatcher_.eventdispatcher.html#events">events</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/core/EventDispatcher.ts#L10">src/core/EventDispatcher.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -194,7 +228,7 @@
 					<div class="tsd-signature tsd-kind-icon">renderer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">WebGLRenderer</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/1e0e4eb/src/rendering/Viewer.ts#L6">rendering/Viewer.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/rendering/Viewer.ts#L8">src/rendering/Viewer.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -204,13 +238,127 @@
 					<div class="tsd-signature tsd-kind-icon">scene<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Scene</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/1e0e4eb/src/rendering/Viewer.ts#L7">rendering/Viewer.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/rendering/Viewer.ts#L9">src/rendering/Viewer.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="fire" class="tsd-anchor"></a>
+					<h3>fire</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">fire<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">?: </span><a href="_core_eventdispatcher_.parentevent.html" class="tsd-signature-type">ParentEvent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_core_eventdispatcher_.eventdispatcher.html">EventDispatcher</a>.<a href="_core_eventdispatcher_.eventdispatcher.html#fire">fire</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/core/EventDispatcher.ts#L43">src/core/EventDispatcher.ts:43</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>eventName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> data: <a href="_core_eventdispatcher_.parentevent.html" class="tsd-signature-type">ParentEvent</a><span class="tsd-signature-symbol"> = new ParentEvent(&#x27;&#x27;)</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="off" class="tsd-anchor"></a>
+					<h3>off</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">off<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_core_eventdispatcher_.eventdispatcher.html">EventDispatcher</a>.<a href="_core_eventdispatcher_.eventdispatcher.html#off">off</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/core/EventDispatcher.ts#L34">src/core/EventDispatcher.ts:34</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> eventName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">Function</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="on" class="tsd-anchor"></a>
+					<h3>on</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span>, callback2<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_core_eventdispatcher_.eventdispatcher.html">EventDispatcher</a>.<a href="_core_eventdispatcher_.eventdispatcher.html#on">on</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/core/EventDispatcher.ts#L16">src/core/EventDispatcher.ts:16</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>eventName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>callback1: <span class="tsd-signature-type">Function</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback2: <span class="tsd-signature-type">Function</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="once" class="tsd-anchor"></a>
+					<h3>once</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span>, callback2<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_core_eventdispatcher_.eventdispatcher.html">EventDispatcher</a>.<a href="_core_eventdispatcher_.eventdispatcher.html#once">once</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/core/EventDispatcher.ts#L23">src/core/EventDispatcher.ts:23</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>eventName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>callback1: <span class="tsd-signature-type">Function</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback2: <span class="tsd-signature-type">Function</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="render" class="tsd-anchor"></a>
 					<h3>render</h3>
@@ -221,9 +369,32 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/1e0e4eb/src/rendering/Viewer.ts#L91">rendering/Viewer.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/rendering/Viewer.ts#L97">src/rendering/Viewer.ts:97</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setcurrentviewer" class="tsd-anchor"></a>
+					<h3>set<wbr>Current<wbr>Viewer</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Current<wbr>Viewer<span class="tsd-signature-symbol">(</span>newViewer<span class="tsd-signature-symbol">?: </span><a href="_core_viewermodule_.viewermodule.html" class="tsd-signature-type">ViewerModule</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/rendering/Viewer.ts#L101">src/rendering/Viewer.ts:101</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> newViewer: <a href="_core_viewermodule_.viewermodule.html" class="tsd-signature-type">ViewerModule</a></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -238,7 +409,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/1e0e4eb/src/rendering/Viewer.ts#L79">rendering/Viewer.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/rendering/Viewer.ts#L85">src/rendering/Viewer.ts:85</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -264,7 +435,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/1e0e4eb/src/rendering/Viewer.ts#L66">rendering/Viewer.ts:66</a></li>
+									<li>Defined in <a href="https://github.com/VeryBigThings/g.frame/blob/0170b7f/src/rendering/Viewer.ts#L72">src/rendering/Viewer.ts:72</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -285,27 +456,6 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/_core_abstractmodule_.html">&quot;core/<wbr>Abstract<wbr>Module&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/_core_eventdispatcher_.html">&quot;core/<wbr>Event<wbr>Dispatcher&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/_core_mesheventdispatcher_.html">&quot;core/<wbr>Mesh<wbr>Event<wbr>Dispatcher&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/_core_modulesprocessor_.html">&quot;core/<wbr>Modules<wbr>Processor&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/_core_viewermodule_.html">&quot;core/<wbr>Viewer<wbr>Module&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/_index_.html">&quot;index&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/_rendering_iviewerconfig_.html">&quot;rendering/IViewer<wbr>Config&quot;</a>
-					</li>
 					<li class="current tsd-kind-module">
 						<a href="../modules/_rendering_viewer_.html">&quot;rendering/<wbr>Viewer&quot;</a>
 					</li>
@@ -318,7 +468,7 @@
 					<li class="current tsd-kind-class tsd-parent-kind-module">
 						<a href="_rendering_viewer_.frameworkviewer.html" class="tsd-kind-icon">Framework<wbr>Viewer</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_rendering_viewer_.frameworkviewer.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
@@ -336,14 +486,35 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_rendering_viewer_.frameworkviewer.html#container" class="tsd-kind-icon">container</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_rendering_viewer_.frameworkviewer.html#currentviewer" class="tsd-kind-icon">current<wbr>Viewer</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="_rendering_viewer_.frameworkviewer.html#events" class="tsd-kind-icon">events</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_rendering_viewer_.frameworkviewer.html#renderer" class="tsd-kind-icon">renderer</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_rendering_viewer_.frameworkviewer.html#scene" class="tsd-kind-icon">scene</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_rendering_viewer_.frameworkviewer.html#fire" class="tsd-kind-icon">fire</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_rendering_viewer_.frameworkviewer.html#off" class="tsd-kind-icon">off</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_rendering_viewer_.frameworkviewer.html#on" class="tsd-kind-icon">on</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_rendering_viewer_.frameworkviewer.html#once" class="tsd-kind-icon">once</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_rendering_viewer_.frameworkviewer.html#render" class="tsd-kind-icon">render</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_rendering_viewer_.frameworkviewer.html#setcurrentviewer" class="tsd-kind-icon">set<wbr>Current<wbr>Viewer</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_rendering_viewer_.frameworkviewer.html#update" class="tsd-kind-icon">update</a>
@@ -368,6 +539,9 @@
 				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>

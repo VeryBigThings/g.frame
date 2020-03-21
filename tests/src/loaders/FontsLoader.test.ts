@@ -1,4 +1,4 @@
-import FontsLoader from '../../../src/loaders/FontsLoader';
+import FontsLoader from '../../../src/loaders/default/FontsLoader';
 
 const fontsLoader = new FontsLoader();
 

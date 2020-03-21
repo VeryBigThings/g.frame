@@ -1,5 +1,5 @@
 import {Texture, TextureLoader} from 'three';
-import {Loader} from './ResourcesManager';
+import {Loader} from '../Loader';
 
 export default class TexturesLoader extends Loader<Texture> {
 

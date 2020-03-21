@@ -1,4 +1,4 @@
-import {Loader} from './ResourcesManager';
+import {Loader} from '../Loader';
 
 enum FontFaceLoadStatus { unloaded, loading, loaded, error }
 

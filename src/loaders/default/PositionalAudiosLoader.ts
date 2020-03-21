@@ -1,5 +1,5 @@
-import {Loader} from './ResourcesManager';
-import {AudioLoader, PositionalAudio, AudioListener} from 'three';
+import {Loader} from '../Loader';
+import {AudioListener, AudioLoader, PositionalAudio} from 'three';
 
 export default class PositionalAudiosLoader extends Loader<PositionalAudio> {
 

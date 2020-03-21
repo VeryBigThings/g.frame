@@ -1,4 +1,4 @@
-import {Loader} from './ResourcesManager';
+import {Loader} from '../Loader';
 
 export default class VideosLoader extends Loader<HTMLVideoElement> {
 

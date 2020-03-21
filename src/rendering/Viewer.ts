@@ -1,8 +1,10 @@
 import {Object3D, PerspectiveCamera, Scene, Vector3, WebGLRenderer} from 'three';
 import {IViewerConfig} from './IViewerConfig';
+import {EventDispatcher, ParentEvent} from '../core/EventDispatcher';
+import {ViewerModule} from '../core/ViewerModule';
 
 
-export default class FrameworkViewer {
+export default class FrameworkViewer extends EventDispatcher {
     public renderer: WebGLRenderer;
     public scene: Scene;
     public camera: PerspectiveCamera;
@@ -10,8 +12,10 @@ export default class FrameworkViewer {
 
     public cameraWrapParent: Object3D;
     public cameraWrap: Object3D;
+    private currentViewer: ViewerModule;
 
     constructor(private config: IViewerConfig) {
+        super();
         const webglCanvas: any = document.createElement('canvas');
         const glContext = FrameworkViewer.getContext(webglCanvas);
 
@@ -33,7 +37,9 @@ export default class FrameworkViewer {
         this.renderer.setAnimationLoop(this.update);
 
         // @ts-ignore
-        this.renderer.getContext().makeXRCompatible(); // ???
+        if (this.renderer.getContext().makeXRCompatible instanceof Function)
+        // @ts-ignore
+            this.renderer.getContext().makeXRCompatible();
 
         // CONTAINER
         this.container = document.createElement('div');
@@ -77,18 +83,31 @@ export default class FrameworkViewer {
     }
 
     update = (_time, frame) => {
-        // const time = performance.now();
+        const time = performance.now();
 
         // if (this.controls.enabled) this.controls.update();
 
         // TWEEN.update(time);
 
-        // this.fire('update', new ParentEvent('update', {time: time, frame: frame}));
+        this.fire('update', new ParentEvent('update', {time: time, frame: frame}));
 
         this.render();
-    };
+    }
 
     render() {
         this.renderer.render(this.scene, this.camera);
+    }
+
+    setCurrentViewer(newViewer?: ViewerModule) {
+        if (newViewer === this.currentViewer) return;
+        if (this.currentViewer && this.currentViewer.uiObject.parent) {
+            this.currentViewer.uiObject.parent.remove(this.currentViewer.uiObject);
+            this.currentViewer.dispose();
+        }
+
+        if (newViewer) {
+            this.currentViewer = newViewer;
+            this.scene.add(newViewer.uiObject);
+        }
     }
 }

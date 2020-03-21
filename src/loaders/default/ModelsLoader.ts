@@ -1,4 +1,4 @@
-import {Loader} from './ResourcesManager';
+import {Loader} from '../Loader';
 import {Object3D} from 'three';
 import {FBXLoader} from 'three/examples/jsm/loaders/FBXLoader';
 

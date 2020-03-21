@@ -1,4 +1,4 @@
-import ModelsLoader from '../../../src/loaders/ModelsLoader';
+import ModelsLoader from '../../../src/loaders/default/ModelsLoader';
 
 const modelsLoader = new ModelsLoader();
 
