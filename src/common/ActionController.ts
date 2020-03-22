@@ -1,7 +1,6 @@
 import {Group, Intersection, Mesh, Object3D, Ray, Raycaster, Scene, Vector3} from 'three';
 import {MeshEventDescriptor, MeshEventDispatcher} from '../core/MeshEventDispatcher';
 import {ParentEvent} from '../core/EventDispatcher';
-import {ActionControllerAgent} from '../agents/ActionControllerAgent';
 
 
 export enum ActionControllerEventName {
@@ -40,7 +39,7 @@ export class ActionController extends MeshEventDispatcher {
     /**
      * @ignore
      */
-    public __agentConstructor: Function = ActionControllerAgent;
+    public __agentConstructor: Function;
 
     private buttonDownRayDirections: Array<Vector3> = [];
 

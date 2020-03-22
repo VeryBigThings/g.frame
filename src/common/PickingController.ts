@@ -1,7 +1,6 @@
 import {Intersection, Matrix4, Object3D, Quaternion, Raycaster, Vector3} from 'three';
 import {MeshEventDispatcher} from '../core/MeshEventDispatcher';
 import {ParentEvent} from '../core/EventDispatcher';
-import {PickingControllerAgent} from '../agents/PickingControllerAgent';
 
 export enum PickingControllerEvents {
     PICKED = 'picked', MOVED = 'moved', RELEASED = 'released'
@@ -18,8 +17,8 @@ export class PickingController extends MeshEventDispatcher {
     /**
      * @ignore
      */
-    public __agentConstructor: Function = PickingControllerAgent
-    ;
+    public __agentConstructor: Function;
+
     protected currentValues: Array<{
         currentPickedObject: Object3D;
         raycaster: Raycaster;

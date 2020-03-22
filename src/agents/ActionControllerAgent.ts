@@ -31,3 +31,5 @@ export class ActionControllerAgent extends ActionController {
         }
     }
 }
+
+ActionController.prototype.__agentConstructor = ActionControllerAgent;
