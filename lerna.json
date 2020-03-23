@@ -5,7 +5,8 @@
   "npmClient": "npm",
   "command": {
     "publish": {
-      "registry": "https://npm.pkg.github.com/@verybigthings"
+      "registry": "https://npm.pkg.github.com/@verybigthings",
+      "ignoreChanges": []
     },
     "bootstrap": {
     }

@@ -17,24 +17,12 @@ jobs:
       - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.TOKEN_NPM}}" >> ~/.npmrc
       - run: echo "@verybigthings:registry=https://npm.pkg.github.com" >> ~/.npmrc
       - run: npm i
+      - run: npx lerna bootstrap
       - run: npm run lint
       - run: npm run test
       - run: npm run build
-      - run: npm publish
+      - run: rm -rf packages/*/package-lock.json
+      - run: npx lerna publish from-package -y
         env:
           NODE_AUTH_TOKEN: ${{secrets.TOKEN_NPM}}
         continue-on-error: true
-  create-tag:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 10
-      - name: Bump version and push tag
-        run: |
-          sh ./create-tag.sh
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO_OWNER: VeryBigThings
