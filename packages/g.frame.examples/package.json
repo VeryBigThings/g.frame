@@ -1,0 +1,37 @@
+{
+  "name": "@verybigthings/g.frame.examples",
+  "version": "0.0.3",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --config webpack.dev.js --mode development"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "html-webpack-plugin": "^3.2.0",
+    "three": "^0.114.0",
+    "ts-loader": "^6.2.1",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3",
+    "@verybigthings/g.frame.core": "^0.0.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.8.7",
+    "@babel/preset-typescript": "^7.8.3",
+    "@types/jest": "^25.1.4",
+    "@types/node": "^13.9.1",
+    "copyfiles": "^2.2.0",
+    "jest": "^25.1.0",
+    "npm-run-all": "^4.1.5",
+    "trash-cli": "^3.0.0",
+    "ts-jest": "^25.2.1",
+    "tslint": "^6.1.0",
+    "typedoc": "^0.17.0",
+    "typescript": "^3.8.3"
+  }
+}
