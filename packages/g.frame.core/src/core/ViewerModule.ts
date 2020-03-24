@@ -93,25 +93,25 @@ export class ViewerModule extends EventDispatcher {
         mesh.parent && mesh.parent.remove(mesh);
     }
 
-    // /**
-    //  * Function to dispose mesh and remove it from uiObject
-    //  * @param {Mesh|ViewerModule} object
-    //  */
-    // disposeObject(object) {
-    //     for (let i = 0, length = this.disposeObjects.length; i < length; i++) {
-    //         const disposeDescriptor = this.disposeObjects[i];
+    /**
+     * Function to dispose mesh and remove it from uiObject
+     * @param {Mesh|ViewerModule} object
+     */
+    disposeObject(object) {
+        for (let i = 0, length = this.disposeObjects.length; i < length; i++) {
+            const disposeDescriptor = this.disposeObjects[i];
 
-    //         if (object === disposeDescriptor.object) {
-    //             disposeDescriptor.disposeGeometry && disposeDescriptor.object.geometry && disposeDescriptor.object.geometry.dispose();
-    //             disposeDescriptor.disposeMaps && disposeDescriptor.object.material && disposeDescriptor.object.material.map && disposeDescriptor.object.material.map.dispose();
-    //             disposeDescriptor.disposeMaterial && disposeDescriptor.object.material && disposeDescriptor.object.material.dispose();
-    //             // disposeDescriptor.disposeActions && this.actionController.off(null, disposeDescriptor.object);
-    //             disposeDescriptor.disposeViewer && disposeDescriptor.object.isViewer && disposeDescriptor.object.dispose();
-    //         }
-    //     }
+            if (object === disposeDescriptor.object) {
+                disposeDescriptor.disposeGeometry && disposeDescriptor.object.geometry && disposeDescriptor.object.geometry.dispose();
+                disposeDescriptor.disposeMaps && disposeDescriptor.object.material && disposeDescriptor.object.material.map && disposeDescriptor.object.material.map.dispose();
+                disposeDescriptor.disposeMaterial && disposeDescriptor.object.material && disposeDescriptor.object.material.dispose();
+                // disposeDescriptor.disposeActions && this.actionController.off(null, disposeDescriptor.object);
+                disposeDescriptor.disposeViewer && disposeDescriptor.object.isViewer && disposeDescriptor.object.dispose();
+            }
+        }
 
-    //     this.removeObject(object);
-    // }
+        this.removeObject(object);
+    }
 
     /**
      * Update function to call in each frame
