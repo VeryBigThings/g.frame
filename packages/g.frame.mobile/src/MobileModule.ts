@@ -1,6 +1,7 @@
 import {AbstractModule, AbstractModuleStatus} from '@verybigthings/g.frame.core';
+import {TouchActionController} from './controllers/TouchActionController';
 
-export class TemplateModule extends AbstractModule {
+export class MobileModule extends AbstractModule {
     constructor() {
         super();
     }
@@ -13,8 +14,13 @@ export class TemplateModule extends AbstractModule {
     }
 
     async onInit(data: any): Promise<Array<any>> {
-        console.info('Module initialization. Create all instances.');
-        return [];
+        // console.info('Module initialization. Create all instances.');
+        return [
+            new TouchActionController({
+                minRaycasterDistance: 0,
+                maxRaycasterDistance: Infinity
+            }, data.viewer.renderer, data.viewer.camera),
+        ];
     }
 
     afterInit(): void {
@@ -22,7 +28,7 @@ export class TemplateModule extends AbstractModule {
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {
-        console.info('Module on update function. Use it to update instances.');
+        // console.info('Module on update function. Use it to update instances.');
     }
 
     onDestroy(): void {

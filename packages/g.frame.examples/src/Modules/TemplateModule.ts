@@ -1,6 +1,4 @@
 import {AbstractModule, AbstractModuleStatus} from '@verybigthings/g.frame.core';
-import {MouseActionController} from './MouseActionController';
-import {TouchActionController} from './TouchActionController';
 import {TemplateB} from './TemplateB';
 import {TemplateC} from './TemplateC';
 
@@ -23,14 +21,6 @@ export class TemplateModule extends AbstractModule {
     async onInit(data: any): Promise<Array<any>> {
         console.info('Module initialization. Create all instances.');
         return [
-            new MouseActionController({
-                minRaycasterDistance: 0,
-                maxRaycasterDistance: Infinity
-            }, data.viewer.renderer, data.viewer.camera),
-            new TouchActionController({
-                minRaycasterDistance: 0,
-                maxRaycasterDistance: Infinity
-            }, data.viewer.renderer, data.viewer.camera),
             new TemplateB(),
             new TemplateC()
         ];

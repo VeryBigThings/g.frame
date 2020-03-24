@@ -1,5 +1,6 @@
 import {AbstractModule, AbstractModuleStatus} from '@verybigthings/g.frame.core';
 import {MouseActionController} from './controllers/MouseActionController';
+import {OrbitControls} from './controls/OrbitControls';
 
 export class DesktopModule extends AbstractModule {
     constructor() {
@@ -20,6 +21,7 @@ export class DesktopModule extends AbstractModule {
                 minRaycasterDistance: 0,
                 maxRaycasterDistance: Infinity
             }, data.viewer.renderer, data.viewer.camera),
+            new OrbitControls(data.viewer.camera, data.viewer.renderer.domElement)
         ];
     }
 

@@ -35,7 +35,7 @@ export abstract class AbstractModule extends EventDispatcher {
     /**
      * Function that is called after initialization. Use it only for internal stuff.
      */
-    abstract afterInit(): void;
+    abstract afterInit(agents: Map<any, any>): void;
 
     /**
      * Update function for module. Use only this function for all updates.

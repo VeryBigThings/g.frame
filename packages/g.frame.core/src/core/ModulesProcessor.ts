@@ -94,7 +94,7 @@ export class ModulesProcessor extends EventDispatcher {
     private async modulesAfterInitialization(): Promise<void> {
         for (const module of this.configuration.modules) {
             if (!this.modulesStatus.get(module).enabled) continue;
-            module.afterInit();
+            module.afterInit(this._agents);
         }
     }
 

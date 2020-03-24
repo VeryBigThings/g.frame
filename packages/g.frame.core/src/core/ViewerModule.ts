@@ -1,4 +1,4 @@
-import {EventDispatcher} from './EventDispatcher';
+import {EventDispatcher, ParentEvent} from './EventDispatcher';
 import {Box3, Camera, Mesh, MeshBasicMaterial, Object3D, PlaneGeometry, Texture, Vector2, Vector3} from 'three';
 // import {ActionController} from '../controls/action_controller/ActionController';
 // import {CardMesh, IDisposeParams} from '../interfaces';
@@ -95,20 +95,34 @@ export class ViewerModule extends EventDispatcher {
 
     /**
      * Function to dispose mesh and remove it from uiObject
-     * @param {Mesh|ViewerModule} object
+     * @param object
+     * @param disposeParams
      */
-    disposeObject(object) {
-        for (let i = 0, length = this.disposeObjects.length; i < length; i++) {
-            const disposeDescriptor = this.disposeObjects[i];
+    disposeObject(object?: Object3D | ViewerModule, disposeParams?: any) {
+        const dispose = (disposeDescriptor) => {
+            disposeDescriptor.disposeGeometry && disposeDescriptor.object.geometry && disposeDescriptor.object.geometry.dispose();
+            disposeDescriptor.disposeMaps && disposeDescriptor.object.material && disposeDescriptor.object.material.map && disposeDescriptor.object.material.map.dispose();
+            disposeDescriptor.disposeMaterial && disposeDescriptor.object.material && disposeDescriptor.object.material.dispose();
+            // disposeDescriptor.disposeActions && this.actionController.off(null, disposeDescriptor.object);
+            disposeDescriptor.disposeViewer && disposeDescriptor.object.isViewer && disposeDescriptor.object.dispose();
+        };
 
-            if (object === disposeDescriptor.object) {
-                disposeDescriptor.disposeGeometry && disposeDescriptor.object.geometry && disposeDescriptor.object.geometry.dispose();
-                disposeDescriptor.disposeMaps && disposeDescriptor.object.material && disposeDescriptor.object.material.map && disposeDescriptor.object.material.map.dispose();
-                disposeDescriptor.disposeMaterial && disposeDescriptor.object.material && disposeDescriptor.object.material.dispose();
-                // disposeDescriptor.disposeActions && this.actionController.off(null, disposeDescriptor.object);
-                disposeDescriptor.disposeViewer && disposeDescriptor.object.isViewer && disposeDescriptor.object.dispose();
+        if (object) {
+            for (let i = 0, length = this.disposeObjects.length; i < length; i++) {
+                const disposeDescriptor = this.disposeObjects[i];
+                if (object === disposeDescriptor.object) {
+                    dispose(disposeDescriptor);
+                    break;
+                }
             }
+        } else {
+            object = disposeParams.object;
+            dispose(disposeParams);
         }
+
+        this.fire('dispose', new ParentEvent('dispose', {
+            disposedObject: object
+        }));
 
         this.removeObject(object);
     }
@@ -125,13 +139,11 @@ export class ViewerModule extends EventDispatcher {
      */
     dispose() {
         this.disposeObjects.forEach(disposeDescriptor => {
-            disposeDescriptor.disposeGeometry && disposeDescriptor.object.geometry && disposeDescriptor.object.geometry.dispose();
-            disposeDescriptor.disposeMaps && disposeDescriptor.object.material && disposeDescriptor.object.material.map && disposeDescriptor.object.material.map.dispose();
-            disposeDescriptor.disposeMaterial && disposeDescriptor.object.material && disposeDescriptor.object.material.dispose();
-            // disposeDescriptor.disposeActions && this.actionController.off(null, disposeDescriptor.object);
-            disposeDescriptor.disposeViewer && disposeDescriptor.object.isViewer && disposeDescriptor.object.closeViewer();
-            !disposeDescriptor.object.isViewer && disposeDescriptor.object.parent && disposeDescriptor.object.parent.remove(disposeDescriptor.object);
+            this.disposeObject(null, disposeDescriptor);
         });
+        this.fire('dispose', new ParentEvent('dispose', {
+            disposedObject: this
+        }));
     }
 }
 

@@ -1,1 +1,1 @@
-export * from './TemplateModule';
+export * from './MobileModule';

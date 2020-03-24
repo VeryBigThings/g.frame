@@ -29,6 +29,7 @@ export class ActionControllerEvent extends ParentEvent {
  */
 export interface IntersectionExt extends Intersection {
     objectIntersected?: Object3D;
+    orderNumber?: number;
 }
 
 /**
@@ -126,7 +127,11 @@ export class ActionController extends MeshEventDispatcher {
 
         return raycaster
             .intersectObjects(objectsToRaycast.filter(mesh => mesh instanceof Mesh), false, intersectsRecursive)
-            .sort((a, b) => a.distance - b.distance);
+            .sort((a, b) => a.distance - b.distance)
+            .map((el: IntersectionExt, i) => {
+                el.orderNumber = i;
+                return el;
+            });
     }
 
     /**
@@ -234,9 +239,9 @@ export class ActionController extends MeshEventDispatcher {
         for (index = 0; index < intersectsLength; index++) {
             [eventName, wasClick ? ActionControllerEventName.click : null]
                 .forEach(firingEventName => firingEventName && this.fire(
-                    eventName,
+                    firingEventName,
                     intersects[index].object,
-                    new ActionControllerEvent(eventName, {
+                    new ActionControllerEvent(firingEventName, {
                         intersection: intersects[index],
                         controllerNumber: controllerNumber,
                         context: this,

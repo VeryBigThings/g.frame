@@ -1,7 +1,9 @@
-import {AbstractModule, AbstractModuleStatus} from '@verybigthings/g.frame.core';
-import {Factory} from './Factory';
+import {AbstractModule, AbstractModuleStatus, ActionController} from '@verybigthings/g.frame.core';
+import {WindowComponentFactory} from './WindowComponentFactory';
 
 export class WindowComponentModule extends AbstractModule {
+    private windowComponentFactory: WindowComponentFactory;
+
     constructor() {
         super();
     }
@@ -16,12 +18,12 @@ export class WindowComponentModule extends AbstractModule {
     async onInit(data: any): Promise<Array<any>> {
         // console.info('Module initialization. Create all instances.');
         return [
-            new Factory()
+            this.windowComponentFactory = new WindowComponentFactory()
         ];
     }
 
-    afterInit(): void {
-        // console.info('Module after initialization. Here you can start save the World.');
+    afterInit(agents: Map<any, any>): void {
+        this.windowComponentFactory.setActionController(agents.get(ActionController));
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {

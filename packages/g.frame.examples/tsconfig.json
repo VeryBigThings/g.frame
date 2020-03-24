@@ -47,6 +47,6 @@
   "include": [
     "src/**/*", "example/src/**/*"
   ],
-  "exclude": ["node_modules/**"],
+  "exclude": ["node_modules/**", "src/**/*.spec.ts"],
   "compileOnSave": false
 }
