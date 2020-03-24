@@ -1,4 +1,4 @@
-import {AbstractModule, AbstractModuleStatus, ActionController} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ActionController, AgentsStorage} from '@verybigthings/g.frame.core';
 import {WindowComponentFactory} from './WindowComponentFactory';
 
 export class WindowComponentModule extends AbstractModule {
@@ -22,8 +22,8 @@ export class WindowComponentModule extends AbstractModule {
         ];
     }
 
-    afterInit(agents: Map<any, any>): void {
-        this.windowComponentFactory.setActionController(agents.get(ActionController));
+    afterInit(agents: AgentsStorage): void {
+        this.windowComponentFactory.setActionController(agents.getAgent(ActionController));
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {

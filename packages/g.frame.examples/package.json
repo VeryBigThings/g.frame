@@ -2,7 +2,7 @@
   "name": "@verybigthings/g.frame.examples",
   "version": "0.0.8",
   "description": "",
-  "private": true,
+  "private": false,
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js --mode development"

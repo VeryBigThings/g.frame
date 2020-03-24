@@ -7,11 +7,11 @@ export default class IconButtonComponent extends ButtonComponent {
     protected box: Mesh;
     protected group: Group;
 
-    constructor(actionController: ActionController, options: IIconButtonComponentOptions) {
+    constructor(options: IIconButtonComponentOptions, actionController: ActionController) {
         options.pxRatio = options.pxRatio || 6;
         options.iconSize = Math.max(Math.min(options.iconSize || 1, 1), 0);
         options.differenceBetweenSizeAndLineHeight = options.differenceBetweenSizeAndLineHeight || 4;
-        super(actionController, {
+        super({
             size: new Vector3(options.diameter, options.diameter, 0.1),
             sizePx: new Vector2(40 * options.pxRatio, 40 * options.pxRatio),
             type: 'icon',
@@ -32,6 +32,6 @@ export default class IconButtonComponent extends ButtonComponent {
             background: {
                 color: options.background || 'black'
             }
-        });
+        }, actionController);
     }
 }

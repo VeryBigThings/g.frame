@@ -1,14 +1,20 @@
 import {EventDispatcher} from './EventDispatcher';
 import {AbstractModule, AbstractModuleStatus} from './AbstractModule';
 import Viewer from '../rendering/Viewer';
-import FrameworkViewer from '../rendering/Viewer';
 import {IViewerConfig} from '../rendering/IViewerConfig';
 import {AgentsFabric} from '../agents/AgentsFabric';
 import {addDefaultLoaders, Loader, ResourcesManager} from '../loaders';
 import {Bootstrap} from './Bootstrap';
+import {AgentsStorage} from '../agents/AgentsStorage';
 import createUniversalAgent = AgentsFabric.createUniversalAgent;
 
+type Agent<T> = T;
+
 export class ModulesProcessor extends EventDispatcher {
+    public readonly agents: AgentsStorage;
+    public readonly modulesInstances: Map<AbstractModule, Array<any>> = new Map<AbstractModule, Array<any>>();
+    public readonly viewer: Viewer;
+    public readonly resourcesManager: ResourcesManager;
     private modulesStatus: Map<AbstractModule, AbstractModuleStatus> = new Map<AbstractModule, AbstractModuleStatus>();
 
     constructor(private configuration: {
@@ -17,7 +23,13 @@ export class ModulesProcessor extends EventDispatcher {
         bootstrap: Bootstrap
     }) {
         super();
-        this.prepareRenderer();
+
+        this.agents = new AgentsStorage();
+
+        this.viewer = new Viewer(this.configuration.viewerConfig);
+
+        this.resourcesManager = new ResourcesManager();
+
         this.prepareResourcesManager();
         this.modulesPreInitialization()
             .then(() => this.modulesInitialization())
@@ -26,32 +38,8 @@ export class ModulesProcessor extends EventDispatcher {
                 this.viewer.setCurrentViewer(this.configuration.bootstrap);
                 this.configuration.bootstrap.onInit(this);
             })
-            .then(() => this._viewer.on('update', (event) => this.update(event.data.frame)));
+            .then(() => this.viewer.on('update', (event) => this.update(event.data.frame)));
 
-    }
-
-    private _agents: Map<any, any> = new Map<any, any>();
-
-    get agents(): Map<any, any> {
-        return this._agents;
-    }
-
-    private _modulesInstances: Map<AbstractModule, Array<any>> = new Map<AbstractModule, Array<any>>();
-
-    get modulesInstances(): Map<AbstractModule, Array<any>> {
-        return this._modulesInstances;
-    }
-
-    private _viewer: Viewer;
-
-    get viewer(): FrameworkViewer {
-        return this._viewer;
-    }
-
-    private _resourcesManager: ResourcesManager;
-
-    get resourcesManager(): ResourcesManager {
-        return this._resourcesManager;
     }
 
     private async modulesPreInitialization(): Promise<void> {
@@ -66,10 +54,10 @@ export class ModulesProcessor extends EventDispatcher {
         for (const module of this.configuration.modules) {
             if (!this.modulesStatus.get(module).enabled) continue;
             const instances: Array<any> = await module.onInit({
-                viewer: this._viewer,
-                resourcesManager: this._resourcesManager,
+                viewer: this.viewer,
+                resourcesManager: this.resourcesManager,
             });
-            this._modulesInstances.set(module, instances);
+            this.modulesInstances.set(module, instances);
             modulesInstances.splice(modulesInstances.length, 0, ...instances);
         }
         // create agents
@@ -81,30 +69,24 @@ export class ModulesProcessor extends EventDispatcher {
             if (!(instancesParent.get(instanceProto) instanceof Array)) instancesParent.set(instanceProto, []);
             instancesParent.get(instanceProto).push(instance);
         }
-        this._agents = new Map();
         instancesParent.forEach((instances, instancesParentKey) => {
             if (instancesParentKey.hasOwnProperty('__agentConstructor')) {
-                this._agents.set(instancesParentKey.constructor, new instancesParentKey.__agentConstructor(instances));
+                this.agents.setAgent(instancesParentKey.constructor, new instancesParentKey.__agentConstructor(instances));
             } else if (instancesParentKey === Loader.prototype) {
                 instances.forEach(instance => this.resourcesManager.addLoader(instance));
-            } else if (instances.length > 1) this._agents.set(instancesParentKey.constructor, createUniversalAgent(instances));
+            } else if (instances.length > 1) this.agents.setAgent(instancesParentKey.constructor, createUniversalAgent(instances));
         });
     }
 
     private async modulesAfterInitialization(): Promise<void> {
         for (const module of this.configuration.modules) {
             if (!this.modulesStatus.get(module).enabled) continue;
-            module.afterInit(this._agents);
+            module.afterInit(this.agents);
         }
     }
 
-    private prepareRenderer(): void {
-        this._viewer = new Viewer(this.configuration.viewerConfig);
-    }
-
     private prepareResourcesManager(): void {
-        this._resourcesManager = new ResourcesManager();
-        addDefaultLoaders(this._resourcesManager);
+        addDefaultLoaders(this.resourcesManager);
     }
 
     private update(frame: any) {

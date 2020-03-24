@@ -11,11 +11,10 @@ import {
 import {WindowComponent} from '@verybigthings/g.frame.components.window';
 
 export class ButtonComponent extends TextViewerModule {
-    public options: IButtonComponentOptions;
     protected box: Mesh;
     protected group: Group;
 
-    constructor(private actionController: ActionController, options: IButtonComponentOptions) {
+    constructor(private options: IButtonComponentOptions, private actionController: ActionController) {
         super(options.sizePx || new Vector2(64, 64), new Vector2(Math.sqrt(2 * Math.pow(options.size.x / 2, 2)), Math.sqrt(2 * Math.pow(options.size.y / 2, 2))));
         if (options.type === 'flat') {
             options.background = options.background || {};

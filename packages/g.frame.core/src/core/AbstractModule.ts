@@ -1,4 +1,5 @@
 import {EventDispatcher} from './EventDispatcher';
+import {AgentsStorage} from '../agents/AgentsStorage';
 
 export interface AbstractModuleStatus {
     enabled: boolean;
@@ -35,7 +36,7 @@ export abstract class AbstractModule extends EventDispatcher {
     /**
      * Function that is called after initialization. Use it only for internal stuff.
      */
-    abstract afterInit(agents: Map<any, any>): void;
+    abstract afterInit(agents: AgentsStorage): void;
 
     /**
      * Update function for module. Use only this function for all updates.

@@ -3,7 +3,8 @@ import {Object3D} from 'three';
 import {TextComponent} from './TextComponent';
 import {ITextComponentOptions} from './TextComponent_interfaces';
 
-export class TextComponentFactory extends Factory<TextComponent, ITextComponentOptions> {
+export class TextComponentFactory extends Factory<TextComponent> {
+    __constructor: typeof TextComponent = TextComponent;
     private components: Array<TextComponent>;
     private actionController: ActionController;
 
@@ -16,8 +17,7 @@ export class TextComponentFactory extends Factory<TextComponent, ITextComponentO
         this.actionController = actionController;
     }
 
-    get(params: ITextComponentOptions, classConstructor?: Function): TextComponent {
-        if (classConstructor !== TextComponent) return null;
+    get(params: ITextComponentOptions): TextComponent {
         const component = new TextComponent(params);
         this.components.push(component);
         component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));

@@ -1,5 +1,21 @@
-export abstract class Factory<T, U> {
+import {Constructor, FirstArgumentOfConstructor} from '../utils';
+
+export class Factory<T> {
     public __agentConstructor: Function;
-    abstract get(params: U, classConstructor: Function): T;
-    abstract update(params: any);
+    public __constructor: new (...arg: any[]) => T;
+
+    constructor() {
+    }
+
+    get(argument: FirstArgumentOfConstructor<Constructor<T>>): T {
+        return null;
+    }
+
+    getFactory<T, U>(classConstructor: new (arg: U, ...args: any[]) => T): (arg: U) => T {
+        return null;
+    }
+
+    update(params: any) {
+
+    }
 }

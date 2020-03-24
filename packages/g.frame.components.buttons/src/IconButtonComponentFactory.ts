@@ -1,10 +1,10 @@
-
 import {ActionController, Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
 import IconButtonComponent from './IconButtonComponent';
 import {IIconButtonComponentOptions} from './IconButtonComponent_interfaces';
 
-export class IconButtonComponentFactory extends Factory<IconButtonComponent, IIconButtonComponentOptions> {
+export class IconButtonComponentFactory extends Factory<IconButtonComponent> {
+    __constructor: typeof IconButtonComponent = IconButtonComponent;
     private components: Array<IconButtonComponent>;
     private actionController: ActionController;
 
@@ -17,10 +17,8 @@ export class IconButtonComponentFactory extends Factory<IconButtonComponent, IIc
         this.actionController = actionController;
     }
 
-    get(params: IIconButtonComponentOptions, classConstructor: Function): IconButtonComponent {
-        if (classConstructor !== IconButtonComponent) return null;
-
-        const component = new IconButtonComponent(this.actionController, params);
+    get(params: IIconButtonComponentOptions): IconButtonComponent {
+        const component = new IconButtonComponent(params, this.actionController);
         this.components.push(component);
         component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));
 

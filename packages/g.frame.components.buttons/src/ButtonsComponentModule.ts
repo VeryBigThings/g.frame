@@ -1,4 +1,4 @@
-import {AbstractModule, AbstractModuleStatus, ActionController} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ActionController, AgentsStorage} from '@verybigthings/g.frame.core';
 import {ButtonComponentFactory} from './ButtonComponentFactory';
 import {IconButtonComponentFactory} from './IconButtonComponentFactory';
 
@@ -25,9 +25,10 @@ export class ButtonsComponentModule extends AbstractModule {
         ];
     }
 
-    afterInit(agents: Map<any, any>): void {
-        this.buttonComponentFactory.setActionController(agents.get(ActionController));
-        this.iconButtonComponentFactory.setActionController(agents.get(ActionController));
+    afterInit(agents: AgentsStorage): void {
+        const actionController = agents.getAgent(ActionController);
+        this.buttonComponentFactory.setActionController(actionController);
+        this.iconButtonComponentFactory.setActionController(actionController);
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {

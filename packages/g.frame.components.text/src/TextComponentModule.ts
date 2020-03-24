@@ -1,4 +1,4 @@
-import {AbstractModule, AbstractModuleStatus, ActionController} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ActionController, AgentsStorage} from '@verybigthings/g.frame.core';
 import {TextComponentFactory} from './TextComponentFactory';
 
 export class TextComponentModule extends AbstractModule {
@@ -22,8 +22,8 @@ export class TextComponentModule extends AbstractModule {
         ];
     }
 
-    afterInit(agents: Map<any, any>): void {
-        this.textComponentFactory.setActionController(agents.get(ActionController));
+    afterInit(agents: AgentsStorage): void {
+        this.textComponentFactory.setActionController(agents.getAgent(ActionController));
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {

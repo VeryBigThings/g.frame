@@ -1,2 +1,3 @@
 export * from './RoundedPlane';
 export * from './GMesh';
+export * from './ExtraTypes';

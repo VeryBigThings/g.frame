@@ -4,8 +4,9 @@ import {Object3D} from 'three';
 import {ButtonComponent} from './ButtonComponent';
 import {IButtonComponentOptions} from './ButtonComponent_interfaces';
 
-export class ButtonComponentFactory extends Factory<ButtonComponent, IButtonComponentOptions> {
+export class ButtonComponentFactory extends Factory<ButtonComponent> {
     private components: Array<ButtonComponent>;
+    __constructor: typeof ButtonComponent = ButtonComponent;
     private actionController: ActionController;
 
     constructor() {
@@ -17,10 +18,8 @@ export class ButtonComponentFactory extends Factory<ButtonComponent, IButtonComp
         this.actionController = actionController;
     }
 
-    get(params: IButtonComponentOptions, classConstructor: Function): ButtonComponent {
-        if (classConstructor !== ButtonComponent) return null;
-
-        const component = new ButtonComponent(this.actionController, params);
+    get(params: IButtonComponentOptions): ButtonComponent {
+        const component = new ButtonComponent(params, this.actionController);
         this.components.push(component);
         component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));
 
