@@ -1,11 +1,10 @@
 import {ActionController, Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
-import {TextComponent} from './TextComponent';
-import {ITextComponentOptions} from './TextComponent_interfaces';
+import {ISliderComponentOptions, SliderComponent} from './SliderComponent';
 
-export class TextComponentFactory extends Factory<TextComponent> {
-    __constructor: typeof TextComponent = TextComponent;
-    private components: Array<TextComponent>;
+export class SliderComponentFactory extends Factory<SliderComponent> {
+    __constructor: typeof SliderComponent = SliderComponent;
+    private components: Array<SliderComponent>;
     private actionController: ActionController;
 
     constructor() {
@@ -17,14 +16,15 @@ export class TextComponentFactory extends Factory<TextComponent> {
         this.actionController = actionController;
     }
 
-    get(params: ITextComponentOptions): TextComponent {
-        const component = new TextComponent(params);
+    get(params: ISliderComponentOptions): SliderComponent {
+        const component = new SliderComponent(params, this.actionController);
         this.components.push(component);
         component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));
+
         return component;
     }
 
-    onDispose(component: TextComponent, disposedObject: Object3D | ViewerModule) {
+    onDispose(component: SliderComponent, disposedObject: Object3D | ViewerModule) {
         if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
     }
 

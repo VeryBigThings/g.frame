@@ -7,6 +7,7 @@ import {MobileModule} from '@verybigthings/g.frame.mobile';
 import {WindowComponentModule} from '@verybigthings/g.frame.components.window';
 import {ButtonsComponentModule} from '@verybigthings/g.frame.components.buttons';
 import {TextComponentModule} from '@verybigthings/g.frame.components.text';
+import {SlidersComponentModule} from '@verybigthings/g.frame.components.sliders';
 class App {
     private framework: ModulesProcessor;
 
@@ -23,6 +24,7 @@ class App {
                 new WindowComponentModule(),
                 new ButtonsComponentModule(),
                 new TextComponentModule(),
+                new SlidersComponentModule(),
             ],
             viewerConfig: {
                 renderer: {

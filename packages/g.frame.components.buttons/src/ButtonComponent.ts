@@ -1,4 +1,4 @@
-import {CircleGeometry, Color, DoubleSide, Group, Mesh, MeshBasicMaterial, Vector2, Vector3} from 'three';
+import {CircleGeometry, Color, DoubleSide, Group, Mesh, MeshBasicMaterial, Object3D, Vector2, Vector3} from 'three';
 import {ITextViewerModuleOptions, TextViewerModule} from '@verybigthings/g.frame.components.text';
 import {IButtonComponentOptions} from './ButtonComponent_interfaces';
 // import * as TWEEN from '../libs/TWEEN/Tween';
@@ -6,7 +6,8 @@ import {
     ActionController,
     ActionControllerEvent,
     ActionControllerEventName,
-    RoundedPlane
+    RoundedPlane,
+    ViewerModule
 } from '@verybigthings/g.frame.core';
 import {WindowComponent} from '@verybigthings/g.frame.components.window';
 
@@ -231,5 +232,12 @@ export class ButtonComponent extends TextViewerModule {
         //     .to(new Vector3(1, 1, endScaleZ), 100)
         //     .easing(TWEEN.Easing.Linear.None)
         //     .start();
+    }
+
+    disposeObject(object?: Object3D | ViewerModule, disposeParams?: any): void {
+        super.disposeObject(object, disposeParams);
+
+        if (!object && disposeParams) object = disposeParams.object;
+        this.actionController.off(null, object instanceof Object3D ? object : object.uiObject, null);
     }
 }

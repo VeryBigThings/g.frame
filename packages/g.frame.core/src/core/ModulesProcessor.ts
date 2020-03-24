@@ -12,7 +12,7 @@ type Agent<T> = T;
 
 export class ModulesProcessor extends EventDispatcher {
     public readonly agents: AgentsStorage;
-    public readonly modulesInstances: Map<AbstractModule, Array<any>> = new Map<AbstractModule, Array<any>>();
+    public readonly modulesInstances: Map<typeof AbstractModule, Array<any>> = new Map<typeof AbstractModule, Array<any>>();
     public readonly viewer: Viewer;
     public readonly resourcesManager: ResourcesManager;
     private modulesStatus: Map<AbstractModule, AbstractModuleStatus> = new Map<AbstractModule, AbstractModuleStatus>();
@@ -57,7 +57,7 @@ export class ModulesProcessor extends EventDispatcher {
                 viewer: this.viewer,
                 resourcesManager: this.resourcesManager,
             });
-            this.modulesInstances.set(module, instances);
+            this.modulesInstances.set(Object.getPrototypeOf(module).constructor, instances);
             modulesInstances.splice(modulesInstances.length, 0, ...instances);
         }
         // create agents

@@ -26,8 +26,7 @@ export class IconButtonComponentFactory extends Factory<IconButtonComponent> {
     }
 
     onDispose(component: IconButtonComponent, disposedObject: Object3D | ViewerModule) {
-        this.components.splice(this.components.indexOf(component), 1);
-        this.actionController.off(null, disposedObject instanceof Object3D ? disposedObject : disposedObject.uiObject, null);
+        if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
     }
 
     update(params: any): any {

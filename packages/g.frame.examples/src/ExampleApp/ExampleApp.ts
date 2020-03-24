@@ -9,6 +9,9 @@ import {
 import {TemplateA} from '../Modules/TemplateA';
 import {WindowComponent} from '@verybigthings/g.frame.components.window';
 import IconButtonComponent from '@verybigthings/g.frame.components.buttons/build/main/IconButtonComponent';
+import {CircleSliderComponent, CircleSliderComponentSlidingMode} from '@verybigthings/g.frame.components.sliders';
+import {DesktopModule} from '@verybigthings/g.frame.desktop';
+import {OrbitControls} from '@verybigthings/g.frame.desktop/build/main/controls/OrbitControls';
 
 export default class ExampleApp extends Bootstrap {
     constructor() {
@@ -65,6 +68,41 @@ export default class ExampleApp extends Bootstrap {
             console.log('Button down event', event);
             if (++i_icon === 5) this.disposeObject(iconButton);
         });
+
+
+        const circleSlider = modulesProcessor.agents.getAgent(Factory).getFactory(CircleSliderComponent)({
+            mode: CircleSliderComponentSlidingMode.onlyClockwise,
+            diameter: 2.5,
+            magnetOnSides: 0.05,
+            spaceBetweenObjects: 0.02,
+            picker: modulesProcessor.agents.getAgent(Factory).getFactory(IconButtonComponent)({
+                text: '+',
+                background: new Color(0xeeaa88).getStyle(),
+                iconSize: 0.6,
+                diameter: 0.6
+            }),
+            filledPart: {
+                width: 0.35,
+                mainColor: new Color(0x333333)
+            },
+            unfilledPart: {
+                width: 0.35,
+                border: 0.1,
+                mainColor: new Color(0x666666),
+                borderColor: new Color(0x999999)
+            }
+        });
+        const orbitControls = modulesProcessor.modulesInstances.get(DesktopModule).filter(instance => instance instanceof OrbitControls)[0];
+        circleSlider.on('slideStart', () => {
+            orbitControls.enabled = false;
+        });
+        circleSlider.on('slideEnd', () => {
+            orbitControls.enabled = true;
+        });
+
+        circleSlider.uiObject.position.set(3, 5, 0);
+
+        this.addObject(circleSlider);
 
 
         console.log('Universal agent for template class', modulesProcessor.agents.getAgent(TemplateA));

@@ -2,7 +2,7 @@
   "name": "@verybigthings/g.frame.examples",
   "version": "0.0.8",
   "description": "",
-  "private": false,
+  "private": true,
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js --mode development"
@@ -10,11 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@verybigthings/g.frame.components.buttons": "^0.0.1",
-    "@verybigthings/g.frame.components.text": "^0.0.1",
-    "@verybigthings/g.frame.components.window": "^0.0.2",
-    "@verybigthings/g.frame.core": "^0.0.6",
-    "@verybigthings/g.frame.desktop": "^0.0.4",
+    "@verybigthings/g.frame.components.buttons": "^0.0.2",
+    "@verybigthings/g.frame.components.sliders": "^0.0.1",
+    "@verybigthings/g.frame.components.text": "^0.0.2",
+    "@verybigthings/g.frame.components.window": "^0.0.3",
+    "@verybigthings/g.frame.core": "^0.0.7",
+    "@verybigthings/g.frame.desktop": "^0.0.5",
     "@verybigthings/g.frame.mobile": "^0.0.5",
     "three": "^0.114.0"
   },

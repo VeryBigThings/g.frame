@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2017",
     "outDir": "build/main",
-    "rootDir": "packages",
+    "rootDir": "src",
     "moduleResolution": "node",
     "module": "commonjs",
     "declaration": true,
@@ -40,7 +40,7 @@
     "typeRoots": ["node_modules/@types", "src/types", "../../node_modules/@types"]
   },
   "include": [
-    "packages/**/*"
+    "src/**/*"
   ],
   "exclude": ["node_modules/**", "src/**/*.spec.ts"],
   "compileOnSave": false
