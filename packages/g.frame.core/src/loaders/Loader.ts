@@ -6,7 +6,7 @@ import {ResourceRaw} from './ResourcesManager';
  * @param loaderType string is used for getting this type of Loader later on from the ResourcesManagerClass, and adding new ResourceRaw
  */
 
-export class Loader<T> extends EventDispatcher {
+export class Loader<T> extends EventDispatcher<string> {
     public loaderType: string;
     protected library: Map<string, T> = new Map<string, T>();
     protected resourcesRaw: Array<ResourceRaw> = [];

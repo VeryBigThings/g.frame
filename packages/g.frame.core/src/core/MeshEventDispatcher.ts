@@ -23,7 +23,7 @@ export class MeshEventDispatcher {
         const condition = callback2 ? callback1 : null;
         const callback = callback2 ? callback2 : callback1;
         let savedEvent;
-        this.events.push(new MeshEventDescriptor(eventName, mesh, savedEvent = (event: ParentEvent) => {
+        this.events.push(new MeshEventDescriptor(eventName, mesh, savedEvent = (event: ParentEvent<string>) => {
             this.off(eventName, mesh, savedEvent);
             callback(event);
         }, condition));
@@ -38,7 +38,7 @@ export class MeshEventDispatcher {
         ).forEach(event => this.events.splice(this.events.indexOf(event), 1));
     }
 
-    fire(eventName?: string, mesh?: Object3D, data: ParentEvent = new ParentEvent('')) {
+    fire(eventName?: string, mesh?: Object3D, data: ParentEvent<string> = new ParentEvent<string>('')) {
         data.eventName = eventName;
         this.events.slice().forEach(event => ((event.eventName === eventName || !eventName) && (event.mesh === mesh) && (!event.condition || (event.condition && event.condition(data))))
             && event.callback(data));

@@ -20,7 +20,7 @@ export class ProgressbarComponentFactory extends Factory<ProgressbarComponent> {
     get(params: IProgressbarComponentOptions): ProgressbarComponent {
         const component = new ProgressbarComponent(params);
         this.components.push(component);
-        component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));
+        component.on('dispose', (event: ParentEvent<string>) => this.onDispose(component, event.data.disposedObject));
 
         return component;
     }

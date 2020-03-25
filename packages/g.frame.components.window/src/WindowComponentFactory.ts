@@ -20,7 +20,7 @@ export class WindowComponentFactory extends Factory<WindowComponent> {
     get(params: WindowComponentOptions): WindowComponent {
         const component = new WindowComponent(params);
         this.components.push(component);
-        component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));
+        component.on('dispose', (event: ParentEvent<string>) => this.onDispose(component, event.data.disposedObject));
 
         return component;
     }

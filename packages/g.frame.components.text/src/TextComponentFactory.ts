@@ -20,7 +20,7 @@ export class TextComponentFactory extends Factory<TextComponent> {
     get(params: ITextComponentOptions): TextComponent {
         const component = new TextComponent(params);
         this.components.push(component);
-        component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));
+        component.on('dispose', (event: ParentEvent<string>) => this.onDispose(component, event.data.disposedObject));
         return component;
     }
 

@@ -66,7 +66,7 @@ export class CheckRadioComponent extends ViewerModule {
 
         this.icon.update();
 
-        if (this._checked === checked) this.fire('changed', new ParentEvent('changed', this));
+        if (this._checked === checked) this.fire('changed', new ParentEvent<string>('changed', this));
     }
 
     private _disabled: boolean;
@@ -95,7 +95,7 @@ export class CheckRadioComponent extends ViewerModule {
         this.icon.update();
         this._checked = false;
 
-        if (isChanged) this.fire('changed', new ParentEvent('changed', this));
+        if (isChanged) this.fire('changed', new ParentEvent<string>('changed', this));
     }
 
     disposeObject(object?: Object3D | ViewerModule, disposeParams?: any): void {

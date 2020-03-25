@@ -422,7 +422,7 @@ export class DividedCircleComponent extends ViewerModule {
                 this.tooltipPanel.setText((sector.sectorData.name.charAt(0) + sector.sectorData.name.slice(1).toUpperCase()));
                 this.tooltipPanel.uiObject.visible = true;
             }
-            this.fire(ActionControllerEventName.over, new ParentEvent('over', sector));
+            this.fire(ActionControllerEventName.over, new ParentEvent<string>('over', sector));
             this.setActive(sector, true);
         });
 
@@ -431,7 +431,7 @@ export class DividedCircleComponent extends ViewerModule {
             if (this.tooltipEnabled && lastOverName === sector.sectorData.name) {
                 this.tooltipPanel.setText(this.highlightText.toUpperCase());
             }
-            this.fire('out', new ParentEvent('out', sector));
+            this.fire('out', new ParentEvent<string>('out', sector));
             this.setActive(sector, false);
         });
 
@@ -446,7 +446,7 @@ export class DividedCircleComponent extends ViewerModule {
 
         this.actionController.on(ActionControllerEventName.click, sector.sector, () => {
             if (!this.allowMouseEvents || !sector.sectorData) return;
-            this.fire('selected', new ParentEvent('selected', sector));
+            this.fire('selected', new ParentEvent<string>('selected', sector));
             if (!this.options.enableSectorAfterClick) this.setActive(sector, false, 0);
             sector.selected();
         });

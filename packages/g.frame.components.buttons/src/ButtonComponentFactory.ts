@@ -1,12 +1,11 @@
-
 import {ActionController, Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
 import {ButtonComponent} from './ButtonComponent';
 import {IButtonComponentOptions} from './ButtonComponent_interfaces';
 
 export class ButtonComponentFactory extends Factory<ButtonComponent> {
-    private components: Array<ButtonComponent>;
     __constructor: typeof ButtonComponent = ButtonComponent;
+    private components: Array<ButtonComponent>;
     private actionController: ActionController;
 
     constructor() {
@@ -21,7 +20,7 @@ export class ButtonComponentFactory extends Factory<ButtonComponent> {
     get(params: IButtonComponentOptions): ButtonComponent {
         const component = new ButtonComponent(params, this.actionController);
         this.components.push(component);
-        component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));
+        component.on('dispose', (event: ParentEvent<string>) => this.onDispose(component, event.data.disposedObject));
 
         return component;
     }

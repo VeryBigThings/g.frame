@@ -20,7 +20,7 @@ export class DepthScrollComponentFactory extends Factory<DepthScrollComponent> {
     get(params: IDepthScrollComponentOptions): DepthScrollComponent {
         const component = new DepthScrollComponent(params);
         this.components.push(component);
-        component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));
+        component.on('dispose', (event: ParentEvent<string>) => this.onDispose(component, event.data.disposedObject));
 
         return component;
     }

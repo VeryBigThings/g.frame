@@ -14,7 +14,7 @@ interface IDisposeParams {
     viewer: boolean;
 }
 
-export class ViewerModule extends EventDispatcher {
+export class ViewerModule extends EventDispatcher<string> {
     public camera: Camera;
 
     // public actionController: ActionController;
@@ -120,7 +120,7 @@ export class ViewerModule extends EventDispatcher {
             dispose(disposeParams);
         }
 
-        this.fire('dispose', new ParentEvent('dispose', {
+        this.fire('dispose', new ParentEvent<string>('dispose', {
             disposedObject: object
         }));
 
@@ -141,7 +141,7 @@ export class ViewerModule extends EventDispatcher {
         this.disposeObjects.forEach(disposeDescriptor => {
             this.disposeObject(null, disposeDescriptor);
         });
-        this.fire('dispose', new ParentEvent('dispose', {
+        this.fire('dispose', new ParentEvent<string>('dispose', {
             disposedObject: this
         }));
     }

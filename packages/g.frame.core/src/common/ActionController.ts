@@ -12,7 +12,7 @@ export enum ActionControllerEventName {
     out = 'out'
 }
 
-export class ActionControllerEvent extends ParentEvent {
+export class ActionControllerEvent extends ParentEvent<string> {
     constructor(public eventName: string, public data: {
         intersection?: IntersectionExt,
         controllerNumber: number,

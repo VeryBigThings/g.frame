@@ -204,7 +204,7 @@ export class SliderComponent extends ViewerModule {
             let alpha = (x + this.width / 2) / this.width;
             if (this.mode === SliderComponentSlidingMode.onlyToLeft) alpha = 1 - alpha;
             this.value = alpha;
-            this.fire('change', new ParentEvent('change', alpha));
+            this.fire('change', new ParentEvent<string>('change', alpha));
             if (alpha === 1) {
 
                 this.fire('completed');

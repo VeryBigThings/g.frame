@@ -19,7 +19,7 @@ export interface ResourceRaw {
  * @param loaders Map contains various Loaders. Use loader type for the map key
  */
 
-export class ResourcesManager extends EventDispatcher {
+export class ResourcesManager extends EventDispatcher<string> {
     protected loaders: Map<string, Loader<any>>;
 
     constructor() {

@@ -19,7 +19,7 @@ export class TorusComponentFactory extends Factory<TorusComponent> {
     get(params: ITorusComponentOptions): TorusComponent {
         const component = new TorusComponent(params, this.actionController);
         this.components.push(component);
-        component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));
+        component.on('dispose', (event: ParentEvent<string>) => this.onDispose(component, event.data.disposedObject));
 
         return component;
     }

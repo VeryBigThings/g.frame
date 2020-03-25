@@ -19,7 +19,7 @@ export class CheckRadioComponentFactory extends Factory<CheckRadioComponent> {
     get(params: ICheckRadioComponentOptions): CheckRadioComponent {
         const component = new CheckRadioComponent(params, this.actionController);
         this.components.push(component);
-        component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));
+        component.on('dispose', (event: ParentEvent<string>) => this.onDispose(component, event.data.disposedObject));
 
         return component;
     }

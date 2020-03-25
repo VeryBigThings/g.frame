@@ -261,7 +261,7 @@ export class CircleSliderComponent extends ViewerModule {
             this.slider.uiObject.rotation.z = angle;
 
             this.value = this.angleToValue(angle);
-            this.fire('change', new ParentEvent('change', this.value));
+            this.fire('change', new ParentEvent<string>('change', this.value));
             if (this.value === 1) {
                 this.fire('completed');
             }

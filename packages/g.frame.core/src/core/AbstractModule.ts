@@ -5,7 +5,7 @@ export interface AbstractModuleStatus {
     enabled: boolean;
 }
 
-export abstract class AbstractModule extends EventDispatcher {
+export abstract class AbstractModule extends EventDispatcher<string> {
     /**
      * Map of instances, that are owned by this module
      */

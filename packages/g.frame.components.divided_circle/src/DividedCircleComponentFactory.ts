@@ -20,7 +20,7 @@ export class DividedCircleComponentFactory extends Factory<DividedCircleComponen
     get(params: IDividedCircleMenu): DividedCircleComponent {
         const component = new DividedCircleComponent(params, this.actionController);
         this.components.push(component);
-        component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));
+        component.on('dispose', (event: ParentEvent<string>) => this.onDispose(component, event.data.disposedObject));
 
         return component;
     }

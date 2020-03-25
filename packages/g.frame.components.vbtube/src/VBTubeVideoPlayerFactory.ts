@@ -19,7 +19,7 @@ export class VBTubeVideoPlayerFactory extends Factory<VBTubeVideoPlayer> {
     get(params: IVBTubeVideoPlayerOptions): VBTubeVideoPlayer {
         const component = new VBTubeVideoPlayer(params, this.actionController, {enableRotate: true});
         this.components.push(component);
-        component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));
+        component.on('dispose', (event: ParentEvent<string>) => this.onDispose(component, event.data.disposedObject));
 
         return component;
     }

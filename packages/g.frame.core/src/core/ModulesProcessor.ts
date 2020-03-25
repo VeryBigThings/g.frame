@@ -10,7 +10,7 @@ import createUniversalAgent = AgentsFabric.createUniversalAgent;
 
 type Agent<T> = T;
 
-export class ModulesProcessor extends EventDispatcher {
+export class ModulesProcessor extends EventDispatcher<string> {
     public readonly agents: AgentsStorage;
     public readonly modulesInstances: Map<typeof AbstractModule, Array<any>> = new Map<typeof AbstractModule, Array<any>>();
     public readonly viewer: Viewer;

@@ -19,7 +19,7 @@ export class SliderComponentFactory extends Factory<SliderComponent> {
     get(params: ISliderComponentOptions): SliderComponent {
         const component = new SliderComponent(params, this.actionController);
         this.components.push(component);
-        component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));
+        component.on('dispose', (event: ParentEvent<string>) => this.onDispose(component, event.data.disposedObject));
 
         return component;
     }

@@ -55,7 +55,7 @@ export class MultipleCircleMenuComponent extends ViewerModule {
                 this.circleMenuList[this._indexDispMenu].enableMouseEvents(true);
                 this.circleMenuList[this._indexDispMenu].sectorsMeshShow = true;
             } else {
-                this.fire('canceled', new ParentEvent('canceled'));
+                this.fire('canceled', new ParentEvent<string>('canceled'));
             }
         });
     }
@@ -106,7 +106,7 @@ export class MultipleCircleMenuComponent extends ViewerModule {
             const circleCompData = (<Function>this.options.menus[this._indexDispMenu])(this.selectedSectorItems);
 
             if (circleCompData.selected) {
-                this.fire('selected', new ParentEvent('selected', this.selectedSectorItems.filter(Boolean)));
+                this.fire('selected', new ParentEvent<string>('selected', this.selectedSectorItems.filter(Boolean)));
             }
 
             this.circleMenuList[this._indexDispMenu] = new DividedCircleComponent({
@@ -121,7 +121,7 @@ export class MultipleCircleMenuComponent extends ViewerModule {
 
             this.depthScrollComponent.addLayer(this.circleMenuList[this._indexDispMenu]);
         } else {
-            this.fire('selected', new ParentEvent('selected', this.selectedSectorItems.filter(Boolean)));
+            this.fire('selected', new ParentEvent<string>('selected', this.selectedSectorItems.filter(Boolean)));
         }
     }
 
@@ -157,7 +157,7 @@ export class MultipleCircleMenuComponent extends ViewerModule {
             this.circleMenuList[this._indexDispMenu].on('selected', (event) => this.initNextCircleMenu(event.data.sectorData));
             this.depthScrollComponent.addLayer(this.circleMenuList[this._indexDispMenu]);
         } else {
-            this.fire('selected', new ParentEvent('selected', this.selectedSectorItems.filter(Boolean)));
+            this.fire('selected', new ParentEvent<string>('selected', this.selectedSectorItems.filter(Boolean)));
         }
     }
 

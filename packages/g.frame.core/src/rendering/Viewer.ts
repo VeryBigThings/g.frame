@@ -4,7 +4,7 @@ import {EventDispatcher, ParentEvent} from '../core/EventDispatcher';
 import {ViewerModule} from '../core/ViewerModule';
 
 
-export default class FrameworkViewer extends EventDispatcher {
+export default class FrameworkViewer extends EventDispatcher<string> {
     public renderer: WebGLRenderer;
     public scene: Scene;
     public camera: PerspectiveCamera;
@@ -89,7 +89,7 @@ export default class FrameworkViewer extends EventDispatcher {
 
         // TWEEN.update(time);
 
-        this.fire('update', new ParentEvent('update', {time: time, frame: frame}));
+        this.fire('update', new ParentEvent<string>('update', {time: time, frame: frame}));
 
         this.render();
     }

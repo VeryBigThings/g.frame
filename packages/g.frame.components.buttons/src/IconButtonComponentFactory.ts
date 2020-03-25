@@ -20,7 +20,7 @@ export class IconButtonComponentFactory extends Factory<IconButtonComponent> {
     get(params: IIconButtonComponentOptions): IconButtonComponent {
         const component = new IconButtonComponent(params, this.actionController);
         this.components.push(component);
-        component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));
+        component.on('dispose', (event: ParentEvent<string>) => this.onDispose(component, event.data.disposedObject));
 
         return component;
     }

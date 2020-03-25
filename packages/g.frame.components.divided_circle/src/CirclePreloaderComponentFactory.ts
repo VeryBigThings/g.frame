@@ -20,7 +20,7 @@ export class CirclePreloaderComponentFactory extends Factory<CirclePreloaderComp
     get(params: ICirclePreloader): CirclePreloaderComponent {
         const component = new CirclePreloaderComponent(params, this.actionController);
         this.components.push(component);
-        component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));
+        component.on('dispose', (event: ParentEvent<string>) => this.onDispose(component, event.data.disposedObject));
 
         return component;
     }

@@ -20,7 +20,7 @@ export class MultipleCircleMenuComponentFactory extends Factory<MultipleCircleMe
     get(params: IMultipleCircleMenuComponent): MultipleCircleMenuComponent {
         const component = new MultipleCircleMenuComponent(params, this.actionController);
         this.components.push(component);
-        component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));
+        component.on('dispose', (event: ParentEvent<string>) => this.onDispose(component, event.data.disposedObject));
 
         return component;
     }
