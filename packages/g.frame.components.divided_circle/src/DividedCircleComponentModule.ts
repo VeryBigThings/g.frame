@@ -1,10 +1,12 @@
 import {AbstractModule, AbstractModuleStatus, ActionController, AgentsStorage} from '@verybigthings/g.frame.core';
 import {DividedCircleComponentFactory} from './DividedCircleComponentFactory';
 import {MultipleCircleMenuComponentFactory} from './MultipleCircleMenuComponentFactory';
+import {CirclePreloaderComponentFactory} from './CirclePreloaderComponentFactory';
 
 export class DividedCircleComponentModule extends AbstractModule {
     private dividedCircleComponentFactory: DividedCircleComponentFactory;
     private multipleCircleMenuComponentFactory: MultipleCircleMenuComponentFactory;
+    private circlePreloaderComponentFactory: CirclePreloaderComponentFactory;
 
     constructor() {
         super();
@@ -21,6 +23,7 @@ export class DividedCircleComponentModule extends AbstractModule {
         // console.info('Module initialization. Create all instances.');
         return [
             this.dividedCircleComponentFactory = new DividedCircleComponentFactory(),
+            this.circlePreloaderComponentFactory = new CirclePreloaderComponentFactory(),
             this.multipleCircleMenuComponentFactory = new MultipleCircleMenuComponentFactory()
         ];
     }
@@ -29,6 +32,7 @@ export class DividedCircleComponentModule extends AbstractModule {
         const actionController = agents.getAgent(ActionController);
         this.dividedCircleComponentFactory.setActionController(actionController);
         this.multipleCircleMenuComponentFactory.setActionController(actionController);
+        this.circlePreloaderComponentFactory.setActionController(actionController);
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {
