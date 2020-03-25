@@ -3,7 +3,7 @@ import {ButtonComponent} from './ButtonComponent';
 import {IIconButtonComponentOptions} from './IconButtonComponent_interfaces';
 import {ActionController} from '@verybigthings/g.frame.core';
 
-export default class IconButtonComponent extends ButtonComponent {
+export class IconButtonComponent extends ButtonComponent {
     protected box: Mesh;
     protected group: Group;
 
