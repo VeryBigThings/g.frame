@@ -6,14 +6,12 @@ import {WindowComponentOptions} from './WindowComponent_interfaces';
 export class WindowComponent extends ViewerModule {
     public name: string;
     public uiObject: Mesh;
-    protected options: WindowComponentOptions;
     private uiObjectOuter: Mesh;
     private uiObjectInner: Mesh;
 
-    constructor(options: WindowComponentOptions) {
+    constructor(protected options: WindowComponentOptions) {
         super();
 
-        this.options = options;
         this.generate();
     }
 

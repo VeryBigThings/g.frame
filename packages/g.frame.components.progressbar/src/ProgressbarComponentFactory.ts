@@ -1,0 +1,34 @@
+import {ActionController, Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {Object3D} from 'three';
+import {ProgressbarComponent} from './ProgressbarComponent';
+import {IProgressbarComponentOptions} from './ProgressbarComponent_interfaces';
+
+export class ProgressbarComponentFactory extends Factory<ProgressbarComponent> {
+    __constructor: typeof ProgressbarComponent = ProgressbarComponent;
+    private components: Array<ProgressbarComponent>;
+    private actionController: ActionController;
+
+    constructor() {
+        super();
+        this.components = [];
+    }
+
+    setActionController(actionController: ActionController) {
+        this.actionController = actionController;
+    }
+
+    get(params: IProgressbarComponentOptions): ProgressbarComponent {
+        const component = new ProgressbarComponent(params);
+        this.components.push(component);
+        component.on('dispose', (event: ParentEvent) => this.onDispose(component, event.data.disposedObject));
+
+        return component;
+    }
+
+    onDispose(component: ProgressbarComponent, disposedObject: Object3D | ViewerModule) {
+        if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
+    }
+
+    update(params: any): any {
+    }
+}

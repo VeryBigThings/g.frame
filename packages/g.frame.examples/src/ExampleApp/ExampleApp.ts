@@ -26,6 +26,8 @@ export default class ExampleApp extends Bootstrap {
             background: 0xffffff
         });
 
+        const w =  modulesProcessor.agents.getAgent(Factory).getFactory(WindowComponent);
+
         _window.uiObject.position.set(-1, 5, 0);
 
         this.addObject(_window);
