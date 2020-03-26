@@ -1,8 +1,13 @@
 import {WindowComponent} from '@verybigthings/g.frame.components.window';
-import {Box3, DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry, Vector2, Vector3} from 'three';
+import {Box3, DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry, Vector2, Vector3, Object3D} from 'three';
 import {ITextComponentOptions, TextComponent} from '@verybigthings/g.frame.components.text';
 import {IInputComponentOptions} from './interfaces';
-import {ActionController, ActionControllerEvent, ActionControllerEventName} from '@verybigthings/g.frame.core';
+import {
+    ActionController,
+    ActionControllerEvent,
+    ActionControllerEventName,
+    ViewerModule
+} from '@verybigthings/g.frame.core';
 import {Input, InputManager, InputType} from '@verybigthings/g.frame.input';
 
 export class InputComponent extends WindowComponent implements Input {
@@ -176,5 +181,12 @@ export class InputComponent extends WindowComponent implements Input {
 
         this.text.uiObject.rotation.set(0, 0, 0);
         this.cursor.position.x = -this.maxInputWidth / 2 + textSize.x;
+    }
+
+    disposeObject(object?: Object3D | ViewerModule, disposeParams?: any): void {
+        super.disposeObject(object, disposeParams);
+
+        if (!object && disposeParams) object = disposeParams.object;
+        this.actionController.off(null, object instanceof Object3D ? object : object.uiObject, null);
     }
 }

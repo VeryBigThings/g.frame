@@ -274,14 +274,16 @@ export class ActionController extends MeshEventDispatcher {
                 if (event.eventName === ActionControllerEventName.over
                     && !event.mesh.userData.isOver[controllerNumber]) {
                     const intersection = intersects.find(intersectionEl => intersectionEl.object === event.mesh);
-                    this.fire(ActionControllerEventName.over, intersection.object,
-                        new ActionControllerEvent(ActionControllerEventName.over, {
-                            intersection: intersection,
-                            controllerNumber: controllerNumber,
-                            context: this,
-                            ray: raycaster.ray.clone()
-                        })
-                    );
+                    if (intersection) {
+                        this.fire(ActionControllerEventName.over, intersection.object,
+                            new ActionControllerEvent(ActionControllerEventName.over, {
+                                intersection: intersection,
+                                controllerNumber: controllerNumber,
+                                context: this,
+                                ray: raycaster.ray.clone()
+                            })
+                        );
+                    }
                 }
 
                 // Check if there is out event

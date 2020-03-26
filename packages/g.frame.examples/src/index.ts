@@ -10,6 +10,7 @@ import {TextComponentModule} from '@verybigthings/g.frame.components.text';
 import {SlidersComponentModule} from '@verybigthings/g.frame.components.sliders';
 import {InputModule} from '@verybigthings/g.frame.input';
 import {InputComponentModule} from '@verybigthings/g.frame.components.input';
+import {VirtualKeyboardModule} from '@verybigthings/g.frame.components.keyboard';
 
 class App {
     private framework: ModulesProcessor;
@@ -29,7 +30,8 @@ class App {
                 new ButtonsComponentModule(),
                 new TextComponentModule(),
                 new SlidersComponentModule(),
-                new InputModule()
+                new InputModule(),
+                new VirtualKeyboardModule()
             ],
             viewerConfig: {
                 renderer: {

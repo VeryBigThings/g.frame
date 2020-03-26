@@ -15,6 +15,7 @@
     "@verybigthings/g.frame.components.text": "^0.0.3",
     "@verybigthings/g.frame.components.window": "^0.0.4",
     "@verybigthings/g.frame.components.input": "^0.0.1",
+    "@verybigthings/g.frame.components.keyboard": "^0.0.1",
     "@verybigthings/g.frame.core": "^0.0.8",
     "@verybigthings/g.frame.input": "^0.0.2",
     "@verybigthings/g.frame.desktop": "^0.0.6",

@@ -38,10 +38,12 @@ export class InputManager extends EventDispatcher<string> {
             this._currentInput?.removeLastSymbol();
         };
         this.onSubmit = () => {
-            this._currentInput?.enter();
+            if (this._currentInput?.enter()) {
+                this.currentInput = null;
+            }
         };
         this.onUnFocus = () => {
-            if(this._currentInput) this._currentInput.isFocused = false;
+            this.currentInput = null;
         };
     }
 
@@ -52,7 +54,7 @@ export class InputManager extends EventDispatcher<string> {
     }
 
     set currentInput(input: Input) {
-        this.inputs.forEach(inputEl => inputEl.isFocused = false);
+        this.inputs.forEach(inputEl => inputEl !== input && (inputEl.isFocused = false));
         this._currentInput = input;
         if (input && this.inputs.indexOf(input) === -1) this.inputs.push(input);
 

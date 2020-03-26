@@ -15,7 +15,7 @@ interface IDisposeParams {
 }
 
 export class ViewerModule extends EventDispatcher<string> {
-    public camera: Camera;
+    // public camera: Camera;
 
     // public actionController: ActionController;
     // public vrControls: VRControls;
