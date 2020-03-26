@@ -1,7 +1,8 @@
 import {AbstractModule, AbstractModuleStatus, AgentsStorage} from '@verybigthings/g.frame.core';
-import {InputManager} from './common';
+import {InputManager, Keyboard} from './common';
 
 export class InputModule extends AbstractModule {
+    public inputManager: InputManager;
 
     constructor() {
         super();
@@ -17,11 +18,12 @@ export class InputModule extends AbstractModule {
     async onInit(data: any): Promise<Array<any>> {
         // console.info('Module initialization. Create all instances.');
         return [
-            new InputManager()
+            this.inputManager = new InputManager()
         ];
     }
 
     afterInit(agents: AgentsStorage): void {
+        this.inputManager.keyboard = agents.getAgent(Keyboard);
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {

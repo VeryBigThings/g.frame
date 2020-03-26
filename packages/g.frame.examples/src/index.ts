@@ -8,6 +8,9 @@ import {WindowComponentModule} from '@verybigthings/g.frame.components.window';
 import {ButtonsComponentModule} from '@verybigthings/g.frame.components.buttons';
 import {TextComponentModule} from '@verybigthings/g.frame.components.text';
 import {SlidersComponentModule} from '@verybigthings/g.frame.components.sliders';
+import {InputModule} from '@verybigthings/g.frame.input';
+import {InputComponentModule} from '@verybigthings/g.frame.components.input';
+
 class App {
     private framework: ModulesProcessor;
 
@@ -22,9 +25,11 @@ class App {
                 new DesktopModule(),
                 new MobileModule(),
                 new WindowComponentModule(),
+                new InputComponentModule(),
                 new ButtonsComponentModule(),
                 new TextComponentModule(),
                 new SlidersComponentModule(),
+                new InputModule()
             ],
             viewerConfig: {
                 renderer: {
@@ -56,7 +61,6 @@ class App {
     }
 
     init() {
-
 
 
     }

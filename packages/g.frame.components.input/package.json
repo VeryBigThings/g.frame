@@ -1,6 +1,6 @@
 {
-  "name": "@verybigthings/g.frame.desktop",
-  "version": "0.0.6",
+  "name": "@verybigthings/g.frame.components.input",
+  "version": "0.0.1",
   "description": "Template module from g.frame",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -34,6 +34,8 @@
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
+    "@verybigthings/g.frame.components.text": "^0.0.3",
+    "@verybigthings/g.frame.components.window": "^0.0.4",
     "@verybigthings/g.frame.core": "^0.0.8",
     "@verybigthings/g.frame.input": "^0.0.2",
     "three": "^0.114.0"

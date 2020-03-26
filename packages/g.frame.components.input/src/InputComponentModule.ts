@@ -1,15 +1,22 @@
-import {AbstractModule, AbstractModuleStatus, requires} from '@verybigthings/g.frame.core';
-import {MouseActionController} from './controllers/MouseActionController';
-import {OrbitControls} from './controls/OrbitControls';
+import {
+    AbstractModule,
+    AbstractModuleStatus,
+    ActionController,
+    AgentsStorage,
+    requires
+} from '@verybigthings/g.frame.core';
+import {InputComponentFactory} from './InputComponentFactory';
+import {ModulesStorage} from '@verybigthings/g.frame.core/build/main/agents/ModulesStorage';
 import {InputModule} from '@verybigthings/g.frame.input';
-import {KeyboardController} from './controllers/KeyboardController';
 
 @requires({
     modules: [
         InputModule
     ]
 })
-export class DesktopModule extends AbstractModule {
+export class InputComponentModule extends AbstractModule {
+    private inputComponentFactory: InputComponentFactory;
+
     constructor() {
         super();
     }
@@ -24,17 +31,15 @@ export class DesktopModule extends AbstractModule {
     async onInit(data: any): Promise<Array<any>> {
         // console.info('Module initialization. Create all instances.');
         return [
-            new MouseActionController({
-                minRaycasterDistance: 0,
-                maxRaycasterDistance: Infinity
-            }, data.viewer.renderer, data.viewer.camera),
-            new OrbitControls(data.viewer.camera, data.viewer.renderer.domElement),
-            new KeyboardController()
+            this.inputComponentFactory = new InputComponentFactory(),
         ];
     }
 
-    afterInit(): void {
-        // console.info('Module after initialization. Here you can start save the World.');
+    afterInit(agents: AgentsStorage, modules: ModulesStorage): void {
+        const actionController = agents.getAgent(ActionController);
+        this.inputComponentFactory.setActionController(actionController);
+        const inputManager = modules.getModule(InputModule).inputManager;
+        this.inputComponentFactory.setInputManager(inputManager);
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {

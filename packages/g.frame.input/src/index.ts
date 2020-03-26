@@ -1,2 +1,2 @@
-import './common';
-import './InputModule';
+export * from './common';
+export * from './InputModule';

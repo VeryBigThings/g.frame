@@ -1,11 +1,14 @@
 import {EventDispatcher} from './EventDispatcher';
 import {AgentsStorage} from '../agents/AgentsStorage';
+import {Constructor} from '../utils';
+import {ModulesStorage} from '../agents/ModulesStorage';
 
 export interface AbstractModuleStatus {
     enabled: boolean;
 }
 
 export abstract class AbstractModule extends EventDispatcher<string> {
+    public __requiredModules: Array<Constructor<AbstractModule>>;
     /**
      * Map of instances, that are owned by this module
      */
@@ -36,7 +39,7 @@ export abstract class AbstractModule extends EventDispatcher<string> {
     /**
      * Function that is called after initialization. Use it only for internal stuff.
      */
-    abstract afterInit(agents: AgentsStorage): void;
+    abstract afterInit(agents?: AgentsStorage, modules?: ModulesStorage): void;
 
     /**
      * Update function for module. Use only this function for all updates.

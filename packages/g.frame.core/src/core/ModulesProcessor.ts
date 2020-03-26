@@ -7,12 +7,14 @@ import {addDefaultLoaders, Loader, ResourcesManager} from '../loaders';
 import {Bootstrap} from './Bootstrap';
 import {AgentsStorage} from '../agents/AgentsStorage';
 import createUniversalAgent = AgentsFabric.createUniversalAgent;
+import {ModulesStorage} from '../agents/ModulesStorage';
 
 type Agent<T> = T;
 
 export class ModulesProcessor extends EventDispatcher<string> {
     public readonly agents: AgentsStorage;
     public readonly modulesInstances: Map<typeof AbstractModule, Array<any>> = new Map<typeof AbstractModule, Array<any>>();
+    public readonly modules: ModulesStorage;
     public readonly viewer: Viewer;
     public readonly resourcesManager: ResourcesManager;
     private modulesStatus: Map<AbstractModule, AbstractModuleStatus> = new Map<AbstractModule, AbstractModuleStatus>();
@@ -25,6 +27,7 @@ export class ModulesProcessor extends EventDispatcher<string> {
         super();
 
         this.agents = new AgentsStorage();
+        this.modules = new ModulesStorage();
 
         this.viewer = new Viewer(this.configuration.viewerConfig);
 
@@ -44,8 +47,18 @@ export class ModulesProcessor extends EventDispatcher<string> {
 
     private async modulesPreInitialization(): Promise<void> {
         for (const module of this.configuration.modules) {
+            if (module.__requiredModules?.length) {
+                const notImportedModules = module.__requiredModules.filter(requiredModule =>
+                    this.configuration.modules.filter(module => module instanceof requiredModule).length === 0
+                );
+                if (notImportedModules.length > 0) {
+                    console.error('No module found but required!', notImportedModules, module);
+                    throw Error('No module found but required!');
+                }
+            }
             const status: AbstractModuleStatus = await module.preInit();
             this.modulesStatus.set(module, status);
+            this.modules.setModule(Object.getPrototypeOf(module).constructor, module);
         }
     }
 
@@ -70,7 +83,7 @@ export class ModulesProcessor extends EventDispatcher<string> {
             instancesParent.get(instanceProto).push(instance);
         }
         instancesParent.forEach((instances, instancesParentKey) => {
-            if (instancesParentKey.hasOwnProperty('__agentConstructor')) {
+            if (instancesParentKey.hasOwnProperty('__agentConstructor') && instancesParentKey.__agentConstructor instanceof Function) {
                 this.agents.setAgent(instancesParentKey.constructor, new instancesParentKey.__agentConstructor(instances));
             } else if (instancesParentKey === Loader.prototype) {
                 instances.forEach(instance => this.resourcesManager.addLoader(instance));
@@ -81,7 +94,7 @@ export class ModulesProcessor extends EventDispatcher<string> {
     private async modulesAfterInitialization(): Promise<void> {
         for (const module of this.configuration.modules) {
             if (!this.modulesStatus.get(module).enabled) continue;
-            module.afterInit(this.agents);
+            module.afterInit(this.agents, this.modules);
         }
     }
 
