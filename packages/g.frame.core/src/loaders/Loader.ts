@@ -40,7 +40,7 @@ export class Loader<T> extends EventDispatcher<string> {
         return new Promise<void>((resolve, reject) => {
             const notLoadedResources = this.resourcesRaw.filter(a => !a.loaded);
             if (notLoadedResources.length === 0) return resolve();
-            Promise.all(notLoadedResources.map(textureRaw => this.resourceToPromise(<string>textureRaw.url, textureRaw.name))).then(() => resolve(), () => reject());
+            Promise.all(notLoadedResources.map(resourceRaw => this.resourceToPromise(<string>resourceRaw.url, resourceRaw.name))).then(() => resolve(), () => reject());
         });
     }
 

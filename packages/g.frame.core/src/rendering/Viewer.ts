@@ -5,13 +5,14 @@ import {ViewerModule} from '../core/ViewerModule';
 
 
 export default class FrameworkViewer extends EventDispatcher<string> {
-    public renderer: WebGLRenderer;
-    public scene: Scene;
-    public camera: PerspectiveCamera;
-    public container: Element;
+    public readonly renderer: WebGLRenderer;
+    public readonly scene: Scene;
+    public readonly camera: PerspectiveCamera;
+    public readonly container: Element;
 
-    public cameraWrapParent: Object3D;
-    public cameraWrap: Object3D;
+    public readonly cameraWrapParent: Object3D;
+    public readonly cameraWrap: Object3D;
+    public readonly modulesContainer: Object3D;
     private currentViewer: ViewerModule;
 
     constructor(private config: IViewerConfig) {
@@ -38,7 +39,7 @@ export default class FrameworkViewer extends EventDispatcher<string> {
 
         // @ts-ignore
         if (this.renderer.getContext().makeXRCompatible instanceof Function)
-        // @ts-ignore
+            // @ts-ignore
             this.renderer.getContext().makeXRCompatible();
 
         // CONTAINER
@@ -52,6 +53,10 @@ export default class FrameworkViewer extends EventDispatcher<string> {
         // SCENE
         this.scene = new Scene();
         this.scene.overrideMaterial = this.config.scene.overrideMaterial;
+
+        this.modulesContainer = new Object3D();
+        this.scene.add(this.modulesContainer);
+
         // CAMERA
         this.cameraWrapParent = new Object3D();
         this.scene.add(this.cameraWrapParent);
@@ -92,7 +97,7 @@ export default class FrameworkViewer extends EventDispatcher<string> {
         this.fire('update', new ParentEvent<string>('update', {time: time, frame: frame}));
 
         this.render();
-    }
+    };
 
     render() {
         this.renderer.render(this.scene, this.camera);

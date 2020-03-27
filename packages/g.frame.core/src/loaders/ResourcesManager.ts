@@ -19,7 +19,11 @@ export interface ResourceRaw {
  * @param loaders Map contains various Loaders. Use loader type for the map key
  */
 
-export class ResourcesManager extends EventDispatcher<string> {
+export enum ResourcesManagerEventNames {
+    loaded = 'loaded'
+}
+
+export class ResourcesManager extends EventDispatcher<ResourcesManagerEventNames> {
     protected loaders: Map<string, Loader<any>>;
 
     constructor() {
@@ -49,9 +53,9 @@ export class ResourcesManager extends EventDispatcher<string> {
      * use once all needed Resources added to loaders library
      */
 
-    loadAll() {
+    load() {
         return Promise.all(Array.from(this.loaders.values()).map(loader => loader.load())).then(() => {
-            this.fire('loaded');
+            this.fire(ResourcesManagerEventNames.loaded);
             return true;
         }, () => {
             return false;

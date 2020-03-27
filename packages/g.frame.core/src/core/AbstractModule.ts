@@ -2,6 +2,7 @@ import {EventDispatcher} from './EventDispatcher';
 import {AgentsStorage} from '../agents/AgentsStorage';
 import {Constructor} from '../utils';
 import {ModulesStorage} from '../agents/ModulesStorage';
+import {Object3D} from 'three';
 
 export interface AbstractModuleStatus {
     enabled: boolean;
@@ -41,6 +42,15 @@ export abstract class AbstractModule extends EventDispatcher<string> {
      */
     abstract afterInit(agents?: AgentsStorage, modules?: ModulesStorage): void;
 
+
+    /**
+     * Function that is called when resources are ready (loaded)
+     */
+    public onResourcesReady(): void {}
+
+
+    public getModuleContainer(): Object3D | void {}
+
     /**
      * Update function for module. Use only this function for all updates.
      * @param params Current frame information
@@ -58,10 +68,10 @@ export abstract class AbstractModule extends EventDispatcher<string> {
     /**
      * Function that is called when application is paused (For example tab is changed)
      */
-    abstract onPause(): void;
+    public onPause(): void {}
 
     /**
      * Function that is called when application is resumed
      */
-    abstract onResume(): void;
+    public onResume(): void {}
 }

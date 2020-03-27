@@ -3,11 +3,12 @@ import {AbstractModule, AbstractModuleStatus} from './AbstractModule';
 import Viewer from '../rendering/Viewer';
 import {IViewerConfig} from '../rendering/IViewerConfig';
 import {AgentsFabric} from '../agents/AgentsFabric';
-import {addDefaultLoaders, Loader, ResourcesManager} from '../loaders';
+import {addDefaultLoaders, Loader, ResourcesManager, ResourcesManagerEventNames} from '../loaders';
 import {Bootstrap} from './Bootstrap';
 import {AgentsStorage} from '../agents/AgentsStorage';
-import createUniversalAgent = AgentsFabric.createUniversalAgent;
 import {ModulesStorage} from '../agents/ModulesStorage';
+import {Object3D} from 'three';
+import createUniversalAgent = AgentsFabric.createUniversalAgent;
 
 type Agent<T> = T;
 
@@ -36,6 +37,7 @@ export class ModulesProcessor extends EventDispatcher<string> {
         this.prepareResourcesManager();
         this.modulesPreInitialization()
             .then(() => this.modulesInitialization())
+            .then(() => this.placeModulesOnScene())
             .then(() => this.modulesAfterInitialization())
             .then(() => {
                 this.viewer.setCurrentViewer(this.configuration.bootstrap);
@@ -100,6 +102,12 @@ export class ModulesProcessor extends EventDispatcher<string> {
 
     private prepareResourcesManager(): void {
         addDefaultLoaders(this.resourcesManager);
+        this.resourcesManager.on(ResourcesManagerEventNames.loaded, () => {
+            for (const module of this.configuration.modules) {
+                if (!this.modulesStatus.get(module).enabled) continue;
+                module.onResourcesReady();
+            }
+        });
     }
 
     private update(frame: any) {
@@ -127,6 +135,16 @@ export class ModulesProcessor extends EventDispatcher<string> {
         for (const module of this.configuration.modules) {
             if (!this.modulesStatus.get(module).enabled) continue;
             module.onResume();
+        }
+    }
+
+    private placeModulesOnScene() {
+        for (const module of this.configuration.modules) {
+            if (!this.modulesStatus.get(module).enabled) continue;
+            const object = module.getModuleContainer();
+            if (object && object instanceof Object3D) {
+                this.viewer.modulesContainer.add(object);
+            }
         }
     }
 }

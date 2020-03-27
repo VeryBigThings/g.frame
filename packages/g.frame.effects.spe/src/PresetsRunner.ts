@@ -1,27 +1,51 @@
 import * as SPE from '@verybigthings/shader-particle-engine';
 import {FallPreset, Preset, SpringPreset, WinterPreset} from './presets';
-import {Object3D, TextureLoader} from 'three';
+import {Object3D} from 'three';
+import {ResourcesManager} from '@verybigthings/g.frame.core';
+
+export enum PresetType {
+    winter = 'winter',
+    spring = 'spring',
+    fall = 'fall',
+}
 
 export class PresetsRunner {
 
     private particleGroups: Array<SPE.Group> = [];
     private particleEmitters: Array<SPE.Emitter> = [];
-
+    private readonly resourcesManager: ResourcesManager;
     private presetMap: Map<string, Preset> =
-        new Map<string, Preset>([
-            ['winter', new WinterPreset],
-            ['spring', new SpringPreset],
-            ['fall', new FallPreset]]);
+        new Map<PresetType, Preset>([
+            [PresetType.winter, new WinterPreset],
+            [PresetType.spring, new SpringPreset],
+            [PresetType.fall, new FallPreset]]);
 
-    constructor() {
+    constructor(options: {
+        resourcesManager: ResourcesManager,
+        presetsToLoad?: Array<PresetType>
+    }) {
+        this.resourcesManager = options.resourcesManager;
+        options?.presetsToLoad?.forEach(presetName => {
+            const preset = this.presetMap.get(presetName);
+
+            preset.getTexturesLinks().map((link, i) => {
+                options?.resourcesManager?.addLoadResources([{
+                    name: `EffectsSPE_texture_${presetName}_${i}`,
+                    type: 'texture',
+                    url: link
+                }]);
+            });
+        });
     }
 
-    runPreset(presetName: string): Array<Object3D> {
+    runPreset(presetName: PresetType): Array<Object3D> {
         const preset = this.presetMap.get(presetName);
 
-        return preset.getTexturesLinks().map(link => {
+        return preset.getTexturesLinks().map((link, i) => {
             const particleEmitter = preset.getEmitter();
-            const particleGroup = preset.getGroup(new TextureLoader().load(link));
+            const particleGroup = preset.getGroup(this.resourcesManager
+                .getLoader('texture')
+                .getResource(`EffectsSPE_texture_${presetName}_${i}`));
             particleGroup.addEmitter(particleEmitter);
 
             this.particleGroups.push(particleGroup);

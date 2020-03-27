@@ -9,6 +9,7 @@ import {VirtualKeyboardComponentFactory} from './VirtualKeyboardComponentFactory
 import {ModulesStorage} from '@verybigthings/g.frame.core/build/main/agents/ModulesStorage';
 import {InputModule} from '@verybigthings/g.frame.input';
 import {VirtualKeyboard} from './VirtualKeyboard';
+import {Object3D} from 'three';
 
 @requires({
     modules: [
@@ -18,9 +19,11 @@ import {VirtualKeyboard} from './VirtualKeyboard';
 export class VirtualKeyboardModule extends AbstractModule {
     private virtualKeyboardComponentFactory: VirtualKeyboardComponentFactory;
     private virtualKeyboard: VirtualKeyboard;
+    private readonly container: Object3D;
 
     constructor() {
         super();
+        this.container = new Object3D();
     }
 
     async preInit(): Promise<AbstractModuleStatus> {
@@ -34,7 +37,7 @@ export class VirtualKeyboardModule extends AbstractModule {
         // console.info('Module initialization. Create all instances.');
         return [
             this.virtualKeyboardComponentFactory = new VirtualKeyboardComponentFactory(),
-            this.virtualKeyboard = new VirtualKeyboard(data.viewer.scene),
+            this.virtualKeyboard = new VirtualKeyboard(this.container),
         ];
     }
 
@@ -44,6 +47,10 @@ export class VirtualKeyboardModule extends AbstractModule {
         const inputManager = modules.getModule(InputModule).inputManager;
         this.virtualKeyboard.setInputManager(inputManager);
         this.virtualKeyboard.setKeyboardFactory(this.virtualKeyboardComponentFactory);
+    }
+
+    getModuleContainer(): Object3D | void {
+        return this.container;
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {

@@ -131,5 +131,8 @@ export default class ExampleApp extends Bootstrap {
 
 
         console.log('Universal agent for template class', modulesProcessor.agents.getAgent(TemplateA));
+
+
+        modulesProcessor.resourcesManager.load();
     }
 }
