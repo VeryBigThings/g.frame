@@ -54,7 +54,6 @@ export default class ExampleApp extends Bootstrap {
             if (++i_box === 5) this.disposeObject(box);
         });
 
-
         const iconButton = modulesProcessor.agents.getAgent(Factory).getFactory(IconButtonComponent)({
             text: '+',
             background: new Color(0xeeaa88).getStyle(),
@@ -124,7 +123,7 @@ export default class ExampleApp extends Bootstrap {
         };
 
         const inputComponent = modulesProcessor.agents.getAgent(Factory).getFactory(InputComponent)(inputOptions);
-        this.addObject(inputComponent)
+        this.addObject(inputComponent);
 
 
         console.log(modulesProcessor.modules.getModule(InputModule).inputManager);

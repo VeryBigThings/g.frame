@@ -1,6 +1,6 @@
 {
   "name": "@verybigthings/g.frame.oculus.quest",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Template module from g.frame",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -10,6 +10,7 @@
   "scripts": {
     "build": "run-s clean && run-p build:*",
     "build:main": "tsc -p tsconfig.json",
+    "build:assets": "copyfiles -f -s ./src/assets/models/* ./build/main/assets/models/",
     "clean": "trash build test",
     "test": "jest",
     "lint": "tslint 'src/**/*.ts?(x)'",

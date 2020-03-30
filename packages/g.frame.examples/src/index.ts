@@ -11,6 +11,7 @@ import {SlidersComponentModule} from '@verybigthings/g.frame.components.sliders'
 import {InputModule} from '@verybigthings/g.frame.input';
 import {InputComponentModule} from '@verybigthings/g.frame.components.input';
 import {VirtualKeyboardModule} from '@verybigthings/g.frame.components.keyboard';
+import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
 
 class App {
     private framework: ModulesProcessor;
@@ -31,7 +32,8 @@ class App {
                 new TextComponentModule(),
                 new SlidersComponentModule(),
                 new InputModule(),
-                new VirtualKeyboardModule()
+                new VirtualKeyboardModule(),
+                new OculusQuestModule(),
             ],
             viewerConfig: {
                 renderer: {
