@@ -1,39 +1,52 @@
-import { EventDispatcher } from '@verybigthings/g.frame.core';
-import { OculusQuestModel } from '../Model/OculusQuestModel';
-import { VRButton } from 'three/examples/jsm/webxr/VRButton';
+import {EventDispatcher} from '@verybigthings/g.frame.core';
+import {OculusQuestModel} from '../Model/OculusQuestModel';
+import {VRButton} from 'three/examples/jsm/webxr/VRButton';
+import {WebGLRenderer} from 'three';
 
-export class OculusQuestController extends EventDispatcher<string> {
-    private renderer: any;
+export enum XREvent {
+    goToVR = 'goToVR',
+    goFromVR = 'goFromVR'
+}
+
+export class XRManager extends EventDispatcher<XREvent> {
+
+    constructor(protected readonly renderer: WebGLRenderer) {super(); }
+
+    protected initEvents() {
+        // @ts-ignore
+        this.renderer.xr.addEventListener('sessionstart', (event) => {
+            this.goToVR();
+            this.fire(XREvent.goToVR);
+        });
+        // @ts-ignore
+        this.renderer.xr.addEventListener('sessionend', (event) => {
+            this.goFromVR();
+            this.fire(XREvent.goFromVR);
+        });
+    }
+
+    protected createButton() {
+        const button = VRButton.createButton(this.renderer, {referenceSpaceType: 'local'});
+        document.body.appendChild(button);
+    }
+
+
+    protected goToVR() {}
+
+    protected goFromVR() {}
+}
+
+
+export class OculusQuestController extends XRManager {
     private inputSourceLeft: any;
     private inputSourceRight: any;
 
-    constructor(private data: any, private oculusQuestModel: OculusQuestModel) {
-        super();
+    constructor(renderer: WebGLRenderer, private oculusQuestModel: OculusQuestModel) {
+        super(renderer);
         this.oculusQuestModel = oculusQuestModel;
-        this.renderer = this.data.viewer.renderer;
 
-        // @ts-ignore
-        if ('xr' in navigator && 'isSessionSupported' in navigator.xr) {
-            const button = VRButton.createButton(this.renderer, { referenceSpaceType: 'local' });
-            document.body.appendChild(button);
-
-            this.renderer.xr.addEventListener('sessionstart', (event) => {
-                this.fire('goToVR');
-            });
-            this.renderer.xr.addEventListener('sessionend', (event) => {
-                this.fire('goFromVR');
-            });
-
-            this.on('goToVR', () => {
-                const session = this.renderer.xr.getSession();
-                session.addEventListener('inputsourceschange', () => {
-                    session.inputSources.length ? this.setInputSources(session.inputSources) : this.resetInputSources();
-                });
-            });
-            this.on('goFromVR', () => {
-                this.resetInputSources();
-            });
-        }
+        this.createButton();
+        this.initEvents();
     }
 
     initView() {
@@ -42,6 +55,22 @@ export class OculusQuestController extends EventDispatcher<string> {
 
     update(params: { currentTime: number; frame: any }) {
         this.oculusQuestModel.updateInstance(this.inputSourceLeft, this.inputSourceRight, params.frame);
+    }
+
+    protected goToVR() {
+        super.goToVR();
+        const session = this.renderer.xr.getSession();
+        session.addEventListener('inputsourceschange', () => {
+            if (session.inputSources.length)
+                this.setInputSources(session.inputSources);
+            else
+                this.resetInputSources();
+        });
+    }
+
+    protected goFromVR() {
+        super.goFromVR();
+        this.resetInputSources();
     }
 
     private setInputSources(inputSources) {

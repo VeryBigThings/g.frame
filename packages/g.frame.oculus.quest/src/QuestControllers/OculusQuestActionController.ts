@@ -30,16 +30,16 @@ export class OculusQuestActionController extends ActionController {
 
         // Define the callbacks
         this.onButtonDown = (event: any) => {
-            this.update(ActionControllerEventName.buttonDown, this.getRaycaster(event.position, event.direction), event.controllerNumber);
+            this.update(ActionControllerEventName.buttonDown, this.getRaycaster(event.data.position, event.data.direction), event.controllerNumber);
         };
         this.onButtonUp = (event: any) => {
-            this.update(ActionControllerEventName.buttonUp, this.getRaycaster(event.position, event.direction), event.controllerNumber);
+            this.update(ActionControllerEventName.buttonUp, this.getRaycaster(event.data.position, event.data.direction), event.controllerNumber);
         };
         this.onClick = (event: any) => {
-            this.update(ActionControllerEventName.click, this.getRaycaster(event.position, event.direction), event.controllerNumber);
+            this.update(ActionControllerEventName.click, this.getRaycaster(event.data.position, event.data.direction), event.controllerNumber);
         };
         this.onMove = (event: any) => {
-            this.update(ActionControllerEventName.move, this.getRaycaster(event.position, event.direction), event.controllerNumber);
+            this.update(ActionControllerEventName.move, this.getRaycaster(event.data.position, event.data.direction), event.controllerNumber);
         };
 
         // Subscribe on events

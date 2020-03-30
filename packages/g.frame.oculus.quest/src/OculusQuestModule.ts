@@ -1,9 +1,9 @@
-import { AbstractModule, AbstractModuleStatus } from '@verybigthings/g.frame.core';
-import { OculusQuestPickingController } from './QuestControllers/OculusQuestPickingController';
-import { OculusQuestActionController } from './QuestControllers/OculusQuestActionController';
-import { OculusQuestController } from './Controller/OculusQuestController';
-import { OculusQuestModel } from './Model/OculusQuestModel';
-import { Object3D } from 'three';
+import {AbstractModule, AbstractModuleStatus} from '@verybigthings/g.frame.core';
+import {OculusQuestPickingController} from './QuestControllers/OculusQuestPickingController';
+import {OculusQuestActionController} from './QuestControllers/OculusQuestActionController';
+import {OculusQuestController} from './Controller/OculusQuestController';
+import {OculusQuestModel} from './Model/OculusQuestModel';
+import {Object3D} from 'three';
 
 export class OculusQuestModule extends AbstractModule {
     private oculusQuestController: OculusQuestController;
@@ -12,20 +12,20 @@ export class OculusQuestModule extends AbstractModule {
     constructor() {
         super();
         this.container = new Object3D();
-        this.container.name = 'OculusQuestModuleContrainer';
+        this.container.name = 'OculusQuestModuleContainer';
     }
 
     async preInit(): Promise<AbstractModuleStatus> {
         return {
-            enabled: this.checkQuestBrowser()
+            enabled: this.checkQuestBrowser() && this.checkXRSupport()
         };
     }
 
     async onInit(data: any): Promise<Array<any>> {
         // Init ActionController
         const actionController = new OculusQuestActionController(data, {
-                minRaycasterDistance: 0,
-                maxRaycasterDistance: Infinity
+            minRaycasterDistance: 0,
+            maxRaycasterDistance: Infinity
         }, OculusQuestModel.getInstance(data));
 
         // Init PickingController
@@ -81,5 +81,10 @@ export class OculusQuestModule extends AbstractModule {
     checkQuestBrowser() {
         const uaToken = 'Quest';
         return !!navigator.userAgent.match(uaToken);
+    }
+
+
+    checkXRSupport() {
+        return navigator?.xr?.isSessionSupported instanceof Function;
     }
 }

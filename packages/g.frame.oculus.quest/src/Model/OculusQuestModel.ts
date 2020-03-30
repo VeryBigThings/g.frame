@@ -1,8 +1,8 @@
-import { Vector3, Quaternion, Vector2, Object3D, MeshBasicMaterial, Mesh, CircleGeometry, Matrix4, Vector4 } from 'three';
-import { ParentEvent, ViewerModule } from '@verybigthings/g.frame.core';
-import { OculusQuestView, IOculusQuestView } from '../View/OculusQuestView';
-import { VRControlsEvent } from '../QuestControllers/VRControlsEvent';
-import { Pointer } from '../QuestControllers/Pointer';
+import {Matrix4, Mesh, Object3D, Quaternion, Vector3, Vector4} from 'three';
+import {ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {IOculusQuestView, OculusQuestView} from '../View/OculusQuestView';
+import {VRControlsEvent} from '../QuestControllers/VRControlsEvent';
+import {Pointer} from '../QuestControllers/Pointer';
 
 const controllerHandednessCode = {
     left: 0,
@@ -19,6 +19,8 @@ const config = {
 };
 
 type Model = any;
+
+type XRFrame = any;
 
 export class OculusQuestModel extends ViewerModule {
     private static instance: OculusQuestModel;
@@ -118,7 +120,7 @@ export class OculusQuestModel extends ViewerModule {
 
     public static getInstance(data?: any): OculusQuestModel {
         if (!OculusQuestModel.instance)
-        OculusQuestModel.instance = new OculusQuestModel(data);
+            OculusQuestModel.instance = new OculusQuestModel(data);
 
         return OculusQuestModel.instance;
     }
@@ -149,7 +151,7 @@ export class OculusQuestModel extends ViewerModule {
         this.addObject(this.pointerWrapperRight);
     }
 
-    updateInstance(inputSourceLeft, inputSourceRight, frame: any) {
+    updateInstance(inputSourceLeft, inputSourceRight, frame: XRFrame) {
         this.model.left.enabled = false;
         this.model.right.enabled = false;
 
@@ -179,7 +181,19 @@ export class OculusQuestModel extends ViewerModule {
         this.currentOculusQuestView.updateView(this.model);
     }
 
-    private updatePose(frame: any, controllerModelHand, controller, uiObjectWrapper, inputSource) {
+    getEventData(uiObject: Object3D, controller: Object3D, controllerNumber: number): VRControlsEvent {
+        return new VRControlsEvent('createdEvent', uiObject.localToWorld(new Vector3()), controller.localToWorld(new Vector3()), controllerNumber);
+    }
+
+    dispose() { // Maybe need to add some custom dispose parameters for left and right pointers and their wrappers
+        (<Mesh>this.pointerLeft.uiObject).material['dispose']();
+        (<Mesh>this.pointerLeft.uiObject).geometry.dispose();
+
+        (<Mesh>this.pointerRight.uiObject).material['dispose']();
+        (<Mesh>this.pointerRight.uiObject).geometry.dispose();
+    }
+
+    private updatePose(frame: XRFrame, controllerModelHand, controller, uiObjectWrapper, inputSource) {
         const inputPose = frame.getPose(inputSource.targetRaySpace, this.data.viewer.renderer.xr.getReferenceSpace());
         new Matrix4().fromArray(inputPose.transform.matrix).decompose(controllerModelHand.pose.position, controllerModelHand.pose.orientation, new Vector3());
         new Matrix4().fromArray(inputPose.transform.matrix).decompose(uiObjectWrapper.position, uiObjectWrapper.quaternion, new Vector3());
@@ -189,9 +203,12 @@ export class OculusQuestModel extends ViewerModule {
     }
 
     /**
-     * Fire custom events if needed
-     * @param gamepad Gamepad you want to check
-     * @param oldButtonDown Click state of button of the gamepad
+     * Updates custom events
+     * @param gamepad
+     * @param model
+     * @param controller
+     * @param controllerWrapper
+     * @param controllerNumber
      */
     private updateEvents(gamepad, model, controller: Object3D, controllerWrapper: Object3D, controllerNumber: number) {
         const newButtonDown = gamepad.buttons[0].pressed;
@@ -216,17 +233,5 @@ export class OculusQuestModel extends ViewerModule {
             controllerModel[config[index]] && (controllerModel[config[index]].pressed = el.pressed);
             controllerModel[config[index]] && (controllerModel[config[index]].value = el.value);
         });
-    }
-
-    getEventData(uiObject: Object3D, controller: Object3D, controllerNumber: number): VRControlsEvent {
-        return new VRControlsEvent('createdEvent', uiObject.localToWorld(new Vector3()), controller.localToWorld(new Vector3()), controllerNumber);
-    }
-
-    dispose() { // Maybe need to add some custom dispose parameters for left and right pointers and their wrappers
-        (<Mesh>this.pointerLeft.uiObject).material['dispose']();
-        (<Mesh>this.pointerLeft.uiObject).geometry.dispose();
-
-        (<Mesh>this.pointerRight.uiObject).material['dispose']();
-        (<Mesh>this.pointerRight.uiObject).geometry.dispose();
     }
 }
