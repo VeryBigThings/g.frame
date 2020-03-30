@@ -1,6 +1,7 @@
-import {ActionController, Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
 import {IVBTubeVideoPlayerOptions, VBTubeVideoPlayer} from './VBTubeVideoPlayer';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
 export class VBTubeVideoPlayerFactory extends Factory<VBTubeVideoPlayer> {
     __constructor: typeof VBTubeVideoPlayer = VBTubeVideoPlayer;

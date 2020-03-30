@@ -5,10 +5,8 @@ import {
     ActionController,
     ActionControllerEvent,
     ActionControllerEventName,
-    ObjectsPositioning,
-    ParentEvent,
-    ViewerModule
-} from '@verybigthings/g.frame.core';
+} from '@verybigthings/g.frame.common.action_controller';
+import {ObjectsPositioning, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
 import {InputType, KeyboardEvents} from '@verybigthings/g.frame.input';
 import {IVirtualKeyboardViewOptions} from './interfaces';
 

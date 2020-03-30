@@ -2,7 +2,7 @@ import {DividedCircleComponent, Sector} from './DividedCircleComponent';
 import {TextComponent} from '@verybigthings/g.frame.components.text';
 import {Vector2} from 'three';
 import {ICirclePreloader} from './interfaces';
-import {ActionController} from '@verybigthings/g.frame.core';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
 
 export class CirclePreloaderComponent extends DividedCircleComponent {

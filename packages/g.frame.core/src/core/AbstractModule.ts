@@ -1,8 +1,7 @@
 import {EventDispatcher} from './EventDispatcher';
-import {AgentsStorage} from '../agents/AgentsStorage';
 import {Constructor} from '../utils';
-import {ModulesStorage} from '../agents/ModulesStorage';
 import {Object3D} from 'three';
+import {ConstructorInstanceMap} from '../utils/ConstructorInstanceMap';
 
 export interface AbstractModuleStatus {
     enabled: boolean;
@@ -40,13 +39,7 @@ export abstract class AbstractModule extends EventDispatcher<string> {
     /**
      * Function that is called after initialization. Use it only for internal stuff.
      */
-    abstract afterInit(agents?: AgentsStorage, modules?: ModulesStorage): void;
-
-
-    /**
-     * Function that is called when resources are ready (loaded)
-     */
-    public onResourcesReady(): void {}
+    abstract afterInit(agents?: ConstructorInstanceMap<any>, modules?: ConstructorInstanceMap<AbstractModule>): void;
 
 
     public getModuleContainer(): Object3D | void {}

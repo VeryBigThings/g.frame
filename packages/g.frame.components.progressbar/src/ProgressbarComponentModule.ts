@@ -1,4 +1,4 @@
-import {AbstractModule, AbstractModuleStatus, ActionController, AgentsStorage} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 import {ProgressbarComponentFactory} from './ProgressbarComponentFactory';
 
 
@@ -23,8 +23,7 @@ export class ProgressbarComponentModule extends AbstractModule {
         ];
     }
 
-    afterInit(agents: AgentsStorage): void {
-        this.progressbarComponentFactory.setActionController(agents.getAgent(ActionController));
+    afterInit(agents: ConstructorInstanceMap<any>): void {
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {

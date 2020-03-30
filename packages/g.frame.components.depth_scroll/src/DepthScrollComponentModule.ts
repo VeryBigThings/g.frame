@@ -1,4 +1,4 @@
-import {AbstractModule, AbstractModuleStatus, ActionController, AgentsStorage} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 import {DepthScrollComponentFactory} from './DepthScrollComponentFactory';
 
 export class DepthScrollComponentModule extends AbstractModule {
@@ -22,8 +22,7 @@ export class DepthScrollComponentModule extends AbstractModule {
         ];
     }
 
-    afterInit(agents: AgentsStorage): void {
-        this.depthScrollComponentFactory.setActionController(agents.getAgent(ActionController));
+    afterInit(agents: ConstructorInstanceMap<any>): void {
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {

@@ -5,11 +5,14 @@ import {
     PROGRESS_BAR_WIDTH, PROGRESS_BAR_BACKGROUND_COLOR,
     PROGRESS_BAR_BACKGROUND_LOADED_COLOR, PROGRESS_BAR_SCALE, MINIMAL_SCALE, BOTTOM_SPACE
 } from './constants';
-import {ActionController, ViewerModule} from '@verybigthings/g.frame.core';
+import {ViewerModule} from '@verybigthings/g.frame.core';
 import { ProgressbarComponent } from '@verybigthings/g.frame.components.progressbar';
-import { ActionControllerEventName } from '@verybigthings/g.frame.core';
-import { ActionControllerEvent } from '@verybigthings/g.frame.core';
 import { GMesh } from '@verybigthings/g.frame.core';
+import {
+    ActionController,
+    ActionControllerEvent,
+    ActionControllerEventName
+} from '@verybigthings/g.frame.common.action_controller';
 
 /**
  * Class to manipulate progress bar

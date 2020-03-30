@@ -1,4 +1,4 @@
-import {IPickingControllerConfig, PickingController} from '@verybigthings/g.frame.core';
+import {IPickingControllerConfig, PickingController} from '@verybigthings/g.frame.common.picking_controller';
 
 
 export class OculusQuestPickingController extends PickingController {

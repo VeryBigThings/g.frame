@@ -1,11 +1,5 @@
 import {BoxGeometry, Color, Mesh, MeshBasicMaterial, Vector2} from 'three';
-import {
-    ActionController,
-    ActionControllerEventName,
-    Bootstrap,
-    Factory,
-    ModulesProcessor
-} from '@verybigthings/g.frame.core';
+import {Bootstrap, Factory, ModulesProcessor} from '@verybigthings/g.frame.core';
 import {TemplateA} from '../Modules/TemplateA';
 import {WindowComponent} from '@verybigthings/g.frame.components.window';
 import {IconButtonComponent} from '@verybigthings/g.frame.components.buttons';
@@ -13,6 +7,8 @@ import {CircleSliderComponent, CircleSliderComponentSlidingMode} from '@verybigt
 import {DesktopModule, OrbitControls} from '@verybigthings/g.frame.desktop';
 import {InputModule, InputType} from '@verybigthings/g.frame.input';
 import {IInputComponentOptions, InputComponent} from '@verybigthings/g.frame.components.input';
+import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
+import {Loader} from '@verybigthings/g.frame.common.loaders';
 
 export default class ExampleApp extends Bootstrap {
     constructor() {
@@ -22,12 +18,12 @@ export default class ExampleApp extends Bootstrap {
     onInit(modulesProcessor: ModulesProcessor) {
         super.onInit(modulesProcessor);
         console.log(modulesProcessor);
-        const _window = modulesProcessor.agents.getAgent(Factory).getFactory(WindowComponent)({
+        const _window = modulesProcessor.agents.get(Factory).getFactory(WindowComponent)({
             size: new Vector2(1, 1),
             background: 0xffffff
         });
 
-        const w = modulesProcessor.agents.getAgent(Factory).getFactory(WindowComponent);
+        const w = modulesProcessor.agents.get(Factory).getFactory(WindowComponent);
 
         _window.uiObject.position.set(-1, 5, 0);
 
@@ -35,7 +31,7 @@ export default class ExampleApp extends Bootstrap {
 
         let i_window = 0;
 
-        modulesProcessor.agents.getAgent(ActionController).on(ActionControllerEventName.buttonDown, _window.uiObject, (event) => {
+        modulesProcessor.agents.get(ActionController).on(ActionControllerEventName.buttonDown, _window.uiObject, (event) => {
             console.log('Button down event', event);
             if (++i_window === 5) this.disposeObject(_window);
         });
@@ -49,13 +45,13 @@ export default class ExampleApp extends Bootstrap {
 
         let i_box = 0;
 
-        modulesProcessor.agents.getAgent(ActionController).on(ActionControllerEventName.buttonDown, box, (event) => {
+        modulesProcessor.agents.get(ActionController).on(ActionControllerEventName.buttonDown, box, (event) => {
             console.log('Button down event', event);
             if (++i_box === 5) this.disposeObject(box);
         });
 
 
-        const iconButton = modulesProcessor.agents.getAgent(Factory).getFactory(IconButtonComponent)({
+        const iconButton = modulesProcessor.agents.get(Factory).getFactory(IconButtonComponent)({
             text: '+',
             background: new Color(0xeeaa88).getStyle(),
             iconSize: 0.6,
@@ -73,12 +69,12 @@ export default class ExampleApp extends Bootstrap {
         });
 
 
-        const circleSlider = modulesProcessor.agents.getAgent(Factory).getFactory(CircleSliderComponent)({
+        const circleSlider = modulesProcessor.agents.get(Factory).getFactory(CircleSliderComponent)({
             mode: CircleSliderComponentSlidingMode.onlyClockwise,
             diameter: 2.5,
             magnetOnSides: 0.05,
             spaceBetweenObjects: 0.02,
-            picker: modulesProcessor.agents.getAgent(Factory).getFactory(IconButtonComponent)({
+            picker: modulesProcessor.agents.get(Factory).getFactory(IconButtonComponent)({
                 text: '+',
                 background: new Color(0xeeaa88).getStyle(),
                 iconSize: 0.6,
@@ -123,16 +119,16 @@ export default class ExampleApp extends Bootstrap {
             }
         };
 
-        const inputComponent = modulesProcessor.agents.getAgent(Factory).getFactory(InputComponent)(inputOptions);
-        this.addObject(inputComponent)
+        const inputComponent = modulesProcessor.agents.get(Factory).getFactory(InputComponent)(inputOptions);
+        this.addObject(inputComponent);
 
 
-        console.log(modulesProcessor.modules.getModule(InputModule).inputManager);
+        console.log(modulesProcessor.modules.get(InputModule).inputManager);
 
 
-        console.log('Universal agent for template class', modulesProcessor.agents.getAgent(TemplateA));
+        console.log('Universal agent for template class', modulesProcessor.agents.get(TemplateA));
 
 
-        modulesProcessor.resourcesManager.load();
+        modulesProcessor.agents.get(Loader).load();
     }
 }

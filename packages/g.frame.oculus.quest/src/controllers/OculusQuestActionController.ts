@@ -1,5 +1,5 @@
 import {Raycaster, Vector3} from 'three';
-import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.core';
+import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
 
 /**
  * A special config for OculusQuestActionController class to store the most important options

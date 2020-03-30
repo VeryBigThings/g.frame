@@ -1,4 +1,4 @@
-import {ActionController, Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
 import {ProgressbarComponent} from './ProgressbarComponent';
 import {IProgressbarComponentOptions} from './ProgressbarComponent_interfaces';
@@ -6,15 +6,10 @@ import {IProgressbarComponentOptions} from './ProgressbarComponent_interfaces';
 export class ProgressbarComponentFactory extends Factory<ProgressbarComponent> {
     __constructor: typeof ProgressbarComponent = ProgressbarComponent;
     private components: Array<ProgressbarComponent>;
-    private actionController: ActionController;
 
     constructor() {
         super();
         this.components = [];
-    }
-
-    setActionController(actionController: ActionController) {
-        this.actionController = actionController;
     }
 
     get(params: IProgressbarComponentOptions): ProgressbarComponent {

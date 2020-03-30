@@ -40,10 +40,9 @@ import {TextComponent} from '@verybigthings/g.frame.components.text';
 import {
     ActionController,
     ActionControllerEvent,
-    ActionControllerEventName,
-    GMesh,
-    ViewerModule
-} from '@verybigthings/g.frame.core';
+    ActionControllerEventName
+} from '@verybigthings/g.frame.common.action_controller';
+import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
 
 export interface IVBTubeVideoPlayerOptions {
     videoScale: number;
@@ -83,7 +82,7 @@ export class VBTubeVideoPlayer extends ViewerModule {
      * @param actionController ActionController
      * @param controls ActionController
      */
-    constructor(videoParameters:IVBTubeVideoPlayerOptions, private actionController: ActionController, private controls: { enableRotate: boolean }) {
+    constructor(videoParameters: IVBTubeVideoPlayerOptions, private actionController: ActionController, private controls: { enableRotate: boolean }) {
         super();
         this.videoScale = Math.abs(videoParameters.videoScale) || 1;
         this.videoParameters = {

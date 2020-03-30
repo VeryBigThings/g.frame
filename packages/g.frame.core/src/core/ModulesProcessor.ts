@@ -3,21 +3,18 @@ import {AbstractModule, AbstractModuleStatus} from './AbstractModule';
 import Viewer from '../rendering/Viewer';
 import {IViewerConfig} from '../rendering/IViewerConfig';
 import {AgentsFabric} from '../agents/AgentsFabric';
-import {addDefaultLoaders, Loader, ResourcesManager, ResourcesManagerEventNames} from '../loaders';
 import {Bootstrap} from './Bootstrap';
-import {AgentsStorage} from '../agents/AgentsStorage';
-import {ModulesStorage} from '../agents/ModulesStorage';
 import {Object3D} from 'three';
+import {ConstructorInstanceMap} from '../utils/ConstructorInstanceMap';
 import createUniversalAgent = AgentsFabric.createUniversalAgent;
 
 type Agent<T> = T;
 
 export class ModulesProcessor extends EventDispatcher<string> {
-    public readonly agents: AgentsStorage;
+    public readonly agents: ConstructorInstanceMap<any>;
     public readonly modulesInstances: Map<typeof AbstractModule, Array<any>> = new Map<typeof AbstractModule, Array<any>>();
-    public readonly modules: ModulesStorage;
+    public readonly modules: ConstructorInstanceMap<AbstractModule>;
     public readonly viewer: Viewer;
-    public readonly resourcesManager: ResourcesManager;
     private modulesStatus: Map<AbstractModule, AbstractModuleStatus> = new Map<AbstractModule, AbstractModuleStatus>();
 
     constructor(private configuration: {
@@ -27,14 +24,11 @@ export class ModulesProcessor extends EventDispatcher<string> {
     }) {
         super();
 
-        this.agents = new AgentsStorage();
-        this.modules = new ModulesStorage();
+        this.agents = new ConstructorInstanceMap<any>();
+        this.modules = new ConstructorInstanceMap<AbstractModule>();
 
         this.viewer = new Viewer(this.configuration.viewerConfig);
 
-        this.resourcesManager = new ResourcesManager();
-
-        this.prepareResourcesManager();
         this.modulesPreInitialization()
             .then(() => this.modulesInitialization())
             .then(() => this.placeModulesOnScene())
@@ -60,7 +54,7 @@ export class ModulesProcessor extends EventDispatcher<string> {
             }
             const status: AbstractModuleStatus = await module.preInit();
             this.modulesStatus.set(module, status);
-            this.modules.setModule(Object.getPrototypeOf(module).constructor, module);
+            this.modules.set(Object.getPrototypeOf(module).constructor, module);
         }
     }
 
@@ -69,8 +63,7 @@ export class ModulesProcessor extends EventDispatcher<string> {
         for (const module of this.configuration.modules) {
             if (!this.modulesStatus.get(module).enabled) continue;
             const instances: Array<any> = await module.onInit({
-                viewer: this.viewer,
-                resourcesManager: this.resourcesManager,
+                viewer: this.viewer
             });
             this.modulesInstances.set(Object.getPrototypeOf(module).constructor, instances);
             modulesInstances.splice(modulesInstances.length, 0, ...instances);
@@ -86,10 +79,8 @@ export class ModulesProcessor extends EventDispatcher<string> {
         }
         instancesParent.forEach((instances, instancesParentKey) => {
             if (instancesParentKey.hasOwnProperty('__agentConstructor') && instancesParentKey.__agentConstructor instanceof Function) {
-                this.agents.setAgent(instancesParentKey.constructor, new instancesParentKey.__agentConstructor(instances));
-            } else if (instancesParentKey === Loader.prototype) {
-                instances.forEach(instance => this.resourcesManager.addLoader(instance));
-            } else if (instances.length > 1) this.agents.setAgent(instancesParentKey.constructor, createUniversalAgent(instances));
+                this.agents.set(instancesParentKey.constructor, new instancesParentKey.__agentConstructor(instances));
+            } else if (instances.length > 1) this.agents.set(instancesParentKey.constructor, createUniversalAgent(instances));
         });
     }
 
@@ -98,16 +89,6 @@ export class ModulesProcessor extends EventDispatcher<string> {
             if (!this.modulesStatus.get(module).enabled) continue;
             module.afterInit(this.agents, this.modules);
         }
-    }
-
-    private prepareResourcesManager(): void {
-        addDefaultLoaders(this.resourcesManager);
-        this.resourcesManager.on(ResourcesManagerEventNames.loaded, () => {
-            for (const module of this.configuration.modules) {
-                if (!this.modulesStatus.get(module).enabled) continue;
-                module.onResourcesReady();
-            }
-        });
     }
 
     private update(frame: any) {

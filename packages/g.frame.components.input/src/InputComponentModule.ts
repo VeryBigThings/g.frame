@@ -1,13 +1,7 @@
-import {
-    AbstractModule,
-    AbstractModuleStatus,
-    ActionController,
-    AgentsStorage,
-    requires
-} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap, requires} from '@verybigthings/g.frame.core';
 import {InputComponentFactory} from './InputComponentFactory';
-import {ModulesStorage} from '@verybigthings/g.frame.core/build/main/agents/ModulesStorage';
 import {InputModule} from '@verybigthings/g.frame.input';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
 @requires({
     modules: [
@@ -35,10 +29,10 @@ export class InputComponentModule extends AbstractModule {
         ];
     }
 
-    afterInit(agents: AgentsStorage, modules: ModulesStorage): void {
-        const actionController = agents.getAgent(ActionController);
+    afterInit(agents: ConstructorInstanceMap<any>, modules: ConstructorInstanceMap<AbstractModule>): void {
+        const actionController = agents.get(ActionController);
         this.inputComponentFactory.setActionController(actionController);
-        const inputManager = modules.getModule(InputModule).inputManager;
+        const inputManager = modules.get(InputModule).inputManager;
         this.inputComponentFactory.setInputManager(inputManager);
     }
 

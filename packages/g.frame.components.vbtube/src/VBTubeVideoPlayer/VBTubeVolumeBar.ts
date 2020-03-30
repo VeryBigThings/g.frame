@@ -9,10 +9,9 @@ import {CircleBufferGeometry, MeshBasicMaterial, PlaneBufferGeometry} from 'thre
 import {
     ActionController,
     ActionControllerEvent,
-    ActionControllerEventName,
-    GMesh,
-    ViewerModule
-} from '@verybigthings/g.frame.core';
+    ActionControllerEventName
+} from '@verybigthings/g.frame.common.action_controller';
+import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
 
 /**
  * Class to manipulate volume bar

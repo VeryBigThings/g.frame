@@ -12,8 +12,9 @@ import {
     UI_BASIC_COLOR,
     VIDEO_CLICKABLE_PART
 } from './constants';
-import {ActionController, ActionControllerEventName, GMesh, ViewerModule} from '@verybigthings/g.frame.core';
+import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
 import {ITextComponentOptions, TextComponent} from '@verybigthings/g.frame.components.text';
+import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
 
 export interface IDisableButtons {
     subtitlesButton?: boolean;

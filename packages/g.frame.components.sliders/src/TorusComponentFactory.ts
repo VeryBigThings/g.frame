@@ -1,6 +1,7 @@
-import {ActionController, Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
 import {ITorusComponentOptions, TorusComponent} from './TorusComponent';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
 export class TorusComponentFactory extends Factory<TorusComponent> {
     __constructor: typeof TorusComponent = TorusComponent;
