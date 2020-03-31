@@ -1,5 +1,6 @@
-import { Group, ConeBufferGeometry, MeshBasicMaterial, Object3D, Mesh, Color } from 'three';
 import { ViewerModule } from '@verybigthings/g.frame.core';
+import { Loader, FBX_MODEL } from '@verybigthings/g.frame.common.loaders';
+import { Group, ConeBufferGeometry, MeshBasicMaterial, Object3D, Mesh, Color } from 'three';
 
 declare function require(s: string): string;
 
@@ -17,14 +18,15 @@ const highlightedEmissiveRed = new Color(0.6, 0, 0);
 const highlightedEmissiveBlue = new Color(0, 0, 0.6);
 
 export interface IOculusQuestView {
-    init(): void;
+    prepareResources(loader: Loader<any>): void;
     updateView(viewModel: any): void;
     hideView(hand: string): void;
 }
 
 export class OculusQuestView extends ViewerModule implements IOculusQuestView {
-    private _modelInited: boolean;
     private oculusQuestView: Group;
+    private _modelInited: boolean;
+    private loader: Loader<any>;
 
     private rayLeft: Mesh;
     private gamepadLeft: Object3D;
@@ -34,28 +36,33 @@ export class OculusQuestView extends ViewerModule implements IOculusQuestView {
     private gamepadRight: Object3D;
     private gamepadWrapperRight: Group;
 
-    constructor(private data: any) {
+    constructor() {
         super();
 
         this.oculusQuestView = new Group();
         this.oculusQuestView.name = 'OculusQuestViewContainer';
 
         this.uiObject.add(this.oculusQuestView);
-
-        this.data.resourcesManager.addLoadResources([
-            {
-                name: 'quest_controllers',
-                type: 'model',
-                url: require('../assets/models/oculus_quest_controllers.fbx'),
-            },
-        ]);
     }
 
     get modelInited(): boolean {
         return this._modelInited;
     }
 
-    init() {
+    prepareResources(loader: Loader<any>) {
+        this.loader = loader;
+        this.loader.addResources([
+            {
+                name: 'quest_controllers',
+                url: require('../assets/models/oculus_quest_controllers.fbx'),
+                type: FBX_MODEL,
+            },
+        ]);
+
+        this.loader.once('loaded', () => this.addResources());
+    }
+
+    private addResources() {
         if (this._modelInited) return;
         this._modelInited = true;
 
@@ -64,7 +71,7 @@ export class OculusQuestView extends ViewerModule implements IOculusQuestView {
         this.oculusQuestView.add(this.gamepadWrapperLeft, this.gamepadWrapperRight);
 
         // The **** CODE for getting the right models in gamepadLeft and gamepadRight inclusive
-        const controller = this.data.resourcesManager.getLoader('model').getResource('quest_controllers');
+        const controller = this.loader.getResource<Object3D>('quest_controllers');
         // @ts-ignore
         const material = controller.children[0].material;
         controller.children.forEach(el => {

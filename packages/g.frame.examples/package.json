@@ -20,7 +20,7 @@
     "@verybigthings/g.frame.desktop": "^0.0.7",
     "@verybigthings/g.frame.input": "^0.0.3",
     "@verybigthings/g.frame.mobile": "^0.0.7",
-    "@verybigthings/g.frame.oculus.quest": "^0.0.7",
+    "@verybigthings/g.frame.oculus.quest": "^0.0.8",
     "three": "^0.114.0"
   },
   "devDependencies": {

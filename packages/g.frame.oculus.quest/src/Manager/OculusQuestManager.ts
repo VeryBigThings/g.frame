@@ -1,7 +1,7 @@
 import {EventDispatcher} from '@verybigthings/g.frame.core';
-import {OculusQuestModel} from '../Model/OculusQuestModel';
 import {VRButton} from 'three/examples/jsm/webxr/VRButton';
 import {WebGLRenderer} from 'three';
+import {OculusQuestModel} from '../Model/OculusQuestModel';
 
 export enum XREvent {
     goToVR = 'goToVR',
@@ -37,7 +37,7 @@ export class XRManager extends EventDispatcher<XREvent> {
 }
 
 
-export class OculusQuestController extends XRManager {
+export class OculusQuestManager extends XRManager {
     private inputSourceLeft: any;
     private inputSourceRight: any;
 
@@ -47,10 +47,6 @@ export class OculusQuestController extends XRManager {
 
         this.createButton();
         this.initEvents();
-    }
-
-    initView() {
-        this.oculusQuestModel.initView();
     }
 
     update(params: { currentTime: number; frame: any }) {

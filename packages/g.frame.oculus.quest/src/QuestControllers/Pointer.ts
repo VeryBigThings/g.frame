@@ -1,3 +1,5 @@
+
+import { ViewerModule } from '@verybigthings/g.frame.core';
 import {
     DoubleSide,
     Mesh,
@@ -10,7 +12,6 @@ import {
     Vector3,
     Camera
 } from 'three';
-import { ViewerModule } from '@verybigthings/g.frame.core';
 
 const config = {
     radius: .01,

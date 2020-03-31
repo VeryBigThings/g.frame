@@ -1,5 +1,8 @@
-import {Matrix4, Mesh, Object3D, Quaternion, Vector3, Vector4} from 'three';
+
+
 import {ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {Loader} from '@verybigthings/g.frame.common.loaders';
+import {Matrix4, Mesh, Object3D, Quaternion, Vector3, Vector4} from 'three';
 import {IOculusQuestView, OculusQuestView} from '../View/OculusQuestView';
 import {VRControlsEvent} from '../QuestControllers/VRControlsEvent';
 import {Pointer} from '../QuestControllers/Pointer';
@@ -23,7 +26,6 @@ type Model = any;
 type XRFrame = any;
 
 export class OculusQuestModel extends ViewerModule {
-    private static instance: OculusQuestModel;
     private mainOculusQuestView: OculusQuestView;
     private currentOculusQuestView: IOculusQuestView;
 
@@ -34,10 +36,10 @@ export class OculusQuestModel extends ViewerModule {
 
     private model: Model;
 
-    private constructor(private data: any) {
+    constructor(private data: any) {
         super();
 
-        this.mainOculusQuestView = new OculusQuestView(this.data);
+        this.mainOculusQuestView = new OculusQuestView();
         this.currentOculusQuestView = this.mainOculusQuestView;
         this.addObject(this.currentOculusQuestView);
 
@@ -118,15 +120,8 @@ export class OculusQuestModel extends ViewerModule {
         this.setPointers();
     }
 
-    public static getInstance(data?: any): OculusQuestModel {
-        if (!OculusQuestModel.instance)
-            OculusQuestModel.instance = new OculusQuestModel(data);
-
-        return OculusQuestModel.instance;
-    }
-
-    initView() {
-        this.mainOculusQuestView.init();
+    prepareResources(loader: Loader<any>) {
+        this.mainOculusQuestView.prepareResources(loader);
     }
 
     /**
