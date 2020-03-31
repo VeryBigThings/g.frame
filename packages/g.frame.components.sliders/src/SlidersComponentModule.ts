@@ -1,7 +1,8 @@
-import {AbstractModule, AbstractModuleStatus, ActionController, AgentsStorage} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 import {SliderComponentFactory} from './SliderComponentFactory';
 import {CircleSliderComponentFactory} from './CircleSliderComponentFactory';
 import {TorusComponentFactory} from './TorusComponentFactory';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
 
 export class SlidersComponentModule extends AbstractModule {
@@ -29,8 +30,8 @@ export class SlidersComponentModule extends AbstractModule {
         ];
     }
 
-    afterInit(agents: AgentsStorage): void {
-        const actionController = agents.getAgent(ActionController);
+    afterInit(agents: ConstructorInstanceMap<any>): void {
+        const actionController = agents.get(ActionController);
         this.sliderComponentFactory.setActionController(actionController);
         this.circleSliderComponentFactory.setActionController(actionController);
         this.torusComponentFactory.setActionController(actionController);

@@ -1,4 +1,10 @@
+const base = require("../../jest.config.base.js");
+const pack = require("./package");
+
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
+    ...base,
+    displayName: pack.name,
+    name: pack.name,
+    rootDir: "../..",
+    testMatch: [`<rootDir>/packages/${pack.name}/tests/**/.*.(test|spec)).(js|ts)`],
 };

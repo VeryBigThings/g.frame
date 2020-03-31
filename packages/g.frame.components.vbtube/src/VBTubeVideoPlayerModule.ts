@@ -1,5 +1,6 @@
-import {AbstractModule, AbstractModuleStatus, ActionController, AgentsStorage} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 import {VBTubeVideoPlayerFactory} from './VBTubeVideoPlayerFactory';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
 
 
@@ -24,8 +25,8 @@ export class VBTubeVideoPlayerModule extends AbstractModule {
         ];
     }
 
-    afterInit(agents: AgentsStorage): void {
-        const actionController = agents.getAgent(ActionController);
+    afterInit(agents: ConstructorInstanceMap<any>): void {
+        const actionController = agents.get(ActionController);
         this.vbtubeVideoPlayerFactory.setActionController(actionController);
     }
 

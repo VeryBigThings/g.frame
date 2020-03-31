@@ -1,6 +1,6 @@
 {
   "name": "@verybigthings/g.frame.effects.spe",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Template module from g.frame",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -12,7 +12,7 @@
     "build:main": "tsc -p tsconfig.json",
     "build:assets": "copyfiles -f -s ./src/assets/textures/* ./build/main/assets/textures/",
     "clean": "trash build test",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "lint": "tslint 'src/**/*.ts?(x)'",
     "docs": "trash docs && typedoc && touch docs/.nojekyll"
   },
@@ -35,7 +35,8 @@
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
-    "@verybigthings/g.frame.core": "^0.0.9",
+    "@verybigthings/g.frame.common.loaders": "^0.0.2",
+    "@verybigthings/g.frame.core": "^0.0.10",
     "@verybigthings/shader-particle-engine": "1.0.11",
     "three": "^0.114.0"
   },

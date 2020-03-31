@@ -1,6 +1,7 @@
-import {ActionController, Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
 import {CheckRadioComponent, ICheckRadioComponentOptions} from './CheckRadioComponent';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
 export class CheckRadioComponentFactory extends Factory<CheckRadioComponent> {
     __constructor: typeof CheckRadioComponent = CheckRadioComponent;

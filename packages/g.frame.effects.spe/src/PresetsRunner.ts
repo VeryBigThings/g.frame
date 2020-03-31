@@ -1,7 +1,7 @@
 import * as SPE from '@verybigthings/shader-particle-engine';
 import {FallPreset, Preset, SpringPreset, WinterPreset} from './presets';
 import {Object3D} from 'three';
-import {ResourcesManager} from '@verybigthings/g.frame.core';
+import {Loader} from '@verybigthings/g.frame.common.loaders';
 
 export enum PresetType {
     winter = 'winter',
@@ -13,23 +13,27 @@ export class PresetsRunner {
 
     private particleGroups: Array<SPE.Group> = [];
     private particleEmitters: Array<SPE.Emitter> = [];
-    private readonly resourcesManager: ResourcesManager;
+    private resourcesManager: Loader<any>;
     private presetMap: Map<string, Preset> =
         new Map<PresetType, Preset>([
             [PresetType.winter, new WinterPreset],
             [PresetType.spring, new SpringPreset],
             [PresetType.fall, new FallPreset]]);
 
-    constructor(options: {
-        resourcesManager: ResourcesManager,
-        presetsToLoad?: Array<PresetType>
+    constructor() {
+
+    }
+
+    prepareLoader(options: {
+        presetsToLoad?: Array<PresetType>,
+        resourcesManager: Loader<any>
     }) {
         this.resourcesManager = options.resourcesManager;
         options?.presetsToLoad?.forEach(presetName => {
             const preset = this.presetMap.get(presetName);
 
             preset.getTexturesLinks().map((link, i) => {
-                options?.resourcesManager?.addLoadResources([{
+                options?.resourcesManager?.addResources([{
                     name: `EffectsSPE_texture_${presetName}_${i}`,
                     type: 'texture',
                     url: link
@@ -44,7 +48,7 @@ export class PresetsRunner {
         return preset.getTexturesLinks().map((link, i) => {
             const particleEmitter = preset.getEmitter();
             const particleGroup = preset.getGroup(this.resourcesManager
-                .getLoader('texture')
+                .getResource('texture')
                 .getResource(`EffectsSPE_texture_${presetName}_${i}`));
             particleGroup.addEmitter(particleEmitter);
 

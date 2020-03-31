@@ -1,6 +1,7 @@
-import {AbstractModule, AbstractModuleStatus, ActionController, AgentsStorage} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 import {RadioGroupComponentFactory} from './RadioGroupComponentFactory';
 import {CheckRadioComponentFactory} from './CheckRadioComponentFactory';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
 export class RadiosComponentsModule extends AbstractModule {
     private radioGroupComponentFactory: RadioGroupComponentFactory;
@@ -25,8 +26,8 @@ export class RadiosComponentsModule extends AbstractModule {
         ];
     }
 
-    afterInit(agents: AgentsStorage): void {
-        const actionController = agents.getAgent(ActionController);
+    afterInit(agents: ConstructorInstanceMap<any>): void {
+        const actionController = agents.get(ActionController);
         this.radioGroupComponentFactory.setActionController(actionController);
         this.checkRadioComponentFactory.setActionController(actionController);
     }

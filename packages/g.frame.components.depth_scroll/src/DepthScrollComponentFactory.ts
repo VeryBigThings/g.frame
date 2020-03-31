@@ -1,4 +1,4 @@
-import {ActionController, Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
 import {DepthScrollComponent} from './DepthScrollComponent';
 import {IDepthScrollComponentOptions} from './DepthScrollComponent_interfaces';
@@ -6,15 +6,10 @@ import {IDepthScrollComponentOptions} from './DepthScrollComponent_interfaces';
 export class DepthScrollComponentFactory extends Factory<DepthScrollComponent> {
     __constructor: typeof DepthScrollComponent = DepthScrollComponent;
     private components: Array<DepthScrollComponent>;
-    private actionController: ActionController;
 
     constructor() {
         super();
         this.components = [];
-    }
-
-    setActionController(actionController: ActionController) {
-        this.actionController = actionController;
     }
 
     get(params: IDepthScrollComponentOptions): DepthScrollComponent {

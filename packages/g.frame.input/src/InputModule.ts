@@ -1,4 +1,4 @@
-import {AbstractModule, AbstractModuleStatus, AgentsStorage} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 import {InputManager, Keyboard} from './common';
 
 export class InputModule extends AbstractModule {
@@ -22,8 +22,8 @@ export class InputModule extends AbstractModule {
         ];
     }
 
-    afterInit(agents: AgentsStorage): void {
-        this.inputManager.keyboard = agents.getAgent(Keyboard);
+    afterInit(agents: ConstructorInstanceMap<any>): void {
+        this.inputManager.keyboard = agents.get(Keyboard);
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {

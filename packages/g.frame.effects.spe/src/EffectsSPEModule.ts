@@ -1,5 +1,6 @@
-import {AbstractModule, AbstractModuleStatus} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 import {PresetsRunner, PresetType} from './PresetsRunner';
+import {Loader} from '@verybigthings/g.frame.common.loaders';
 
 export class EffectsSPEModule extends AbstractModule {
     public presetsRunner: PresetsRunner;
@@ -18,17 +19,18 @@ export class EffectsSPEModule extends AbstractModule {
 
     async onInit(data: any): Promise<Array<any>> {
         return [
-            this.presetsRunner = new PresetsRunner({
-                resourcesManager: data.resourcesManager,
-                presetsToLoad: this.options?.presetsToLoad
-            }),
+            this.presetsRunner = new PresetsRunner(),
         ];
     }
 
     onResourcesReady(): void {
     }
 
-    afterInit(): void {
+    afterInit(agents: ConstructorInstanceMap<any>): void {
+        this.presetsRunner.prepareLoader({
+            presetsToLoad: this.options?.presetsToLoad,
+            resourcesManager: agents.get(Loader)
+        });
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {

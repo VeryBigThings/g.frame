@@ -1,15 +1,9 @@
-import {
-    AbstractModule,
-    AbstractModuleStatus,
-    ActionController,
-    AgentsStorage,
-    requires
-} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap, requires} from '@verybigthings/g.frame.core';
 import {VirtualKeyboardComponentFactory} from './VirtualKeyboardComponentFactory';
-import {ModulesStorage} from '@verybigthings/g.frame.core/build/main/agents/ModulesStorage';
 import {InputModule} from '@verybigthings/g.frame.input';
 import {VirtualKeyboard} from './VirtualKeyboard';
 import {Object3D} from 'three';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
 @requires({
     modules: [
@@ -41,10 +35,10 @@ export class VirtualKeyboardModule extends AbstractModule {
         ];
     }
 
-    afterInit(agents: AgentsStorage, modules: ModulesStorage): void {
-        const actionController = agents.getAgent(ActionController);
+    afterInit(agents: ConstructorInstanceMap<any>, modules: ConstructorInstanceMap<AbstractModule>): void {
+        const actionController = agents.get(ActionController);
         this.virtualKeyboardComponentFactory.setActionController(actionController);
-        const inputManager = modules.getModule(InputModule).inputManager;
+        const inputManager = modules.get(InputModule).inputManager;
         this.virtualKeyboard.setInputManager(inputManager);
         this.virtualKeyboard.setKeyboardFactory(this.virtualKeyboardComponentFactory);
     }

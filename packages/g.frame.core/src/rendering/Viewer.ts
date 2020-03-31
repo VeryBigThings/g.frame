@@ -97,7 +97,7 @@ export default class FrameworkViewer extends EventDispatcher<string> {
         this.fire('update', new ParentEvent<string>('update', {time: time, frame: frame}));
 
         this.render();
-    };
+    }
 
     render() {
         this.renderer.render(this.scene, this.camera);
