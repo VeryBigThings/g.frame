@@ -9,6 +9,8 @@ import {InputModule, InputType} from '@verybigthings/g.frame.input';
 import {IInputComponentOptions, InputComponent} from '@verybigthings/g.frame.components.input';
 import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
 import {Loader} from '@verybigthings/g.frame.common.loaders';
+import {TemplateModule} from '../Modules/TemplateModule';
+import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
 
 export default class ExampleApp extends Bootstrap {
     constructor() {
@@ -19,27 +21,22 @@ export default class ExampleApp extends Bootstrap {
         super.onInit(modulesProcessor);
         console.log(modulesProcessor);
         const _window = modulesProcessor.agents.get(Factory).getFactory(WindowComponent)({
-            size: new Vector2(1, 1),
+            size: new Vector2(0.3, 0.3),
             background: 0xffffff
         });
 
         const w = modulesProcessor.agents.get(Factory).getFactory(WindowComponent);
 
-        _window.uiObject.position.set(-1, 5, 0);
+        _window.uiObject.position.set(-1, 1.5, -1.5);
 
         this.addObject(_window);
 
         let i_window = 0;
 
-        modulesProcessor.agents.get(ActionController).on(ActionControllerEventName.buttonDown, _window.uiObject, (event) => {
-            console.log('Button down event', event);
-            if (++i_window === 5) this.disposeObject(_window);
-        });
 
+        const box = new Mesh(new BoxGeometry(0.01, 0.1, 0.1), new MeshBasicMaterial({color: '#ff3333'}));
 
-        const box = new Mesh(new BoxGeometry(0.5, 0.5, 0.5), new MeshBasicMaterial({color: '#ff3333'}));
-
-        box.position.set(-5, 5, 0);
+        box.position.set(-1.5, 1.5, -1.5);
 
         this.addObject(box);
 
@@ -50,15 +47,14 @@ export default class ExampleApp extends Bootstrap {
             if (++i_box === 5) this.disposeObject(box);
         });
 
-
         const iconButton = modulesProcessor.agents.get(Factory).getFactory(IconButtonComponent)({
             text: '+',
             background: new Color(0xeeaa88).getStyle(),
             iconSize: 0.6,
-            diameter: 0.7
+            diameter: 0.1
         });
 
-        iconButton.uiObject.position.set(-3, 5, 0);
+        iconButton.uiObject.position.set(-0.7, 1.5, -1.5);
 
         this.addObject(iconButton);
         let i_icon = 0;
@@ -71,22 +67,22 @@ export default class ExampleApp extends Bootstrap {
 
         const circleSlider = modulesProcessor.agents.get(Factory).getFactory(CircleSliderComponent)({
             mode: CircleSliderComponentSlidingMode.onlyClockwise,
-            diameter: 2.5,
+            diameter: 1,
             magnetOnSides: 0.05,
             spaceBetweenObjects: 0.02,
             picker: modulesProcessor.agents.get(Factory).getFactory(IconButtonComponent)({
                 text: '+',
                 background: new Color(0xeeaa88).getStyle(),
                 iconSize: 0.6,
-                diameter: 0.6
+                diameter: 0.2
             }),
             filledPart: {
-                width: 0.35,
+                width: 0.1,
                 mainColor: new Color(0x333333)
             },
             unfilledPart: {
-                width: 0.35,
-                border: 0.1,
+                width: 0.1,
+                border: 0.02,
                 mainColor: new Color(0x666666),
                 borderColor: new Color(0x999999)
             }
@@ -99,12 +95,12 @@ export default class ExampleApp extends Bootstrap {
             orbitControls.enabled = true;
         });
 
-        circleSlider.uiObject.position.set(3, 5, 0);
+        circleSlider.uiObject.position.set(0.7, 1.5, -1.5);
 
         this.addObject(circleSlider);
 
         const inputOptions: IInputComponentOptions = {
-            size: new Vector2(0.8 * 2, 0.8),
+            size: new Vector2(0.8 * 2 * 0.3, 0.8 * 0.3),
             pxSize: new Vector2(64 * 2, 64),
             background: 0xffffff,
             bordRadius: 0.01,
@@ -121,6 +117,7 @@ export default class ExampleApp extends Bootstrap {
 
         const inputComponent = modulesProcessor.agents.get(Factory).getFactory(InputComponent)(inputOptions);
         this.addObject(inputComponent);
+        inputComponent.uiObject.position.set(0, 1, -1.5);
 
 
         console.log(modulesProcessor.modules.get(InputModule).inputManager);
@@ -129,6 +126,20 @@ export default class ExampleApp extends Bootstrap {
         console.log('Universal agent for template class', modulesProcessor.agents.get(TemplateA));
 
 
-        modulesProcessor.agents.get(Loader).load();
+        modulesProcessor.agents.get(Loader).load().then(() => {
+            const hands = modulesProcessor.modules.get(TemplateModule).questHandView;
+            // this.addObject(hands);
+            const questModel = modulesProcessor.modules.get(OculusQuestModule).oculusQuestModel;
+
+            modulesProcessor.agents.get(ActionController).on(ActionControllerEventName.buttonDown, _window.uiObject, (event) => {
+                console.log('Button down event', event);
+                if (++i_window === 5) {
+                    this.disposeObject(_window);
+                    questModel.setView(hands);
+
+                    
+                }
+            });
+        });
     }
 }

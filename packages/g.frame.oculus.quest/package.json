@@ -1,6 +1,6 @@
 {
   "name": "@verybigthings/g.frame.oculus.quest",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Template module from g.frame",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -10,6 +10,7 @@
   "scripts": {
     "build": "run-s clean && run-p build:*",
     "build:main": "tsc -p tsconfig.json",
+    "build:assets": "copyfiles -f -s ./src/assets/models/* ./build/main/assets/models/",
     "clean": "trash build test",
     "test": "jest --passWithNoTests",
     "lint": "tslint 'src/**/*.ts?(x)'",
@@ -37,6 +38,7 @@
     "@verybigthings/g.frame.common.action_controller": "^0.0.2",
     "@verybigthings/g.frame.common.picking_controller": "^0.0.2",
     "@verybigthings/g.frame.core": "^0.0.10",
+    "@verybigthings/g.frame.common.loaders": "^0.0.2",
     "three": "^0.114.0"
   },
   "devDependencies": {
