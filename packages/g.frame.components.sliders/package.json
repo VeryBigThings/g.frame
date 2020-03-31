@@ -11,7 +11,7 @@
     "build": "run-s clean && run-p build:*",
     "build:main": "tsc -p tsconfig.json",
     "clean": "trash build test",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "lint": "tslint 'src/**/*.ts?(x)'",
     "docs": "trash docs && typedoc && touch docs/.nojekyll"
   },
