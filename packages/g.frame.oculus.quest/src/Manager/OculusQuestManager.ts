@@ -1,7 +1,12 @@
 import {EventDispatcher} from '@verybigthings/g.frame.core';
 import {VRButton} from 'three/examples/jsm/webxr/VRButton';
-import {WebGLRenderer} from 'three';
+import {WebGLRenderer, Object3D} from 'three';
 import {OculusQuestModel} from '../Model/OculusQuestModel';
+
+export const CONTROLLER_HANDEDNESS_CODE = {
+    LEFT: 0,
+    RIGHT: 1,
+};
 
 export enum XREvent {
     goToVR = 'goToVR',
@@ -49,6 +54,10 @@ export class OculusQuestManager extends XRManager {
         this.initEvents();
     }
 
+    get mainOculusQuestContainer(): Object3D {
+        return this.oculusQuestModel.mainContainer;
+    }
+
     update(params: { currentTime: number; frame: any }) {
         this.oculusQuestModel.updateInstance(this.inputSourceLeft, this.inputSourceRight, params.frame);
     }
@@ -70,7 +79,7 @@ export class OculusQuestManager extends XRManager {
     }
 
     private setInputSources(inputSources) {
-        this.oculusQuestModel.uiObject.visible = true;
+        this.oculusQuestModel.mainContainer.visible = true;
         inputSources.forEach((el) => {
             if (el.handedness === 'left') this.inputSourceLeft = el;
             if (el.handedness === 'right') this.inputSourceRight = el;
@@ -78,7 +87,7 @@ export class OculusQuestManager extends XRManager {
     }
 
     private resetInputSources() {
-        this.oculusQuestModel.uiObject.visible = false;
+        this.oculusQuestModel.mainContainer.visible = false;
         this.inputSourceLeft = null;
         this.inputSourceRight = null;
     }

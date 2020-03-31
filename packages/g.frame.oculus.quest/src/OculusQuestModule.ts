@@ -9,6 +9,7 @@ import {OculusQuestModel} from './Model/OculusQuestModel';
 export class OculusQuestModule extends AbstractModule {
     private oculusQuestManager: OculusQuestManager;
     private oculusQuestModel: OculusQuestModel;
+
     private readonly container: Object3D;
 
     constructor() {
@@ -26,7 +27,6 @@ export class OculusQuestModule extends AbstractModule {
     async onInit(data: any): Promise<Array<any>> {
         // Init Model
         this.oculusQuestModel = new OculusQuestModel(data);
-        this.container.add(this.oculusQuestModel.uiObject);
 
         // Init ActionController
         const actionController = new OculusQuestActionController(data, {
@@ -41,8 +41,9 @@ export class OculusQuestModule extends AbstractModule {
             controllersQuantity: 2,
         }, this.oculusQuestModel);
 
-        // Init MainController
+        // Init Manager
         this.oculusQuestManager = new OculusQuestManager(data.viewer.renderer, this.oculusQuestModel);
+        this.container.add(this.oculusQuestManager.mainOculusQuestContainer);
 
         return [
             this.oculusQuestManager,
@@ -60,7 +61,7 @@ export class OculusQuestModule extends AbstractModule {
     }
 
     /**
-     * Function to update controllers on each frame
+     * Function to update gamepads on each frame
      * @param params currentTime and frame
      */
     onUpdate(params: { currentTime: number; frame: any }): void {
@@ -77,14 +78,10 @@ export class OculusQuestModule extends AbstractModule {
     onPause(): void {
     }
 
-    /**
-     * Function to check is Oculus Quest browser opened
-     */
     checkQuestBrowser() {
         const uaToken = 'Quest';
         return !!navigator.userAgent.match(uaToken);
     }
-
 
     checkXRSupport() {
         // @ts-ignore
