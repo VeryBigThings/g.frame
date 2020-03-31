@@ -63,13 +63,13 @@ export class Loader<T> extends EventDispatcher<string> {
      * @returns resource with the provided name, or undefined if none was found
      */
 
-    getResource(name: string, _throwWarning: boolean = true): T {
+    getResource<C extends T>(name: string, _throwWarning: boolean = true): C {
         const res = this.library.get(name);
         if (!res && _throwWarning) {
             console.warn('no Resource found with this name');
         }
 
-        return res;
+        return <C>res;
     }
 
     /**

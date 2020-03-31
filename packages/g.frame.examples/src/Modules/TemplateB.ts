@@ -1,6 +1,6 @@
 import {TemplateA} from './TemplateA';
-import {Mesh, MeshBasicMaterial, Object3D, PlaneGeometry} from 'three';
-import {Loader} from '@verybigthings/g.frame.common.loaders';
+import {Mesh, MeshBasicMaterial, Object3D, PlaneGeometry, PositionalAudio} from 'three';
+import {FBX_MODEL, Loader, POSITIONAL_AUDIO, TEXTURE, VIDEO} from '@verybigthings/g.frame.common.loaders';
 
 declare function require(s: string): string;
 
@@ -19,30 +19,30 @@ export class TemplateB extends TemplateA {
             {
                 name: 'sample_model',
                 url: require('./assets/models/arrow.fbx'),
-                type: 'fbxModel'
+                type: FBX_MODEL
             }, {
                 name: 'sample_positional_audio',
                 url: require('./assets/sounds/failFx.mp3'),
-                type: 'positional_audio'
+                type: POSITIONAL_AUDIO
             }, {
                 name: 'sample_texture',
                 url: require('./assets/images/logo.png'),
-                type: 'texture'
+                type: TEXTURE
             }, {
                 name: 'sample_video',
                 url: require('./assets/videos/placeholder.mp4'),
-                type: 'video'
+                type: VIDEO
             },
         ]);
 
 
-        this.loader.on('loaded', () => this.addResources());
+        this.loader.once('loaded', () => this.addResources());
     }
 
     addResources() {
         let model, audio, plane;
-        this.scene.add(model = this.loader.getResource('sample_model'));
-        this.scene.add(audio = this.loader.getResource('sample_positional_audio'));
+        this.scene.add(model = this.loader.getResource<Object3D>('sample_model'));
+        this.scene.add(audio = this.loader.getResource<PositionalAudio>('sample_positional_audio'));
         this.scene.add(
             plane = new Mesh(
                 new PlaneGeometry(1, 1),

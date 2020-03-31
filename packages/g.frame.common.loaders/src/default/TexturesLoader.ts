@@ -1,8 +1,11 @@
 import {Texture, TextureLoader} from 'three';
 import {Loader} from '../Loader';
 
+export const TEXTURE = 'texture';
+
+
 export default class TexturesLoader extends Loader<Texture> {
-    public readonly loaderType: string = 'texture';
+    public readonly loaderType: string = TEXTURE;
 
     constructor() {
         super();

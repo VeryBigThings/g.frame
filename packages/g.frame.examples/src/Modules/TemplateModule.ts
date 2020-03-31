@@ -36,8 +36,9 @@ export class TemplateModule extends AbstractModule {
         return this.container;
     }
 
-    afterInit(agents: ConstructorInstanceMap<any>): void {
+    afterInit(agents: ConstructorInstanceMap<any>, modules: ConstructorInstanceMap<AbstractModule>): void {
         this.templateB.prepareResources(agents.get(Loader));
+
         console.info('Module after initialization. Here you can start save the World.');
     }
 

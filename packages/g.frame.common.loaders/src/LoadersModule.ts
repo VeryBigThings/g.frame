@@ -2,7 +2,7 @@ import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@ver
 import AudiosLoader from './default/AudiosLoader';
 import PositionalAudiosLoader from './default/PositionalAudiosLoader';
 import FontsLoader from './default/FontsLoader';
-import ModelsLoader from './default/ModelsLoader';
+import FBXModelsLoader from './default/FBXModelsLoader';
 import TexturesLoader from './default/TexturesLoader';
 import VideosLoader from './default/VideosLoader';
 
@@ -24,7 +24,7 @@ export class LoadersModule extends AbstractModule {
             new AudiosLoader(),
             new PositionalAudiosLoader(),
             new FontsLoader(),
-            new ModelsLoader(),
+            new FBXModelsLoader(),
             new TexturesLoader(),
             new VideosLoader()
         ];

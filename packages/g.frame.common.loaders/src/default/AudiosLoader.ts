@@ -1,7 +1,10 @@
 import {Loader} from '../Loader';
 
+export const AUDIO = 'audio';
+
+
 export default class AudiosLoader extends Loader<HTMLAudioElement> {
-    public readonly loaderType: string = 'audio';
+    public readonly loaderType: string = AUDIO;
 
     constructor() {
         super();

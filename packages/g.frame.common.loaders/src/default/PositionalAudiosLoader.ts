@@ -1,6 +1,8 @@
 import {Loader} from '../Loader';
 import {AudioListener, AudioLoader, PositionalAudio} from 'three';
 
+export const POSITIONAL_AUDIO = 'positional_audio';
+
 export default class PositionalAudiosLoader extends Loader<PositionalAudio> {
 
     public readonly loaderType: string = 'positional_audio';

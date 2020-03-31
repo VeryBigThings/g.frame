@@ -1,5 +1,7 @@
 import {Loader} from '../Loader';
 
+export const VIDEO = 'video';
+
 export default class VideosLoader extends Loader<HTMLVideoElement> {
 
     public readonly loaderType: string = 'video';

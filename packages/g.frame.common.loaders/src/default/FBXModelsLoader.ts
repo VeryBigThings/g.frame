@@ -1,9 +1,10 @@
 import {Loader} from '../Loader';
 import {Object3D} from 'three';
 import {FBXLoader} from 'three/examples/jsm/loaders/FBXLoader';
+export const FBX_MODEL = 'fbxModel';
 
 export default class FBXModelsLoader extends Loader<Object3D> {
-    public readonly loaderType: string = 'fbxModel';
+    public readonly loaderType: string = FBX_MODEL;
 
     constructor() {
         super();
