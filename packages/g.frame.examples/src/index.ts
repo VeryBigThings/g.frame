@@ -11,6 +11,7 @@ import {SlidersComponentModule} from '@verybigthings/g.frame.components.sliders'
 import {InputModule} from '@verybigthings/g.frame.input';
 import {InputComponentModule} from '@verybigthings/g.frame.components.input';
 import {VirtualKeyboardModule} from '@verybigthings/g.frame.components.keyboard';
+import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
 import {LoadersModule} from '@verybigthings/g.frame.common.loaders';
 import {OimoPhysicsModule} from '@verybigthings/g.frame.physics.oimo';
 
@@ -34,7 +35,8 @@ class App {
                 new SlidersComponentModule(),
                 new InputModule(),
                 new VirtualKeyboardModule(),
-                new LoadersModule()
+                new LoadersModule(),
+                new OculusQuestModule(),
                 new OimoPhysicsModule()
             ],
             viewerConfig: {

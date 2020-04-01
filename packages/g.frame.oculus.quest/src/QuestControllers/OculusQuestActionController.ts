@@ -1,5 +1,5 @@
-import {Raycaster, Vector3} from 'three';
 import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
+import {Raycaster, Vector3} from 'three';
 
 /**
  * A special config for OculusQuestActionController class to store the most important options
@@ -13,6 +13,7 @@ export interface IOculusQuestActionControllerConfig {
 export class OculusQuestActionController extends ActionController {
     protected onButtonDown: (event: any) => void;
     protected onButtonUp: (event: any) => void;
+    protected onClick: (event: any) => void;
     protected onMove: (event: any) => void;
 
     /**
@@ -20,7 +21,7 @@ export class OculusQuestActionController extends ActionController {
      * @param config Config for the class
      * @param oculusQuestController Oculus Quest controller which fires the events
      */
-    constructor(protected config: IOculusQuestActionControllerConfig, protected oculusQuestController: any) {
+    constructor(protected data: any, protected config: IOculusQuestActionControllerConfig, protected oculusQuestModel: any) {
         super();
 
         // Check if they were undefined
@@ -29,19 +30,23 @@ export class OculusQuestActionController extends ActionController {
 
         // Define the callbacks
         this.onButtonDown = (event: any) => {
-            this.update(ActionControllerEventName.buttonDown, this.getRaycaster(event.position, event.direction), event.controllerNumber);
+            this.update(ActionControllerEventName.buttonDown, this.getRaycaster(event.data.position, event.data.direction), event.controllerNumber);
         };
         this.onButtonUp = (event: any) => {
-            this.update(ActionControllerEventName.buttonUp, this.getRaycaster(event.position, event.direction), event.controllerNumber);
+            this.update(ActionControllerEventName.buttonUp, this.getRaycaster(event.data.position, event.data.direction), event.controllerNumber);
+        };
+        this.onClick = (event: any) => {
+            this.update(ActionControllerEventName.click, this.getRaycaster(event.data.position, event.data.direction), event.controllerNumber);
         };
         this.onMove = (event: any) => {
-            this.update(ActionControllerEventName.move, this.getRaycaster(event.position, event.direction), event.controllerNumber);
+            this.update(ActionControllerEventName.move, this.getRaycaster(event.data.position, event.data.direction), event.controllerNumber);
         };
 
         // Subscribe on events
-        this.oculusQuestController.on('buttonDown', this.onButtonDown);
-        this.oculusQuestController.on('buttonUp', this.onButtonUp);
-        this.oculusQuestController.on('move', this.onMove);
+        this.oculusQuestModel.on('buttonDown', this.onButtonDown);
+        this.oculusQuestModel.on('buttonUp', this.onButtonUp);
+        this.oculusQuestModel.on('click', this.onClick);
+        this.oculusQuestModel.on('move', this.onMove);
     }
 
     /**
@@ -56,8 +61,9 @@ export class OculusQuestActionController extends ActionController {
      * Function to unsubscribe OculusQuestActionController from all of the listened events
      */
     dispose() {
-        this.oculusQuestController.off('buttonDown', this.onButtonDown);
-        this.oculusQuestController.off('buttonUp', this.onButtonUp);
-        this.oculusQuestController.off('move', this.onMove);
+        this.oculusQuestModel.off('buttonDown', this.onButtonDown);
+        this.oculusQuestModel.off('buttonUp', this.onButtonUp);
+        this.oculusQuestModel.off('click', this.onClick);
+        this.oculusQuestModel.off('move', this.onMove);
     }
 }

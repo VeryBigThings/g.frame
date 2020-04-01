@@ -28,7 +28,7 @@ export class PickingController extends MeshEventDispatcher {
     }> = [];
 
 
-    protected constructor(protected config: IPickingControllerConfig) {
+    constructor(protected config: IPickingControllerConfig) {
         super();
         for (let i = 0; i < this.config.controllersQuantity; i++) {
             this.currentValues.push({

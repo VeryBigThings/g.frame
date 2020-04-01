@@ -20,7 +20,7 @@ export interface IFontFace {
 
 declare function FontFace(name: string, url: string, config: { style: string; weight: number }): void;
 
-export const FONT = 'fbxModel';
+export const FONT = 'font';
 
 
 export default class FontsLoader extends Loader<IFontFace> {

@@ -1,4 +1,4 @@
-import {ActionController, Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
 import {oimo} from 'oimophysics';
 import World = oimo.dynamics.World;
@@ -7,15 +7,10 @@ import DebugDraw = oimo.dynamics.common.DebugDraw;
 export class WorldFactory extends Factory<World> {
     __constructor: typeof World = World;
     private worldList: Array<World>;
-    private actionController: ActionController;
 
     constructor() {
         super();
         this.worldList = [];
-    }
-
-    setActionController(actionController: ActionController) {
-        this.actionController = actionController;
     }
 
     get(params: {broadPhaseType?: number, gravity?: oimo.common.Vec3}): World {
