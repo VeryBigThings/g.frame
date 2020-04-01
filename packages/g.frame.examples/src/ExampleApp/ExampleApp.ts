@@ -9,6 +9,8 @@ import {InputModule, InputType} from '@verybigthings/g.frame.input';
 import {IInputComponentOptions, InputComponent} from '@verybigthings/g.frame.components.input';
 import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
 import {Loader} from '@verybigthings/g.frame.common.loaders';
+import {oimo} from 'oimophysics';
+import World = oimo.dynamics.World;
 
 export default class ExampleApp extends Bootstrap {
     constructor() {
@@ -18,6 +20,10 @@ export default class ExampleApp extends Bootstrap {
     onInit(modulesProcessor: ModulesProcessor) {
         super.onInit(modulesProcessor);
         console.log(modulesProcessor);
+
+        const _world = modulesProcessor.agents.get(Factory).getFactory(World)(null);
+        console.log('_world', _world);
+
         const _window = modulesProcessor.agents.get(Factory).getFactory(WindowComponent)({
             size: new Vector2(1, 1),
             background: 0xffffff

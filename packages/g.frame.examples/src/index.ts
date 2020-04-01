@@ -12,6 +12,7 @@ import {InputModule} from '@verybigthings/g.frame.input';
 import {InputComponentModule} from '@verybigthings/g.frame.components.input';
 import {VirtualKeyboardModule} from '@verybigthings/g.frame.components.keyboard';
 import {LoadersModule} from '@verybigthings/g.frame.common.loaders';
+import {OimoPhysicsModule} from '@verybigthings/g.frame.physics.oimo';
 
 class App {
     private framework: ModulesProcessor;
@@ -34,6 +35,7 @@ class App {
                 new InputModule(),
                 new VirtualKeyboardModule(),
                 new LoadersModule()
+                new OimoPhysicsModule()
             ],
             viewerConfig: {
                 renderer: {

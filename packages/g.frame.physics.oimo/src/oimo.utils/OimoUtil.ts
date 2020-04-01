@@ -9,6 +9,7 @@ import RevoluteJointConfig = oimo.dynamics.constraint.joint.RevoluteJointConfig;
 import World = oimo.dynamics.World;
 import UniversalJointConfig = oimo.dynamics.constraint.joint.UniversalJointConfig;
 import Vec3 = oimo.common.Vec3;
+import Quat = oimo.common.Quat;
 import Mat3 = oimo.common.Mat3;
 import CylindricalJoint = oimo.dynamics.constraint.joint.CylindricalJoint;
 import PrismaticJoint = oimo.dynamics.constraint.joint.PrismaticJoint;
@@ -32,6 +33,7 @@ import CylinderGeometry = oimo.collision.geometry.CylinderGeometry;
 import ConeGeometry = oimo.collision.geometry.ConeGeometry;
 import Geometry = oimo.collision.geometry.Geometry;
 import Shape = oimo.dynamics.rigidbody.Shape;
+import { Quaternion, Vector3, Euler } from 'three';
 
 
 class OimoUtil {
@@ -238,6 +240,29 @@ class OimoUtil {
         OimoUtil.addRevoluteJoint(w, legR1, legR2, pos.add(new Vec3(legInterval, -legInterval - upperLeg, 0)), x, sd, lmKnee);
 
         return body1;
+    }
+
+
+
+    public static vec3FromVector3 = (position: Vector3) => {
+        return new Vec3(...position.toArray());
+    }
+
+    public static quatFromQuaternion = (quaternion: Quaternion) => {
+        return new Quat(...quaternion.toArray());
+    }
+
+    public static quatFromEuler = (rotation: Euler) => {
+        return new Quat(...new Quaternion().setFromEuler(rotation).toArray());
+    }
+
+
+    public static vector3FromVec3 = (pos: Vec3) => {
+        return new Vector3(pos.x, pos.y, pos.z);
+    }
+
+    public static quaternionFromQuat = (quat: Quat) => {
+        return new Quaternion(quat.x, quat.y, quat.z, quat.w);
     }
 }
 
