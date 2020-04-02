@@ -18,8 +18,7 @@ export class OculusGoModule extends AbstractModule {
 
     async preInit(): Promise<AbstractModuleStatus> {
         return {
-            // enabled: this.checkGoBrowser() && this.checkXRSupport(),
-            enabled: true,
+            enabled: this.checkGoBrowser() && this.checkXRSupport(),
         };
     }
 
@@ -66,7 +65,7 @@ export class OculusGoModule extends AbstractModule {
     }
 
     private checkGoBrowser() {
-        const uaToken = 'Go';
+        const uaToken = 'Pacific';
         return !!navigator.userAgent.match(uaToken);
     }
 

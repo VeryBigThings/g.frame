@@ -38,7 +38,7 @@ export class XRController extends EventDispatcher<XREvent> {
 
 
 export class InputSourceController extends XRController {
-    private inputSourceRight: any;
+    private inputSource: any;
 
     constructor(renderer: WebGLRenderer, private oculusGoModel: OculusGoModel) {
         super(renderer);
@@ -48,7 +48,7 @@ export class InputSourceController extends XRController {
     }
 
     manipulateModel(params: { currentTime: number; frame: any }) {
-        this.oculusGoModel.manipulateModel(this.inputSourceRight, params.frame);
+        this.oculusGoModel.manipulateModel(this.inputSource, params.frame);
     }
 
     protected goToVR() {
@@ -70,12 +70,12 @@ export class InputSourceController extends XRController {
     private setInputSources(inputSources) {
         this.oculusGoModel.mainContainer.visible = true;
         inputSources.forEach((el) => {
-            if (el.handedness === 'right') this.inputSourceRight = el;
+            if (el.handedness === 'right') this.inputSource = el;
         });
     }
 
     private resetInputSources() {
         this.oculusGoModel.mainContainer.visible = false;
-        this.inputSourceRight = null;
+        this.inputSource = null;
     }
 }

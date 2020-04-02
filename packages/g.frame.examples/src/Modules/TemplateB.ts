@@ -69,7 +69,7 @@ export class TemplateB extends TemplateA {
         audio.position.set(0, 0, -1.5);
 
 
-        this.pickingController.on(PickingControllerEvents.MOVED, plane, () => {});
+        this.pickingController?.on(PickingControllerEvents.MOVED, plane, () => {});
     }
 
 

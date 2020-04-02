@@ -135,7 +135,7 @@ export default class ExampleApp extends Bootstrap {
                 console.log('Button down event', event);
                 if (++i_window === 5) {
                     this.disposeObject(_window);
-                    questModel.setView(hands);
+                    questModel?.setView(hands);
 
                     
                 }

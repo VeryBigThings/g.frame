@@ -14,10 +14,8 @@ export default class OculusGoView implements IOculusGoView {
     public uiObject: Object3D;
     private loader: Loader<any>;
 
-    private mainContainer: Group;
-    private modelContainer: Group;
     private axisContainer: Group;
-    private model: Object3D;
+    private modelContainer: Object3D;
 
     private triggerMesh: Object3D;
     private axisIndicator: Mesh;
@@ -27,10 +25,6 @@ export default class OculusGoView implements IOculusGoView {
     constructor() {
         this.uiObject = new Object3D();
         this.uiObject.name = 'OculusGoViewContainer';
-        this.mainContainer = new Group();
-        this.mainContainer.name = 'Main Container';
-
-        this.uiObject.add(this.mainContainer);
     }
 
     prepareResources(loader: Loader<any>) {
@@ -43,22 +37,16 @@ export default class OculusGoView implements IOculusGoView {
             },
         ]);
 
-        this.loader.once('loaded', () => {
-            console.log('LOADER LOADED');
-            this.addResources();
-        });
+        this.loader.once('loaded', () => this.addResources());
     }
 
     private addResources() {
-        console.log('ADD RESOURCES');
-        this.modelContainer = new Group();
-        // this.model = new Mesh(new BoxGeometry(0.1, 0.1, 0.5), new MeshBasicMaterial({color: '#ffffff'}));
         const controller = this.loader.getResource<Object3D>('oculus_go_controller');
 
-        this.model = new Group();
-        this.model.name = 'controller container';
+        this.modelContainer = new Group();
+        this.modelContainer.name = 'controller container';
 
-        this.model.add(controller);
+        this.modelContainer.add(controller);
 
         // trigger button
         this.getTriggerMesh(controller);
@@ -66,24 +54,24 @@ export default class OculusGoView implements IOculusGoView {
         // axis indicator
         this.setAxisContainer();
 
-        this.modelContainer.add(this.model);
-        this.mainContainer.add(this.modelContainer);
+        this.uiObject.add(this.modelContainer);
 
         this.showRayView();
 
-        this.mainContainer.traverse(el => {
+        this.uiObject.traverse(el => {
             el.raycast = () => {};
         });
-
-        console.log('MODEL INITED');
     }
 
     updateView(model: any) {
         if (model.enabled) {
+            if (!this.uiObject.visible) this.uiObject.visible = !this.uiObject.visible;
             this.updateButtons(model.trigger);
             this.updateTouch(model);
             this.modelContainer.setRotationFromQuaternion(model.pose.orientation);
-        } else this.hideView();
+        } else {
+            this.hideView();
+        }
     }
 
     private updateButtons(button: any) {
@@ -116,7 +104,7 @@ export default class OculusGoView implements IOculusGoView {
         this.axisIndicator = new Mesh(new CircleBufferGeometry(0.002, 16), new MeshBasicMaterial({color: '#4444ee'}));
         this.axisIndicator.rotateX(Math.PI / -2);
         this.axisContainer.add(this.axisIndicator);
-        this.model.add(this.axisContainer);
+        this.modelContainer.add(this.axisContainer);
 
         this.axisMoveFactor = 0.019;
     }
