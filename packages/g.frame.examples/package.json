@@ -19,6 +19,7 @@
     "@verybigthings/g.frame.components.sliders": "^0.0.4",
     "@verybigthings/g.frame.components.text": "^0.0.5",
     "@verybigthings/g.frame.components.window": "^0.0.6",
+    "@verybigthings/g.frame.components.dropdown": "^0.0.1",
     "@verybigthings/g.frame.core": "^0.0.10",
     "@verybigthings/g.frame.desktop": "^0.0.8",
     "@verybigthings/g.frame.input": "^0.0.4",

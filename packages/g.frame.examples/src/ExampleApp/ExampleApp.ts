@@ -13,6 +13,8 @@ import {TemplateModule} from '../Modules/TemplateModule';
 import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
 import {oimo} from 'oimophysics';
 import World = oimo.dynamics.World;
+import {DropdownComponent} from '../../../g.frame.components.dropdown/src/DropdownComponent';
+import {TextComponent} from '@verybigthings/g.frame.components.text';
 
 export default class ExampleApp extends Bootstrap {
     constructor() {
@@ -70,6 +72,65 @@ export default class ExampleApp extends Bootstrap {
             if (++i_icon === 5) this.disposeObject(iconButton);
         });
 
+
+        const optionList = [
+            {body: 'False', key: 'False'},
+            {body: 'True', key: 'True'},
+            {body: 'option 333333', key: '3'},
+            {body: 'option 3333333333333', key: '4'},
+        ];
+        // @ts-ignore
+        const dropdownComponent = modulesProcessor.agents.get(Factory).getFactory(DropdownComponent)({
+            // size: new Vector2(3, 1),
+            optionList: optionList,
+            defaultSelectedOptionId: 1,
+            fontSize: '44px',
+            headStyle: {
+                color: '#000000',
+                selectedFontSize: '170px',
+                // // bgColor: '#dddddd',
+                // bgColor: '#fff0bf',
+                // bordRadius: 1,
+                headerWrap: modulesProcessor.agents.get(Factory).getFactory(WindowComponent)({
+                    size: new Vector2(6, 2),
+                    bordColor: 0x888888,
+                    background: 0xfff0bf,
+                    bordWidth: 0,
+                    bordRadius: 1
+                }).uiObject,
+                arrowComponent: modulesProcessor.agents.get(Factory).getFactory(TextComponent)({
+                    size: new Vector2(12, 2),
+                    pxSize: new Vector2(512, 256 / 3),
+                    text: {
+                        style: {
+                            size: '35px',
+                            weight: '400', family: 'FontAwesome',
+                            color: '#ffd652',
+                        },
+                        lineHeight: parseInt('35px') * 0.7,
+                        autoWrappingHorizontal: true,
+                        autoWrapping: true,
+                        value: '',
+                        // margin: {right: 35},
+                    },
+                    background: {color: '#fff0bf'}
+                }),
+                headSideOffset: 0.8,
+                arrowSymbols: {
+                    opened: '⬆',
+                    closed: '⬇',
+                }
+            },
+            optionsStyle: {
+                disableBorder: false,
+                margin: {left: 30, right: 30, top: 10, bottom: 11},
+                bgColor: '#fff0bf',
+                hoverBorderColor: '#ffd652',
+            }
+        });
+        dropdownComponent.uiObject.position.set(2, 1.5, -1);
+        dropdownComponent.uiObject.scale.setScalar(0.15);
+        this.addObject(dropdownComponent);
 
         const circleSlider = modulesProcessor.agents.get(Factory).getFactory(CircleSliderComponent)({
             mode: CircleSliderComponentSlidingMode.onlyClockwise,
@@ -142,8 +203,6 @@ export default class ExampleApp extends Bootstrap {
                 if (++i_window === 5) {
                     this.disposeObject(_window);
                     questModel.setView(hands);
-
-                    
                 }
             });
         });
