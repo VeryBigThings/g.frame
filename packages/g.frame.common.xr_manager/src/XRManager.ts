@@ -8,6 +8,7 @@ export enum XREvent {
 }
 
 export class XRManager extends EventDispatcher<XREvent> {
+    public __agentConstructor: Function;
 
     constructor(protected readonly renderer: WebGLRenderer) {super(); }
 

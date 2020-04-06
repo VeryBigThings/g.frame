@@ -1,8 +1,8 @@
 import { EventDispatcher, ParentEvent } from '@verybigthings/g.frame.core';
 import { Object3D, Vector3, Quaternion, Vector4, Mesh, Matrix4, Vector2 } from 'three';
 import { IOculusGoView } from './View/OculusGoView';
-import { Pointer } from '../Controllers/Pointer';
-import { VRControlsEvent } from '../Controllers/VRControlsEvent';
+import { Pointer } from './Controllers/Pointer';
+import { VRControlsEvent } from './Controllers/VRControlsEvent';
 
 const config = {
     0: 'trigger',

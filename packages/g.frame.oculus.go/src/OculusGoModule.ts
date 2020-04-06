@@ -2,9 +2,9 @@ import { AbstractModule, AbstractModuleStatus, ConstructorInstanceMap } from '@v
 import { Loader } from '@verybigthings/g.frame.common.loaders';
 import { Object3D } from 'three';
 import { OculusGoActionController } from './Controllers/OculusGoActionController';
-import { InputSourceController } from './MVC/InputSourceController';
-import { OculusGoModel } from './MVC/OculusGoModel';
-import { OculusGoViewChanger } from './MVC/View/OculusGoViewChanger';
+import { InputSourceController } from './InputSourceController';
+import { OculusGoModel } from './OculusGoModel';
+import { OculusGoViewChanger } from './View/OculusGoViewChanger';
 
 export class OculusGoModule extends AbstractModule {
     public inputSourceController: InputSourceController;
