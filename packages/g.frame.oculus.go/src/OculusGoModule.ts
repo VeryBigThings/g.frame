@@ -1,13 +1,13 @@
 import { AbstractModule, AbstractModuleStatus, ConstructorInstanceMap } from '@verybigthings/g.frame.core';
 import { Loader } from '@verybigthings/g.frame.common.loaders';
 import { Object3D } from 'three';
-import { OculusGoActionController } from './Controllers/OculusGoActionController';
-import { InputSourceController } from './InputSourceController';
+import { OculusGoActionController } from './OculusGoControllers/OculusGoActionController';
+import { InputSourceManager } from './InputSourceManager';
 import { OculusGoModel } from './OculusGoModel';
 import { OculusGoViewChanger } from './View/OculusGoViewChanger';
 
 export class OculusGoModule extends AbstractModule {
-    public inputSourceController: InputSourceController;
+    public inputSourceManager: InputSourceManager;
     public oculusGoViewChanger: OculusGoViewChanger;
     private readonly moduleContainer: Object3D;
 
@@ -38,12 +38,12 @@ export class OculusGoModule extends AbstractModule {
         }, oculusGoModel);
 
         // Init Controller
-        this.inputSourceController = new InputSourceController(data.viewer.renderer, oculusGoModel);
+        this.inputSourceManager = new InputSourceManager(data.viewer.renderer, oculusGoModel);
 
         this.moduleContainer.add(oculusGoModel.mainContainer);
 
         return [
-            this.inputSourceController,
+            this.inputSourceManager,
             actionController,
         ];
     }
@@ -57,7 +57,7 @@ export class OculusGoModule extends AbstractModule {
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {
-        this.inputSourceController.manipulateModel(params);
+        this.inputSourceManager.manipulateModel(params);
     }
 
     onDestroy(): void {

@@ -10,7 +10,7 @@
   "scripts": {
     "build": "run-s clean && run-p build:*",
     "build:main": "tsc -p tsconfig.json",
-    "build:assets": "copyfiles -f -s ./src/assets/model/* ./build/main/assets/model/",
+    "build:assets": "copyfiles -f -s ./src/assets/models/* ./build/main/assets/models/",
     "clean": "trash build test",
     "test": "jest --passWithNoTests",
     "lint": "tslint 'src/**/*.ts?(x)'",

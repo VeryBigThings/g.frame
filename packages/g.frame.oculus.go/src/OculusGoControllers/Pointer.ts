@@ -1,4 +1,3 @@
-
 import { ViewerModule } from '@verybigthings/g.frame.core';
 import {
     DoubleSide,

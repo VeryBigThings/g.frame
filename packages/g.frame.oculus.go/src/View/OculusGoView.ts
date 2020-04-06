@@ -1,4 +1,4 @@
-import { Loader, FBX_MODEL, LoadersModule } from '@verybigthings/g.frame.common.loaders';
+import { Loader, FBX_MODEL } from '@verybigthings/g.frame.common.loaders';
 import { Object3D, Group, Mesh, CircleBufferGeometry, CylinderBufferGeometry, MeshBasicMaterial } from 'three';
 
 declare function require(s: string): string;
@@ -13,8 +13,9 @@ export interface IOculusGoView {
 
 export class OculusGoView implements IOculusGoView {
     public uiObject: Object3D;
-    private loader: Loader<any>;
+
     private _loaded: boolean;
+    private loader: Loader<any>;
 
     private axisContainer: Group;
     private modelContainer: Object3D;
@@ -34,7 +35,7 @@ export class OculusGoView implements IOculusGoView {
         this.loader.addResources([
             {
                 name: 'oculus_go_controller',
-                url: require('../../assets/model/oculus_go_controller.fbx'),
+                url: require('../assets/models/oculus_go_controller.fbx'),
                 type: FBX_MODEL,
             },
         ]);
@@ -48,6 +49,7 @@ export class OculusGoView implements IOculusGoView {
 
     private addResources() {
         this._loaded = true;
+
         const controller = this.loader.getResource<Object3D>('oculus_go_controller');
 
         this.modelContainer = new Group();

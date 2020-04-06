@@ -2,7 +2,7 @@ import { XRManager } from '@verybigthings/g.frame.common.xr_manager';
 import { WebGLRenderer } from 'three';
 import { OculusGoModel } from './OculusGoModel';
 
-export class InputSourceController extends XRManager {
+export class InputSourceManager extends XRManager {
     private inputSource: any;
 
     constructor(renderer: WebGLRenderer, private oculusGoModel: OculusGoModel) {
