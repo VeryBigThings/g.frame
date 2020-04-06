@@ -11,6 +11,7 @@ import {ActionController, ActionControllerEventName} from '@verybigthings/g.fram
 import {Loader} from '@verybigthings/g.frame.common.loaders';
 import {TemplateModule} from '../Modules/TemplateModule';
 import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
+import { OculusGoModule } from '@verybigthings/g.frame.oculus.go';
 
 export default class ExampleApp extends Bootstrap {
     constructor() {
@@ -34,9 +35,11 @@ export default class ExampleApp extends Bootstrap {
         let i_window = 0;
 
 
-        const box = new Mesh(new BoxGeometry(0.01, 0.1, 0.1), new MeshBasicMaterial({color: '#ff3333'}));
+        const box = new Mesh(new BoxGeometry(0.01, 1, 1), new MeshBasicMaterial({color: '#ff3333'}));
 
         box.position.set(-1.5, 1.5, -1.5);
+
+        const oculusGoViewChanger = modulesProcessor.modules.get(OculusGoModule).oculusGoViewChanger;
 
         this.addObject(box);
 
@@ -44,7 +47,10 @@ export default class ExampleApp extends Bootstrap {
 
         modulesProcessor.agents.get(ActionController).on(ActionControllerEventName.buttonDown, box, (event) => {
             console.log('Button down event', event);
-            if (++i_box === 5) this.disposeObject(box);
+            if (++i_box === 5) {
+                this.disposeObject(box);
+                oculusGoViewChanger.setCurrentView();
+            }
         });
 
         const iconButton = modulesProcessor.agents.get(Factory).getFactory(IconButtonComponent)({
@@ -137,7 +143,7 @@ export default class ExampleApp extends Bootstrap {
                     this.disposeObject(_window);
                     questModel?.setView(hands);
 
-                    
+                    oculusGoViewChanger.removeView();
                 }
             });
         });

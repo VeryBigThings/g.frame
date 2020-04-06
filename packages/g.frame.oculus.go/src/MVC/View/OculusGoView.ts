@@ -1,18 +1,20 @@
-import { Loader, FBX_MODEL } from '@verybigthings/g.frame.common.loaders';
+import { Loader, FBX_MODEL, LoadersModule } from '@verybigthings/g.frame.common.loaders';
 import { Object3D, Group, Mesh, CircleBufferGeometry, CylinderBufferGeometry, MeshBasicMaterial } from 'three';
 
 declare function require(s: string): string;
 
 export interface IOculusGoView {
     uiObject: Object3D;
+    loaded(): boolean;
     prepareResources(loader: Loader<any>): void;
     updateView(viewModel: any): void;
     hideView(): void;
 }
 
-export default class OculusGoView implements IOculusGoView {
+export class OculusGoView implements IOculusGoView {
     public uiObject: Object3D;
     private loader: Loader<any>;
+    private _loaded: boolean;
 
     private axisContainer: Group;
     private modelContainer: Object3D;
@@ -32,7 +34,7 @@ export default class OculusGoView implements IOculusGoView {
         this.loader.addResources([
             {
                 name: 'oculus_go_controller',
-                url: require('../assets/model/oculus_go_controller.fbx'),
+                url: require('../../assets/model/oculus_go_controller.fbx'),
                 type: FBX_MODEL,
             },
         ]);
@@ -40,7 +42,12 @@ export default class OculusGoView implements IOculusGoView {
         this.loader.once('loaded', () => this.addResources());
     }
 
+    public loaded(): boolean {
+        return this._loaded;
+    }
+
     private addResources() {
+        this._loaded = true;
         const controller = this.loader.getResource<Object3D>('oculus_go_controller');
 
         this.modelContainer = new Group();
@@ -82,9 +89,9 @@ export default class OculusGoView implements IOculusGoView {
         }
     }
 
-    private updateTouch(controller: any) {
-        controller.touchpad.touched ? this.axisIndicator.visible = true : this.axisIndicator.visible = false;
-        this.axisIndicator.position.set(controller.stick.axes.x * this.axisMoveFactor, 0, controller.stick.axes.y * this.axisMoveFactor);
+    private updateTouch(model: any) {
+        model.touchpad.touched ? this.axisIndicator.visible = true : this.axisIndicator.visible = false;
+        this.axisIndicator.position.set(model.touchpad.axes.x * this.axisMoveFactor, 0, model.touchpad.axes.y * this.axisMoveFactor);
     }
 
     private getTriggerMesh(controller: Object3D) {

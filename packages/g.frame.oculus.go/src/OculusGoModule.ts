@@ -4,10 +4,11 @@ import { Object3D } from 'three';
 import { OculusGoActionController } from './Controllers/OculusGoActionController';
 import { InputSourceController } from './MVC/InputSourceController';
 import { OculusGoModel } from './MVC/OculusGoModel';
+import { OculusGoViewChanger } from './MVC/View/OculusGoViewChanger';
 
 export class OculusGoModule extends AbstractModule {
     public inputSourceController: InputSourceController;
-    public oculusGoModel: OculusGoModel;
+    public oculusGoViewChanger: OculusGoViewChanger;
     private readonly moduleContainer: Object3D;
 
     constructor() {
@@ -24,18 +25,22 @@ export class OculusGoModule extends AbstractModule {
 
     async onInit(data: any): Promise<Array<any>> {
         // Init Model
-        this.oculusGoModel = new OculusGoModel(data.viewer);
+        const oculusGoModel = new OculusGoModel(data.viewer);
+
+        // Init ViewChanger
+        this.oculusGoViewChanger = new OculusGoViewChanger(oculusGoModel);
+        this.oculusGoViewChanger.setCurrentView();
 
         // Init ActionController
         const actionController = new OculusGoActionController({
             minRaycasterDistance: 0,
             maxRaycasterDistance: Infinity
-        }, this.oculusGoModel);
+        }, oculusGoModel);
 
         // Init Controller
-        this.inputSourceController = new InputSourceController(data.viewer.renderer, this.oculusGoModel);
+        this.inputSourceController = new InputSourceController(data.viewer.renderer, oculusGoModel);
 
-        this.moduleContainer.add(this.oculusGoModel.mainContainer);
+        this.moduleContainer.add(oculusGoModel.mainContainer);
 
         return [
             this.inputSourceController,
@@ -44,7 +49,7 @@ export class OculusGoModule extends AbstractModule {
     }
 
     afterInit(agents: ConstructorInstanceMap<any>): void {
-        this.oculusGoModel.prepareResources(agents.get(Loader));
+        this.oculusGoViewChanger.prepareResources(agents.get(Loader));
     }
 
     getModuleContainer(): Object3D {
