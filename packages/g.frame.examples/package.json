@@ -24,6 +24,7 @@
     "@verybigthings/g.frame.input": "^0.0.4",
     "@verybigthings/g.frame.mobile": "^0.0.8",
     "@verybigthings/g.frame.oculus.quest": "^0.0.8",
+    "@verybigthings/g.frame.oculus.go": "^0.0.8",
     "three": "^0.114.0"
   },
   "devDependencies": {

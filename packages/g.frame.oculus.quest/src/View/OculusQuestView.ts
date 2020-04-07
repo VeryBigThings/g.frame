@@ -1,6 +1,6 @@
-import { ViewerModule } from '@verybigthings/g.frame.core';
 import { Loader, FBX_MODEL } from '@verybigthings/g.frame.common.loaders';
 import { Group, ConeBufferGeometry, MeshBasicMaterial, Object3D, Mesh, Color } from 'three';
+import { CONTROLLER_HANDEDNESS_CODE } from '../InputSourceManager';
 
 declare function require(s: string): string;
 
@@ -18,14 +18,17 @@ const highlightedEmissiveRed = new Color(0.6, 0, 0);
 const highlightedEmissiveBlue = new Color(0, 0, 0.6);
 
 export interface IOculusQuestView {
+    uiObject: Object3D;
+    loaded(): boolean;
     prepareResources(loader: Loader<any>): void;
     updateView(viewModel: any): void;
-    hideView(hand: string): void;
+    hideView(code: number): void;
 }
 
-export class OculusQuestView extends ViewerModule implements IOculusQuestView {
-    private oculusQuestView: Group;
-    public _modelInited: boolean;
+export class OculusQuestView implements IOculusQuestView {
+    uiObject: Object3D;
+
+    private _loaded: boolean;
     private loader: Loader<any>;
 
     private rayLeft: Mesh;
@@ -37,16 +40,12 @@ export class OculusQuestView extends ViewerModule implements IOculusQuestView {
     private gamepadWrapperRight: Group;
 
     constructor() {
-        super();
-
-        this.oculusQuestView = new Group();
-        this.oculusQuestView.name = 'OculusQuestViewContainer';
-
-        this.uiObject.add(this.oculusQuestView);
+        this.uiObject = new Object3D();
+        this.uiObject.name = 'OculusQuestViewContainer';
     }
 
-    get modelInited(): boolean {
-        return this._modelInited;
+    public loaded(): boolean {
+        return this._loaded;
     }
 
     prepareResources(loader: Loader<any>) {
@@ -63,14 +62,14 @@ export class OculusQuestView extends ViewerModule implements IOculusQuestView {
     }
 
     private addResources() {
-        if (this._modelInited) return;
-        this._modelInited = true;
+        this._loaded = true;
 
         this.gamepadWrapperLeft = new Group();
+        this.gamepadWrapperLeft.name = 'LeftGamepadWrapper';
         this.gamepadWrapperRight = new Group();
-        this.oculusQuestView.add(this.gamepadWrapperLeft, this.gamepadWrapperRight);
+        this.gamepadWrapperRight.name = 'RightGamepadWrapperer';
+        this.uiObject.add(this.gamepadWrapperLeft, this.gamepadWrapperRight);
 
-        // The **** CODE for getting the right models in gamepadLeft and gamepadRight inclusive
         const controller = this.loader.getResource<Object3D>('quest_controllers');
         // @ts-ignore
         const material = controller.children[0].material;
@@ -176,7 +175,7 @@ export class OculusQuestView extends ViewerModule implements IOculusQuestView {
             }
         });
 
-        // Set corresponding Gamepad's color
+        // Sets corresponding Gamepad's color
         this.gamepadLeft.userData.emissiveColor = highlightedEmissiveRed;
         this.gamepadRight.userData.emissiveColor = highlightedEmissiveBlue;
 
@@ -194,28 +193,35 @@ export class OculusQuestView extends ViewerModule implements IOculusQuestView {
         this.rayRight.rotateX(Math.PI);
         this.gamepadRight.add(this.rayRight);
 
-        // Main container
+        // uiObject
         this.gamepadWrapperLeft.add(this.gamepadLeft);
         this.gamepadWrapperRight.add(this.gamepadRight);
-        this.oculusQuestView.traverse(el => {
+        this.uiObject.traverse(el => {
             el.raycast = () => {};
         });
     }
 
     /**
-     * Function to update definite view
-     * @param model The model with data
+     * Function to check which view should be updated
+     * @param model Data for the update
      */
     updateView(model: any) {
         if (model.left.enabled) {
             this.showView(model.left, this.gamepadLeft, this.gamepadWrapperLeft, -1);
-        } else this.hideView('left');
+        } else this.hideView(CONTROLLER_HANDEDNESS_CODE.LEFT);
 
         if (model.right.enabled) {
             this.showView(model.right, this.gamepadRight, this.gamepadWrapperRight);
-        } else this.hideView('right');
+        } else this.hideView(CONTROLLER_HANDEDNESS_CODE.RIGHT);
     }
 
+    /**
+     * Function to update one view
+     * @param model Data for the update
+     * @param gamepad View of the gamepad
+     * @param wrapper Gamepad's wrapper. It is necessary because we rotate the wrapper using Quaternion and the gamepad using Euler
+     * @param coefficient Left view should be mirrored
+     */
     private showView(model: any, gamepad: any, wrapper: Group, coefficient: number = 1) {
         // Check if hided
         if (!wrapper.visible) wrapper.visible = !wrapper.visible;
@@ -257,8 +263,8 @@ export class OculusQuestView extends ViewerModule implements IOculusQuestView {
         topBtn.position.z = model.topBtn.pressed ? upperButtonNewPos : upperButtonOldPos;
     }
 
-    hideView(hand: string) {
-        if (hand === 'left' && this.gamepadWrapperLeft) this.gamepadWrapperLeft.visible = false;
-        if (hand === 'right' && this.gamepadWrapperRight) this.gamepadWrapperRight.visible = false;
+    hideView(code: number) {
+        if (code === CONTROLLER_HANDEDNESS_CODE.LEFT && this.gamepadWrapperLeft) this.gamepadWrapperLeft.visible = false;
+        if (code === CONTROLLER_HANDEDNESS_CODE.RIGHT && this.gamepadWrapperRight) this.gamepadWrapperRight.visible = false;
     }
 }

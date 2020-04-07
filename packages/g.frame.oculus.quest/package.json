@@ -39,6 +39,7 @@
     "@verybigthings/g.frame.common.picking_controller": "^0.0.2",
     "@verybigthings/g.frame.core": "^0.0.10",
     "@verybigthings/g.frame.common.loaders": "^0.0.2",
+    "@verybigthings/g.frame.common.xr_manager": "^0.0.1",
     "three": "^0.114.0"
   },
   "devDependencies": {
