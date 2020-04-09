@@ -3,13 +3,11 @@ import {Loader} from '@verybigthings/g.frame.common.loaders';
 import {Object3D} from 'three';
 import {OculusQuestPickingController} from './OculusQuestControllers/OculusQuestPickingController';
 import {OculusQuestActionController} from './OculusQuestControllers/OculusQuestActionController';
-import {InputSourceManager} from './InputSourceManager';
+import {OculusQuestManager} from './OculusQuestManager';
 import {OculusQuestModel} from './OculusQuestModel';
-import { OculusQuestViewChanger } from './View/OculusQuestViewChanger';
 
 export class OculusQuestModule extends AbstractModule {
-    public inputSourceManager: InputSourceManager;
-    public oculusQuestViewChanger: OculusQuestViewChanger;
+    public oculusQuestManager: OculusQuestManager;
     private readonly container: Object3D;
 
     constructor() {
@@ -28,10 +26,6 @@ export class OculusQuestModule extends AbstractModule {
         // Init Model
         const oculusQuestModel = new OculusQuestModel(data);
 
-        // Init ViewChanger
-        this.oculusQuestViewChanger = new OculusQuestViewChanger(oculusQuestModel);
-        this.oculusQuestViewChanger.setCurrentView();
-
         // Init ActionController
         const actionController = new OculusQuestActionController(data, {
             minRaycasterDistance: 0,
@@ -46,18 +40,18 @@ export class OculusQuestModule extends AbstractModule {
         }, oculusQuestModel);
 
         // Init Manager
-        this.inputSourceManager = new InputSourceManager(data.viewer.renderer, oculusQuestModel);
+        this.oculusQuestManager = new OculusQuestManager(data.viewer.renderer, oculusQuestModel);
         this.container.add(oculusQuestModel.mainContainer);
 
         return [
-            this.inputSourceManager,
+            this.oculusQuestManager,
             actionController,
             pickingController,
         ];
     }
 
     afterInit(agents: ConstructorInstanceMap<any>): void {
-        this.oculusQuestViewChanger.prepareResources(agents.get(Loader));
+        this.oculusQuestManager.prepareResources(agents.get(Loader));
     }
 
     getModuleContainer(): Object3D {
@@ -69,7 +63,7 @@ export class OculusQuestModule extends AbstractModule {
      * @param params currentTime and frame
      */
     onUpdate(params: { currentTime: number; frame: any }): void {
-        this.inputSourceManager.manipulateModel(params);
+        this.oculusQuestManager.manipulateModel(params);
     }
 
     onDestroy(): void {
@@ -91,4 +85,6 @@ export class OculusQuestModule extends AbstractModule {
         // @ts-ignore
         return navigator?.xr?.isSessionSupported instanceof Function;
     }
+
+
 }

@@ -1,6 +1,6 @@
-import { Loader, FBX_MODEL } from '@verybigthings/g.frame.common.loaders';
-import { Group, ConeBufferGeometry, MeshBasicMaterial, Object3D, Mesh, Color } from 'three';
-import { CONTROLLER_HANDEDNESS_CODE } from '../InputSourceManager';
+import {FBX_MODEL, Loader} from '@verybigthings/g.frame.common.loaders';
+import {Color, ConeBufferGeometry, Group, Mesh, MeshBasicMaterial, Object3D} from 'three';
+import {ControllerHandnessCodes, IXRControllerView, XRViewStatus} from '@verybigthings/g.frame.common.xr_manager';
 
 declare function require(s: string): string;
 
@@ -17,18 +17,16 @@ const defaultEmissive = new Color(0, 0, 0);
 const highlightedEmissiveRed = new Color(0.6, 0, 0);
 const highlightedEmissiveBlue = new Color(0, 0, 0.6);
 
-export interface IOculusQuestView {
+export interface IOculusQuestView extends IXRControllerView {
     uiObject: Object3D;
-    loaded(): boolean;
+
     prepareResources(loader: Loader<any>): void;
-    updateView(viewModel: any): void;
-    hideView(code: number): void;
 }
 
 export class OculusQuestView implements IOculusQuestView {
     uiObject: Object3D;
 
-    private _loaded: boolean;
+    private _status: XRViewStatus = XRViewStatus.PREPARING;
     private loader: Loader<any>;
 
     private rayLeft: Mesh;
@@ -44,8 +42,8 @@ export class OculusQuestView implements IOculusQuestView {
         this.uiObject.name = 'OculusQuestViewContainer';
     }
 
-    public loaded(): boolean {
-        return this._loaded;
+    getStatus() {
+        return this._status;
     }
 
     prepareResources(loader: Loader<any>) {
@@ -53,7 +51,7 @@ export class OculusQuestView implements IOculusQuestView {
         this.loader.addResources([
             {
                 name: 'quest_controllers',
-                url: require('../assets/models/oculus_quest_controllers.fbx'),
+                url: require('./assets/models/oculus_quest_controllers.fbx'),
                 type: FBX_MODEL,
             },
         ]);
@@ -61,8 +59,27 @@ export class OculusQuestView implements IOculusQuestView {
         this.loader.once('loaded', () => this.addResources());
     }
 
+    /**
+     * Function to check which view should be updated
+     * @param model Data for the update
+     */
+    updateView(model: any) {
+        if (model.left.enabled) {
+            this.showView(model.left, this.gamepadLeft, this.gamepadWrapperLeft, -1);
+        } else this.hideView(ControllerHandnessCodes.LEFT);
+
+        if (model.right.enabled) {
+            this.showView(model.right, this.gamepadRight, this.gamepadWrapperRight);
+        } else this.hideView(ControllerHandnessCodes.RIGHT);
+    }
+
+    hideView(code: number) {
+        if (code === ControllerHandnessCodes.LEFT && this.gamepadWrapperLeft) this.gamepadWrapperLeft.visible = false;
+        if (code === ControllerHandnessCodes.RIGHT && this.gamepadWrapperRight) this.gamepadWrapperRight.visible = false;
+    }
+
     private addResources() {
-        this._loaded = true;
+        this._status = XRViewStatus.READY;
 
         this.gamepadWrapperLeft = new Group();
         this.gamepadWrapperLeft.name = 'LeftGamepadWrapper';
@@ -202,20 +219,6 @@ export class OculusQuestView implements IOculusQuestView {
     }
 
     /**
-     * Function to check which view should be updated
-     * @param model Data for the update
-     */
-    updateView(model: any) {
-        if (model.left.enabled) {
-            this.showView(model.left, this.gamepadLeft, this.gamepadWrapperLeft, -1);
-        } else this.hideView(CONTROLLER_HANDEDNESS_CODE.LEFT);
-
-        if (model.right.enabled) {
-            this.showView(model.right, this.gamepadRight, this.gamepadWrapperRight);
-        } else this.hideView(CONTROLLER_HANDEDNESS_CODE.RIGHT);
-    }
-
-    /**
      * Function to update one view
      * @param model Data for the update
      * @param gamepad View of the gamepad
@@ -239,9 +242,9 @@ export class OculusQuestView implements IOculusQuestView {
 
         // @ts-ignore
         if (model.stick.touched || model.stick.axes.z || model.stick.axes.w) {
-           stickLeft.material.emissive = gamepad.userData.emissiveColor;
+            stickLeft.material.emissive = gamepad.userData.emissiveColor;
         } else {
-           stickLeft.material.emissive = defaultEmissive;
+            stickLeft.material.emissive = defaultEmissive;
         }
         stickLeft.rotation.set(defaultStickXRotation - maxAngle * model.stick.axes.w, maxAngle * coefficient * model.stick.axes.z, 0);
 
@@ -252,7 +255,7 @@ export class OculusQuestView implements IOculusQuestView {
         // @ts-ignore
         squeezeLeft.material.emissive = model.squeeze.touched ? gamepad.userData.emissiveColor : defaultEmissive;
         squeezeLeft.position.set(-0.35 + 0.2 * model.squeeze.value, 2.23 + 0.03 * model.squeeze.value, -2.98 - 0.02 * model.squeeze.value),
-        squeezeLeft.rotation.set(0.51, 0.12 - 0.1 * model.squeeze.value, 0.19 - 0.14 * model.squeeze.value);
+            squeezeLeft.rotation.set(0.51, 0.12 - 0.1 * model.squeeze.value, 0.19 - 0.14 * model.squeeze.value);
 
         // @ts-ignore
         botBtn.material.emissive = model.botBtn.touched ? gamepad.userData.emissiveColor : defaultEmissive;
@@ -261,10 +264,5 @@ export class OculusQuestView implements IOculusQuestView {
         // @ts-ignore
         topBtn.material.emissive = model.topBtn.touched ? gamepad.userData.emissiveColor : defaultEmissive;
         topBtn.position.z = model.topBtn.pressed ? upperButtonNewPos : upperButtonOldPos;
-    }
-
-    hideView(code: number) {
-        if (code === CONTROLLER_HANDEDNESS_CODE.LEFT && this.gamepadWrapperLeft) this.gamepadWrapperLeft.visible = false;
-        if (code === CONTROLLER_HANDEDNESS_CODE.RIGHT && this.gamepadWrapperRight) this.gamepadWrapperRight.visible = false;
     }
 }

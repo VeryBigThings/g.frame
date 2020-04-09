@@ -35,7 +35,7 @@ export class OculusGoView implements IOculusGoView {
         this.loader.addResources([
             {
                 name: 'oculus_go_controller',
-                url: require('../assets/models/oculus_go_controller.fbx'),
+                url: require('./assets/models/oculus_go_controller.fbx'),
                 type: FBX_MODEL,
             },
         ]);

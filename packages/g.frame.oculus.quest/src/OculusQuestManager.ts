@@ -1,18 +1,19 @@
-import { XRManager } from '@verybigthings/g.frame.common.xr_manager';
+import {XRInputSource, XRManager, XRViewStatus} from '@verybigthings/g.frame.common.xr_manager';
 import {WebGLRenderer} from 'three';
 import {OculusQuestModel} from './OculusQuestModel';
+import {OculusQuestView} from './OculusQuestView';
+import {Loader} from '@verybigthings/g.frame.common.loaders';
 
-export const CONTROLLER_HANDEDNESS_CODE = {
-    LEFT: 0,
-    RIGHT: 1,
-};
 
-export class InputSourceManager extends XRManager {
-    private inputSourceLeft: any;
-    private inputSourceRight: any;
+export class OculusQuestManager extends XRManager {
+    protected currentXRControllerView: OculusQuestView;
+    protected defaultXRControllerView: OculusQuestView;
+    private inputSourceLeft: XRInputSource;
+    private inputSourceRight: XRInputSource;
 
     constructor(renderer: WebGLRenderer, private oculusQuestModel: OculusQuestModel) {
         super(renderer);
+        this.defaultXRControllerView = new OculusQuestView();
 
         this.createButton();
         this.initEvents();
@@ -22,23 +23,20 @@ export class InputSourceManager extends XRManager {
         this.oculusQuestModel.manipulateModel(this.inputSourceLeft, this.inputSourceRight, params.frame);
     }
 
+    prepareResources(loader: Loader<any>) {
+        if (this.currentXRControllerView.getStatus() !== XRViewStatus.READY) this.currentXRControllerView.prepareResources(loader);
+    }
+
     protected goToVR() {
         super.goToVR();
-        const session = this.renderer.xr.getSession();
-        session.addEventListener('inputsourceschange', () => {
-            if (session.inputSources.length)
-                this.setInputSources(session.inputSources);
-            else
-                this.resetInputSources();
-        });
     }
 
     protected goFromVR() {
         super.goFromVR();
-        this.resetInputSources();
     }
 
-    private setInputSources(inputSources) {
+    protected setInputSources(inputSources: Array<XRInputSource>) {
+        super.setInputSources(inputSources);
         this.oculusQuestModel.mainContainer.visible = true;
         inputSources.forEach((el) => {
             if (el.handedness === 'left') this.inputSourceLeft = el;
@@ -46,9 +44,12 @@ export class InputSourceManager extends XRManager {
         });
     }
 
-    private resetInputSources() {
+    protected resetInputSources() {
+        super.resetInputSources();
         this.oculusQuestModel.mainContainer.visible = false;
         this.inputSourceLeft = null;
         this.inputSourceRight = null;
     }
+
+
 }

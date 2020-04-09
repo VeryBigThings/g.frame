@@ -1,6 +1,6 @@
 import { EventDispatcher, ParentEvent } from '@verybigthings/g.frame.core';
 import { Object3D, Vector3, Quaternion, Vector4, Mesh, Matrix4, Vector2 } from 'three';
-import { IOculusGoView } from './View/OculusGoView';
+import { IOculusGoView } from './OculusGoView';
 import { Pointer } from './OculusGoControllers/Pointer';
 import { VRControlsEvent } from './OculusGoControllers/VRControlsEvent';
 
