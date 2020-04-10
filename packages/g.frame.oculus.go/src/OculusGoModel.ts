@@ -1,4 +1,4 @@
-import { ControllerHandnessCodes, IXRControllerModel, XRControllerModelEvents, IOculusGoControllerModel } from '@verybigthings/g.frame.common.xr_manager';
+import { ControllerHandnessCodes, IXRControllerModel, XRControllerModelEvents } from '@verybigthings/g.frame.common.xr_manager';
 import { EventDispatcher, ParentEvent } from '@verybigthings/g.frame.core';
 import { Object3D, Vector3, Quaternion, Vector4, Mesh, Matrix4 } from 'three';
 import { IOculusGoView } from './OculusGoView';
@@ -11,6 +11,26 @@ const config = {
 };
 
 type XRFrame = any;
+
+interface IOculusGoControllerModel {
+    enabled: boolean;
+    pose: {
+        position: Vector3;
+        orientation: Quaternion;
+    };
+    trigger: {
+        touched: boolean;
+        clicked: boolean;
+        pressed: boolean;
+        value: number;
+    };
+    touchpad: {
+        axes: Vector4;
+        touched: boolean;
+        clicked: boolean;
+        pressed: boolean;
+    };
+}
 
 export class OculusGoModel extends EventDispatcher<XRControllerModelEvents> implements IXRControllerModel {
     public mainContainer: Object3D;
@@ -29,7 +49,7 @@ export class OculusGoModel extends EventDispatcher<XRControllerModelEvents> impl
 
         this.mainContainer = new Object3D();
         this.mainContainer.position.set(0.4, -0.5, 0);
-        this.mainContainer.name = 'View&PointersContainer';
+        this.mainContainer.name = 'View&PointerContainer';
 
         this.model = {
             enabled: false,

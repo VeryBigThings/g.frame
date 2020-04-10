@@ -1,4 +1,4 @@
-import { ControllerHandnessCodes, IXRControllerModel, IXRControllerView, XRControllerModelEvents, IOculusQuestControllersModel, IOculusQuestControllerModel,  } from '@verybigthings/g.frame.common.xr_manager';
+import { ControllerHandnessCodes, IXRControllerModel, IXRControllerView, XRControllerModelEvents } from '@verybigthings/g.frame.common.xr_manager';
 import { EventDispatcher, ParentEvent } from '@verybigthings/g.frame.core';
 import { Matrix4, Mesh, Object3D, Quaternion, Vector3, Vector4 } from 'three';
 import { VRControlsEvent } from './OculusQuestControllers/VRControlsEvent';
@@ -14,6 +14,47 @@ const config = {
 };
 
 type XRFrame = any;
+
+interface IOculusQuestControllersModel {
+    left: IOculusQuestControllerModel;
+    right: IOculusQuestControllerModel;
+}
+
+interface IOculusQuestControllerModel {
+    enabled: boolean;
+    pose: {
+        position: Vector3;
+        orientation: Quaternion;
+    };
+    trigger: {
+        touched: boolean;
+        clicked: boolean;
+        pressed: boolean;
+        value: number;
+    };
+    squeeze: {
+        touched: boolean;
+        clicked: boolean;
+        pressed: boolean;
+        value: number;
+    };
+    stick: {
+        axes: Vector4;
+        touched: boolean;
+        clicked: boolean;
+        pressed: boolean;
+    };
+    topBtn: {
+        touched: boolean;
+        clicked: boolean;
+        pressed: boolean;
+    };
+    botBtn: {
+        touched: boolean;
+        clicked: boolean;
+        pressed: boolean;
+    };
+}
 
 export class OculusQuestModel extends EventDispatcher<XRControllerModelEvents> implements IXRControllerModel {
     public mainContainer: Object3D;
