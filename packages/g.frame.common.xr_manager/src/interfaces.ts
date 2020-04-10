@@ -1,4 +1,4 @@
-import {Object3D} from 'three';
+import {Object3D, Quaternion, Vector3, Vector4} from 'three';
 import {EventDispatcher} from '@verybigthings/g.frame.core/build/main';
 
 export enum XRViewStatus {
@@ -18,6 +18,7 @@ export enum XRControllerModelEvents {
 export interface IXRControllerModel extends EventDispatcher<XRControllerModelEvents> {
     manipulateModel: (...args: any[]) => void;
     mainContainer: Object3D;
+    model: any;
     updateView: (newXRControllerView?: IXRControllerView) => void;
 }
 
@@ -34,4 +35,66 @@ export interface IXRControllerView {
     updateView(viewModel: IXRControllerModel): void;
 
     hideView(code: ControllerHandnessCodes): void;
+}
+
+
+export interface IOculusQuestControllersModel {
+    left: IOculusQuestControllerModel;
+    right: IOculusQuestControllerModel;
+}
+
+export interface IOculusQuestControllerModel {
+    enabled: boolean;
+    pose: {
+        position: Vector3;
+        orientation: Quaternion;
+    };
+    trigger: {
+        touched: boolean;
+        clicked: boolean;
+        pressed: boolean;
+        value: number;
+    };
+    squeeze: {
+        touched: boolean;
+        clicked: boolean;
+        pressed: boolean;
+        value: number;
+    };
+    stick: {
+        axes: Vector4;
+        touched: boolean;
+        clicked: boolean;
+        pressed: boolean;
+    };
+    topBtn: {
+        touched: boolean;
+        clicked: boolean;
+        pressed: boolean;
+    };
+    botBtn: {
+        touched: boolean;
+        clicked: boolean;
+        pressed: boolean;
+    };
+}
+
+export interface IOculusGoControllerModel {
+    enabled: boolean;
+    pose: {
+        position: Vector3;
+        orientation: Quaternion;
+    };
+    trigger: {
+        touched: boolean;
+        clicked: boolean;
+        pressed: boolean;
+        value: number;
+    };
+    touchpad: {
+        axes: Vector4;
+        touched: boolean;
+        clicked: boolean;
+        pressed: boolean;
+    };
 }

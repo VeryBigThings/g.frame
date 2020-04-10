@@ -67,7 +67,6 @@ export class OculusQuestModule extends AbstractModule {
     }
 
     onDestroy(): void {
-        // Module destroy function. Use it to destroy and dispose instances.
     }
 
     onResume(): void {

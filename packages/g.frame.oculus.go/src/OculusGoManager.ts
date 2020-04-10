@@ -1,46 +1,51 @@
-import { XRManager } from '@verybigthings/g.frame.common.xr_manager';
+import { XRManager, XRViewStatus } from '@verybigthings/g.frame.common.xr_manager';
+import { Loader } from '@verybigthings/g.frame.common.loaders';
 import { WebGLRenderer } from 'three';
 import { OculusGoModel } from './OculusGoModel';
+import { OculusGoView } from './OculusGoView';
 
 export class OculusGoManager extends XRManager {
+    protected currentXRControllerView: OculusGoView;
+    protected defaultXRControllerView: OculusGoView;
     private inputSource: any;
 
-    constructor(renderer: WebGLRenderer, private oculusGoModel: OculusGoModel) {
+    constructor(renderer: WebGLRenderer, protected controllerModel: OculusGoModel) {
         super(renderer);
+        this.defaultXRControllerView = new OculusGoView();
+        this.currentXRControllerView = this.defaultXRControllerView;
+        this.setXRControllerView(this.currentXRControllerView);
 
         this.createButton();
         this.initEvents();
     }
 
     manipulateModel(params: { currentTime: number; frame: any }) {
-        this.oculusGoModel.manipulateModel(this.inputSource, params.frame);
+        this.controllerModel.manipulateModel(this.inputSource, params.frame);
+    }
+
+    prepareResources(loader: Loader<any>) {
+        if (this.currentXRControllerView.getStatus() !== XRViewStatus.READY) this.currentXRControllerView.prepareResources(loader);
     }
 
     protected goToVR() {
         super.goToVR();
-        const session = this.renderer.xr.getSession();
-        session.addEventListener('inputsourceschange', () => {
-            if (session.inputSources.length)
-                this.setInputSources(session.inputSources);
-            else
-                this.resetInputSources();
-        });
     }
 
     protected goFromVR() {
         super.goFromVR();
-        this.resetInputSources();
     }
 
-    private setInputSources(inputSources) {
-        this.oculusGoModel.mainContainer.visible = true;
+    protected setInputSources(inputSources) {
+        super.setInputSources(inputSources);
+        this.controllerModel.mainContainer.visible = true;
         inputSources.forEach((el) => {
             if (el.handedness === 'right') this.inputSource = el;
         });
     }
 
-    private resetInputSources() {
-        this.oculusGoModel.mainContainer.visible = false;
+    protected resetInputSources() {
+        super.resetInputSources();
+        this.controllerModel.mainContainer.visible = false;
         this.inputSource = null;
     }
 }

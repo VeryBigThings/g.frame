@@ -1,5 +1,6 @@
+import { ControllerHandnessCodes, IXRControllerModel, XRControllerModelEvents, IOculusGoControllerModel } from '@verybigthings/g.frame.common.xr_manager';
 import { EventDispatcher, ParentEvent } from '@verybigthings/g.frame.core';
-import { Object3D, Vector3, Quaternion, Vector4, Mesh, Matrix4, Vector2 } from 'three';
+import { Object3D, Vector3, Quaternion, Vector4, Mesh, Matrix4 } from 'three';
 import { IOculusGoView } from './OculusGoView';
 import { Pointer } from './OculusGoControllers/Pointer';
 import { VRControlsEvent } from './OculusGoControllers/VRControlsEvent';
@@ -9,14 +10,12 @@ const config = {
     2: 'touchpad',
 };
 
-type Model = any;
-
 type XRFrame = any;
 
-export class OculusGoModel extends EventDispatcher<string> {
+export class OculusGoModel extends EventDispatcher<XRControllerModelEvents> implements IXRControllerModel {
     public mainContainer: Object3D;
 
-    private model: Model;
+    public model: IOculusGoControllerModel;
     private currentOculusGoView: IOculusGoView;
 
     private pointer: Pointer;
@@ -45,7 +44,7 @@ export class OculusGoModel extends EventDispatcher<string> {
                 value: 0,
             },
             touchpad: {
-                axes: new Vector2(),
+                axes: new Vector4(),
                 touched: false,
                 clicked: false,
                 pressed: false,
@@ -83,11 +82,11 @@ export class OculusGoModel extends EventDispatcher<string> {
             this.updateEvents();
             this.updateModel();
         } else {
-            this.currentOculusGoView?.hideView();
+            this.currentOculusGoView?.hideView(ControllerHandnessCodes.NONE);
         }
 
-        this.fire('controllerChange', new ParentEvent('controllerChange', this.model));
-        this.currentOculusGoView?.updateView(this.model);
+        this.fire(XRControllerModelEvents.controllerChanged, new ParentEvent(XRControllerModelEvents.controllerChanged, this.model));
+        this.currentOculusGoView?.updateView(this);
     }
 
     /**
@@ -108,13 +107,13 @@ export class OculusGoModel extends EventDispatcher<string> {
     private updateEvents() {
         const newButtonDown = this.inputSource.gamepad.buttons[0].pressed;
 
-        this.fire('move', new ParentEvent<string>('move', this.getEventData()));
+        this.fire(XRControllerModelEvents.move, new ParentEvent(XRControllerModelEvents.move, this.getEventData()));
         if (!this.model.trigger.pressed && newButtonDown) {
-            this.fire('buttonDown', new ParentEvent<string>('buttonDown', this.getEventData()));
+            this.fire(XRControllerModelEvents.buttonDown, new ParentEvent(XRControllerModelEvents.buttonDown, this.getEventData()));
         }
         if (this.model.trigger.pressed && !newButtonDown) {
-            this.fire('buttonUp', new ParentEvent<string>('buttonUp', this.getEventData()));
-            this.fire('click', new ParentEvent<string>('click', this.getEventData()));
+            this.fire(XRControllerModelEvents.buttonUp, new ParentEvent(XRControllerModelEvents.buttonUp, this.getEventData()));
+            this.fire(XRControllerModelEvents.click, new ParentEvent(XRControllerModelEvents.click, this.getEventData()));
         }
         this.model.trigger.pressed = newButtonDown;
     }

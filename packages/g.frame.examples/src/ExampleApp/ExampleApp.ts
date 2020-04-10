@@ -39,8 +39,8 @@ export default class ExampleApp extends Bootstrap {
 
         box.position.set(-1.5, 1.5, -1.5);
 
-        const oculusGoViewChanger = modulesProcessor.modules.get(OculusGoModule).oculusGoViewChanger;
-        const oculusQuestViewChanger = modulesProcessor.modules.get(OculusQuestModule).oculusQuestViewChanger;
+        const oculusGoManager = modulesProcessor.modules.get(OculusGoModule).oculusGoManager;
+        const oculusQuestManager = modulesProcessor.modules.get(OculusQuestModule).oculusQuestManager;
 
         this.addObject(box);
 
@@ -50,8 +50,8 @@ export default class ExampleApp extends Bootstrap {
             console.log('Button down event', event);
             if (++i_box === 5) {
                 this.disposeObject(box);
-                oculusGoViewChanger?.setCurrentView();
-                oculusQuestViewChanger?.setPreviousView();
+                oculusGoManager?.setXRControllerView(null);
+                oculusQuestManager?.setXRControllerView(null);
             }
         });
 
@@ -141,10 +141,7 @@ export default class ExampleApp extends Bootstrap {
                 console.log('Button down event', event);
                 if (++i_window === 5) {
                     this.disposeObject(_window);
-                    // questModel?.setView(hands);
-                    oculusQuestViewChanger?.setNewView(hands);
-
-                    oculusGoViewChanger?.removeView();
+                    oculusQuestManager?.setXRControllerView(hands);
                 }
             });
         });

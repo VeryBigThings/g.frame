@@ -1,6 +1,6 @@
+import {ControllerHandnessCodes, IXRControllerView, XRViewStatus, IXRControllerModel} from '@verybigthings/g.frame.common.xr_manager';
 import {FBX_MODEL, Loader} from '@verybigthings/g.frame.common.loaders';
 import {Color, ConeBufferGeometry, Group, Mesh, MeshBasicMaterial, Object3D} from 'three';
-import {ControllerHandnessCodes, IXRControllerView, XRViewStatus} from '@verybigthings/g.frame.common.xr_manager';
 
 declare function require(s: string): string;
 
@@ -18,8 +18,6 @@ const highlightedEmissiveRed = new Color(0.6, 0, 0);
 const highlightedEmissiveBlue = new Color(0, 0, 0.6);
 
 export interface IOculusQuestView extends IXRControllerView {
-    uiObject: Object3D;
-
     prepareResources(loader: Loader<any>): void;
 }
 
@@ -63,7 +61,8 @@ export class OculusQuestView implements IOculusQuestView {
      * Function to check which view should be updated
      * @param model Data for the update
      */
-    updateView(model: any) {
+    updateView(viewModel: IXRControllerModel) {
+        const model = viewModel.model;
         if (model.left.enabled) {
             this.showView(model.left, this.gamepadLeft, this.gamepadWrapperLeft, -1);
         } else this.hideView(ControllerHandnessCodes.LEFT);
