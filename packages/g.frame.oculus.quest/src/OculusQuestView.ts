@@ -1,5 +1,5 @@
 import {ControllerHandnessCodes, IXRControllerView, XRViewStatus, IXRControllerModel} from '@verybigthings/g.frame.common.xr_manager';
-import {FBX_MODEL, Loader} from '@verybigthings/g.frame.common.loaders';
+import {FBX_MODEL, Loader, LoaderEventsName} from '@verybigthings/g.frame.common.loaders';
 import {Color, ConeBufferGeometry, Group, Mesh, MeshBasicMaterial, Object3D} from 'three';
 
 declare function require(s: string): string;
