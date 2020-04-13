@@ -1,12 +1,3 @@
-// import {ViewerModule} from './ViewerModule';
-// import {Level} from './Level';
-// import {Router} from './Router';
-// import {ResourceRaw, ResourcesManager} from '../utils/loaders/ResourcesManager';
-// import {ParentEvent} from '../actions/ParentEvent';
-// import {Viewer} from '../Viewer';
-// import {CirclePreloaderComponent} from '../components/CirclePreloaderComponent';
-// import {LevelManagerOptions, ScenarioItem} from '../interfaces';
-
 import {ViewerModule, ParentEvent} from '@verybigthings/g.frame.core';
 import {Loader, LoaderEventsName, ResourceRaw} from '@verybigthings/g.frame.common.loaders';
 import {LevelManagerOptions, ScenarioItem} from './LevelManager_interfaces';
@@ -30,8 +21,8 @@ export class LevelManager extends ViewerModule {
 
         this.showPreloader();
 
-        // const extraResources = this.collectResources();
-        // this.loader.addLoadResources(extraResources);
+        const extraResources = this.collectResources();
+        this.loader.addLoadResources(extraResources);
 
         this.loader.once(LoaderEventsName.loaded, () => {
             setTimeout(() => {
@@ -49,9 +40,6 @@ export class LevelManager extends ViewerModule {
     }
 
     protected hidePreloader() {
-    }
-
-    private start() {
     }
 
     private changeLevel(nextLevelName?: string, _event?: ParentEvent<string>) {

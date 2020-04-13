@@ -1,5 +1,5 @@
 {
-  "name": "@verybigthings/g.frame.components.level_manager",
+  "name": "@verybigthings/g.frame.common.level_manager",
   "version": "0.0.1",
   "description": "",
   "private": true,

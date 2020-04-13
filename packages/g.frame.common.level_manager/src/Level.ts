@@ -1,12 +1,8 @@
 import {ViewerModule, ParentEvent} from '@verybigthings/g.frame.core';
-import {ResourceRaw, Loader} from '@verybigthings/g.frame.common.loaders';
-
-
-declare function require(s: string): string;
+import {ResourceRaw} from '@verybigthings/g.frame.common.loaders';
 
 export class Level extends ViewerModule {
     public __inited: boolean = false;
-    private loader: Loader<any>;
     public resourcesInUse: Array<ResourceRaw> = [];
 
     constructor() {
