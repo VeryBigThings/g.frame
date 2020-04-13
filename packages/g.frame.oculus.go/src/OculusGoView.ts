@@ -1,5 +1,6 @@
 import { Loader, FBX_MODEL } from '@verybigthings/g.frame.common.loaders';
 import { Object3D, Group, Mesh, CircleBufferGeometry, CylinderBufferGeometry, MeshBasicMaterial } from 'three';
+import {LoaderEventsName} from '@verybigthings/g.frame.common.loaders/build/main';
 
 declare function require(s: string): string;
 
@@ -40,7 +41,7 @@ export class OculusGoView implements IOculusGoView {
             },
         ]);
 
-        this.loader.once('loaded', () => this.addResources());
+        this.loader.once(LoaderEventsName.loaded, () => this.addResources());
     }
 
     public loaded(): boolean {

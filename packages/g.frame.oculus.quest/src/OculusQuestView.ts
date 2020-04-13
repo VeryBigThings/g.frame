@@ -1,6 +1,7 @@
 import {FBX_MODEL, Loader} from '@verybigthings/g.frame.common.loaders';
 import {Color, ConeBufferGeometry, Group, Mesh, MeshBasicMaterial, Object3D} from 'three';
 import {ControllerHandnessCodes, IXRControllerView, XRViewStatus} from '@verybigthings/g.frame.common.xr_manager';
+import {LoaderEventsName} from '@verybigthings/g.frame.common.loaders/build/main';
 
 declare function require(s: string): string;
 
@@ -56,7 +57,7 @@ export class OculusQuestView implements IOculusQuestView {
             },
         ]);
 
-        this.loader.once('loaded', () => this.addResources());
+        this.loader.once(LoaderEventsName.loaded, () => this.addResources());
     }
 
     /**

@@ -2,6 +2,7 @@ import {ConeBufferGeometry, Group, Mesh, MeshBasicMaterial, Object3D, Vector3} f
 import {ViewerModule} from '@verybigthings/g.frame.core';
 import {IOculusQuestView, CONTROLLER_HANDEDNESS_CODE} from '@verybigthings/g.frame.oculus.quest';
 import {FBX_MODEL, Loader} from '@verybigthings/g.frame.common.loaders';
+import {LoaderEventsName} from '@verybigthings/g.frame.common.loaders/build/main';
 
 export default class QuestHandView extends ViewerModule implements IOculusQuestView {
     private _loaded: boolean;
@@ -49,7 +50,7 @@ export default class QuestHandView extends ViewerModule implements IOculusQuestV
         ]);
 
 
-        this.loader.once('loaded', () => this.init());
+        this.loader.once(LoaderEventsName.loaded, () => this.init());
     }
 
     init() {
