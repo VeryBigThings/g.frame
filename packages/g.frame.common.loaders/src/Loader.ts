@@ -6,7 +6,11 @@ import {ResourceRaw} from './interfaces';
  * @param loaderType string is used for getting this type of Loader later on from the ResourcesManagerClass, and adding new ResourceRaw
  */
 
-export class Loader<T> extends EventDispatcher<string> {
+export enum LoaderEventsName {
+    loaded = 'loaded'
+}
+
+export class Loader<T> extends EventDispatcher<LoaderEventsName> {
     public __agentConstructor: Function;
 
     public readonly loaderType: string;
@@ -50,7 +54,7 @@ export class Loader<T> extends EventDispatcher<string> {
                     )
             ).then(() => {
                 resolve();
-                this.fire('loaded');
+                this.fire(LoaderEventsName.loaded);
             }, () => {
                 reject();
             });

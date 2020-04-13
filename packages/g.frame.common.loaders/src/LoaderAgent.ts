@@ -1,4 +1,4 @@
-import {Loader} from './Loader';
+import {Loader, LoaderEventsName} from './Loader';
 import {ResourceRaw} from './interfaces';
 
 /**
@@ -42,7 +42,7 @@ export class LoaderAgent extends Loader<any> {
             ).then(
                 () => {
                     resolve();
-                    this.fire('loaded');
+                    this.fire(LoaderEventsName.loaded);
                 },
                 () => {
                     reject();
