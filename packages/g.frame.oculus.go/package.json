@@ -1,6 +1,6 @@
 {
   "name": "@verybigthings/g.frame.oculus.go",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Template module from g.frame",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -10,6 +10,7 @@
   "scripts": {
     "build": "run-s clean && run-p build:*",
     "build:main": "tsc -p tsconfig.json",
+    "build:assets": "copyfiles -f -s ./src/assets/models/* ./build/main/assets/models/",
     "clean": "trash build test",
     "test": "jest --passWithNoTests",
     "lint": "tslint 'src/**/*.ts?(x)'",
@@ -36,6 +37,8 @@
   "dependencies": {
     "@verybigthings/g.frame.common.action_controller": "^0.0.2",
     "@verybigthings/g.frame.core": "^0.0.10",
+    "@verybigthings/g.frame.common.loaders": "^0.0.2",
+    "@verybigthings/g.frame.common.xr_manager": "^0.0.1",
     "three": "^0.114.0"
   },
   "devDependencies": {
@@ -47,7 +50,7 @@
     "trash-cli": "^3.0.0",
     "ts-jest": "^25.2.1",
     "tslint": "^6.1.0",
-    "typedoc": "^0.17.0",
+    "typedoc": "^0.17.4",
     "typescript": "^3.8.3"
   },
   "gitHead": "2adcda2e0de0598d1351dea6068d39f70edc7f99"

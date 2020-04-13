@@ -1,11 +1,11 @@
-import {ConeBufferGeometry, Group, Mesh, MeshBasicMaterial, Object3D, Vector3} from 'three';
-import {ViewerModule} from '@verybigthings/g.frame.core';
-import {IOculusQuestView} from '@verybigthings/g.frame.oculus.quest';
+import {XRViewStatus, ControllerHandnessCodes, IXRControllerModel} from '@verybigthings/g.frame.common.xr_manager';
 import {FBX_MODEL, Loader} from '@verybigthings/g.frame.common.loaders';
+import {IOculusQuestView} from '@verybigthings/g.frame.oculus.quest';
+import {ViewerModule} from '@verybigthings/g.frame.core';
+import {ConeBufferGeometry, Group, Mesh, MeshBasicMaterial, Object3D, Vector3} from 'three';
 
 export default class QuestHandView extends ViewerModule implements IOculusQuestView {
-    public modelInited: boolean = false;
-    // private mainContainer: Group;
+    private _status: XRViewStatus = XRViewStatus.PREPARING;
     private loader: Loader<any>;
     private controllerLeft: Object3D;
     private controllerRight: Object3D;
@@ -30,6 +30,10 @@ export default class QuestHandView extends ViewerModule implements IOculusQuestV
         super();
     }
 
+    getStatus() {
+        return this._status;
+    }
+
     prepareResources(loader: Loader<any>) {
         this.loader = loader;
         this.loader.addResources([
@@ -46,12 +50,11 @@ export default class QuestHandView extends ViewerModule implements IOculusQuestV
         ]);
 
 
-        this.loader.once('loaded', () => this.init());
+        this.loader.once(LoaderEventsName.loaded, () => this.init());
     }
 
     init() {
-        if (this.modelInited) return;
-        this.modelInited = true;
+        this._status = XRViewStatus.READY;
 
         // const material = controller;
         this.controllerLeft = this.loader.getResource<Object3D>('left_quest_hand');
@@ -266,31 +269,32 @@ export default class QuestHandView extends ViewerModule implements IOculusQuestV
 
         let rayLeft, rayRight;
         // Left ray
-        rayLeft = new Mesh(new ConeBufferGeometry(0.0025, 1.5, 16), new MeshBasicMaterial({color: 'red'}));
+        rayLeft = new Mesh(new ConeBufferGeometry(0.0025, 1.5, 16), new MeshBasicMaterial({color: 'white'}));
         rayLeft.position.set(0, 0, -1.6);
         rayLeft.scale.set(1, 2, 1);
         rayLeft.rotation.set(-Math.PI / 2, 0, 0);
         this.addObject(rayLeft, null, this.controllerLeftWrapper);
 
         // Right ray
-        rayRight = new Mesh(new ConeBufferGeometry(0.0025, 1.5, 16), new MeshBasicMaterial({color: 'blue'}));
+        rayRight = new Mesh(new ConeBufferGeometry(0.0025, 1.5, 16), new MeshBasicMaterial({color: 'white'}));
         rayRight.position.set(0, 0, -1.6);
         rayRight.scale.set(1, 2, 1);
         rayRight.rotation.set(-Math.PI / 2, 0, 0);
         this.addObject(rayRight, null, this.controllerRightWrapper);
     }
 
-    updateView(viewModel: any) {
+    updateView(viewModel: IXRControllerModel) {
+        const model = viewModel.model;
         // Left
-        if (viewModel.left.enabled) {
+        if (model.left.enabled) {
             this.controllerLeftWrapper.visible = true;
-            this.visualUpdate(viewModel.left, this.controllerLeft, this.controllerLeftWrapper);
+            this.visualUpdate(model.left, this.controllerLeft, this.controllerLeftWrapper);
         }
 
         // Right
-        if (viewModel.right.enabled) {
+        if (model.right.enabled) {
             this.controllerRightWrapper.visible = true;
-            this.visualUpdate(viewModel.right, this.controllerRight, this.controllerRightWrapper);
+            this.visualUpdate(model.right, this.controllerRight, this.controllerRightWrapper);
         }
     }
 
@@ -402,15 +406,8 @@ export default class QuestHandView extends ViewerModule implements IOculusQuestV
         }
     }
 
-
-    hideView(hand: string) {
-        if (hand === 'left') {
-            this.controllerLeftWrapper.visible = false;
-            // this.controllerLeftEnable = false;
-        }
-        if (hand === 'right') {
-            this.controllerRightWrapper.visible = false;
-            // this.controllerRightEnable = false;
-        }
+    hideView(code: number) {
+        if (code === ControllerHandnessCodes.LEFT && this.controllerLeftWrapper) this.controllerLeftWrapper.visible = false;
+        if (code === ControllerHandnessCodes.RIGHT && this.controllerRightWrapper) this.controllerRightWrapper.visible = false;
     }
 }

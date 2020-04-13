@@ -11,6 +11,11 @@ import {ActionController, ActionControllerEventName} from '@verybigthings/g.fram
 import {Loader} from '@verybigthings/g.frame.common.loaders';
 import {TemplateModule} from '../Modules/TemplateModule';
 import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
+import {oimo} from 'oimophysics';
+import World = oimo.dynamics.World;
+import {DropdownComponent} from '../../../g.frame.components.dropdown/src/DropdownComponent';
+import {TextComponent} from '@verybigthings/g.frame.components.text';
+import { OculusGoModule } from '@verybigthings/g.frame.oculus.go';
 
 export default class ExampleApp extends Bootstrap {
     constructor() {
@@ -20,6 +25,10 @@ export default class ExampleApp extends Bootstrap {
     onInit(modulesProcessor: ModulesProcessor) {
         super.onInit(modulesProcessor);
         console.log(modulesProcessor);
+
+        const _world = modulesProcessor.agents.get(Factory).getFactory(World)(null);
+        console.log('_world', _world);
+
         const _window = modulesProcessor.agents.get(Factory).getFactory(WindowComponent)({
             size: new Vector2(0.3, 0.3),
             background: 0xffffff
@@ -34,9 +43,12 @@ export default class ExampleApp extends Bootstrap {
         let i_window = 0;
 
 
-        const box = new Mesh(new BoxGeometry(0.01, 0.1, 0.1), new MeshBasicMaterial({color: '#ff3333'}));
+        const box = new Mesh(new BoxGeometry(0.01, 1, 1), new MeshBasicMaterial({color: '#ff3333'}));
 
         box.position.set(-1.5, 1.5, -1.5);
+
+        const oculusGoManager = modulesProcessor.modules.get(OculusGoModule).oculusGoManager;
+        const oculusQuestManager = modulesProcessor.modules.get(OculusQuestModule).oculusQuestManager;
 
         this.addObject(box);
 
@@ -44,7 +56,11 @@ export default class ExampleApp extends Bootstrap {
 
         modulesProcessor.agents.get(ActionController).on(ActionControllerEventName.buttonDown, box, (event) => {
             console.log('Button down event', event);
-            if (++i_box === 5) this.disposeObject(box);
+            if (++i_box === 5) {
+                this.disposeObject(box);
+                oculusGoManager?.setXRControllerView(null);
+                oculusQuestManager?.setXRControllerView(null);
+            }
         });
 
         const iconButton = modulesProcessor.agents.get(Factory).getFactory(IconButtonComponent)({
@@ -64,6 +80,65 @@ export default class ExampleApp extends Bootstrap {
             if (++i_icon === 5) this.disposeObject(iconButton);
         });
 
+
+        const optionList = [
+            {body: 'False', key: 'False'},
+            {body: 'True', key: 'True'},
+            {body: 'option 333333', key: '3'},
+            {body: 'option 3333333333333', key: '4'},
+        ];
+        // @ts-ignore
+        const dropdownComponent = modulesProcessor.agents.get(Factory).getFactory(DropdownComponent)({
+            // size: new Vector2(3, 1),
+            optionList: optionList,
+            defaultSelectedOptionId: 1,
+            fontSize: '44px',
+            headStyle: {
+                color: '#000000',
+                selectedFontSize: '170px',
+                // // bgColor: '#dddddd',
+                // bgColor: '#fff0bf',
+                // bordRadius: 1,
+                headerWrap: modulesProcessor.agents.get(Factory).getFactory(WindowComponent)({
+                    size: new Vector2(6, 2),
+                    bordColor: 0x888888,
+                    background: 0xfff0bf,
+                    bordWidth: 0,
+                    bordRadius: 1
+                }).uiObject,
+                arrowComponent: modulesProcessor.agents.get(Factory).getFactory(TextComponent)({
+                    size: new Vector2(12, 2),
+                    pxSize: new Vector2(512, 256 / 3),
+                    text: {
+                        style: {
+                            size: '35px',
+                            weight: '400', family: 'FontAwesome',
+                            color: '#ffd652',
+                        },
+                        lineHeight: parseInt('35px') * 0.7,
+                        autoWrappingHorizontal: true,
+                        autoWrapping: true,
+                        value: '',
+                        // margin: {right: 35},
+                    },
+                    background: {color: '#fff0bf'}
+                }),
+                headSideOffset: 0.8,
+                arrowSymbols: {
+                    opened: '⬆',
+                    closed: '⬇',
+                }
+            },
+            optionsStyle: {
+                disableBorder: false,
+                margin: {left: 30, right: 30, top: 10, bottom: 11},
+                bgColor: '#fff0bf',
+                hoverBorderColor: '#ffd652',
+            }
+        });
+        dropdownComponent.uiObject.position.set(2, 1.5, -1);
+        dropdownComponent.uiObject.scale.setScalar(0.15);
+        this.addObject(dropdownComponent);
 
         const circleSlider = modulesProcessor.agents.get(Factory).getFactory(CircleSliderComponent)({
             mode: CircleSliderComponentSlidingMode.onlyClockwise,
@@ -128,16 +203,12 @@ export default class ExampleApp extends Bootstrap {
 
         modulesProcessor.agents.get(Loader).load().then(() => {
             const hands = modulesProcessor.modules.get(TemplateModule).questHandView;
-            // this.addObject(hands);
-            const questModel = modulesProcessor.modules.get(OculusQuestModule).oculusQuestModel;
 
             modulesProcessor.agents.get(ActionController).on(ActionControllerEventName.buttonDown, _window.uiObject, (event) => {
                 console.log('Button down event', event);
                 if (++i_window === 5) {
                     this.disposeObject(_window);
-                    questModel.setView(hands);
-
-                    
+                    oculusQuestManager?.setXRControllerView(hands);
                 }
             });
         });

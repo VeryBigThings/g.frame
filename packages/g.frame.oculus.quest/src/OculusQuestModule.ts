@@ -1,14 +1,13 @@
 import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 import {Loader} from '@verybigthings/g.frame.common.loaders';
 import {Object3D} from 'three';
-import {OculusQuestPickingController} from './QuestControllers/OculusQuestPickingController';
-import {OculusQuestActionController} from './QuestControllers/OculusQuestActionController';
-import {OculusQuestManager} from './Manager/OculusQuestManager';
-import {OculusQuestModel} from './Model/OculusQuestModel';
+import {OculusQuestPickingController} from './OculusQuestControllers/OculusQuestPickingController';
+import {OculusQuestActionController} from './OculusQuestControllers/OculusQuestActionController';
+import {OculusQuestManager} from './OculusQuestManager';
+import {OculusQuestModel} from './OculusQuestModel';
 
 export class OculusQuestModule extends AbstractModule {
     public oculusQuestManager: OculusQuestManager;
-    public oculusQuestModel: OculusQuestModel;
     private readonly container: Object3D;
 
     constructor() {
@@ -25,24 +24,24 @@ export class OculusQuestModule extends AbstractModule {
 
     async onInit(data: any): Promise<Array<any>> {
         // Init Model
-        this.oculusQuestModel = new OculusQuestModel(data);
-        this.container.add(this.oculusQuestModel.uiObject);
+        const oculusQuestModel = new OculusQuestModel(data);
 
         // Init ActionController
         const actionController = new OculusQuestActionController(data, {
             minRaycasterDistance: 0,
             maxRaycasterDistance: Infinity
-        }, this.oculusQuestModel);
+        }, oculusQuestModel);
 
         // Init PickingController
         const pickingController = new OculusQuestPickingController(data, {
             minPickingDistance: 0,
             maxPickingDistance: Infinity,
             controllersQuantity: 2,
-        }, this.oculusQuestModel);
+        }, oculusQuestModel);
 
-        // Init MainController
-        this.oculusQuestManager = new OculusQuestManager(data.viewer.renderer, this.oculusQuestModel);
+        // Init Manager
+        this.oculusQuestManager = new OculusQuestManager(data.viewer.renderer, oculusQuestModel);
+        this.container.add(oculusQuestModel.mainContainer);
 
         return [
             this.oculusQuestManager,
@@ -52,7 +51,7 @@ export class OculusQuestModule extends AbstractModule {
     }
 
     afterInit(agents: ConstructorInstanceMap<any>): void {
-        this.oculusQuestModel.prepareResources(agents.get(Loader));
+        this.oculusQuestManager.prepareResources(agents.get(Loader));
     }
 
     getModuleContainer(): Object3D {
@@ -60,15 +59,14 @@ export class OculusQuestModule extends AbstractModule {
     }
 
     /**
-     * Function to update controllers on each frame
+     * Function to update gamepads on each frame
      * @param params currentTime and frame
      */
     onUpdate(params: { currentTime: number; frame: any }): void {
-        this.oculusQuestManager.update(params);
+        this.oculusQuestManager.manipulateModel(params);
     }
 
     onDestroy(): void {
-        // Module destroy function. Use it to destroy and dispose instances.
     }
 
     onResume(): void {
@@ -77,17 +75,15 @@ export class OculusQuestModule extends AbstractModule {
     onPause(): void {
     }
 
-    /**
-     * Function to check is Oculus Quest browser opened
-     */
     checkQuestBrowser() {
         const uaToken = 'Quest';
         return !!navigator.userAgent.match(uaToken);
     }
 
-
     checkXRSupport() {
         // @ts-ignore
         return navigator?.xr?.isSessionSupported instanceof Function;
     }
+
+
 }
