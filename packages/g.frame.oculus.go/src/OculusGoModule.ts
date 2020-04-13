@@ -4,17 +4,15 @@ import { Object3D } from 'three';
 import { OculusGoActionController } from './OculusGoControllers/OculusGoActionController';
 import { OculusGoManager } from './OculusGoManager';
 import { OculusGoModel } from './OculusGoModel';
-import { OculusGoViewChanger } from './View/OculusGoViewChanger';
 
 export class OculusGoModule extends AbstractModule {
-    public inputSourceManager: OculusGoManager;
-    public oculusGoViewChanger: OculusGoViewChanger;
-    private readonly moduleContainer: Object3D;
+    public oculusGoManager: OculusGoManager;
+    private readonly container: Object3D;
 
     constructor() {
         super();
-        this.moduleContainer = new Object3D();
-        this.moduleContainer.name = 'OCULUS_GO_CONTAINER';
+        this.container = new Object3D();
+        this.container.name = 'OculusGoModuleContainer';
     }
 
     async preInit(): Promise<AbstractModuleStatus> {
@@ -27,10 +25,6 @@ export class OculusGoModule extends AbstractModule {
         // Init Model
         const oculusGoModel = new OculusGoModel(data.viewer);
 
-        // Init ViewChanger
-        this.oculusGoViewChanger = new OculusGoViewChanger(oculusGoModel);
-        this.oculusGoViewChanger.setCurrentView();
-
         // Init ActionController
         const actionController = new OculusGoActionController({
             minRaycasterDistance: 0,
@@ -38,26 +32,25 @@ export class OculusGoModule extends AbstractModule {
         }, oculusGoModel);
 
         // Init Controller
-        this.inputSourceManager = new OculusGoManager(data.viewer.renderer, oculusGoModel);
-
-        this.moduleContainer.add(oculusGoModel.mainContainer);
+        this.oculusGoManager = new OculusGoManager(data.viewer.renderer, oculusGoModel);
+        this.container.add(oculusGoModel.mainContainer);
 
         return [
-            this.inputSourceManager,
+            this.oculusGoManager,
             actionController,
         ];
     }
 
     afterInit(agents: ConstructorInstanceMap<any>): void {
-        this.oculusGoViewChanger.prepareResources(agents.get(Loader));
+        this.oculusGoManager.prepareResources(agents.get(Loader));
     }
 
     getModuleContainer(): Object3D {
-        return this.moduleContainer;
+        return this.container;
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {
-        this.inputSourceManager.manipulateModel(params);
+        this.oculusGoManager.manipulateModel(params);
     }
 
     onDestroy(): void {

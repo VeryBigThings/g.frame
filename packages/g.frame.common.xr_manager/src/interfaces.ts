@@ -1,4 +1,4 @@
-import {Object3D} from 'three';
+import {Object3D, Quaternion, Vector3, Vector4} from 'three';
 import {EventDispatcher} from '@verybigthings/g.frame.core/build/main';
 
 export enum XRViewStatus {
@@ -18,6 +18,7 @@ export enum XRControllerModelEvents {
 export interface IXRControllerModel extends EventDispatcher<XRControllerModelEvents> {
     manipulateModel: (...args: any[]) => void;
     mainContainer: Object3D;
+    model: any;
     updateView: (newXRControllerView?: IXRControllerView) => void;
 }
 

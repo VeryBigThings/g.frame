@@ -1,21 +1,18 @@
+import { IXRControllerView, XRViewStatus, ControllerHandnessCodes, IXRControllerModel } from '@verybigthings/g.frame.common.xr_manager';
 import { Loader, FBX_MODEL } from '@verybigthings/g.frame.common.loaders';
 import { Object3D, Group, Mesh, CircleBufferGeometry, CylinderBufferGeometry, MeshBasicMaterial } from 'three';
 import {LoaderEventsName} from '@verybigthings/g.frame.common.loaders/build/main';
 
 declare function require(s: string): string;
 
-export interface IOculusGoView {
-    uiObject: Object3D;
-    loaded(): boolean;
+export interface IOculusGoView extends IXRControllerView {
     prepareResources(loader: Loader<any>): void;
-    updateView(viewModel: any): void;
-    hideView(): void;
 }
 
 export class OculusGoView implements IOculusGoView {
     public uiObject: Object3D;
 
-    private _loaded: boolean;
+    private _status: XRViewStatus = XRViewStatus.PREPARING;
     private loader: Loader<any>;
 
     private axisContainer: Group;
@@ -44,12 +41,12 @@ export class OculusGoView implements IOculusGoView {
         this.loader.once(LoaderEventsName.loaded, () => this.addResources());
     }
 
-    public loaded(): boolean {
-        return this._loaded;
+    getStatus() {
+        return this._status;
     }
 
     private addResources() {
-        this._loaded = true;
+        this._status = XRViewStatus.READY;
 
         const controller = this.loader.getResource<Object3D>('oculus_go_controller');
 
@@ -73,14 +70,15 @@ export class OculusGoView implements IOculusGoView {
         });
     }
 
-    updateView(model: any) {
+    updateView(viewModel: IXRControllerModel) {
+        const model = viewModel.model;
         if (model.enabled) {
             if (!this.uiObject.visible) this.uiObject.visible = !this.uiObject.visible;
             this.updateButtons(model.trigger);
             this.updateTouch(model);
             this.modelContainer.setRotationFromQuaternion(model.pose.orientation);
         } else {
-            this.hideView();
+            this.hideView(ControllerHandnessCodes.NONE);
         }
     }
 
@@ -126,7 +124,7 @@ export class OculusGoView implements IOculusGoView {
         this.modelContainer.add(this.ray);
     }
 
-    hideView() {
-        this.uiObject.visible = false;
+    hideView(code: number) {
+        if (code === ControllerHandnessCodes.NONE && this.uiObject) this.uiObject.visible = false;
     }
 }

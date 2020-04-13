@@ -1,9 +1,8 @@
-import {EventDispatcher, ParentEvent} from '@verybigthings/g.frame.core';
-import {Matrix4, Mesh, Object3D, Quaternion, Vector3, Vector4} from 'three';
-import {VRControlsEvent} from './OculusQuestControllers/VRControlsEvent';
-import {IOculusQuestView} from './OculusQuestView';
-import {Pointer} from './OculusQuestControllers/Pointer';
-import {ControllerHandnessCodes} from '@verybigthings/g.frame.common.xr_manager/build/main/interfaces';
+import { ControllerHandnessCodes, IXRControllerModel, IXRControllerView, XRControllerModelEvents } from '@verybigthings/g.frame.common.xr_manager';
+import { EventDispatcher, ParentEvent } from '@verybigthings/g.frame.core';
+import { Matrix4, Mesh, Object3D, Quaternion, Vector3, Vector4 } from 'three';
+import { VRControlsEvent } from './OculusQuestControllers/VRControlsEvent';
+import { Pointer } from './OculusQuestControllers/Pointer';
 
 const config = {
     0: 'trigger',
@@ -13,6 +12,13 @@ const config = {
     4: 'botBtn',
     5: 'topBtn',
 };
+
+type XRFrame = any;
+
+interface IOculusQuestControllersModel {
+    left: IOculusQuestControllerModel;
+    right: IOculusQuestControllerModel;
+}
 
 interface IOculusQuestControllerModel {
     enabled: boolean;
@@ -50,18 +56,11 @@ interface IOculusQuestControllerModel {
     };
 }
 
-interface IOculusQuestControllersModel {
-    left: IOculusQuestControllerModel;
-    right: IOculusQuestControllerModel;
-}
-
-type XRFrame = any;
-
-export class OculusQuestModel extends EventDispatcher<string> {
+export class OculusQuestModel extends EventDispatcher<XRControllerModelEvents> implements IXRControllerModel {
     public mainContainer: Object3D;
 
-    private readonly model: IOculusQuestControllersModel;
-    private currentOculusQuestView: IOculusQuestView;
+    public model: IOculusQuestControllersModel;
+    private currentOculusQuestView: IXRControllerView;
     private pointerLeft: Pointer;
     private pointerRight: Pointer;
     private pointerWrapperLeft: Object3D;
@@ -149,7 +148,7 @@ export class OculusQuestModel extends EventDispatcher<string> {
         this.setPointers();
     }
 
-    updateView(newOculusQuestView: IOculusQuestView | null) {
+    updateView(newOculusQuestView: IXRControllerView | null) {
         this.currentOculusQuestView?.uiObject?.parent?.remove(this.currentOculusQuestView.uiObject);
         this.currentOculusQuestView = newOculusQuestView;
         this.mainContainer.add(this.currentOculusQuestView?.uiObject);
@@ -185,8 +184,8 @@ export class OculusQuestModel extends EventDispatcher<string> {
             this.currentOculusQuestView?.hideView(ControllerHandnessCodes.RIGHT);
         }
 
-        this.fire('controllerChange', new ParentEvent('controllerChange', this.model));
-        this.currentOculusQuestView?.updateView(this.model);
+        this.fire(XRControllerModelEvents.controllerChanged, new ParentEvent(XRControllerModelEvents.controllerChanged, this.model));
+        this.currentOculusQuestView?.updateView(this);
     }
 
     dispose(code: number) {
@@ -210,7 +209,7 @@ export class OculusQuestModel extends EventDispatcher<string> {
         // Left pointer
         this.pointerWrapperLeft = new Object3D();
         this.pointerWrapperLeft.name = 'LeftPointerWrapper';
-        this.pointerLeft = new Pointer(this.data.viewer.scene, {color: 0xff2222}, this.data.viewer.camera);
+        this.pointerLeft = new Pointer(this.data.viewer.scene, { color: 0xff2222 }, this.data.viewer.camera);
         this.pointerLeft.uiObject.position.set(-0.0095, -0.00151, -5);
         this.pointerLeft.uiObject.rotation.set(0, Math.PI, 0);
         this.pointerWrapperLeft.add(this.pointerLeft.uiObject);
@@ -218,7 +217,7 @@ export class OculusQuestModel extends EventDispatcher<string> {
         // Right pointer
         this.pointerWrapperRight = new Object3D();
         this.pointerWrapperLeft.name = 'RightPointerWrapper';
-        this.pointerRight = new Pointer(this.data.viewer.scene, {color: 0x2222ff}, this.data.viewer.camera);
+        this.pointerRight = new Pointer(this.data.viewer.scene, { color: 0x2222ff }, this.data.viewer.camera);
         this.pointerRight.uiObject.position.set(0.0095, -0.00151, -5);
         this.pointerRight.uiObject.rotation.set(0, Math.PI, 0);
         this.pointerWrapperRight.add(this.pointerRight.uiObject);
@@ -251,13 +250,13 @@ export class OculusQuestModel extends EventDispatcher<string> {
     private updateEvents(gamepad, model: IOculusQuestControllerModel, pointer: Object3D, wrapper: Object3D, code: number) {
         const newButtonDown = gamepad.buttons[0].pressed;
 
-        this.fire('move', new ParentEvent<string>('move', this.getEventData(wrapper, pointer, code)));
+        this.fire(XRControllerModelEvents.move, new ParentEvent(XRControllerModelEvents.move, this.getEventData(wrapper, pointer, code)));
         if (!model.trigger.pressed && newButtonDown) {
-            this.fire('buttonDown', new ParentEvent<string>('buttonDown', this.getEventData(wrapper, pointer, code)));
+            this.fire(XRControllerModelEvents.buttonDown, new ParentEvent(XRControllerModelEvents.buttonDown, this.getEventData(wrapper, pointer, code)));
         }
         if (model.trigger.pressed && !newButtonDown) {
-            this.fire('buttonUp', new ParentEvent<string>('buttonUp', this.getEventData(wrapper, pointer, code)));
-            this.fire('click', new ParentEvent<string>('click', this.getEventData(wrapper, pointer, code)));
+            this.fire(XRControllerModelEvents.buttonUp, new ParentEvent(XRControllerModelEvents.buttonUp, this.getEventData(wrapper, pointer, code)));
+            this.fire(XRControllerModelEvents.click, new ParentEvent(XRControllerModelEvents.click, this.getEventData(wrapper, pointer, code)));
         }
         model.trigger.pressed = newButtonDown;
     }

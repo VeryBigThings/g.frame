@@ -1,11 +1,11 @@
-import {ConeBufferGeometry, Group, Mesh, MeshBasicMaterial, Object3D, Vector3} from 'three';
-import {ViewerModule} from '@verybigthings/g.frame.core';
-import {IOculusQuestView, CONTROLLER_HANDEDNESS_CODE} from '@verybigthings/g.frame.oculus.quest';
+import {XRViewStatus, ControllerHandnessCodes, IXRControllerModel} from '@verybigthings/g.frame.common.xr_manager';
 import {FBX_MODEL, Loader} from '@verybigthings/g.frame.common.loaders';
-import {LoaderEventsName} from '@verybigthings/g.frame.common.loaders/build/main';
+import {IOculusQuestView} from '@verybigthings/g.frame.oculus.quest';
+import {ViewerModule} from '@verybigthings/g.frame.core';
+import {ConeBufferGeometry, Group, Mesh, MeshBasicMaterial, Object3D, Vector3} from 'three';
 
 export default class QuestHandView extends ViewerModule implements IOculusQuestView {
-    private _loaded: boolean;
+    private _status: XRViewStatus = XRViewStatus.PREPARING;
     private loader: Loader<any>;
     private controllerLeft: Object3D;
     private controllerRight: Object3D;
@@ -30,8 +30,8 @@ export default class QuestHandView extends ViewerModule implements IOculusQuestV
         super();
     }
 
-    public loaded(): boolean {
-        return this._loaded;
+    getStatus() {
+        return this._status;
     }
 
     prepareResources(loader: Loader<any>) {
@@ -54,7 +54,7 @@ export default class QuestHandView extends ViewerModule implements IOculusQuestV
     }
 
     init() {
-        this._loaded = true;
+        this._status = XRViewStatus.READY;
 
         // const material = controller;
         this.controllerLeft = this.loader.getResource<Object3D>('left_quest_hand');
@@ -283,17 +283,18 @@ export default class QuestHandView extends ViewerModule implements IOculusQuestV
         this.addObject(rayRight, null, this.controllerRightWrapper);
     }
 
-    updateView(viewModel: any) {
+    updateView(viewModel: IXRControllerModel) {
+        const model = viewModel.model;
         // Left
-        if (viewModel.left.enabled) {
+        if (model.left.enabled) {
             this.controllerLeftWrapper.visible = true;
-            this.visualUpdate(viewModel.left, this.controllerLeft, this.controllerLeftWrapper);
+            this.visualUpdate(model.left, this.controllerLeft, this.controllerLeftWrapper);
         }
 
         // Right
-        if (viewModel.right.enabled) {
+        if (model.right.enabled) {
             this.controllerRightWrapper.visible = true;
-            this.visualUpdate(viewModel.right, this.controllerRight, this.controllerRightWrapper);
+            this.visualUpdate(model.right, this.controllerRight, this.controllerRightWrapper);
         }
     }
 
@@ -406,7 +407,7 @@ export default class QuestHandView extends ViewerModule implements IOculusQuestV
     }
 
     hideView(code: number) {
-        if (code === CONTROLLER_HANDEDNESS_CODE.LEFT && this.controllerLeftWrapper) this.controllerLeftWrapper.visible = false;
-        if (code === CONTROLLER_HANDEDNESS_CODE.RIGHT && this.controllerRightWrapper) this.controllerRightWrapper.visible = false;
+        if (code === ControllerHandnessCodes.LEFT && this.controllerLeftWrapper) this.controllerLeftWrapper.visible = false;
+        if (code === ControllerHandnessCodes.RIGHT && this.controllerRightWrapper) this.controllerRightWrapper.visible = false;
     }
 }
