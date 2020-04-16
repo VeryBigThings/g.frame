@@ -1,6 +1,6 @@
 import {TemplateA} from './TemplateA';
-import {Mesh, MeshBasicMaterial, Object3D, PlaneGeometry, PositionalAudio} from 'three';
-import {FBX_MODEL, Loader, POSITIONAL_AUDIO, TEXTURE, VIDEO} from '@verybigthings/g.frame.common.loaders';
+import {Mesh, MeshBasicMaterial, Object3D, PlaneGeometry, PositionalAudio, Scene, PointLight, LineCurve, AmbientLight} from 'three';
+import {FBX_MODEL, Loader, POSITIONAL_AUDIO, TEXTURE, VIDEO, DAE_MODEL, GLTF_MODEL, OBJ_MODEL, OBJ2_MODEL} from '@verybigthings/g.frame.common.loaders';
 import {PickingController, PickingControllerEvents} from '@verybigthings/g.frame.common.picking_controller';
 import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
@@ -24,6 +24,22 @@ export class TemplateB extends TemplateA {
                 name: 'sample_model',
                 url: require('./assets/models/arrow.fbx'),
                 type: FBX_MODEL
+            }, {
+                name: 'sample_model_collada',
+                url: require('./assets/models/collada/elf/elf.dae'),
+                type: DAE_MODEL
+            }, {
+                name: 'sample_model_gltf',
+                url: require('./assets/models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf'),
+                type: GLTF_MODEL
+            }, {
+                name: 'sample_model_obj',
+                url: require('./assets/models/obj/male02/male02.obj'),
+                type: OBJ_MODEL
+            }, {
+                name: 'sample_model_obj2',
+                url: require('./assets/models/obj/female02/female02.obj'),
+                type: OBJ2_MODEL
             }, {
                 name: 'sample_positional_audio',
                 url: require('./assets/sounds/failFx.mp3'),
@@ -52,6 +68,28 @@ export class TemplateB extends TemplateA {
     }
 
     addResources() {
+        let modelCollada, modelGltf, modelObj, modelObj2;
+
+        modelCollada = this.loader.getResource<Object3D>('sample_model_collada');
+        modelGltf = this.loader.getResource<Object3D>('sample_model_gltf');
+        modelObj = this.loader.getResource<Object3D>('sample_model_obj');
+        modelObj2 = this.loader.getResource<Object3D>('sample_model_obj2');
+
+        modelCollada.scale.set(0.25, 0.25, 0.25);
+        modelGltf.scale.set(0.25, 0.25, 0.25);
+        modelObj.scale.set(0.01, 0.01, 0.01);
+        modelObj2.scale.set(0.01, 0.01, 0.01);
+
+        modelCollada.position.set(-4, 0, -1.5);
+        modelGltf.position.set(3.5, 1.5, -1.5);
+        modelObj.position.set(-2.5, 0, -1.5);
+        modelObj2.position.set(2.5, 0, -1.5);
+
+        modelCollada.visible = false;
+
+        this.scene.add(modelCollada, modelGltf, modelObj, modelObj2, new AmbientLight());
+
+
         let model, audio, plane;
         this.scene.add(model = this.loader.getResource<Object3D>('sample_model'));
         this.scene.add(audio = this.loader.getResource<PositionalAudio>('sample_positional_audio'));
