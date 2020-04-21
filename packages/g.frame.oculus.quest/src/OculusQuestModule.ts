@@ -1,10 +1,10 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
-import {Loader} from '@verybigthings/g.frame.common.loaders';
-import {Object3D} from 'three';
-import {OculusQuestPickingController} from './OculusQuestControllers/OculusQuestPickingController';
-import {OculusQuestActionController} from './OculusQuestControllers/OculusQuestActionController';
-import {OculusQuestManager} from './OculusQuestManager';
-import {OculusQuestModel} from './OculusQuestModel';
+import { AbstractModule, AbstractModuleStatus, ConstructorInstanceMap } from '@verybigthings/g.frame.core';
+import { Loader } from '@verybigthings/g.frame.common.loaders';
+import { Object3D } from 'three';
+import { OculusQuestPickingController } from './OculusQuestControllers/OculusQuestPickingController';
+import { OculusQuestActionController } from './OculusQuestControllers/OculusQuestActionController';
+import { OculusQuestManager } from './OculusQuestManager';
+import { OculusQuestModel } from './OculusQuestModel';
 
 export class OculusQuestModule extends AbstractModule {
     public oculusQuestManager: OculusQuestManager;
@@ -16,31 +16,34 @@ export class OculusQuestModule extends AbstractModule {
         this.container.name = 'OculusQuestModuleContainer';
     }
 
+    /**
+     * Module pre initialization.. Just make sure, that module is supported.
+     */
     async preInit(): Promise<AbstractModuleStatus> {
         return {
             enabled: this.checkQuestBrowser() && this.checkXRSupport(),
         };
     }
 
+    /**
+     * Module initialization.. Inits main controllers. Inits Oculus Quest model and manager
+     */
     async onInit(data: any): Promise<Array<any>> {
-        // Init Model
         const oculusQuestModel = new OculusQuestModel(data);
+        this.oculusQuestManager = new OculusQuestManager(data.viewer.renderer, oculusQuestModel);
 
-        // Init ActionController
         const actionController = new OculusQuestActionController(data, {
             minRaycasterDistance: 0,
             maxRaycasterDistance: Infinity
         }, oculusQuestModel);
 
-        // Init PickingController
         const pickingController = new OculusQuestPickingController(data, {
             minPickingDistance: 0,
             maxPickingDistance: Infinity,
             controllersQuantity: 2,
         }, oculusQuestModel);
 
-        // Init Manager
-        this.oculusQuestManager = new OculusQuestManager(data.viewer.renderer, oculusQuestModel);
+        // Adds view to the module container
         this.container.add(oculusQuestModel.mainContainer);
 
         return [
@@ -50,17 +53,22 @@ export class OculusQuestModule extends AbstractModule {
         ];
     }
 
+    /**
+     * Module after initialization.. Loads all needed resources
+     */
     afterInit(agents: ConstructorInstanceMap<any>): void {
         this.oculusQuestManager.prepareResources(agents.get(Loader));
     }
 
+    /**
+     * Returns module container
+     */
     getModuleContainer(): Object3D {
         return this.container;
     }
 
     /**
-     * Function to update gamepads on each frame
-     * @param params currentTime and frame
+     * Updates module on each frame
      */
     onUpdate(params: { currentTime: number; frame: any }): void {
         this.oculusQuestManager.manipulateModel(params);
@@ -75,15 +83,19 @@ export class OculusQuestModule extends AbstractModule {
     onPause(): void {
     }
 
+    /**
+     * Checks if Oculus Quest Browser is being used
+     */
     checkQuestBrowser() {
         const uaToken = 'Quest';
         return !!navigator.userAgent.match(uaToken);
     }
 
+    /**
+     * Checks if XR session is supported
+     */
     checkXRSupport() {
         // @ts-ignore
         return navigator?.xr?.isSessionSupported instanceof Function;
     }
-
-
 }

@@ -40,10 +40,18 @@ export class OculusQuestView implements IOculusQuestView {
         this.uiObject.name = 'OculusQuestViewContainer';
     }
 
+    /**
+     * Returns current status of the Oculus Quest view
+     */
     getStatus() {
         return this._status;
     }
 
+    /**
+     * Loads all resources.
+     * Adds all models into uiObject when loaded
+     * @param loader Current loader
+     */
     prepareResources(loader: Loader<any>) {
         this.loader = loader;
         this.loader.addResources([
@@ -58,8 +66,8 @@ export class OculusQuestView implements IOculusQuestView {
     }
 
     /**
-     * Function to check which view should be updated
-     * @param model Data for the update
+     * Updates the whole view of the Oculus Quest controllers
+     * @param viewModel Current state of the model
      */
     updateView(viewModel: IXRControllerModel) {
         const model = viewModel.model;
@@ -72,11 +80,19 @@ export class OculusQuestView implements IOculusQuestView {
         } else this.hideView(ControllerHandnessCodes.RIGHT);
     }
 
+    /**
+     * Hides Oculus Quest controller view
+     * @param code Controller code which should be hided
+     */
     hideView(code: number) {
         if (code === ControllerHandnessCodes.LEFT && this.gamepadWrapperLeft) this.gamepadWrapperLeft.visible = false;
         if (code === ControllerHandnessCodes.RIGHT && this.gamepadWrapperRight) this.gamepadWrapperRight.visible = false;
     }
 
+    /**
+     * Adds all models into one uiObject container
+     * Updates current status of the view
+     */
     private addResources() {
         this._status = XRViewStatus.READY;
 
@@ -218,8 +234,8 @@ export class OculusQuestView implements IOculusQuestView {
     }
 
     /**
-     * Function to update one view
-     * @param model Data for the update
+     * Updates one Oculus Quest controller view
+     * @param model Current state of the model
      * @param gamepad View of the gamepad
      * @param wrapper Gamepad's wrapper. It is necessary because we rotate the wrapper using Quaternion and the gamepad using Euler
      * @param coefficient Left view should be mirrored

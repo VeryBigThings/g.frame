@@ -13,6 +13,9 @@ const config = {
     5: 'topBtn',
 };
 
+/**
+ * TO DO: Describe XRFrame
+ */
 type XRFrame = any;
 
 interface IOculusQuestControllersModel {
@@ -61,10 +64,15 @@ export class OculusQuestModel extends EventDispatcher<XRControllerModelEvents> i
 
     public model: IOculusQuestControllersModel;
     private currentOculusQuestView: IXRControllerView;
+
     private pointerLeft: Pointer;
     private pointerRight: Pointer;
     private pointerWrapperLeft: Object3D;
     private pointerWrapperRight: Object3D;
+
+    private frame: XRFrame;
+    private inputSourceLeft: any;
+    private inputSourceRight: any;
 
     constructor(private data: any) {
         super();
@@ -72,6 +80,7 @@ export class OculusQuestModel extends EventDispatcher<XRControllerModelEvents> i
         this.mainContainer = new Object3D();
         this.mainContainer.name = 'View&PointersContainer';
 
+        // Init the model
         this.model = {
             left: {
                 enabled: false,
@@ -148,6 +157,10 @@ export class OculusQuestModel extends EventDispatcher<XRControllerModelEvents> i
         this.setPointers();
     }
 
+    /**
+     * Removes current and adds new Oculus Quest controllers view to the container
+     * @param newOculusGoView This view will replace current Oculus Quest view itself
+     */
     updateView(newOculusQuestView: IXRControllerView | null) {
         this.currentOculusQuestView?.uiObject?.parent?.remove(this.currentOculusQuestView.uiObject);
         this.currentOculusQuestView = newOculusQuestView;
@@ -155,31 +168,34 @@ export class OculusQuestModel extends EventDispatcher<XRControllerModelEvents> i
     }
 
     /**
-     * Updates the Model and sends it to the current View
-     * @param frame XRFrame
+     * Updates state of the model. Updates current Oculus Quest controllers view
+     * @param inputSourceLeft Current input source from left controller
+     * @param inputSourceRight Current input source from right controller
+     * @param frame Current frame
      */
     manipulateModel(inputSourceLeft, inputSourceRight, frame: XRFrame) {
         this.model.left.enabled = false;
         this.model.right.enabled = false;
+        this.frame = frame;
+        this.inputSourceLeft = inputSourceLeft;
+        this.inputSourceRight = inputSourceRight;
 
-        if (inputSourceLeft && frame) {
+        if (this.inputSourceLeft && this.frame) {
             this.model.left.enabled = true;
-            const gamepad = inputSourceLeft.gamepad;
 
-            this.updatePose(frame, this.model.left, this.pointerLeft.uiObject, this.pointerWrapperLeft, inputSourceLeft);
-            this.updateEvents(gamepad, this.model.left, this.pointerLeft.uiObject, this.pointerWrapperLeft, ControllerHandnessCodes.LEFT);
-            this.updateModel(gamepad, this.model.left);
+            this.updatePose(ControllerHandnessCodes.LEFT);
+            this.updateEvents(ControllerHandnessCodes.LEFT);
+            this.updateModel(ControllerHandnessCodes.LEFT);
         } else {
             this.currentOculusQuestView?.hideView(ControllerHandnessCodes.LEFT);
         }
 
-        if (inputSourceRight && frame) {
+        if (this.inputSourceRight && this.frame) {
             this.model.right.enabled = true;
-            const gamepad = inputSourceRight.gamepad;
 
-            this.updatePose(frame, this.model.right, this.pointerRight.uiObject, this.pointerWrapperRight, inputSourceRight);
-            this.updateEvents(gamepad, this.model.right, this.pointerRight.uiObject, this.pointerWrapperRight, ControllerHandnessCodes.RIGHT);
-            this.updateModel(gamepad, this.model.right);
+            this.updatePose(ControllerHandnessCodes.RIGHT);
+            this.updateEvents(ControllerHandnessCodes.RIGHT);
+            this.updateModel(ControllerHandnessCodes.RIGHT);
         } else {
             this.currentOculusQuestView?.hideView(ControllerHandnessCodes.RIGHT);
         }
@@ -188,22 +204,94 @@ export class OculusQuestModel extends EventDispatcher<XRControllerModelEvents> i
         this.currentOculusQuestView?.updateView(this);
     }
 
-    dispose(code: number) {
+    /**
+     * Updates position and orientation of a controller and pointer
+     * @param code Defines which controller will be updated
+     */
+    private updatePose(code: number) {
+        let model: IOculusQuestControllerModel, inputSource: any, pointer: Object3D, pointerWrapper: Object3D;
+
         if (code === ControllerHandnessCodes.LEFT) {
-            (<Mesh>this.pointerLeft.uiObject).material['dispose']();
-            (<Mesh>this.pointerLeft.uiObject).geometry.dispose();
-            this.pointerWrapperLeft = null;
+            model = this.model.left;
+            inputSource = this.inputSourceLeft;
+            pointer = this.pointerLeft.uiObject;
+            pointerWrapper = this.pointerWrapperLeft;
+        } else if (code === ControllerHandnessCodes.RIGHT) {
+            model = this.model.right;
+            inputSource = this.inputSourceRight;
+            pointer = this.pointerRight.uiObject;
+            pointerWrapper = this.pointerWrapperRight;
+        } else {
+            return;
         }
 
-        if (code === ControllerHandnessCodes.RIGHT) {
-            (<Mesh>this.pointerRight.uiObject).material['dispose']();
-            (<Mesh>this.pointerRight.uiObject).geometry.dispose();
-            this.pointerWrapperRight = null;
-        }
+        const inputPose = this.frame.getPose(inputSource.targetRaySpace, this.data.viewer.renderer.xr.getReferenceSpace());
+        new Matrix4().fromArray(inputPose.transform.matrix).decompose(model.pose.position, model.pose.orientation, new Vector3());
+        new Matrix4().fromArray(inputPose.transform.matrix).decompose(pointerWrapper.position, pointerWrapper.quaternion, new Vector3());
+
+        pointer.updateMatrixWorld(true);
+        this.mainContainer.updateMatrixWorld(true);
     }
 
     /**
-     * Function to add Pointers in 3d space
+     * Checks and fires custom events
+     * @param code Defines which controller will be checked
+     */
+    private updateEvents(code: number) {
+        let model: IOculusQuestControllerModel, inputSource: any;
+
+        if (code === ControllerHandnessCodes.LEFT) {
+            model = this.model.left;
+            inputSource = this.inputSourceLeft;
+        } else if (code === ControllerHandnessCodes.RIGHT) {
+            model = this.model.right;
+            inputSource = this.inputSourceRight;
+        } else {
+            return;
+        }
+
+        const newButtonDown = inputSource.gamepad.buttons[0].pressed;
+
+        this.fire(XRControllerModelEvents.move, new ParentEvent(XRControllerModelEvents.move, this.getEventData(code)));
+        if (!model.trigger.pressed && newButtonDown) {
+            this.fire(XRControllerModelEvents.buttonDown, new ParentEvent(XRControllerModelEvents.buttonDown, this.getEventData(code)));
+        }
+        if (model.trigger.pressed && !newButtonDown) {
+            this.fire(XRControllerModelEvents.buttonUp, new ParentEvent(XRControllerModelEvents.buttonUp, this.getEventData(code)));
+            this.fire(XRControllerModelEvents.click, new ParentEvent(XRControllerModelEvents.click, this.getEventData(code)));
+        }
+        model.trigger.pressed = newButtonDown;
+    }
+
+    /**
+     * Updates states of the buttons
+     * @param code Defines which model will be updated
+     */
+    private updateModel(code: number) {
+        let model: IOculusQuestControllerModel, gamepad: any;
+
+        if (code === ControllerHandnessCodes.LEFT) {
+            model = this.model.left;
+            gamepad = this.inputSourceLeft.gamepad;
+        } else if (code === ControllerHandnessCodes.RIGHT) {
+            model = this.model.right;
+            gamepad = this.inputSourceRight.gamepad;
+        } else {
+            return;
+        }
+
+        model.stick.axes = new Vector4(gamepad.axes[0], gamepad.axes[1], gamepad.axes[2], gamepad.axes[3]);
+        model.trigger.value = gamepad.buttons[0].value;
+        model.squeeze.value = gamepad.buttons[1].value;
+        gamepad.buttons.forEach((el: GamepadButton, index: number) => {
+            model[config[index]] && (model[config[index]].touched = el.touched);
+            model[config[index]] && (model[config[index]].pressed = el.pressed);
+            model[config[index]] && (model[config[index]].value = el.value);
+        });
+    }
+
+    /**
+     * Adds pointers into container to help aim
      */
     private setPointers() {
         // Left pointer
@@ -226,58 +314,39 @@ export class OculusQuestModel extends EventDispatcher<XRControllerModelEvents> i
     }
 
     /**
-     * Updates position and orientation of the pointers
-     * @param frame XRFrame
-     * @param model Gamepad's model which data should be updated
+     * Returns a direction of the aiming
+     * @param code Defines which pointer will be used
      */
-    private updatePose(frame: XRFrame, model: IOculusQuestControllerModel, pointer, wrapper, inputSource) {
-        const inputPose = frame.getPose(inputSource.targetRaySpace, this.data.viewer.renderer.xr.getReferenceSpace());
-        new Matrix4().fromArray(inputPose.transform.matrix).decompose(model.pose.position, model.pose.orientation, new Vector3());
-        new Matrix4().fromArray(inputPose.transform.matrix).decompose(wrapper.position, wrapper.quaternion, new Vector3());
+    private getEventData(code: number): VRControlsEvent {
+        let pointer: Object3D, pointerWrapper: Object3D;
 
-        pointer.updateMatrixWorld(true);
-        this.mainContainer.updateMatrixWorld(true);
+        if (code === ControllerHandnessCodes.LEFT) {
+            pointer = this.pointerLeft.uiObject;
+            pointerWrapper = this.pointerWrapperLeft;
+        } else if (code === ControllerHandnessCodes.RIGHT) {
+            pointer = this.pointerRight.uiObject;
+            pointerWrapper = this.pointerWrapperRight;
+        } else {
+            return;
+        }
+
+        return new VRControlsEvent('createdEvent', pointerWrapper.localToWorld(new Vector3()), pointer.localToWorld(new Vector3()), code);
     }
 
     /**
-     * Updates custom events
-     * @param gamepad Data with current gamepad's states
-     * @param model Gamepad's model which data should be updated
-     * @param pointer Needs to calculate the direction of the ray for the raycaster
-     * @param wrapper Actually the start point of the ray for the raycaster
-     * @param code Needs to understand which controller is firing the events
+     * Removes pointers
      */
-    private updateEvents(gamepad, model: IOculusQuestControllerModel, pointer: Object3D, wrapper: Object3D, code: number) {
-        const newButtonDown = gamepad.buttons[0].pressed;
-
-        this.fire(XRControllerModelEvents.move, new ParentEvent(XRControllerModelEvents.move, this.getEventData(wrapper, pointer, code)));
-        if (!model.trigger.pressed && newButtonDown) {
-            this.fire(XRControllerModelEvents.buttonDown, new ParentEvent(XRControllerModelEvents.buttonDown, this.getEventData(wrapper, pointer, code)));
+    dispose(code: number) {
+        if (code === ControllerHandnessCodes.LEFT) {
+            (<Mesh>this.pointerLeft.uiObject).material['dispose']();
+            (<Mesh>this.pointerLeft.uiObject).geometry.dispose();
+            this.pointerWrapperLeft = null;
         }
-        if (model.trigger.pressed && !newButtonDown) {
-            this.fire(XRControllerModelEvents.buttonUp, new ParentEvent(XRControllerModelEvents.buttonUp, this.getEventData(wrapper, pointer, code)));
-            this.fire(XRControllerModelEvents.click, new ParentEvent(XRControllerModelEvents.click, this.getEventData(wrapper, pointer, code)));
+
+        if (code === ControllerHandnessCodes.RIGHT) {
+            (<Mesh>this.pointerRight.uiObject).material['dispose']();
+            (<Mesh>this.pointerRight.uiObject).geometry.dispose();
+            this.pointerWrapperRight = null;
         }
-        model.trigger.pressed = newButtonDown;
-    }
-
-    /**
-     * Updates data of the gamepad's model
-     * @param gamepad Data with current gamepad's states
-     * @param model Gamepad's model which data should be updated
-     */
-    private updateModel(gamepad, model: IOculusQuestControllerModel) {
-        model.stick.axes = new Vector4(gamepad.axes[0], gamepad.axes[1], gamepad.axes[2], gamepad.axes[3]);
-        model.trigger.value = gamepad.buttons[0].value;
-        model.squeeze.value = gamepad.buttons[1].value;
-        gamepad.buttons.forEach((el: GamepadButton, index: number) => {
-            model[config[index]] && (model[config[index]].touched = el.touched);
-            model[config[index]] && (model[config[index]].pressed = el.pressed);
-            model[config[index]] && (model[config[index]].value = el.value);
-        });
-    }
-
-    private getEventData(uiObject: Object3D, controller: Object3D, code: number): VRControlsEvent {
-        return new VRControlsEvent('createdEvent', uiObject.localToWorld(new Vector3()), controller.localToWorld(new Vector3()), code);
     }
 }

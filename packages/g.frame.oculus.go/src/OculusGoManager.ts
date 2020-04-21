@@ -11,18 +11,27 @@ export class OculusGoManager extends XRManager {
 
     constructor(renderer: WebGLRenderer, protected controllerModel: OculusGoModel) {
         super(renderer);
+
         this.defaultXRControllerView = new OculusGoView();
         this.currentXRControllerView = this.defaultXRControllerView;
-        this.setXRControllerView(this.currentXRControllerView);
 
+        this.setXRControllerView(this.currentXRControllerView);
         this.createButton();
         this.initEvents();
     }
 
+    /**
+     * Sends current input source info to the model
+     * @param params Current parameters
+     */
     manipulateModel(params: { currentTime: number; frame: any }) {
         this.controllerModel.manipulateModel(this.inputSource, params.frame);
     }
 
+    /**
+     * Checks and load all resources for current xr view
+     * @param loader Current loader
+     */
     prepareResources(loader: Loader<any>) {
         if (this.currentXRControllerView.getStatus() !== XRViewStatus.READY) this.currentXRControllerView.prepareResources(loader);
     }
@@ -35,6 +44,10 @@ export class OculusGoManager extends XRManager {
         super.goFromVR();
     }
 
+    /**
+     * Updates input source on each frame
+     * @param inputSources Array with input source
+     */
     protected setInputSources(inputSources) {
         super.setInputSources(inputSources);
         this.controllerModel.mainContainer.visible = true;
@@ -43,6 +56,9 @@ export class OculusGoManager extends XRManager {
         });
     }
 
+    /**
+     * Nullifies current input source
+     */
     protected resetInputSources() {
         super.resetInputSources();
         this.controllerModel.mainContainer.visible = false;
