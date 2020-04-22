@@ -1,6 +1,6 @@
 {
   "name": "@verybigthings/g.frame.oculus.quest",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Template module from g.frame",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -35,11 +35,11 @@
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
-    "@verybigthings/g.frame.common.action_controller": "^0.0.2",
-    "@verybigthings/g.frame.common.picking_controller": "^0.0.2",
-    "@verybigthings/g.frame.core": "^0.0.10",
+    "@verybigthings/g.frame.common.action_controller": "^0.0.3",
     "@verybigthings/g.frame.common.loaders": "^0.0.2",
-    "@verybigthings/g.frame.common.xr_manager": "^0.0.1",
+    "@verybigthings/g.frame.common.picking_controller": "^0.0.3",
+    "@verybigthings/g.frame.common.xr_manager": "^0.0.2",
+    "@verybigthings/g.frame.core": "^0.0.11",
     "three": "^0.114.0"
   },
   "devDependencies": {
