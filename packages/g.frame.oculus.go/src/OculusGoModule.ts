@@ -15,24 +15,28 @@ export class OculusGoModule extends AbstractModule {
         this.container.name = 'OculusGoModuleContainer';
     }
 
+    /**
+     * Module pre initialization.. Just make sure, that module is supported.
+     */
     async preInit(): Promise<AbstractModuleStatus> {
         return {
             enabled: this.checkGoBrowser() && this.checkXRSupport(),
         };
     }
 
+    /**
+     * Module initialization.. Inits main actionController. Inits Oculus Quest model and manager
+     */
     async onInit(data: any): Promise<Array<any>> {
-        // Init Model
         const oculusGoModel = new OculusGoModel(data.viewer);
+        this.oculusGoManager = new OculusGoManager(data.viewer.renderer, oculusGoModel);
 
-        // Init ActionController
         const actionController = new OculusGoActionController({
             minRaycasterDistance: 0,
             maxRaycasterDistance: Infinity
         }, oculusGoModel);
 
-        // Init Controller
-        this.oculusGoManager = new OculusGoManager(data.viewer.renderer, oculusGoModel);
+        // Adds view to the module container
         this.container.add(oculusGoModel.mainContainer);
 
         return [
@@ -41,14 +45,23 @@ export class OculusGoModule extends AbstractModule {
         ];
     }
 
+    /**
+     * Module after initialization.. Loads all needed resources
+     */
     afterInit(agents: ConstructorInstanceMap<any>): void {
         this.oculusGoManager.prepareResources(agents.get(Loader));
     }
 
+    /**
+     * Returns module container
+     */
     getModuleContainer(): Object3D {
         return this.container;
     }
 
+    /**
+     * Updates module on each frame
+     */
     onUpdate(params: { currentTime: number; frame: any }): void {
         this.oculusGoManager.manipulateModel(params);
     }
@@ -62,11 +75,17 @@ export class OculusGoModule extends AbstractModule {
     onPause(): void {
     }
 
+    /**
+     * Checks if Oculus Quest Browser is being used
+     */
     private checkGoBrowser() {
         const uaToken = 'Pacific';
         return !!navigator.userAgent.match(uaToken);
     }
 
+    /**
+     * Checks if XR session is supported
+     */
     private checkXRSupport() {
         // @ts-ignore
         return navigator?.xr?.isSessionSupported instanceof Function;
