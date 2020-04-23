@@ -17,7 +17,7 @@ jobs:
       - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.TOKEN_NPM}}" >> ~/.npmrc
       - run: echo "@verybigthings:registry=https://npm.pkg.github.com" >> ~/.npmrc
       - run: npm i
-      - run: npx lerna bootstrap
+      - run: npx lerna bootstrap --no-ci
       - run: npm run lint
       - run: npm run test
       - run: npm run build
