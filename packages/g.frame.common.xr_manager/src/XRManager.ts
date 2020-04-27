@@ -38,7 +38,7 @@ export class XRManager extends EventDispatcher<XREvent> {
     /**
      * Replaces current XR view by another.
      * If the view doesn't exist, default view will be setted.
-     * Each default view is different for every type of a device!
+     * Each default view is different for every type of the device!
      */
     public setXRControllerView(newXRControllerView?: IXRControllerView) {
         this.currentXRControllerView = newXRControllerView ?? this.defaultXRControllerView;

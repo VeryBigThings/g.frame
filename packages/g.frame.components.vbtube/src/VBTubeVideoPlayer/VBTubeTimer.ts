@@ -9,6 +9,7 @@ import {
 import {Vector2} from 'three';
 import {ViewerModule} from '@verybigthings/g.frame.core';
 import {TextComponent} from '@verybigthings/g.frame.components.text';
+import { VBTubeVideoParameters } from './VBTubeVideoPlayer';
 
 /**
  * Class to add HH:MM:SS timer
@@ -17,10 +18,10 @@ export class VBTubeTimer extends ViewerModule {
     private timer: TextComponent;
 
     /**
-     * Constructor of the class. Adds timer to the scene
-     * @param videoParameters Standard param to set optimal size for timer
+     * Adds timer to the video player
+     * @param videoParameters Scales of the video player
      */
-    constructor(private videoParameters: any) {
+    constructor(private videoParameters: VBTubeVideoParameters) {
         super();
 
         // Timer
@@ -50,8 +51,7 @@ export class VBTubeTimer extends ViewerModule {
         });
         this.addObject(this.timer);
 
-        // UiObject name
-        this.uiObject.name = 'timer';
+        this.uiObject.name = 'HH:MM:SS_TIMER';
     }
 
     /**
@@ -90,14 +90,21 @@ export class VBTubeTimer extends ViewerModule {
         return time;
     }
 
-    hide(hide: boolean) {
-        if (hide) {
+    /**
+     * Sets uiObject visible parameter to the timer
+     * @param remove visible parameter
+     */
+    remove(remove: boolean) {
+        if (remove) {
             this.timer.uiObject.visible = false;
         } else {
             this.timer.uiObject.visible = true;
         }
     }
 
+    /**
+     * Creates an animation of moving timer to the right and back, to the left
+     */
     move(where: 'left' | 'right') {
         const destination = this.timer.uiObject.position.clone();
 
@@ -112,6 +119,9 @@ export class VBTubeTimer extends ViewerModule {
             .start();
     }
 
+    /**
+     * Updates timer value to the current video player time
+     */
     updateTimer(currentTime: number, duration: number) {
         this.timer.setText(`${VBTubeTimer.convertToDigitalTimer(currentTime)} / ${VBTubeTimer.convertToDigitalTimer(duration)}`);
     }

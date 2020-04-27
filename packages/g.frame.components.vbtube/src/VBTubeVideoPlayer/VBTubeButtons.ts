@@ -15,6 +15,7 @@ import {
 import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
 import {ITextComponentOptions, TextComponent} from '@verybigthings/g.frame.components.text';
 import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
+import { VBTubeVideoParameters } from './VBTubeVideoPlayer';
 
 export interface IDisableButtons {
     subtitlesButton?: boolean;
@@ -37,12 +38,12 @@ export class VBTubeButtons extends ViewerModule {
     private disabledButtons: IDisableButtons;
 
     /**
-     * Constructor of the class. Adds buttons to the scene
-     * @param videoParameters Standard param to set optimal size for items
+     * Adds buttons to the video player
+     * @param videoParameters Scales of the video player
      * @param disableButtons IDisableButtons
      * @param actionController ActionController
      */
-    constructor(private videoParameters: any, disableButtons: IDisableButtons = {
+    constructor(private videoParameters: VBTubeVideoParameters, disableButtons: IDisableButtons = {
         subtitlesButton: false,
         lightButton: false,
         zoomButton: false
@@ -169,7 +170,7 @@ export class VBTubeButtons extends ViewerModule {
             });
         }
 
-        // Screen clickable area
+        // Screen clickable
         this.screenClick = new GMesh<PlaneBufferGeometry, MeshBasicMaterial>(
             new PlaneBufferGeometry(this.videoParameters.width, this.videoParameters.height * VIDEO_CLICKABLE_PART),
             new MeshBasicMaterial({visible: false})
@@ -177,7 +178,7 @@ export class VBTubeButtons extends ViewerModule {
         this.screenClick.translateY(this.videoParameters.height * CLICKABLE_PART_CENTER);
         this.addObject(this.screenClick);
 
-        // Screen clickable area icon
+        // Screen clickable icon
         this.screenClickButtonIcon = new TextComponent({
             size: new Vector2(this.videoParameters.height, this.videoParameters.height),
             pxSize: new Vector2(128, 128),
@@ -195,34 +196,16 @@ export class VBTubeButtons extends ViewerModule {
         this.screenClickButtonIcon.uiObject.visible = false;
         this.addObject(this.screenClickButtonIcon);
 
-        // Video screen clickable area
+        // Video screen
         this.actionController.on(ActionControllerEventName.click, this.screenClick, () => {
             this.fire('screenClicked');
         });
 
-        // Resources
-        // this.resourcesInUse.push(
-        //     {
-        //         name: 'FontAwesome&woff2-900-normal',
-        //         url: require('@verybigthings/fontawesome-pro/webfonts/fa-solid-900.woff2'),
-        //         priority: 0,
-        //         type: 'font'
-        //     },
-        //     {
-        //         name: 'FontAwesome&woff2-400-normal',
-        //         url: require('@verybigthings/fontawesome-pro/webfonts/fa-regular-400.woff2'),
-        //         priority: 0,
-        //         type: 'font'
-        //     },
-        // );
-
-        // UiObject name
         this.uiObject.name = 'buttons';
     }
 
     /**
-     * Function to set buttons with their icons
-     * Part of main init() function
+     * Sets icons to the corresponding buttons
      */
     init() {
         if (this.playPauseButton) this.playPauseButton.setText('');
@@ -234,8 +217,12 @@ export class VBTubeButtons extends ViewerModule {
         if (this.zoomButton) this.zoomButton.setText('');
     }
 
-    hide(hide: boolean) {
-        if (hide) {
+    /**
+     * Sets uiObject visible parameter to all buttons
+     * @param remove visible parameter
+     */
+    remove(remove: boolean) {
+        if (remove) {
             [this.playPauseButton, this.skipButton, this.soundButton, this.subtitlesButton, this.lightButton, this.zoomButton].forEach(el => {
                 if (el) el.uiObject.visible = false;
             });
@@ -247,9 +234,9 @@ export class VBTubeButtons extends ViewerModule {
     }
 
     /**
-     * Function to change buttons icons
-     * @param button write here which icon of the button you want change
-     * @param on choose condition of the button icon
+     * Updates button's icons
+     * @param button Button to update
+     * @param on Condition of the button
      */
     setText(button: string, on: boolean) {
         switch (button) {
@@ -305,6 +292,9 @@ export class VBTubeButtons extends ViewerModule {
         }
     }
 
+    /**
+     * Updates volume icon on each frame
+     */
     setCurrentVolumeIcon(muted: boolean, volume: number) {
         if (muted) {
             if (this.soundButton) this.soundButton.setText('');
@@ -317,6 +307,9 @@ export class VBTubeButtons extends ViewerModule {
         }
     }
 
+    /**
+     * Provides animation of clicking on the screen area
+     */
     animateScreenClickButton() {
         this.screenClickButtonIcon.uiObject.scale.set(START_BIG_PLAY_PAUSE_BUTTON_SCALE, START_BIG_PLAY_PAUSE_BUTTON_SCALE, START_BIG_PLAY_PAUSE_BUTTON_SCALE);
         const scale = this.screenClickButtonIcon.uiObject.scale.clone();

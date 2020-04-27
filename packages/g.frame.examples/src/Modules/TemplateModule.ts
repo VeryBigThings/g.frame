@@ -8,12 +8,15 @@ import QuestHandView from './QuestHandView';
 
 const delay = async time => new Promise(resolve => setTimeout(resolve, time));
 
-
 export class TemplateModule extends AbstractModule {
     public templateB: TemplateB;
     public questHandView: QuestHandView;
     private readonly container: Object3D;
 
+    /**
+     * Constructor of the TemplateModule.
+     * Here you can see how your module should work
+     */
     constructor() {
         super();
         this.container = new Object3D();
@@ -45,7 +48,7 @@ export class TemplateModule extends AbstractModule {
         this.templateB.prepareResources(agents.get(Loader));
         this.templateB.setPickingController(agents.get(PickingController));
 
-        console.info('Module after initialization. Here you can start save the World.');
+        // console.info('Module after initialization. Here you can start save the World.');
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {
@@ -53,7 +56,7 @@ export class TemplateModule extends AbstractModule {
     }
 
     onDestroy(): void {
-        console.info('Module destroy function. Use it to destroy and dispose instances.');
+        // console.info('Module destroy function. Use it to destroy and dispose instances.');
     }
 
     onResume(): void {
