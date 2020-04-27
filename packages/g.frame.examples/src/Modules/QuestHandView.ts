@@ -49,7 +49,7 @@ export default class QuestHandView extends ViewerModule implements IXRController
         ]);
 
 
-        this.loader.once('loaded', () => this.init());
+        this.loader.once(LoaderEventsName.loaded, () => this.init());
     }
 
     init() {

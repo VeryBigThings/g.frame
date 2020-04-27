@@ -3,6 +3,7 @@ import {Mesh, MeshBasicMaterial, Object3D, PlaneGeometry, PositionalAudio, Scene
 import {FBX_MODEL, Loader, POSITIONAL_AUDIO, TEXTURE, VIDEO, DAE_MODEL, GLTF_MODEL, OBJ_MODEL, OBJ2_MODEL} from '@verybigthings/g.frame.common.loaders';
 import {PickingController, PickingControllerEvents} from '@verybigthings/g.frame.common.picking_controller';
 import {ActionController} from '@verybigthings/g.frame.common.action_controller';
+import {LoaderEventsName} from '@verybigthings/g.frame.common.loaders/build/main';
 
 declare function require(s: string): string;
 
@@ -59,8 +60,8 @@ export class TemplateB extends TemplateA {
             },
         ]);
 
-        // When all resources are loaded, calls a function to do with assets
-        this.loader.once('loaded', () => this.addResources());
+
+        this.loader.once(LoaderEventsName.loaded, () => this.addResources());
     }
 
     setPickingController(pickingController: PickingController) {
