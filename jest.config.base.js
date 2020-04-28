@@ -14,7 +14,7 @@ module.exports = {
         "json",
         "node"
     ],
-    collectCoverage: true,
+    collectCoverage: false,
     coveragePathIgnorePatterns: [
         "(tests/.*.mock).(jsx?|tsx?)$"
     ],
