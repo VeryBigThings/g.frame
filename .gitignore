@@ -1,4 +1,7 @@
 node_modules
 .idea
-package-lock.json
 .DS_Store
+build/
+*.log
+**/*/package-lock.json
+package-lock.json

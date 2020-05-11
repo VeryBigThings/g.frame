@@ -1,0 +1,15 @@
+{
+  "packages": [
+    "packages/*"
+  ],
+  "npmClient": "npm",
+  "command": {
+    "publish": {
+      "registry": "https://npm.pkg.github.com/@verybigthings",
+      "ignoreChanges": []
+    },
+    "bootstrap": {
+    }
+  },
+  "version": "independent"
+}

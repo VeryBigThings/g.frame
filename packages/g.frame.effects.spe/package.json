@@ -1,0 +1,56 @@
+{
+  "name": "@verybigthings/g.frame.effects.spe",
+  "version": "0.0.8",
+  "description": "Template module from g.frame",
+  "main": "build/main/index.js",
+  "typings": "build/main/index.d.ts",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "run-s clean && run-p build:*",
+    "build:main": "tsc -p tsconfig.json",
+    "build:assets": "copyfiles -f -s ./src/assets/textures/* ./build/main/assets/textures/",
+    "clean": "trash build test",
+    "test": "jest --passWithNoTests",
+    "lint": "tslint 'src/**/*.ts?(x)'",
+    "docs": "trash docs && typedoc && touch docs/.nojekyll"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VeryBigThings/g.frame.git"
+  },
+  "keywords": [
+    "webgl",
+    "three.js",
+    "g.frame"
+  ],
+  "author": "Very Big Things",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VeryBigThings/g.frame/issues"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@VeryBigThings"
+  },
+  "homepage": "https://github.com/VeryBigThings/g.frame#readme",
+  "dependencies": {
+    "@verybigthings/g.frame.common.loaders": "^0.0.4",
+    "@verybigthings/g.frame.core": "^0.0.11",
+    "@verybigthings/shader-particle-engine": "1.0.11",
+    "three": "^0.114.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.1.4",
+    "@types/node": "^13.9.1",
+    "copyfiles": "^2.2.0",
+    "jest": "^25.1.0",
+    "npm-run-all": "^4.1.5",
+    "trash-cli": "^3.0.0",
+    "ts-jest": "^25.2.1",
+    "tslint": "^6.1.0",
+    "typedoc": "^0.17.4",
+    "typescript": "^3.8.3"
+  },
+  "gitHead": "2adcda2e0de0598d1351dea6068d39f70edc7f99"
+}

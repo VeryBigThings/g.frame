@@ -14,27 +14,15 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 10
-      - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN_NPM}}" >> ~/.npmrc
+      - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.TOKEN_NPM}}" >> ~/.npmrc
       - run: echo "@verybigthings:registry=https://npm.pkg.github.com" >> ~/.npmrc
       - run: npm i
+      - run: npx lerna bootstrap --no-ci
       - run: npm run lint
       - run: npm run test
       - run: npm run build
-      - run: npm publish
+      - run: rm -rf packages/*/package-lock.json
+      - run: npx lerna publish from-package -y
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN_NPM}}
-        continue-on-error: true
-  create-tag:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 10
-      - run: declare -x VERSION=$(jq -r '.version' package.json)
-      - run: echo $VERSION
-      - run: git tag v$VERSION
-        continue-on-error: true
-      - run: git push --tags
+          NODE_AUTH_TOKEN: ${{secrets.TOKEN_NPM}}
         continue-on-error: true
