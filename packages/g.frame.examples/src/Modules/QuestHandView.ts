@@ -1,5 +1,5 @@
 import {XRViewStatus, ControllerHandnessCodes, IXRControllerModel, IXRControllerView} from '@verybigthings/g.frame.common.xr_manager';
-import {FBX_MODEL, Loader} from '@verybigthings/g.frame.common.loaders';
+import {FBX_MODEL, Loader, LoaderEventsName} from '@verybigthings/g.frame.common.loaders';
 import {ViewerModule} from '@verybigthings/g.frame.core';
 import {ConeBufferGeometry, Group, Mesh, MeshBasicMaterial, Object3D, Vector3} from 'three';
 

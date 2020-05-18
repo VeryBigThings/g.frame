@@ -1,5 +1,5 @@
 import {BoxGeometry, Color, Mesh, MeshBasicMaterial, Vector2} from 'three';
-import {Bootstrap, Factory, ModulesProcessor} from '@verybigthings/g.frame.core';
+import {Bootstrap, Factory, ModulesProcessor, ParentEvent} from '@verybigthings/g.frame.core';
 import {TemplateA} from '../Modules/TemplateA';
 import {WindowComponent} from '@verybigthings/g.frame.components.window';
 import {IconButtonComponent} from '@verybigthings/g.frame.components.buttons';
@@ -16,25 +16,27 @@ import World = oimo.dynamics.World;
 import {DropdownComponent} from '../../../g.frame.components.dropdown/src/DropdownComponent';
 import {TextComponent} from '@verybigthings/g.frame.components.text';
 import { OculusGoModule } from '@verybigthings/g.frame.oculus.go';
+import { Level } from '@verybigthings/g.frame.common.level_manager/src';
 
-export default class ExampleApp extends Bootstrap {
-    constructor() {
+export default class TemplateExample extends Level {
+    private modulesProcessor: ModulesProcessor;
+
+    constructor(modulesProcessor: ModulesProcessor) {
         super();
+        this.modulesProcessor = modulesProcessor;
     }
 
-    onInit(modulesProcessor: ModulesProcessor) {
-        super.onInit(modulesProcessor);
-        console.log(modulesProcessor);
-
-        const _world = modulesProcessor.agents.get(Factory).getFactory(World)(null);
+    init(event: ParentEvent<string>) {
+        super.init(event);
+        const _world = this.modulesProcessor.agents.get(Factory).getFactory(World)(null);
         console.log('_world', _world);
 
-        const _window = modulesProcessor.agents.get(Factory).getFactory(WindowComponent)({
+        const _window = this.modulesProcessor.agents.get(Factory).getFactory(WindowComponent)({
             size: new Vector2(0.3, 0.3),
             background: 0xffffff
         });
 
-        const w = modulesProcessor.agents.get(Factory).getFactory(WindowComponent);
+        const w = this.modulesProcessor.agents.get(Factory).getFactory(WindowComponent);
 
         _window.uiObject.position.set(-1, 1.5, -1.5);
 
@@ -47,14 +49,15 @@ export default class ExampleApp extends Bootstrap {
 
         box.position.set(-1.5, 1.5, -1.5);
 
-        const oculusGoManager = modulesProcessor.modules.get(OculusGoModule).oculusGoManager;
-        const oculusQuestManager = modulesProcessor.modules.get(OculusQuestModule).oculusQuestManager;
+        const oculusGoManager = this.modulesProcessor.modules.get(OculusGoModule).oculusGoManager;
+        const oculusQuestManager = this.modulesProcessor.modules.get(OculusQuestModule).oculusQuestManager;
 
-        this.addObject(box);
+        this.modulesProcessor.viewer.scene.add(box);
+        // this.addObject(box);
 
         let i_box = 0;
 
-        modulesProcessor.agents.get(ActionController).on(ActionControllerEventName.buttonDown, box, (event) => {
+        this.modulesProcessor.agents.get(ActionController).on(ActionControllerEventName.buttonDown, box, (event) => {
             console.log('Button down event', event);
             if (++i_box === 5) {
                 this.disposeObject(box);
@@ -63,7 +66,7 @@ export default class ExampleApp extends Bootstrap {
             }
         });
 
-        const iconButton = modulesProcessor.agents.get(Factory).getFactory(IconButtonComponent)({
+        const iconButton = this.modulesProcessor.agents.get(Factory).getFactory(IconButtonComponent)({
             text: '+',
             background: new Color(0xeeaa88).getStyle(),
             iconSize: 0.6,
@@ -88,7 +91,7 @@ export default class ExampleApp extends Bootstrap {
             {body: 'option 3333333333333', key: '4'},
         ];
         // @ts-ignore
-        const dropdownComponent = modulesProcessor.agents.get(Factory).getFactory(DropdownComponent)({
+        const dropdownComponent = this.modulesProcessor.agents.get(Factory).getFactory(DropdownComponent)({
             // size: new Vector2(3, 1),
             optionList: optionList,
             defaultSelectedOptionId: 1,
@@ -99,14 +102,14 @@ export default class ExampleApp extends Bootstrap {
                 // // bgColor: '#dddddd',
                 // bgColor: '#fff0bf',
                 // bordRadius: 1,
-                headerWrap: modulesProcessor.agents.get(Factory).getFactory(WindowComponent)({
+                headerWrap: this.modulesProcessor.agents.get(Factory).getFactory(WindowComponent)({
                     size: new Vector2(6, 2),
                     bordColor: 0x888888,
                     background: 0xfff0bf,
                     bordWidth: 0,
                     bordRadius: 1
                 }).uiObject,
-                arrowComponent: modulesProcessor.agents.get(Factory).getFactory(TextComponent)({
+                arrowComponent: this.modulesProcessor.agents.get(Factory).getFactory(TextComponent)({
                     size: new Vector2(12, 2),
                     pxSize: new Vector2(512, 256 / 3),
                     text: {
@@ -140,12 +143,12 @@ export default class ExampleApp extends Bootstrap {
         dropdownComponent.uiObject.scale.setScalar(0.15);
         this.addObject(dropdownComponent);
 
-        const circleSlider = modulesProcessor.agents.get(Factory).getFactory(CircleSliderComponent)({
+        const circleSlider = this.modulesProcessor.agents.get(Factory).getFactory(CircleSliderComponent)({
             mode: CircleSliderComponentSlidingMode.onlyClockwise,
             diameter: 1,
             magnetOnSides: 0.05,
             spaceBetweenObjects: 0.02,
-            picker: modulesProcessor.agents.get(Factory).getFactory(IconButtonComponent)({
+            picker: this.modulesProcessor.agents.get(Factory).getFactory(IconButtonComponent)({
                 text: '+',
                 background: new Color(0xeeaa88).getStyle(),
                 iconSize: 0.6,
@@ -162,7 +165,7 @@ export default class ExampleApp extends Bootstrap {
                 borderColor: new Color(0x999999)
             }
         });
-        const orbitControls = modulesProcessor.modulesInstances.get(DesktopModule).filter(instance => instance instanceof OrbitControls)[0];
+        const orbitControls = this.modulesProcessor.modulesInstances.get(DesktopModule).filter(instance => instance instanceof OrbitControls)[0];
         circleSlider.on('slideStart', () => {
             orbitControls.enabled = false;
         });
@@ -190,21 +193,19 @@ export default class ExampleApp extends Bootstrap {
             }
         };
 
-        const inputComponent = modulesProcessor.agents.get(Factory).getFactory(InputComponent)(inputOptions);
+        const inputComponent = this.modulesProcessor.agents.get(Factory).getFactory(InputComponent)(inputOptions);
         this.addObject(inputComponent);
         inputComponent.uiObject.position.set(0, 1, -1.5);
 
 
-        console.log(modulesProcessor.modules.get(InputModule).inputManager);
+
+        console.log('Universal agent for template class', this.modulesProcessor.agents.get(TemplateA));
 
 
-        console.log('Universal agent for template class', modulesProcessor.agents.get(TemplateA));
+        this.modulesProcessor.agents.get(Loader).load().then(() => {
+            const hands = this.modulesProcessor.modules.get(TemplateModule).questHandView;
 
-
-        modulesProcessor.agents.get(Loader).load().then(() => {
-            const hands = modulesProcessor.modules.get(TemplateModule).questHandView;
-
-            modulesProcessor.agents.get(ActionController).on(ActionControllerEventName.buttonDown, _window.uiObject, (event) => {
+            this.modulesProcessor.agents.get(ActionController).on(ActionControllerEventName.buttonDown, _window.uiObject, (event) => {
                 console.log('Button down event', event);
                 if (++i_window === 5) {
                     this.disposeObject(_window);
