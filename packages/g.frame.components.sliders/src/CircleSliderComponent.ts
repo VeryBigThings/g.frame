@@ -56,6 +56,11 @@ export class CircleSliderComponent extends ViewerModule {
     private debugMode: boolean = false;
     private debugText: TextComponent;
 
+    /**
+     * Constructor of CircleSliderComponent
+     * @param options ICircleSliderComponentOptions
+     * @param actionController ActionController
+     */
     constructor(private options: ICircleSliderComponentOptions, private actionController: ActionController) {
         super();
         options.mode = options.mode || CircleSliderComponentSlidingMode.onlyClockwise;

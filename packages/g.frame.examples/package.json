@@ -13,6 +13,7 @@
     "@verybigthings/g.frame.common.action_controller": "^0.0.3",
     "@verybigthings/g.frame.common.loaders": "^0.0.4",
     "@verybigthings/g.frame.common.picking_controller": "^0.0.3",
+    "@verybigthings/g.frame.common.level_manager": "^0.0.3",
     "@verybigthings/g.frame.common.xr_manager": "^0.0.2",
     "@verybigthings/g.frame.components.buttons": "^0.0.6",
     "@verybigthings/g.frame.components.dropdown": "^0.0.2",

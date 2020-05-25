@@ -54,6 +54,11 @@ export class SliderComponent extends ViewerModule {
     private filledPart: WindowComponent;
     private applyBtn: ButtonComponent;
 
+    /**
+     * Constructor of SliderComponent
+     * @param options ISliderComponentOptions
+     * @param actionController ActionController
+     */
     constructor(private options: ISliderComponentOptions, private actionController: ActionController) {
         super();
         this.mode = options.mode || SliderComponentSlidingMode.normal;

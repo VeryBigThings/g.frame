@@ -14,17 +14,20 @@ import {
 import {Group, MeshBasicMaterial, PlaneBufferGeometry, Vector2} from 'three';
 import {TextComponent} from '@verybigthings/g.frame.components.text';
 import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
+import { VBTubeVideoParameters } from './VBTubeVideoPlayer';
 import {IDisableButtons} from './';
 
-/**
- * Class to add subtitles
- */
 export class VBTubeSubtitles extends ViewerModule {
     public subtitlesWrapper: Group;
     private subtitles: TextComponent;
     private redUnderline: GMesh<PlaneBufferGeometry, MeshBasicMaterial>;
 
-    constructor(private videoParameters: any, disabledButtons: IDisableButtons = {
+    /**
+     * Adds subtitles to the video player
+     * @param videoParameters Scales of the video player
+     * @param disabledButtons list of disabled buttons
+     */
+    constructor(private videoParameters: VBTubeVideoParameters, disabledButtons: IDisableButtons = {
         subtitlesButton: false,
         lightButton: false,
         zoomButton: false
@@ -84,16 +87,23 @@ export class VBTubeSubtitles extends ViewerModule {
             this.addObject(this.redUnderline);
         }
 
-        // UiObject name
-        this.uiObject.name = 'subtitles';
+        this.uiObject.name = 'SUBTITLES';
     }
 
+    /**
+     * Updates subtitles text
+     * @param subtitlesText new text
+     */
     setText(subtitlesText: string) {
         this.subtitles.setText(subtitlesText);
     }
 
-    show(show: boolean) {
-        if (show) {
+    /**
+     * Sets uiObject visible parameter to the subtitles
+     * @param add visible parameter
+     */
+    add(add: boolean) {
+        if (add) {
             if (this.subtitles.uiObject.userData.isVisible) {
                 this.subtitles.uiObject.userData.isVisible = false;
                 this.subtitles.uiObject.visible = false;
@@ -109,6 +119,9 @@ export class VBTubeSubtitles extends ViewerModule {
         if (this.redUnderline) this.animateRedUnderline();
     }
 
+    /**
+     * Moves subtitles upward or down according to the up parameter
+     */
     setTransition(alpha: number, up: boolean) {
         if (up) {
             this.subtitles.uiObject.position.y = this.videoParameters.height / -2 + this.videoParameters.height / SUBTITLES_POSITION - this.videoParameters.height / SUBTITLES_TRANSITION * alpha;
@@ -119,6 +132,9 @@ export class VBTubeSubtitles extends ViewerModule {
         }
     }
 
+    /**
+     * Creates an animation of appearence and desappearence of the red line under subtitles button
+     */
     private animateRedUnderline() {
         const scale = this.redUnderline.scale.clone();
 

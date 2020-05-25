@@ -1,7 +1,6 @@
 import {CircleGeometry, Color, DoubleSide, Group, Mesh, MeshBasicMaterial, Object3D, Vector2, Vector3} from 'three';
 import {ITextViewerModuleOptions, TextViewerModule} from '@verybigthings/g.frame.components.text';
 import {IButtonComponentOptions} from './ButtonComponent_interfaces';
-// import * as TWEEN from '../libs/TWEEN/Tween';
 import {RoundedPlane, ViewerModule} from '@verybigthings/g.frame.core';
 import {
     ActionController,
@@ -227,10 +226,6 @@ export class ButtonComponent extends TextViewerModule {
     clickButtonFunc(buttonDown: boolean = true) {
         const endScaleZ = buttonDown ? 0.5 : 1;
         this.uiObject.scale.set(1, 1, endScaleZ);
-        // new TWEEN.Tween(this.uiObject.scale)
-        //     .to(new Vector3(1, 1, endScaleZ), 100)
-        //     .easing(TWEEN.Easing.Linear.None)
-        //     .start();
     }
 
     disposeObject(object?: Object3D | ViewerModule, disposeParams?: any): void {

@@ -22,7 +22,7 @@ export class LevelManager extends ViewerModule {
         this.showPreloader();
 
         const extraResources = this.collectResources();
-        this.loader.addLoadResources(extraResources);
+        this.loader.addResources(extraResources);
 
         this.loader.once(LoaderEventsName.loaded, () => {
             setTimeout(() => {

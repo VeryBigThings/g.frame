@@ -1,6 +1,7 @@
 import {BACKGROUND_BLACK_COLOR, BOTTOM_SPACE, CINEMATOGRAPHIC_BAR} from './constants';
 import {MeshBasicMaterial, PlaneBufferGeometry} from 'three';
-import {GMesh, ViewerModule, Tween} from '@verybigthings/g.frame.core';
+import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
+import { VBTubeVideoParameters } from './VBTubeVideoPlayer';
 
 /**
  * Class to add black top and bottom cinematographic lines
@@ -9,7 +10,11 @@ export class VBTubeCinematographicBars extends ViewerModule {
     private topLine: GMesh<PlaneBufferGeometry, MeshBasicMaterial>;
     private bottomLine: GMesh<PlaneBufferGeometry, MeshBasicMaterial>;
 
-    constructor(private videoParameters: any) {
+    /**
+     * Adds buttons to the video player
+     * @param videoParameters Scales of the video player
+     */
+    constructor(private videoParameters: VBTubeVideoParameters) {
         super();
 
         // Top line
@@ -29,12 +34,15 @@ export class VBTubeCinematographicBars extends ViewerModule {
         this.bottomLine.position.set(0, this.videoParameters.height / -2 + this.videoParameters.height / BOTTOM_SPACE, this.videoParameters.layer * 1);
         this.addObject(this.bottomLine);
 
-        // UiObject name
-        this.uiObject.name = 'cinematographic bars';
+        this.uiObject.name = 'CINEMATOGRAPHIC_BARS';
     }
 
-    hide(hide: boolean) {
-        if (hide) {
+    /**
+     * Sets uiObject visible parameter to the bars
+     * @param remove visible parameter
+     */
+    remove(remove: boolean) {
+        if (remove) {
             this.topLine.material.visible = false;
             this.bottomLine.material.visible = false;
         } else {

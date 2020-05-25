@@ -13,6 +13,7 @@ import {
     ActionControllerEvent,
     ActionControllerEventName
 } from '@verybigthings/g.frame.common.action_controller';
+import { VBTubeVideoParameters } from './VBTubeVideoPlayer';
 
 /**
  * Class to manipulate progress bar
@@ -27,11 +28,11 @@ export class VBTubeProgressbar extends ViewerModule {
     private tweenReady: boolean;
 
     /**
-     * Constructor of the class. Adds progress bar to the scene
-     * @param videoParameters Standard param to set optimal size for progress bar
+     * Adds progress bar to the video player
+     * @param videoParameters Scales of the video player
      * @param actionController ActionController
      */
-    constructor(private videoParameters: any, private actionController: ActionController) {
+    constructor(private videoParameters: VBTubeVideoParameters, private actionController: ActionController) {
         super();
 
         // Progress bar
@@ -75,28 +76,28 @@ export class VBTubeProgressbar extends ViewerModule {
         this.addObject(this.grayMoveProgressbar, null, this.progressbar.uiObject);
         this.addObject(this.redCircle, null, this.progressbar.uiObject);
 
-        // Click Event
+        // Click
         this.actionController.on(ActionControllerEventName.click, this.progressbar.uiObject.children[0], (event: ActionControllerEvent) => {
             this.fire('progressbarClicked', event);
         });
 
-        // Move Event
+        // Move
         this.actionController.on(ActionControllerEventName.move, this.progressbar.uiObject.children[0], (event: ActionControllerEvent) => {
             this.grayMoveProgressbar.scale.set(event.data.intersection.uv.x, 1, 1);
             this.grayMoveProgressbar.position.x = event.data.intersection.uv.x * this.progressbarWidth - this.progressbarWidth / 2 * event.data.intersection.uv.x - this.progressbarWidth / 2;
         });
 
-        // Over/out Events
+        // Over&Out
         this.actionController.on(ActionControllerEventName.over, this.progressbar.uiObject, () => {
             this.uiObject.userData.isOver = true;
-            this.show(true);
+            this.remove(true);
         });
         this.actionController.on(ActionControllerEventName.out, this.progressbar.uiObject, () => {
             this.uiObject.userData.isOver = false;
-            this.show(false);
+            this.remove(false);
         });
 
-        // Button up/down Events
+        // ButtonUp&ButtonDown
         this.actionController.on(ActionControllerEventName.buttonDown, this.progressbar.uiObject.children[0], (event: ActionControllerEvent) => {
             this.grayMoveProgressbar.visible = false;
             this.fire('progressbarButtonDown', event);
@@ -105,26 +106,36 @@ export class VBTubeProgressbar extends ViewerModule {
             this.grayMoveProgressbar.visible = true;
         });
 
-        // UiObject name
-        this.uiObject.name = 'progress bar';
+        this.uiObject.name = 'PROGRESS_BAR';
     }
 
-    hideBufferLine() {
+    /**
+     * Sets uiObject visible false to the grey line.
+     * Which show the level of buffering data
+     */
+    removeBufferLine() {
         this.whiteVideoProgressbar.visible = false;
     }
 
-    show(show: boolean) {
-        if (show) {
+    /**
+     * Sets uiObject visible parameter to the progress bar
+     * @param remove visible parameter
+     */
+    remove(remove: boolean) {
+        if (remove) {
             if (!this.uiObject.userData.pushed && this.tweenReady) {
-                this.animateProgressbar('show');
+                this.animateProgressbar('add');
             }
         } else {
             if (!this.uiObject.userData.pushed && this.tweenReady) {
-                this.animateProgressbar('hide');
+                this.animateProgressbar('remove');
             }
         }
     }
 
+    /**
+     * Updates progress bar to the current video player parameters
+     */
     updateProgressbar(currentTime: number, duration: number, buffered: any) {
         this.progressbar.progress = currentTime / duration || 0.0001;
 
@@ -143,14 +154,17 @@ export class VBTubeProgressbar extends ViewerModule {
         }
     }
 
-    private animateProgressbar(direction: 'show'|'hide') {
+    /**
+     * Creates an animation of appearing and disappearing of the progress bar
+     */
+    private animateProgressbar(parameter: 'add'|'remove') {
         const circleScale = this.redCircle.scale.clone();
         const barScale = this.progressbar.uiObject.scale.clone();
 
-        if (direction === 'show') {
+        if (parameter === 'add') {
             circleScale.set(PROGRESS_BAR_SCALE, 1, PROGRESS_BAR_SCALE);
             barScale.set(1, PROGRESS_BAR_SCALE, 1);
-        } else if (direction === 'hide') {
+        } else if (parameter === 'remove') {
             circleScale.set(MINIMAL_SCALE, MINIMAL_SCALE, MINIMAL_SCALE);
             barScale.set(1, 1, 1);
         }
@@ -162,16 +176,16 @@ export class VBTubeProgressbar extends ViewerModule {
             .to(circleScale, 150)
             .onStart(() => {
                 this.tweenReady = true;
-                if (direction === 'show') {
+                if (parameter === 'add') {
                     this.redCircle.visible = true;
                     this.grayMoveProgressbar.visible = true;
-                } else if (direction === 'hide') {
+                } else if (parameter === 'remove') {
                     this.grayMoveProgressbar.visible = false;
                 }
             })
             .onComplete(() => {
                 this.tweenReady = true;
-                if (direction === 'hide') {
+                if (parameter === 'remove') {
                     this.redCircle.visible = false;
                 }
             })
