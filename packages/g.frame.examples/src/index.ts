@@ -40,7 +40,7 @@ class App {
                 new LoadersModule(),
                 new OculusQuestModule(),
                 new DropdownComponentModule(),
-                new OimoPhysicsModule()
+                new OimoPhysicsModule(),
                 new OculusGoModule(),
             ],
             viewerConfig: {

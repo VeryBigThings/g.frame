@@ -70,7 +70,7 @@ module.exports = {
 
             {
                 // Load all images as base64 encoding if they are smaller than 8192 bytes
-                test: /\.(png|jpg|gif|obj|fbx|mtl|ttf|otf|eot|woff|woff2|svg|mp3|mp4|hdr)$/,
+                test: /\.(png|jpg|gif|obj|fbx|dae|gltf|mtl|ttf|otf|eot|woff|woff2|svg|mp3|mp4|hdr)$/,
                 use: [
                     {
                         loader: 'url-loader',

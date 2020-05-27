@@ -10,6 +10,9 @@ const config = {
     2: 'touchpad',
 };
 
+/**
+ * TO DO: Describe InputSources
+ */
 type XRFrame = any;
 
 interface IOculusGoControllerModel {
@@ -51,6 +54,7 @@ export class OculusGoModel extends EventDispatcher<XRControllerModelEvents> impl
         this.mainContainer.position.set(0.4, -0.5, 0);
         this.mainContainer.name = 'View&PointerContainer';
 
+        // Init the model
         this.model = {
             enabled: false,
             pose: {
@@ -74,28 +78,26 @@ export class OculusGoModel extends EventDispatcher<XRControllerModelEvents> impl
         this.setPointer();
     }
 
-    private setPointer() {
-        this.pointerWrapper = new Object3D();
-        this.pointer = new Pointer(this.viewer.scene, { color: 0x2222ff }, this.viewer.camera);
-        this.pointer.uiObject.position.set(0, -0.007, -10);
-        this.pointer.uiObject.rotation.set(0, Math.PI, 0);
-        this.pointerWrapper.add(this.pointer.uiObject);
-
-        this.mainContainer.add(this.pointerWrapper);
-    }
-
+    /**
+     * @param newOculusGoView New view will replace current Oculus Go view itself
+     */
     updateView(newOculusGoView: IOculusGoView | null) {
         this.currentOculusGoView?.uiObject?.parent?.remove(this.currentOculusGoView.uiObject);
         this.currentOculusGoView = newOculusGoView;
         this.mainContainer.add(this.currentOculusGoView?.uiObject);
     }
 
+    /**
+     * Updates state of the model. Updates current Oculus Go controllers view
+     * @param inputSource Current input source
+     * @param frame Current frame
+     */
     manipulateModel(inputSource, frame: XRFrame) {
         this.model.enabled = false;
         this.inputSource = inputSource;
         this.frame = frame;
 
-        if (this.inputSource && frame) {
+        if (this.inputSource && this.frame) {
             this.model.enabled = true;
 
             this.updatePose();
@@ -110,7 +112,7 @@ export class OculusGoModel extends EventDispatcher<XRControllerModelEvents> impl
     }
 
     /**
-     * Updates position and orientation
+     * Updates position and orientation of controller and pointer
      */
     private updatePose() {
         const inputPose = this.frame.getPose(this.inputSource.targetRaySpace, this.viewer.renderer.xr.getReferenceSpace());
@@ -122,7 +124,7 @@ export class OculusGoModel extends EventDispatcher<XRControllerModelEvents> impl
     }
 
     /**
-     * Updates custom events
+     * Checks and fires custom events
      */
     private updateEvents() {
         const newButtonDown = this.inputSource.gamepad.buttons[0].pressed;
@@ -139,7 +141,7 @@ export class OculusGoModel extends EventDispatcher<XRControllerModelEvents> impl
     }
 
     /**
-     * Updates the Model
+     * Updates states of the buttons
      */
     private updateModel() {
         const gamepad = this.inputSource.gamepad;
@@ -152,10 +154,29 @@ export class OculusGoModel extends EventDispatcher<XRControllerModelEvents> impl
         });
     }
 
+    /**
+     * Adds pointer into container to help aim
+     */
+    private setPointer() {
+        this.pointerWrapper = new Object3D();
+        this.pointer = new Pointer(this.viewer.scene, { color: 0x2222ff }, this.viewer.camera);
+        this.pointer.uiObject.position.set(0, -0.007, -10);
+        this.pointer.uiObject.rotation.set(0, Math.PI, 0);
+        this.pointerWrapper.add(this.pointer.uiObject);
+
+        this.mainContainer.add(this.pointerWrapper);
+    }
+
+    /**
+     * Returns a direction of the aiming
+     */
     getEventData(): VRControlsEvent {
         return new VRControlsEvent('createdEvent', this.pointerWrapper.localToWorld(new Vector3()), this.pointer.uiObject.localToWorld(new Vector3()));
     }
 
+    /**
+     * Removes pointer
+     */
     dispose() {
         (<Mesh>this.pointer.uiObject).material['dispose']();
         (<Mesh>this.pointer.uiObject).geometry.dispose();

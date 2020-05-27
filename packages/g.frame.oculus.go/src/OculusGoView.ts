@@ -28,6 +28,11 @@ export class OculusGoView implements IOculusGoView {
         this.uiObject.name = 'OculusGoViewContainer';
     }
 
+    /**
+     * Loads all resources.
+     * Adds all models into uiObject when loaded
+     * @param loader Current loader
+     */
     prepareResources(loader: Loader<any>) {
         this.loader = loader;
         this.loader.addResources([
@@ -41,10 +46,17 @@ export class OculusGoView implements IOculusGoView {
         this.loader.once(LoaderEventsName.loaded, () => this.addResources());
     }
 
+    /**
+     * Returns current status of the Oculus Go view
+     */
     getStatus() {
         return this._status;
     }
 
+    /**
+     * Adds all models into one uiObject container.
+     * Returns current status of the view
+     */
     private addResources() {
         this._status = XRViewStatus.READY;
 
@@ -55,10 +67,10 @@ export class OculusGoView implements IOculusGoView {
 
         this.modelContainer.add(controller);
 
-        // trigger button
+        // Trigger button
         this.getTriggerMesh(controller);
 
-        // axis indicator
+        // Axis indicator
         this.setAxisContainer();
 
         this.uiObject.add(this.modelContainer);
@@ -70,6 +82,10 @@ export class OculusGoView implements IOculusGoView {
         });
     }
 
+    /**
+     * Updates the whole view of the Oculus Go controller
+     * @param viewModel Current state of the model
+     */
     updateView(viewModel: IXRControllerModel) {
         const model = viewModel.model;
         if (model.enabled) {
@@ -82,6 +98,9 @@ export class OculusGoView implements IOculusGoView {
         }
     }
 
+    /**
+     * Shows when trigger button is pressed
+     */
     private updateButtons(button: any) {
         if (button.pressed) {
             this.triggerMesh.rotation.x = -0.15;
@@ -90,11 +109,17 @@ export class OculusGoView implements IOculusGoView {
         }
     }
 
+    /**
+     * Updates position of a circle on a touchpad
+     */
     private updateTouch(model: any) {
         model.touchpad.touched ? this.axisIndicator.visible = true : this.axisIndicator.visible = false;
         this.axisIndicator.position.set(model.touchpad.axes.x * this.axisMoveFactor, 0, model.touchpad.axes.y * this.axisMoveFactor);
     }
 
+    /**
+     * Finds conroller's trigger button mesh
+     */
     private getTriggerMesh(controller: Object3D) {
         controller.traverse((item) => {
             if (item.name === 'trigger') {
@@ -103,6 +128,9 @@ export class OculusGoView implements IOculusGoView {
         });
     }
 
+    /**
+     * Adds circle to the touchpad
+     */
     private setAxisContainer() {
         this.axisContainer = new Group();
         this.axisContainer.name = 'Axis Container';
@@ -117,6 +145,9 @@ export class OculusGoView implements IOculusGoView {
         this.axisMoveFactor = 0.019;
     }
 
+    /**
+     * Adds ray to the controller
+     */
     private showRayView() {
         this.ray = new Mesh(new CylinderBufferGeometry(0.004, 0.002, 8, 8, 1, true), new MeshBasicMaterial({color: '#44aa44'}));
         this.ray.rotation.set(Math.PI / 2, 0, 0);
@@ -124,6 +155,9 @@ export class OculusGoView implements IOculusGoView {
         this.modelContainer.add(this.ray);
     }
 
+    /**
+     * Hides Oculus Go controller view
+     */
     hideView(code: number) {
         if (code === ControllerHandnessCodes.NONE && this.uiObject) this.uiObject.visible = false;
     }

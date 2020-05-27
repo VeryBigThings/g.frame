@@ -1,7 +1,7 @@
-import {EventDispatcher} from '@verybigthings/g.frame.core';
-import {VRButton} from 'three/examples/jsm/webxr/VRButton';
-import {WebGLRenderer} from 'three';
-import {IXRControllerModel, IXRControllerView} from './interfaces';
+import { EventDispatcher } from '@verybigthings/g.frame.core';
+import { VRButton } from 'three/examples/jsm/webxr/VRButton';
+import { WebGLRenderer } from 'three';
+import { IXRControllerModel, IXRControllerView } from './interfaces';
 
 export enum XREvent {
     goToVR = 'goToVR',
@@ -21,19 +21,33 @@ export class XRManager extends EventDispatcher<XREvent> {
         super();
     }
 
+    /**
+     * Returns current XR view
+     */
     public getCurrentView(): IXRControllerView {
         return this.currentXRControllerView;
     }
 
+    /**
+     * Returns default XR view
+     */
     public getDefaultView(): IXRControllerView {
         return this.defaultXRControllerView;
     }
 
+    /**
+     * Replaces current XR view by another.
+     * If the view doesn't exist, default view will be setted.
+     * Each default view is different for every type of a device!
+     */
     public setXRControllerView(newXRControllerView?: IXRControllerView) {
         this.currentXRControllerView = newXRControllerView ?? this.defaultXRControllerView;
         this.controllerModel.updateView(this.currentXRControllerView);
     }
 
+    /**
+     * Adds event listeners for tracking XR session
+     */
     protected initEvents() {
         // @ts-ignore
         this.renderer.xr.addEventListener('sessionstart', (event) => {
@@ -49,11 +63,17 @@ export class XRManager extends EventDispatcher<XREvent> {
         });
     }
 
+    /**
+     * Creates "Enter VR" button
+     */
     protected createButton() {
-        const button = VRButton.createButton(this.renderer, {referenceSpaceType: 'local'});
+        const button = VRButton.createButton(this.renderer, { referenceSpaceType: 'local' });
         document.body.appendChild(button);
     }
 
+    /**
+     * Adds event listener on input source changing
+     */
     protected processInputSources() {
         const session = this.renderer.xr.getSession();
         session.addEventListener('inputsourceschange', () => {
@@ -65,11 +85,23 @@ export class XRManager extends EventDispatcher<XREvent> {
         });
     }
 
-    protected goToVR() {}
+    /**
+     * Function to add some business logic when enter XR
+     */
+    protected goToVR() { }
 
-    protected goFromVR() {}
+    /**
+     * Function to add some business logic when exit XR
+     */
+    protected goFromVR() { }
 
-    protected setInputSources(inputSources: Array<XRInputSource>) {}
+    /**
+     * Function to update input sources when changed
+     */
+    protected setInputSources(inputSources: Array<XRInputSource>) { }
 
-    protected resetInputSources() {}
+    /**
+     * Function to nullify input sources when they don't exist
+     */
+    protected resetInputSources() { }
 }
