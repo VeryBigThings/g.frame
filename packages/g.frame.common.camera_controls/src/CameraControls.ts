@@ -1,8 +1,9 @@
-import {Vector3} from 'three';
+import {Vector3, Camera} from 'three';
 import {MeshEventDispatcher} from '@verybigthings/g.frame.core';
 
 export class CameraControls extends MeshEventDispatcher {
     public __agentConstructor: Function;
+    public camera: Camera;
 
     constructor() {
         super();
@@ -13,7 +14,7 @@ export class CameraControls extends MeshEventDispatcher {
     }
 
     getPosition(): Vector3 {
-
+        return new Vector3();
     }
 
     setOrientation(newOrientation: Vector3) {
@@ -21,7 +22,7 @@ export class CameraControls extends MeshEventDispatcher {
     }
 
     getOrientation(): Vector3 {
-
+        return new Vector3();
     }
 
     setPitchDegree(newPitch: number) {
