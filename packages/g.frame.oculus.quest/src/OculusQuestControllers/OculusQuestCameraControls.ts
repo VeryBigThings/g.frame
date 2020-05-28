@@ -66,7 +66,7 @@ export class Locomotion extends EventDispatcher<ActionControllerEventName> {
 
     moveCamera(model: IOculusQuestControllersModel) {
         if (model.left.enabled) {
-            console.log('model', model.left.stick.axes);
+            // console.log('model', model.left.stick.axes);
             if (model.left.stick.axes.z !== 0 || model.left.stick.axes.w !== 0) {
                 if (model.left.stick.pressed) {
                     this.camera.position.add(new Vector3(0.075 * model.left.stick.axes.z, 0, 0.075 * model.left.stick.axes.w));
