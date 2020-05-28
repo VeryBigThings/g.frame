@@ -41,7 +41,7 @@ export class MarkerBoardModule extends ViewerModule {
 
         this.actionController.on(ActionControllerEventName.click, null, (event) => {
             if (!this.isPencilInHand) {
-                const positionRightController = event.data.context.oculusQuestModel.model.right.pose.position;
+                const positionRightController = event.data.context.oculusQuestModel.mainContainer.localToWorld(event.data.context.oculusQuestModel.model.right.pose.position.clone());
                 console.log('event', positionRightController.distanceTo(this.drawObject.position));
 
                 if (positionRightController.distanceTo(this.drawObject.position) < 0.4) {
@@ -57,11 +57,12 @@ export class MarkerBoardModule extends ViewerModule {
 
         this.actionController.on(ActionControllerEventName.move, null, (event) => {
             if (!this.isPencilInHand) return;
+            if (!event.data.context.oculusQuestModel) return;
 
-            const posRightController = event.data.context.oculusQuestModel.model.right.pose;
+            const posRightController = event.data.context.oculusQuestModel.mainContainer.localToWorld(event.data.context.oculusQuestModel.model.right.pose.position.clone());
             // console.log('posRightController.position', posRightController.position);
-            this.drawObject.position.copy(posRightController.position);
-            this.drawObject.quaternion.copy(posRightController.orientation);
+            this.drawObject.position.copy(posRightController);
+            this.drawObject.quaternion.copy(event.data.context.oculusQuestModel.model.right.pose.orientation);
         });
 
         // this.actionController.on(ActionControllerEventName.buttonDown, this.drawPlane, () => {

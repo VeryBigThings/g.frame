@@ -13,8 +13,8 @@ export class OculusQuestPickingController extends PickingController {
                 event.data.left.squeeze.pressed, 0
             );
 
-            console.log('left controller pos', this.data.viewer.camera.parent.localToWorld(
-                event.data.left.pose.position.clone()));
+            // console.log('left controller pos', this.data.viewer.camera.parent.localToWorld(
+            //     event.data.left.pose.position.clone()));
             this.update(this.data.viewer.camera.parent.localToWorld(
                 event.data.right.pose.position.clone()),
                 event.data.right.pose.orientation,
