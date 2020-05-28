@@ -52,7 +52,7 @@ import {IOculusQuestControllersModel} from '../OculusQuestModel';
 import {EventDispatcher} from '@verybigthings/g.frame.core';
 import {Object3D, Vector3} from 'three';
 import {OculusQuestActionController} from './OculusQuestActionController';
-import {ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
+import {ActionControllerEvent, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
 
 export class Locomotion extends EventDispatcher<ActionControllerEventName> {
     constructor(public actionController: OculusQuestActionController, public camera: Object3D, public container: Object3D) {
@@ -85,5 +85,45 @@ export class Locomotion extends EventDispatcher<ActionControllerEventName> {
                 this.container.position.copy(this.camera.position);
             }
         }
+    }
+}
+
+export class Teleport extends EventDispatcher<ActionControllerEventName> {
+    constructor(public actionController: OculusQuestActionController, public cameraWrap: Object3D, public container: Object3D) {
+        super();
+        this.initEvents();
+    }
+
+    initEvents() {
+        this.actionController.on(ActionControllerEventName.move, null, (event) => this.moveCamera(event));
+    }
+
+    moveCamera(event: ActionControllerEvent) {
+        // @ts-ignore
+        if (event.data.context.oculusQuestModel) {
+            // @ts-ignore
+            const model = event.data.context.oculusQuestModel.model;
+            if (model.left.enabled) {
+                // console.log('event point', event.data?.intersection[0]?.point);
+                // console.log('event z stick fixed', +Number(model.left.stick.axes.z).toFixed(3));
+
+                if (+Number(model.left.stick.axes.z).toFixed(3) !== 0 || +Number(model.left.stick.axes.w).toFixed(3) !== 0) {
+                    // dead zone added
+                    if (this.checkTeleportAbility(event)) {
+                        console.log('event point', event.data.intersection[0].point);
+                    }
+                } else if (model.right.enabled) {
+
+                }
+            }
+
+        }
+    }
+
+    checkTeleportAbility(event: ActionControllerEvent): boolean {
+        if (!event.data.intersection) return false;
+        if (!event.data.intersection[0]) return false;
+        // return event.data.intersection[0].object.userData.navMesh;
+        return true;
     }
 }

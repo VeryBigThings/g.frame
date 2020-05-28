@@ -44,7 +44,7 @@ export class MarkerBoardModule extends ViewerModule {
                 const positionRightController = event.data.context.oculusQuestModel.mainContainer.localToWorld(event.data.context.oculusQuestModel.model.right.pose.position.clone());
                 console.log('event', positionRightController.distanceTo(this.drawObject.position));
 
-                if (positionRightController.distanceTo(this.drawObject.position) < 0.4) {
+                if (positionRightController.distanceTo(this.drawObject.position) < 0.3) {
                     this.isPencilInHand = true;
                     this.drawObject.children[0].position.copy(this.drawObject.userData.posInHand.position);
                     this.drawObject.children[0].rotation.copy(this.drawObject.userData.posInHand.rotation);
@@ -135,7 +135,7 @@ export class MarkerBoardModule extends ViewerModule {
         this.drawPlane = new Mesh(
             // new PlaneGeometry(0.7, 0.92),
             new BoxGeometry(0.7, 0.92, 0.01),
-            new MeshBasicMaterial({map: new Texture(this.drawCanvas)})
+            new MeshBasicMaterial({color:'green', map: new Texture(this.drawCanvas)})
         );
         this.drawPlane.name = 'drawPlane';
         this.drawPlane.position.set(0, 1.216, 0.067);

@@ -5,7 +5,7 @@ import { OculusQuestPickingController } from './OculusQuestControllers/OculusQue
 import { OculusQuestActionController } from './OculusQuestControllers/OculusQuestActionController';
 import { OculusQuestManager } from './OculusQuestManager';
 import { OculusQuestModel } from './OculusQuestModel';
-import {Locomotion} from './OculusQuestControllers/OculusQuestCameraControls';
+import {Locomotion, Teleport} from './OculusQuestControllers/OculusQuestCameraControls';
 
 export class OculusQuestModule extends AbstractModule {
     public oculusQuestManager: OculusQuestManager;
@@ -44,7 +44,8 @@ export class OculusQuestModule extends AbstractModule {
             controllersQuantity: 2,
         }, oculusQuestModel);
 
-        const locomotion = new Locomotion(actionController, data.viewer.cameraWrap, this.container);
+        const locomotion = new Teleport(actionController, data.viewer.cameraWrap, this.container);
+        // const locomotion = new Locomotion(actionController, data.viewer.cameraWrap, this.container);
 
 
         // Adds view to the module container
