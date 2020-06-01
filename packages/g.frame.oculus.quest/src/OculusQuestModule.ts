@@ -9,7 +9,7 @@ import {Locomotion, Teleport} from './OculusQuestControllers/OculusQuestCameraCo
 
 export class OculusQuestModule extends AbstractModule {
     public oculusQuestManager: OculusQuestManager;
-    private readonly container: Object3D;
+    public readonly container: Object3D;
 
     constructor() {
         super();
@@ -44,9 +44,9 @@ export class OculusQuestModule extends AbstractModule {
             controllersQuantity: 2,
         }, oculusQuestModel);
 
-        const locomotion = new Teleport(actionController, data.viewer.cameraWrap, this.container);
-        // const locomotion = new Locomotion(actionController, data.viewer.cameraWrap, this.container);
+        const locomotion = new Locomotion(actionController, data.viewer.cameraWrap, this.container);
 
+        data.viewer.scene.add(locomotion.waypoint.container);
 
         // Adds view to the module container
         this.container.add(oculusQuestModel.mainContainer);
@@ -55,6 +55,7 @@ export class OculusQuestModule extends AbstractModule {
             this.oculusQuestManager,
             actionController,
             pickingController,
+            locomotion
         ];
     }
 

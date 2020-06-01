@@ -1,10 +1,11 @@
-import {Object3D, Vector3, MeshStandardMaterial, DirectionalLight, HemisphereLight, Mesh, BoxGeometry, Euler, Quaternion} from 'three';
+import {Object3D, Vector3, MeshStandardMaterial, DirectionalLight, HemisphereLight, Mesh, BoxGeometry, Euler, Quaternion, PlaneGeometry, MeshBasicMaterial} from 'three';
 import {FBX_MODEL, Loader, POSITIONAL_AUDIO, TEXTURE, VIDEO, LoaderEventsName} from '@verybigthings/g.frame.common.loaders';
 import {PickingController, PickingControllerEvents} from '@verybigthings/g.frame.common.picking_controller';
 import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 import {MarkerBoardModule} from './BoardModule';
 import { OrbitControls } from '@verybigthings/g.frame.desktop';
-import { OculusQuestModel } from '@verybigthings/g.frame.oculus.quest';
+import {OculusQuestModel, OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
+import { Locomotion } from '@verybigthings/g.frame.oculus.quest/build/main/OculusQuestControllers/OculusQuestCameraControls';
 
 declare function require(s: string): string;
 
@@ -133,10 +134,20 @@ export class DrawLevel {
         this.initBottle(new Vector3(0.5, 0, 0.2));
     }
 
-    setQuestModel(questModel: OculusQuestModel) {
-        this.questModel = questModel;
+    setLocomotion(locomotion: Locomotion) {
+        // this.questModel = questModel;
 
-        this.markerBoardModule.setQuestModel(this.questModel);
+        // this.markerBoardModule.setQuestModel(this.questModel);
+
+
+
+
+        const mesh = new Mesh(new PlaneGeometry(8, 8), new MeshBasicMaterial({color: 'green', visible: false}));
+        mesh.userData.navMesh = true;
+        mesh.rotation.set(-Math.PI/2, 0, 0);
+        mesh.position.set(0, 0.001, 0);
+        this.scene.add(mesh);
+        locomotion.addNavigationMesh(mesh);
     }
 
     initMarkerBoard() {
