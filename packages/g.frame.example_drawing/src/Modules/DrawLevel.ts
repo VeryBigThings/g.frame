@@ -6,6 +6,7 @@ import {MarkerBoardModule} from './BoardModule';
 import { OrbitControls } from '@verybigthings/g.frame.desktop';
 import {OculusQuestModel, OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
 import { Locomotion } from '@verybigthings/g.frame.oculus.quest/build/main/OculusQuestControllers/OculusQuestCameraControls';
+import {MovementControlsModule} from '@verybigthings/g.frame.common.movement_controls';
 
 declare function require(s: string): string;
 
@@ -134,7 +135,7 @@ export class DrawLevel {
         this.initBottle(new Vector3(0.5, 0, 0.2));
     }
 
-    setLocomotion(locomotion: Locomotion) {
+    setLocomotion(movementControlsModule: MovementControlsModule) {
         // this.questModel = questModel;
 
         // this.markerBoardModule.setQuestModel(this.questModel);
@@ -147,7 +148,7 @@ export class DrawLevel {
         mesh.rotation.set(-Math.PI/2, 0, 0);
         mesh.position.set(0, 0.001, 0);
         this.scene.add(mesh);
-        locomotion.addNavigationMesh(mesh);
+        movementControlsModule.addNavigationMesh(mesh);
     }
 
     initMarkerBoard() {

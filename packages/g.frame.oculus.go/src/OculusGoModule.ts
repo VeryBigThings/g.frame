@@ -55,8 +55,16 @@ export class OculusGoModule extends AbstractModule {
     /**
      * Returns module container
      */
-    getModuleContainer(): Object3D {
+    getContainer(): Object3D {
         return this.container;
+    }
+
+    /**
+     * Returns module container for adding to scene in ScenarioProcessor
+     */
+
+    getModuleContainer(): Object3D | void {
+        return undefined;
     }
 
     /**

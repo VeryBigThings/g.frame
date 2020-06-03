@@ -44,18 +44,16 @@ export class OculusQuestModule extends AbstractModule {
             controllersQuantity: 2,
         }, oculusQuestModel);
 
-        const locomotion = new Locomotion(actionController, data.viewer.cameraWrap, this.container);
-
-        data.viewer.scene.add(locomotion.waypoint.container);
+        // data.viewer.scene.add(locomotion.waypoint.container);
 
         // Adds view to the module container
         this.container.add(oculusQuestModel.mainContainer);
+        data.viewer.cameraWrap.add(this.container)
 
         return [
             this.oculusQuestManager,
             actionController,
             pickingController,
-            locomotion
         ];
     }
 
@@ -69,8 +67,16 @@ export class OculusQuestModule extends AbstractModule {
     /**
      * Returns module container
      */
-    getModuleContainer(): Object3D {
+    getContainer(): Object3D {
         return this.container;
+    }
+
+    /**
+     * Returns module container for adding to scene in ScenarioProcessor
+     */
+
+    getModuleContainer(): Object3D | void {
+        return undefined;
     }
 
     /**
