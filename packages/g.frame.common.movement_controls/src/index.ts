@@ -1,1 +1,1 @@
-export * from './CameraControls';
+export * from './MovementControlsModule';
