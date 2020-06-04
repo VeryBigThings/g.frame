@@ -51,17 +51,30 @@ export class Locomotion extends MovementControls {
         this.actionController.on(ActionControllerEventName.move, null, (event) => this.moveCamera(event.data.context.oculusQuestModel.model));
     }
 
+    // moveCamera(model: IOculusQuestControllersModel) {
     moveCamera(model: any) {
-        // moveCamera(model: IOculusQuestControllersModel) {
         if (model.left.enabled) {
             // console.log('model', model.right.stick.axes);
             if (model.left.stick.axes.z !== 0 || model.left.stick.axes.w !== 0) {
+                const addedVector = new Vector3();
                 if (model.left.stick.pressed) {
-                    const addedVector = new Vector3(.075 * model.left.stick.axes.z, 0, 0.075 * model.left.stick.axes.w);
-                    this.cameraWrap.position.add(addedVector);
+                    addedVector.set(.075 * model.left.stick.axes.z, 0, 0.075 * model.left.stick.axes.w);
                 } else {
-                    const addedVector = new Vector3(0.05 * model.left.stick.axes.z, 0, 0.05 * model.left.stick.axes.w);
+                    addedVector.set(0.05 * model.left.stick.axes.z, 0, 0.05 * model.left.stick.axes.w);
+                }
+                this.cameraWrap.position.add(addedVector);
+            }
+            if (model.right.enabled) {
+                if (model.right.stick.axes.z !== 0) {
+                    const addedVector = new Vector3();
+                    if (model.right.stick.pressed) {
+                        addedVector.set(0, -.05 * model.right.stick.axes.w, 0);
+                    } else {
+                        addedVector.set(0, -.025 * model.right.stick.axes.w, 0);
+                    }
                     this.cameraWrap.position.add(addedVector);
+
+                    console.log('addedVector', addedVector, '', this.camera)
                 }
             }
         } else if (model.right.enabled) {
@@ -103,12 +116,12 @@ export class Teleport extends MovementControls {
         //             // dead zone added
         //             // console.log('stick tilted enough', event);
 
-                    if (this.checkTeleportAbility(event, 0)) {
-                        this.waypoint.container.position.copy(event.data.intersection.point);
-                        this.waypoint.start();
-                    } else {
-                        this.waypoint.stop();
-                    }
+        if (this.checkTeleportAbility(event, 0)) {
+            this.waypoint.container.position.copy(event.data.intersection.point);
+            this.waypoint.start();
+        } else {
+            this.waypoint.stop();
+        }
         //         } else {
         //             this.waypoint.stop();
         //         }

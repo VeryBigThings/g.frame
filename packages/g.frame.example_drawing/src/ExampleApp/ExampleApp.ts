@@ -3,7 +3,6 @@ import {DesktopModule, OrbitControls} from '@verybigthings/g.frame.desktop';
 import {Loader} from '@verybigthings/g.frame.common.loaders';
 import {TemplateModule} from '../Modules/TemplateModule';
 import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
-import {Locomotion} from '@verybigthings/g.frame.oculus.quest/build/main/OculusQuestControllers/OculusQuestCameraControls';
 import {MovementControlsModule} from '@verybigthings/g.frame.common.movement_controls';
 // import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
 // import { DrawLevel } from '../Modules/DrawLevel';

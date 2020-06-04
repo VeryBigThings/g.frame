@@ -48,7 +48,7 @@ export class OculusQuestModule extends AbstractModule {
 
         // Adds view to the module container
         this.container.add(oculusQuestModel.mainContainer);
-        data.viewer.cameraWrap.add(this.container)
+        data.viewer.cameraWrap.add(this.container);
 
         return [
             this.oculusQuestManager,
