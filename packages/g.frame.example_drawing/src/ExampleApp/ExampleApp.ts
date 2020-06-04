@@ -3,7 +3,7 @@ import {DesktopModule, OrbitControls} from '@verybigthings/g.frame.desktop';
 import {Loader} from '@verybigthings/g.frame.common.loaders';
 import {TemplateModule} from '../Modules/TemplateModule';
 import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
-import {Locomotion} from '@verybigthings/g.frame.oculus.quest/build/main/OculusQuestControllers/OculusQuestCameraControls';
+import {MovementControlsModule} from '@verybigthings/g.frame.common.movement_controls';
 // import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
 // import { DrawLevel } from '../Modules/DrawLevel';
 // import {Level} from '@verybigthings/g.frame.common.level_manager';
@@ -89,10 +89,10 @@ export default class ExampleApp extends Bootstrap {
             modulesProcessor.modules.get(TemplateModule).drawLevel.setOrbitControls(orbitControls);
             // modulesProcessor.modules.get(TemplateModule).filter(instance => instance instanceof DrawLevel)[0]
             // this.addObject(hands);
-            const locomotion = modulesProcessor.modulesInstances.get(OculusQuestModule).filter(instance => instance instanceof Locomotion)[0];
-            console.log('Locomotion', Locomotion);
+            const movementControlsModule = modulesProcessor.modules.get(MovementControlsModule);
+            console.log('movementControlsModule', movementControlsModule);
             //
-            modulesProcessor.modules.get(TemplateModule).drawLevel.setLocomotion(locomotion);
+            modulesProcessor.modules.get(TemplateModule).drawLevel.setLocomotion(movementControlsModule);
 
 
             // modulesProcessor.agents.get(ActionController).on(ActionControllerEventName.buttonDown, _window.uiObject, (event) => {

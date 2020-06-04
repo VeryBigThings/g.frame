@@ -54,10 +54,16 @@ import {CircleGeometry, CylinderGeometry, Mesh, MeshBasicMaterial, Object3D, Vec
 import {OculusQuestActionController} from './OculusQuestActionController';
 import {ActionControllerEvent, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
 
-export class Teleport extends EventDispatcher<ActionControllerEventName> {
+
+export class Locomotion extends EventDispatcher<ActionControllerEventName> {
+
     constructor(public actionController: OculusQuestActionController, public cameraWrap: Object3D, public container: Object3D) {
         super();
         this.initEvents();
+    }
+
+    addNavigationMesh(mesh: Object3D) {
+
     }
 
     initEvents() {
@@ -69,9 +75,11 @@ export class Teleport extends EventDispatcher<ActionControllerEventName> {
             // console.log('model', model.right.stick.axes);
             if (model.left.stick.axes.z !== 0 || model.left.stick.axes.w !== 0) {
                 if (model.left.stick.pressed) {
-                    this.cameraWrap.position.add(new Vector3(0.075 * model.left.stick.axes.z, 0, 0.075 * model.left.stick.axes.w));
+                    const addedVector = new Vector3(.075 * model.left.stick.axes.z, 0, 0.075 * model.left.stick.axes.w);
+                    this.cameraWrap.position.add(addedVector);
                 } else {
-                    this.cameraWrap.position.add(new Vector3(0.05 * model.left.stick.axes.z, 0, 0.05 * model.left.stick.axes.w));
+                    const addedVector = new Vector3(0.05 * model.left.stick.axes.z, 0, 0.05 * model.left.stick.axes.w);
+                    this.cameraWrap.position.add(addedVector);
                 }
                 this.container.position.copy(this.cameraWrap.position);
             }
@@ -88,8 +96,8 @@ export class Teleport extends EventDispatcher<ActionControllerEventName> {
     }
 }
 
-export class Locomotion extends EventDispatcher<ActionControllerEventName> {
-// export class Teleport extends EventDispatcher<ActionControllerEventName> {
+// export class Locomotion extends EventDispatcher<ActionControllerEventName> {
+export class Teleport extends EventDispatcher<ActionControllerEventName> {
 
     public waypoint: Waypoint;
     public maxTeleportDistance: number = 2;
@@ -99,7 +107,7 @@ export class Locomotion extends EventDispatcher<ActionControllerEventName> {
         // this.initEvents();
 
         this.waypoint = new Waypoint();
-        this.actionController.on(ActionControllerEventName.click, this.waypoint.container, (event)=> this.onClick(event))
+        this.actionController.on(ActionControllerEventName.click, this.waypoint.container, (event) => this.onClick(event));
     }
 
     addNavigationMesh(mesh: Object3D) {
@@ -148,7 +156,7 @@ export class Locomotion extends EventDispatcher<ActionControllerEventName> {
         if (!event.data.intersection) return false;
         if (!event.data.intersection.object) return false;
         if (event.data.intersection.point.distanceTo(this.container.position) < this.maxTeleportDistance)
-        return event.data.intersection.object.userData.navMesh;
+            return event.data.intersection.object.userData.navMesh;
     }
 }
 
