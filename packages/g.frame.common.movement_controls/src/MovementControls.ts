@@ -1,11 +1,12 @@
 import {CircleGeometry, CylinderGeometry, Mesh, MeshBasicMaterial, Object3D, Vector3, Color} from 'three';
 import {IMovementControlsModuleOptions} from './MovementControlsModule';
-import {EventDispatcher} from '@verybigthings//g.frame.core';
+import {EventDispatcher} from '@verybigthings/g.frame.core';
 import {
     ActionControllerEventName,
     ActionControllerEvent,
     ActionController
 } from '@verybigthings/g.frame.common.action_controller';
+import {CameraControls} from '@verybigthings/g.frame.common.camera_controls';
 
 // import {IOculusQuestControllersModel} from '@verybigthings/g.frame.oculus.quest';
 
@@ -13,7 +14,7 @@ export class MovementControls extends EventDispatcher<ActionControllerEventName>
     public waypoint: Waypoint;
     public navigatonMeshes: Array<Object3D> = [];
 
-    constructor(public actionController: ActionController, public cameraWrap: Object3D, public camera: Object3D, public options: IMovementControlsModuleOptions) {
+    constructor(public actionController: ActionController, public cameraControls: CameraControls, public options: IMovementControlsModuleOptions) {
         super();
         this.initWaypoint(this.options.waypoint);
     }
@@ -42,8 +43,8 @@ export class MovementControls extends EventDispatcher<ActionControllerEventName>
 
 export class Locomotion extends MovementControls {
 
-    constructor(public actionController: ActionController, public cameraWrap: Object3D, public camera: Object3D, options: IMovementControlsModuleOptions) {
-        super(actionController, cameraWrap, camera, options);
+    constructor(public actionController: ActionController, public cameraControls: CameraControls, options: IMovementControlsModuleOptions) {
+        super(actionController, cameraControls, options);
         this.initEvents();
     }
 
@@ -62,7 +63,7 @@ export class Locomotion extends MovementControls {
                 } else {
                     addedVector.set(0.05 * model.left.stick.axes.z, 0, 0.05 * model.left.stick.axes.w);
                 }
-                this.cameraWrap.position.add(addedVector);
+                this.cameraControls.addPosition(addedVector);
             }
             if (model.right.enabled) {
                 if (model.right.stick.axes.z !== 0) {
@@ -72,17 +73,17 @@ export class Locomotion extends MovementControls {
                     } else {
                         addedVector.set(0, -.025 * model.right.stick.axes.w, 0);
                     }
-                    this.cameraWrap.position.add(addedVector);
+                    this.cameraControls.addPosition(addedVector);
 
-                    console.log('addedVector', addedVector, '', this.camera)
+                    console.log('addedVector', addedVector, '', this.cameraControls)
                 }
             }
         } else if (model.right.enabled) {
             if (model.right.stick.axes.z !== 0 || model.right.stick.axes.w !== 0) {
                 if (model.right.stick.pressed) {
-                    this.cameraWrap.position.add(new Vector3(0.075 * model.right.stick.axes.z, 0, 0.075 * model.right.stick.axes.w));
+                    this.cameraControls.addPosition(new Vector3(0.075 * model.right.stick.axes.z, 0, 0.075 * model.right.stick.axes.w));
                 } else {
-                    this.cameraWrap.position.add(new Vector3(0.05 * model.right.stick.axes.z, 0, 0.05 * model.right.stick.axes.w));
+                    this.cameraControls.addPosition(new Vector3(0.05 * model.right.stick.axes.z, 0, 0.05 * model.right.stick.axes.w));
                 }
             }
         }
@@ -92,16 +93,15 @@ export class Locomotion extends MovementControls {
 export class Teleport extends MovementControls {
     private maxTeleportDistance: number;
 
-    constructor(public actionController: ActionController, public cameraWrap: Object3D, public camera: Object3D, options: IMovementControlsModuleOptions) {
-        super(actionController, cameraWrap, camera, options);
+    constructor(public actionController: ActionController, public cameraControls: CameraControls, options: IMovementControlsModuleOptions) {
+        super(actionController, cameraControls, options);
         this.maxTeleportDistance = options.maxTeleportDistance;
     }
 
     onClick(event: ActionControllerEvent) {
         const clickLocation = event.data.intersection.point;
         console.log('teleported to', event);
-        this.cameraWrap.position.setX(clickLocation.x);
-        this.cameraWrap.position.setZ(clickLocation.z);
+        this.cameraControls.setPosition(clickLocation.x, null, clickLocation.z);
     }
 
     onMove(event: ActionControllerEvent) {
@@ -137,7 +137,7 @@ export class Teleport extends MovementControls {
         if (event.data.controllerNumber !== controllerNumber) return false;
         if (!event.data.intersection?.object) return false;
         // if (this.navigatonMeshes.indexOf(event.data.intersection.object) < 0) return false;
-        if (event.data.intersection.point.distanceTo(this.cameraWrap.position) > this.maxTeleportDistance) return false;
+        if (event.data.intersection.point.distanceTo(this.cameraControls.getPosition()) > this.maxTeleportDistance) return false;
         return event.data.intersection.object.userData.navMesh;
     }
 }

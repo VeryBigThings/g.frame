@@ -7,9 +7,9 @@ export class CameraControlsAgent extends CameraControls {
         super();
     }
 
-    setPosition(newPosition: Vector3) {
+    setPosition(newX: number, newY: number, newZ: number) {
         for (let i = 0; i < this.instances.length; i++) {
-            this.instances[i].setPosition(newPosition);
+            this.instances[i].setPosition(newX, newY, newZ);
         }
     }
 
@@ -26,7 +26,7 @@ export class CameraControlsAgent extends CameraControls {
         }
     }
 
-    setOrientation(newOrientation: Vector3) {
+    setOrientation(newOrientation: Euler) {
         for (let i = 0; i < this.instances.length; i++) {
             this.instances[i].setOrientation(newOrientation);
         }

@@ -36,6 +36,7 @@
   "dependencies": {
     "@verybigthings/g.frame.core": "^0.0.11",
     "@verybigthings/g.frame.common.action_controller": "^0.0.3",
+    "@verybigthings/g.frame.common.camera_controls": "^0.0.1",
     "@verybigthings/g.frame.oculus.quest": "^0.0.9",
     "three": "^0.114.0"
   },

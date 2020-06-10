@@ -9,6 +9,7 @@ import {
     Vector2,
     Vector3
 } from 'three';
+import {CameraControls} from '@verybigthings/g.frame.common.camera_controls';
 
 const STATE = {
     NONE: -1,
@@ -39,7 +40,7 @@ const EPS = 0.000001;
  *    Zoom - middle mouse, or mousewheel / touch: two finger spread or squish
  *    Pan - right mouse, or arrow keys / touch: three finger swipe
  */
-export class OrbitControls extends EventDispatcher {
+export class OrbitControls extends CameraControls {
     object: Object3D;
     object0: Object3D;
     domElement: HTMLElement | HTMLDocument;
@@ -474,6 +475,24 @@ export class OrbitControls extends EventDispatcher {
         this.update();
     }
 
+    setPosition(newX: number, newY: number, newZ: number) {
+        const targetToObjectVector = this.target.clone().sub(this.object.position.clone());
+        const currentPos = this.object.position.clone();
+        this.object.position.set(newX ? newX : currentPos.x, newY ? newY : currentPos.y, newZ ? newZ : currentPos.z);
+        this.target.copy(this.object.position.clone().add(targetToObjectVector));
+    }
+
+    getPosition() {
+        return this.object.position.clone();
+    }
+
+
+    addPosition(addedPosition: Vector3) {
+        const targetToObjectVector = this.target.clone().sub(this.object.position.clone());
+        const newPos = this.object.position.clone().add(addedPosition);
+        this.object.position.copy(newPos);
+        this.target.copy(this.object.position.clone().add(targetToObjectVector));
+    }
     // backward compatibility
     get center(): Vector3 {
         console.warn('OrbitControls: .center has been renamed to .target');

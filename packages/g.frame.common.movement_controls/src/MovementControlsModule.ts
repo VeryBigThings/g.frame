@@ -2,6 +2,7 @@ import {Object3D} from 'three';
 import {IWaypointOptions, Locomotion, MovementControls, Teleport} from './MovementControls';
 import {ConstructorInstanceMap, AbstractModule, AbstractModuleStatus} from '@verybigthings/g.frame.core';
 import {ActionController, } from '@verybigthings/g.frame.common.action_controller';
+import {CameraControls} from '@verybigthings/g.frame.common.camera_controls';
 
 export enum MovementControlsType {
     locomotion = 0,
@@ -23,9 +24,8 @@ export class MovementControlsModule extends AbstractModule {
     public options: IMovementControlsModuleOptions;
     public movementType: MovementControls;
     public scene: Object3D;
-    public camera: Object3D;
-    public cameraWrap: Object3D;
     public actionController: ActionController;
+    public cameraControls: CameraControls;
 
     constructor(options: IMovementControlsModuleOptions) {
         super();
@@ -40,8 +40,6 @@ export class MovementControlsModule extends AbstractModule {
 
     async onInit(data: any): Promise<Array<any>> {
         this.scene = data.viewer.scene;
-        this.camera = data.viewer.camera;
-        this.cameraWrap = data.viewer.cameraWrap;
 
         return [];
     }
@@ -52,7 +50,8 @@ export class MovementControlsModule extends AbstractModule {
 
     afterInit(agents: ConstructorInstanceMap<any>): void {
         this.actionController = agents.get(ActionController);
-        this.movementType = new movementControls[this.options.movementType](this.actionController, this.cameraWrap, this.camera, this.options);
+        this.cameraControls = agents.get(CameraControls);
+        this.movementType = new movementControls[this.options.movementType](this.actionController, this.cameraControls, this.options);
         this.scene.add(this.movementType.waypoint.container);
     }
 

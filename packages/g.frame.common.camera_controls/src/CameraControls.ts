@@ -1,13 +1,13 @@
-import {Vector3, Euler, Object3D} from 'three';
+import {Vector3, Euler, EventDispatcher} from 'three';
 
 export class CameraControls extends EventDispatcher {
     public __agentConstructor: Function;
 
-    constructor(private camera?: Object3D) {
+    constructor() {
         super();
     }
 
-    setPosition(newPosition: Vector3) {
+    setPosition(newX: number, newY: number, newZ: number) {
 
     }
 
@@ -19,7 +19,7 @@ export class CameraControls extends EventDispatcher {
         return new Vector3();
     }
 
-    setOrientation(newOrientation: Vector3) {
+    setOrientation(newOrientation: Euler) {
 
     }
 
