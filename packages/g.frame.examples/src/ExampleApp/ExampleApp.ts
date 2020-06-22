@@ -1,5 +1,5 @@
 import {BoxGeometry, Color, Mesh, MeshBasicMaterial, Vector2} from 'three';
-import {Bootstrap, Factory, ModulesProcessor} from '@verybigthings/g.frame.core';
+import {Bootstrap, Factory, ModulesProcessor, Tween} from '@verybigthings/g.frame.core';
 import {TemplateA} from '../Modules/TemplateA';
 import {WindowComponent} from '@verybigthings/g.frame.components.window';
 import {IconButtonComponent} from '@verybigthings/g.frame.components.buttons';
@@ -80,6 +80,9 @@ export default class ExampleApp extends Bootstrap {
             if (++i_icon === 5) this.disposeObject(iconButton);
         });
 
+        new Tween({})
+            .onUpdate(alpha => console.log(alpha))
+            .start()
 
         const optionList = [
             {body: 'False', key: 'False'},
