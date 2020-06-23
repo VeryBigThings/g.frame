@@ -1,6 +1,6 @@
 {
   "name": "@verybigthings/g.frame.components.divided_circle",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Template module from g.frame",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -34,12 +34,12 @@
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
-    "@verybigthings/g.frame.common.action_controller": "^0.0.3",
-    "@verybigthings/g.frame.components.buttons": "^0.0.6",
-    "@verybigthings/g.frame.components.depth_scroll": "^0.0.7",
-    "@verybigthings/g.frame.components.text": "^0.0.6",
-    "@verybigthings/g.frame.components.window": "^0.0.7",
-    "@verybigthings/g.frame.core": "^0.0.11",
+    "@verybigthings/g.frame.common.action_controller": "^0.0.4",
+    "@verybigthings/g.frame.components.buttons": "^0.0.7",
+    "@verybigthings/g.frame.components.depth_scroll": "^0.0.8",
+    "@verybigthings/g.frame.components.text": "^0.0.7",
+    "@verybigthings/g.frame.components.window": "^0.0.8",
+    "@verybigthings/g.frame.core": "^0.0.12",
     "three": "^0.114.0"
   },
   "devDependencies": {
