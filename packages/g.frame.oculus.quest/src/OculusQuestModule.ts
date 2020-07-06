@@ -5,6 +5,7 @@ import { OculusQuestPickingController } from './OculusQuestControllers/OculusQue
 import { OculusQuestActionController } from './OculusQuestControllers/OculusQuestActionController';
 import { OculusQuestManager } from './OculusQuestManager';
 import { OculusQuestModel } from './OculusQuestModel';
+import {CameraWrapperControls} from '@verybigthings/g.frame.common.camera_controls';
 
 export class OculusQuestModule extends AbstractModule {
     public oculusQuestManager: OculusQuestManager;
@@ -49,10 +50,14 @@ export class OculusQuestModule extends AbstractModule {
         this.container.add(oculusQuestModel.mainContainer);
         data.viewer.cameraWrap.add(this.container);
 
+
+        console.log('onInit Data', data);
+
         return [
             this.oculusQuestManager,
             actionController,
             pickingController,
+            new CameraWrapperControls(data.viewer.cameraWrap)
         ];
     }
 

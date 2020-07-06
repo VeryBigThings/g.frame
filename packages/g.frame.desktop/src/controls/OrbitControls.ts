@@ -7,7 +7,8 @@ import {
     Quaternion,
     Spherical,
     Vector2,
-    Vector3
+    Vector3,
+    Euler
 } from 'three';
 import {CameraControls} from '@verybigthings/g.frame.common.camera_controls';
 
@@ -484,6 +485,12 @@ export class OrbitControls extends CameraControls {
 
     getPosition() {
         return this.object.position.clone();
+    }
+
+    getOrientation(): Euler {
+        const quaternion = new Quaternion().setFromUnitVectors(this.object.position.clone(), this.target.clone());
+        const euler = new Euler().setFromQuaternion(quaternion);
+        return euler;
     }
 
 

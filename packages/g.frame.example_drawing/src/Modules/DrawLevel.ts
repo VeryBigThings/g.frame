@@ -5,7 +5,6 @@ import {ActionController} from '@verybigthings/g.frame.common.action_controller'
 import {MarkerBoardModule} from './BoardModule';
 import { OrbitControls } from '@verybigthings/g.frame.desktop';
 import {OculusQuestModel, OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
-import { Locomotion } from '@verybigthings/g.frame.oculus.quest/build/main/OculusQuestControllers/OculusQuestCameraControls';
 import {MovementControlsModule} from '@verybigthings/g.frame.common.movement_controls';
 
 declare function require(s: string): string;

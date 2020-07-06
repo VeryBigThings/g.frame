@@ -49,11 +49,16 @@ export class Locomotion extends MovementControls {
     }
 
     initEvents() {
-        this.actionController.on(ActionControllerEventName.move, null, (event) => this.moveCamera(event.data.context.oculusQuestModel.model));
+        this.actionController.on(ActionControllerEventName.move, null, (event) => {
+            if (event.data.context.oculusQuestModel) {
+                this.moveQuestCamera(event.data.context.oculusQuestModel.model);
+            } else if (event.data.context.oculusGoModel) {
+                this.moveGoCamera(event.data.context.oculusGoModel.model);
+            }
+        });
     }
 
-    // moveCamera(model: IOculusQuestControllersModel) {
-    moveCamera(model: any) {
+    moveQuestCamera(model: any) {
         if (model.left.enabled) {
             // console.log('model', model.right.stick.axes);
             if (model.left.stick.axes.z !== 0 || model.left.stick.axes.w !== 0) {
@@ -63,6 +68,8 @@ export class Locomotion extends MovementControls {
                 } else {
                     addedVector.set(0.05 * model.left.stick.axes.z, 0, 0.05 * model.left.stick.axes.w);
                 }
+                const euler = this.cameraControls.getOrientation();
+                if (euler) addedVector.applyEuler(euler);
                 this.cameraControls.addPosition(addedVector);
             }
             if (model.right.enabled) {
@@ -73,9 +80,9 @@ export class Locomotion extends MovementControls {
                     } else {
                         addedVector.set(0, -.025 * model.right.stick.axes.w, 0);
                     }
+                    const euler = this.cameraControls.getOrientation();
+                    if (euler) addedVector.applyEuler(euler);
                     this.cameraControls.addPosition(addedVector);
-
-                    console.log('addedVector', addedVector, '', this.cameraControls)
                 }
             }
         } else if (model.right.enabled) {
@@ -85,6 +92,18 @@ export class Locomotion extends MovementControls {
                 } else {
                     this.cameraControls.addPosition(new Vector3(0.05 * model.right.stick.axes.z, 0, 0.05 * model.right.stick.axes.w));
                 }
+            }
+        }
+    }
+
+    moveGoCamera(model: any) {
+        if (model.enabled) {
+            // console.log('model', model.right.touchpad.axes);
+            if (model.touchpad.axes.z !== 0 || model.touchpad.axes.w !== 0) {
+                const addedVector = new Vector3(0.05 * model.touchpad.axes.z, 0, 0.05 * model.touchpad.axes.w);
+                const euler = this.cameraControls.getOrientation();
+                if (euler) addedVector.applyEuler(euler);
+                this.cameraControls.addPosition(addedVector);
             }
         }
     }

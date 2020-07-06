@@ -1,6 +1,7 @@
 import { AbstractModule, AbstractModuleStatus } from '@verybigthings/g.frame.core';
 import { DeviceOrientationController } from './controllers/DeviceOrientationController';
 import { TouchActionController } from './controllers/TouchActionController';
+import {CameraWrapperControls} from '@verybigthings/g.frame.common.camera_controls';
 
 export class MobileModule extends AbstractModule {
     deviceOrientationController: DeviceOrientationController;
@@ -31,6 +32,7 @@ export class MobileModule extends AbstractModule {
                 minRaycasterDistance: 0,
                 maxRaycasterDistance: Infinity
             }, data.viewer.renderer, data.viewer.camera),
+            new CameraWrapperControls(data.viewer.cameraWrap)
         ];
     }
 

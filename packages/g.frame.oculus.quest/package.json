@@ -37,6 +37,7 @@
   "dependencies": {
     "@verybigthings/g.frame.common.action_controller": "^0.0.3",
     "@verybigthings/g.frame.common.picking_controller": "^0.0.3",
+    "@verybigthings/g.frame.common.camera_controls": "^0.0.1",
     "@verybigthings/g.frame.common.loaders": "^0.0.4",
     "@verybigthings/g.frame.core": "^0.0.11",
     "@verybigthings/g.frame.common.xr_manager": "^0.0.2",
