@@ -70,6 +70,17 @@ export class InputComponent extends WindowComponent implements Input {
     addSymbol(symbol: string) {
         if (this.inputString.length >= this.options.maxLength && symbol !== '') return;
 
+        const isNumber = symbol === '0' ? true : !!+symbol;
+        const isOperator = !!['+', '.'].find(el => el === symbol);
+        if (this.options.type === InputType.Letters) {
+            if (isNumber) return;
+        } else {
+            if (this.options.type === InputType.Numbers) {
+                console.log('InputType = Numbers', isNumber, isOperator,symbol);
+                if (!isNumber && !isOperator && symbol !== '') return;
+            }
+        }
+
         if (this.inputString.length !== 0 && this.options.type === InputType.Custom && symbol !== '') symbol = ' ' + symbol;
         this.inputString += symbol;
 

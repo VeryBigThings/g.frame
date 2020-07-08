@@ -161,7 +161,7 @@ export class VirtualKeyboardComponent extends ViewerModule {
             '1', '2', '3',
             '4', '5', '6',
             '7', '8', '9',
-            '.', '0', '-', '3'
+            '.', '0', '+', '3'
         ];
 
         this.numberKeyboard = new ViewerModule();
