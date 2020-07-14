@@ -184,13 +184,14 @@ export default class ExampleApp extends Bootstrap {
             bordRadius: 0.01,
             maxLength: 40,
             type: InputType.Full,
-            text: {
-                value: '',
-                autoWrappingHorizontal: true,
-                autoWrapping: false,
-                style: {family: 'Nunito-Sans', weight: '700', size: '45px', color: 'black'},
-                lineHeight: 45,
-            }
+            textComponent: {
+                text: {
+                    value: '',
+                    autoWrappingHorizontal: true,
+                    autoWrapping: false,
+                    style: {family: 'Nunito-Sans', weight: '700', size: '45px', color: 'black'},
+                    lineHeight: 45,
+                }}
         };
 
         const inputComponent = modulesProcessor.agents.get(Factory).getFactory(InputComponent)(inputOptions);

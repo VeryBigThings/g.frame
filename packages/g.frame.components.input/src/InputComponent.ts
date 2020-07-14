@@ -26,14 +26,14 @@ export class InputComponent extends WindowComponent implements Input {
         if (this.options.maxLength === undefined) this.options.maxLength = 9999999;
 
         this.cursor = new Mesh(
-            new PlaneGeometry(0.05, options.size.y / 1.3, 2),
+            new PlaneGeometry(options.cursorWidth || 0.05, options.size.y / 1.3, 2),
             new MeshBasicMaterial({color: 0x333333, side: DoubleSide})
         );
         this.cursor.position.z += 0.08;
         this.cursor.visible = false;
         this.addObject(this.cursor);
-        this.textTest = new TextComponent(this.getOptions('', options.size.multiplyScalar(0.97), options.pxSize));
-        this.addObject(this.text = new TextComponent(this.getOptions('', options.size.multiplyScalar(0.97), options.pxSize)));
+        this.textTest = new TextComponent(this.getOptions(options.textComponent.text.value || '', options.size.multiplyScalar(0.97), options.pxSize));
+        this.addObject(this.text = new TextComponent(this.getOptions(options.textComponent.text.value || '', options.size.multiplyScalar(0.97), options.pxSize)));
         this.maxInputWidth = options.size.x;
 
         const textSize = new Box3().setFromObject(this.text.uiObject).getSize(new Vector3());
@@ -152,16 +152,18 @@ export class InputComponent extends WindowComponent implements Input {
     private getOptions(symbol: string = '', size?: Vector2, pxSize?: Vector2): ITextComponentOptions {
 
         const options: ITextComponentOptions = {
-            background: {color: '#FFF'},
+            background:  this.options.textComponent.background || {
+                color: '#FFF'
+            },
             size: size ? size.clone() : this.text.options.size.clone(),
             pxSize: pxSize ? pxSize.clone() : this.text.options.pxSize.clone(),
             text: {
                 value: symbol,
-                align: 'left',
-                autoWrappingHorizontal: true,
-                autoWrapping: false,
-                style: {size: '32px'},
-                lineHeight: 38
+                align: this.options.textComponent.text.align || 'left',
+                autoWrappingHorizontal: this.options.textComponent.text.autoWrappingHorizontal === undefined ? true : this.options.textComponent.text.autoWrappingHorizontal,
+                autoWrapping: this.options.textComponent.text.autoWrapping === undefined ? false : this.options.textComponent.text.autoWrapping,
+                style: this.options.textComponent.text.style || {size: '32px'},
+                lineHeight: this.options.textComponent.text.lineHeight || 38
             },
         };
 
