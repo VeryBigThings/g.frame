@@ -1,6 +1,6 @@
 {
   "name": "@verybigthings/g.frame.effects.spe",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Template module from g.frame",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -35,8 +35,8 @@
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
-    "@verybigthings/g.frame.common.loaders": "^0.0.5",
-    "@verybigthings/g.frame.core": "^0.0.12",
+    "@verybigthings/g.frame.common.loaders": "^0.1.0",
+    "@verybigthings/g.frame.core": "^0.1.0",
     "@verybigthings/shader-particle-engine": "1.0.11",
     "three": "^0.114.0"
   },
