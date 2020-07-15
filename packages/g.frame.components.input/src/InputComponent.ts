@@ -76,7 +76,6 @@ export class InputComponent extends WindowComponent implements Input {
             if (isNumber) return;
         } else {
             if (this.options.type === InputType.Numbers) {
-                console.log('InputType = Numbers', isNumber, isOperator,symbol);
                 if (!isNumber && !isOperator && symbol !== '') return;
             }
         }
