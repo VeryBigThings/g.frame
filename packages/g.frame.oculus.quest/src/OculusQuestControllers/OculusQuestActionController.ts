@@ -45,7 +45,7 @@ export class OculusQuestActionController extends ActionController {
         // Subscribe on events
         this.oculusQuestModel.on('buttonDown', this.onButtonDown);
         this.oculusQuestModel.on('buttonUp', this.onButtonUp);
-        this.oculusQuestModel.on('click', this.onClick);
+        // this.oculusQuestModel.on('click', this.onClick);
         this.oculusQuestModel.on('move', this.onMove);
     }
 
