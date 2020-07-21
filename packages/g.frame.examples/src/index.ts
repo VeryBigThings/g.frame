@@ -55,6 +55,7 @@ class App {
                     height: window.innerHeight,
                     autoResize: true,
                     containerID: 'app',
+                    onWindowResize: true,
                 },
                 scene: {
                     // overrideMaterial: Material;

@@ -34,6 +34,7 @@ export default class ExampleApp extends Bootstrap {
             background: 0xffffff
         });
 
+
         const w = modulesProcessor.agents.get(Factory).getFactory(WindowComponent);
 
         _window.uiObject.position.set(-1, 1.5, -1.5);
