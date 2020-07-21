@@ -14,7 +14,6 @@ export default class FrameworkViewer extends EventDispatcher<string> {
     public readonly cameraWrap: Object3D;
     public readonly modulesContainer: Object3D;
     private currentViewer: ViewerModule;
-    private containerSize: {width: number, height: number};
 
     constructor(private config: IViewerConfig) {
         super();
@@ -50,12 +49,6 @@ export default class FrameworkViewer extends EventDispatcher<string> {
 
         this.container.appendChild(webglCanvas);
         document.body.appendChild(this.container);
-
-        console.log('==== CONTAINER SIZE ====', this.container.clientWidth, this.container.clientHeight);
-        this.containerSize = {
-            width: this.container.clientWidth,
-            height: this.container.clientHeight
-        };
 
         // SCENE
         this.scene = new Scene();
@@ -130,11 +123,16 @@ export default class FrameworkViewer extends EventDispatcher<string> {
     }
 
     updateSize(width?: number, height?: number) {
-        this.renderer.domElement.style.width = (width || this.container.clientWidth) + 'px';
-        this.renderer.domElement.style.height = (height || this.container.clientHeight) + 'px';
+        const newCanvasSize = {
+            width: width || this.container.clientWidth,
+            height: height || window.innerHeight,
+        };
 
-        this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
+        this.renderer.domElement.style.width = newCanvasSize.width + 'px';
+        this.renderer.domElement.style.height = newCanvasSize.height + 'px';
+
+        this.camera.aspect = newCanvasSize.width / newCanvasSize.height;
         this.camera.updateProjectionMatrix();
-        this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+        this.renderer.setSize(newCanvasSize.width, newCanvasSize.height);
     }
 }
