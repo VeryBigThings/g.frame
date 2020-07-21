@@ -8,12 +8,13 @@ export default class FrameworkViewer extends EventDispatcher<string> {
     public readonly renderer: WebGLRenderer;
     public readonly scene: Scene;
     public readonly camera: PerspectiveCamera;
-    public readonly container: Element;
+    private readonly container: Element;
 
     public readonly cameraWrapParent: Object3D;
     public readonly cameraWrap: Object3D;
     public readonly modulesContainer: Object3D;
     private currentViewer: ViewerModule;
+    private containerSize: {width: number, height: number};
 
     constructor(private config: IViewerConfig) {
         super();
@@ -50,6 +51,12 @@ export default class FrameworkViewer extends EventDispatcher<string> {
         this.container.appendChild(webglCanvas);
         document.body.appendChild(this.container);
 
+        console.log('==== CONTAINER SIZE ====', this.container.clientWidth, this.container.clientHeight);
+        this.containerSize = {
+            width: this.container.clientWidth,
+            height: this.container.clientHeight
+        };
+
         // SCENE
         this.scene = new Scene();
         this.scene.overrideMaterial = this.config.scene.overrideMaterial;
@@ -72,6 +79,8 @@ export default class FrameworkViewer extends EventDispatcher<string> {
         this.camera.userData.target = new Vector3().copy(this.config.camera.target);
         this.camera.lookAt(this.camera.userData.target);
         this.cameraWrap.add(this.camera);
+
+        if (this.config.renderer.onWindowResize) window.addEventListener('resize', () => this.updateSize());
     }
 
     static getContext(webglCanvas) {
@@ -114,5 +123,18 @@ export default class FrameworkViewer extends EventDispatcher<string> {
             this.currentViewer = newViewer;
             this.scene.add(newViewer.uiObject);
         }
+    }
+
+    getDOMContainer(): Element {
+        return this.container;
+    }
+
+    updateSize(width?: number, height?: number) {
+        this.renderer.domElement.style.width = (width || this.container.clientWidth) + 'px';
+        this.renderer.domElement.style.height = (height || this.container.clientHeight) + 'px';
+
+        this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     }
 }
