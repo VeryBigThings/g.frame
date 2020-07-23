@@ -8,7 +8,7 @@ export default class FrameworkViewer extends EventDispatcher<string> {
     public readonly renderer: WebGLRenderer;
     public readonly scene: Scene;
     public readonly camera: PerspectiveCamera;
-    public readonly container: Element;
+    private readonly container: Element;
 
     public readonly cameraWrapParent: Object3D;
     public readonly cameraWrap: Object3D;
@@ -72,6 +72,8 @@ export default class FrameworkViewer extends EventDispatcher<string> {
         this.camera.userData.target = new Vector3().copy(this.config.camera.target);
         this.camera.lookAt(this.camera.userData.target);
         this.cameraWrap.add(this.camera);
+
+        if (this.config.renderer.onWindowResize) window.addEventListener('resize', () => this.updateSize());
     }
 
     static getContext(webglCanvas) {
@@ -114,5 +116,23 @@ export default class FrameworkViewer extends EventDispatcher<string> {
             this.currentViewer = newViewer;
             this.scene.add(newViewer.uiObject);
         }
+    }
+
+    getDOMContainer(): Element {
+        return this.container;
+    }
+
+    updateSize(width?: number, height?: number) {
+        const newCanvasSize = {
+            width: width || this.container.clientWidth,
+            height: height || window.innerHeight,
+        };
+
+        this.renderer.domElement.style.width = newCanvasSize.width + 'px';
+        this.renderer.domElement.style.height = newCanvasSize.height + 'px';
+
+        this.camera.aspect = newCanvasSize.width / newCanvasSize.height;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(newCanvasSize.width, newCanvasSize.height);
     }
 }

@@ -13,6 +13,7 @@ export interface IViewerConfig {
         height?: number;
         autoResize?: boolean;
         containerID?: string;
+        onWindowResize?: boolean;
     };
     scene: {
         overrideMaterial?: Material;
