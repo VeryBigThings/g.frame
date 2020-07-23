@@ -18,7 +18,7 @@ const config = {
  */
 type XRFrame = any;
 
-interface IOculusQuestControllersModel {
+export interface IOculusQuestControllersModel {
     left: IOculusQuestControllerModel;
     right: IOculusQuestControllerModel;
 }

@@ -18,6 +18,10 @@ export class TemplateB extends TemplateA {
 
     }
 
+    /**
+     * Just an example of how to add resources to load
+     * @param loader Loader
+     */
     prepareResources(loader: Loader<any>) {
         this.loader = loader;
         this.loader.addResources([
@@ -68,6 +72,9 @@ export class TemplateB extends TemplateA {
         this.actionController = actionController;
     }
 
+    /**
+     * Places assets on the scene
+     */
     addResources() {
         let modelCollada, modelGltf, modelObj, modelObj2;
 

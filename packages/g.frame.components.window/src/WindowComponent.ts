@@ -9,18 +9,28 @@ export class WindowComponent extends ViewerModule {
     private uiObjectOuter: Mesh;
     private uiObjectInner: Mesh;
 
+    /**
+     * Constructor of the WindowComponent
+     * @param options WindowComponentOptions
+     */
     constructor(protected options: WindowComponentOptions) {
         super();
 
         this.generate();
     }
 
-
+    /**
+     * Function that updates geometry options
+     * @param newSize Vector2
+     */
     setSize(newSize: Vector2) {
         this.options.size.copy(newSize);
         this.generate();
     }
 
+    /**
+     * Function that generates geometry. It will dispose old objects.
+     */
     private generate() {
         if (this.uiObjectInner) this.disposeObject(this.uiObjectInner);
         if (this.uiObjectOuter) this.disposeObject(this.uiObjectOuter);

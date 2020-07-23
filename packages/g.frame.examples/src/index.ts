@@ -1,4 +1,4 @@
-import ExampleApp from './ExampleApp/ExampleApp';
+import ExampleApp from './ts/ExampleApp';
 import {ModulesProcessor} from '@verybigthings/g.frame.core';
 import {TemplateModule} from './Modules/TemplateModule';
 import {Vector3} from 'three';

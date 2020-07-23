@@ -12,6 +12,7 @@ import {
     ActionControllerEventName
 } from '@verybigthings/g.frame.common.action_controller';
 import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
+import { VBTubeVideoParameters } from './VBTubeVideoPlayer';
 
 /**
  * Class to manipulate volume bar
@@ -22,10 +23,10 @@ export class VBTubeVolumeBar extends ViewerModule {
     private whiteCircle: GMesh<CircleBufferGeometry, MeshBasicMaterial>;
 
     /**
-     * Constructor of the class. Adds volume bar to the scene
-     * @param videoParameters Standard param to set optimal size for volume bar
+     * Adds volume bar to the video player
+     * @param videoParameters Scales of the video player
      */
-    constructor(private videoParameters: any, private actionController: ActionController) {
+    constructor(private videoParameters: VBTubeVideoParameters, private actionController: ActionController) {
         super();
 
         // Volume bar items
@@ -57,10 +58,12 @@ export class VBTubeVolumeBar extends ViewerModule {
             this.fire('volumebarButtonDown', event);
         });
 
-        // UiObject name
-        this.uiObject.name = 'volumeBar';
+        this.uiObject.name = 'VOLUME_BAR';
     }
 
+    /**
+     * Updates volume bar to the current parameter of volume
+     */
     updateVolumeBar(muted: boolean, volume?: number) {
         if (!muted && volume === 1) {
             this.whiteBar.scale.set(1, 1, 1);

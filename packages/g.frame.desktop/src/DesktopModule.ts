@@ -3,6 +3,7 @@ import {MouseActionController} from './controllers/MouseActionController';
 import {OrbitControls} from './controls/OrbitControls';
 import {InputModule} from '@verybigthings/g.frame.input';
 import {KeyboardController} from './controllers/KeyboardController';
+import {CameraWrapperControls} from '@verybigthings/g.frame.common.camera_controls';
 
 @requires({
     modules: [
@@ -29,7 +30,8 @@ export class DesktopModule extends AbstractModule {
                 maxRaycasterDistance: Infinity
             }, data.viewer.renderer, data.viewer.camera),
             new OrbitControls(data.viewer.camera, data.viewer.renderer.domElement),
-            new KeyboardController()
+            new KeyboardController(),
+            new CameraWrapperControls(data.viewer.cameraWrap)
         ];
     }
 

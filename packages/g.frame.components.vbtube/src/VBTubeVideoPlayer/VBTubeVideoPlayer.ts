@@ -44,11 +44,16 @@ import {
 } from '@verybigthings/g.frame.common.action_controller';
 import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
 
+export interface VBTubeVideoParameters {
+    width: number;
+    height: number;
+    layer: number;
+}
+
 export interface IVBTubeVideoPlayerOptions {
     videoScale: number;
     disableButtons?: IDisableButtons;
 }
-
 
 /**
  * VBTubeVideoPlayer is a main class that unites other modules, such as VBTubeButtons, VBTubeProgressbar, VBTubeSubtitles, etc.
@@ -67,20 +72,18 @@ export class VBTubeVideoPlayer extends ViewerModule {
 
     // Video params
     private videoScale: number;
-    private videoParameters: any;
+    private videoParameters: VBTubeVideoParameters;
     private material: MeshBasicMaterial;
     private geometry: PlaneGeometry;
     private texture: VideoTexture;
     private video: HTMLVideoElement;
     private videoMesh: Mesh;
     private onEndListener: () => void;
-    private onEndListener2: () => void;
 
     /**
-     * Constructor of the class. Initializes all modules
-     * @param videoParameters Wrapper, that is used to get width and height of the video. Also, it can contains subtitles text
+     * Inits empty video player
+     * @param videoParameters Contains scale parameter and a list of disabled buttons
      * @param actionController ActionController
-     * @param controls ActionController
      */
     constructor(videoParameters: IVBTubeVideoPlayerOptions, private actionController: ActionController, private controls: { enableRotate: boolean }) {
         super();
@@ -157,7 +160,8 @@ export class VBTubeVideoPlayer extends ViewerModule {
     }
 
     /**
-     * Function to upload a video and prepare all modules to use
+     * Sets new video by disposing previous modules.
+     * Prepares all new video player modules
      * @param video Video to upload
      * @param videoTitle Title of the video.
      * @param subtitlesText Text for the subtitles. Try to have around two sentences in one text element of the Array for correct work
@@ -166,8 +170,8 @@ export class VBTubeVideoPlayer extends ViewerModule {
         this.videoParameters.width = video.videoWidth * this.videoScale / QUALITY_X * (QUALITY_X / QUALITY_Y);
         this.videoParameters.height = video.videoHeight * this.videoScale / QUALITY_Y;
 
-        // console.log(this.videoScale, video.videoWidth, video.videoHeight);
-        // Remove previous modules
+
+        // Removes previous modules
         this.progressbar.dispose();
         this.videoTitle.dispose();
         this.volumebar.dispose();
@@ -175,6 +179,9 @@ export class VBTubeVideoPlayer extends ViewerModule {
         this.buttons.dispose();
         this.timer.dispose();
         this.bars.dispose();
+
+
+        // Sets new modules
 
         // Title
         const videoQualityX = VIDEO_TITLE_QUALITY * video.videoWidth / QUALITY_X * 22.5;
@@ -253,14 +260,13 @@ export class VBTubeVideoPlayer extends ViewerModule {
             this.video.addEventListener('ended', this.onEndListener = () => {
                 this.subtitlesText = null;
                 this.subtitles.setText('');
-                this.subtitles.show(false);
-                this.progressbar.hideBufferLine();
+                this.subtitles.add(false);
+                this.progressbar.removeBufferLine();
                 this.buttons.setText('replay', true);
                 this.video.currentTime = 0;
                 if (this.buttons.zoomButton && this.buttons.zoomButton.uiObject.userData.on) this.fire('compress');
                 if (this.buttons.lightButton && !this.buttons.lightButton.uiObject.userData.on) this.fire('lightOn');
                 this.fire('ended');
-                // this.off('ended');
             });
             this.texture = new VideoTexture(this.video);
             this.texture.minFilter = LinearFilter;
@@ -290,20 +296,18 @@ export class VBTubeVideoPlayer extends ViewerModule {
         this.initVolumebar();
         this.initButtons();
 
-        // Show/hide UI
+        // Adds or removes UI items
         this.uiObject.userData.tweenReady = true;
         this.actionController.on(ActionControllerEventName.over, this.uiObject, () => {
             if (!this.video.paused && this.controls.enableRotate && this.uiObject.userData.tweenReady) {
-                this.showUI();
+                this.addUI();
             }
         });
         this.actionController.on(ActionControllerEventName.out, this.uiObject, () => {
             if (!this.video.paused && this.controls.enableRotate && this.uiObject.userData.tweenReady) {
-                this.hideUI();
+                this.removeUI();
             }
         });
-
-        // this.showUI();
 
         if (autoPlay) this.buttons.fire('playButtonClicked');
         this.videoInited = true;
@@ -311,7 +315,7 @@ export class VBTubeVideoPlayer extends ViewerModule {
     }
 
     /**
-     * Function to update bars, subtitles and timer
+     * Updates video player on each frame
      */
     update() {
         super.update();
@@ -334,10 +338,17 @@ export class VBTubeVideoPlayer extends ViewerModule {
         this.buttons.setCurrentVolumeIcon(this.video.muted, this.video.volume);
     }
 
-    showAutoSubtitles(show: boolean = true) {
-        this.subtitles.show(show);
+    /**
+     * Adds subtitles by default.
+     * Use it when you want to init subtitles before user will interact with video player
+     */
+    addAutoSubtitles(add: boolean = true) {
+        this.subtitles.add(add);
     }
 
+    /**
+     * Updates video volume to the current value
+     */
     private setVideoVolume(x: number) {
         if (x * this.videoParameters.width / VOLUME_BAR_WIDTH < this.videoParameters.height / VOLUME_BAR_CIRCLE_RADIUS) {
             this.video.volume = 0;
@@ -356,10 +367,11 @@ export class VBTubeVideoPlayer extends ViewerModule {
     }
 
     /**
-     * Function to declare actions and events for buttons
+     * Inits video player UI buttons events.
+     * Here you add some logic and events
      */
     private initButtons() {
-        // Play/Pause button
+        // Play
         this.buttons.on('playButtonClicked', () => {
             if (this.video.paused) {
                 this.video.play();
@@ -370,7 +382,7 @@ export class VBTubeVideoPlayer extends ViewerModule {
             }
         });
 
-        // Video screen clickable area
+        // Video screen
         this.buttons.on('screenClicked', () => {
             if (this.video.paused) {
                 this.video.play();
@@ -383,12 +395,12 @@ export class VBTubeVideoPlayer extends ViewerModule {
             }
         });
 
-        // Skip button
+        // Skip
         this.buttons.on('skipButtonClicked', () => {
             this.video.currentTime = this.video.duration;
         });
 
-        // Sound button
+        // Sound
         this.buttons.on('soundButtonClicked', () => {
             if (!this.video.muted) {
                 this.buttons.setText('volume', true);
@@ -406,7 +418,7 @@ export class VBTubeVideoPlayer extends ViewerModule {
             }
         });
 
-        // Sound button
+        // Sound
         this.buttons.on('soundButtonOver', () => {
             if (!this.timer.uiObject.userData.moved) {
                 this.timer.uiObject.userData.moved = true;
@@ -431,12 +443,12 @@ export class VBTubeVideoPlayer extends ViewerModule {
             }
         });
 
-        // Subtitles button
+        // Subtitles
         this.buttons.on('subtitlesButtonClicked', () => {
-            this.subtitles.show(true);
+            this.subtitles.add(true);
         });
 
-        // Light button
+        // Light
         this.buttons.on('lightButtonClicked', () => {
             if (this.buttons.lightButton.uiObject.userData.on) {
                 this.buttons.lightButton.uiObject.userData.on = false;
@@ -449,7 +461,7 @@ export class VBTubeVideoPlayer extends ViewerModule {
             }
         });
 
-        // Zoom button
+        // Zoom
         this.buttons.on('zoomButtonClicked', () => {
             if (!this.buttons.zoomButton.uiObject.userData.on) {
                 this.buttons.zoomButton.uiObject.userData.on = true;
@@ -463,8 +475,13 @@ export class VBTubeVideoPlayer extends ViewerModule {
         });
     }
 
+    /**
+     * Inits basic volume bar events such as:
+     * move, buttonUp, buttonDown.
+     * Here you can add some logic or events
+     */
     private initVolumebar() {
-        // Button down action
+        // ButtonDown
         this.volumebar.on('volumebarButtonDown', (event: ActionControllerEvent) => {
             this.controls.enableRotate = false;
             const supplyBackground = new GMesh<PlaneBufferGeometry, MeshBasicMaterial>(
@@ -488,7 +505,7 @@ export class VBTubeVideoPlayer extends ViewerModule {
             }
             this.setVideoVolume(event.data.intersection.uv.x);
 
-            // Move action
+            // Move
             this.actionController.on(ActionControllerEventName.move, volumeBackground, (event: ActionControllerEvent) => {
                 if (event.data.intersection.uv.x * this.videoParameters.width / VOLUME_BAR_WIDTH < this.videoParameters.height / VOLUME_BAR_CIRCLE_RADIUS) {
                     this.uiObject.userData.customVolume = undefined;
@@ -500,7 +517,7 @@ export class VBTubeVideoPlayer extends ViewerModule {
                 this.setVideoVolume(event.data.intersection.uv.x);
             });
 
-            // Button up action
+            // ButtonUp
             this.actionController.once(ActionControllerEventName.buttonUp, null, () => {
                 this.controls.enableRotate = true;
                 this.removeObject(supplyBackground);
@@ -510,13 +527,18 @@ export class VBTubeVideoPlayer extends ViewerModule {
         });
     }
 
+    /**
+     * Inits basic progress bar events, such as:
+     * click, move, buttonUp, buttonDown.
+     * Here you can add some logic or events
+     */
     private initProgressbar() {
-        // Click action
+        // Click
         this.progressbar.on('progressbarClicked', (event: ActionControllerEvent) => {
             this.video.currentTime = event.data.intersection.uv.x * this.video.duration;
         });
 
-        // Button down action
+        // ButtonDown
         this.progressbar.on('progressbarButtonDown', (event: ActionControllerEvent) => {
             this.controls.enableRotate = false;
             const supplyBackground = new GMesh<PlaneBufferGeometry, MeshBasicMaterial>(
@@ -537,19 +559,19 @@ export class VBTubeVideoPlayer extends ViewerModule {
                 this.video.pause();
             }
 
-            // Move action
+            // Move
             this.actionController.on(ActionControllerEventName.move, progressbarBackground, (event: ActionControllerEvent) => {
                 this.video.currentTime = event.data.intersection.uv.x * this.video.duration;
             });
 
-            // Button up action
+            // ButtonUp
             this.actionController.once(ActionControllerEventName.buttonUp, null, () => {
                 this.progressbar.uiObject.userData.pushed = false;
                 this.controls.enableRotate = true;
                 this.removeObject(supplyBackground);
                 this.removeObject(progressbarBackground);
                 if (!this.progressbar.uiObject.userData.isOver) {
-                    this.progressbar.show(false);
+                    this.progressbar.remove(false);
                 }
                 if (this.progressbar.uiObject.userData.wasPaused) {
                     this.video.play();
@@ -560,15 +582,15 @@ export class VBTubeVideoPlayer extends ViewerModule {
     }
 
     /**
-     * Function to hide all modules
+     * Removes video player UI items
      */
-    private hideUI() {
+    private removeUI() {
         new TWEEN.Tween({x: 0})
             .to({x: 1}, 40)
             .onStart(() => {
                 this.uiObject.userData.tweenReady = true;
-                this.buttons.hide(true);
-                this.timer.hide(true);
+                this.buttons.remove(true);
+                this.timer.remove(true);
                 this.progressbar.uiObject.visible = false;
                 this.volumebar.uiObject.visible = false;
                 this.videoTitle.material.transparent = true;
@@ -579,29 +601,29 @@ export class VBTubeVideoPlayer extends ViewerModule {
                 this.subtitles.setTransition(alpha, true);
             })
             .onComplete(() => {
-                this.bars.hide(true);
+                this.bars.remove(true);
                 this.uiObject.userData.tweenReady = true;
             })
             .start();
     }
 
     /**
-     * Function to show all modules
+     * Adds video player UI items
      */
-    private showUI() {
+    private addUI() {
         new TWEEN.Tween({x: 0})
             .to({x: 1}, 40)
             .onStart(() => {
                 this.uiObject.userData.tweenReady = true;
-                this.bars.hide(false);
+                this.bars.remove(false);
             })
             .onUpdate((alpha: any) => {
                 this.videoTitle.material.opacity = alpha;
                 this.subtitles.setTransition(alpha, false);
             })
             .onComplete(() => {
-                this.timer.hide(false);
-                this.buttons.hide(false);
+                this.timer.remove(false);
+                this.buttons.remove(false);
                 this.volumebar.uiObject.visible = true;
                 this.progressbar.uiObject.visible = true;
                 this.uiObject.userData.tweenReady = true;

@@ -12,6 +12,8 @@ export class Router extends EventDispatcher<RouterEventsName> {
     constructor() {
         super();
 
+        this.registeredHashes = [];
+
         this._onHashChange = this.onHashChange.bind(this);
         window.addEventListener('hashchange', this._onHashChange, false);
         this.on(RouterEventsName.change, () => {

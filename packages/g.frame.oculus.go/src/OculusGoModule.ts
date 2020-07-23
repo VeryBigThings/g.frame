@@ -4,6 +4,7 @@ import { Object3D } from 'three';
 import { OculusGoActionController } from './OculusGoControllers/OculusGoActionController';
 import { OculusGoManager } from './OculusGoManager';
 import { OculusGoModel } from './OculusGoModel';
+import {CameraWrapperControls} from '@verybigthings/g.frame.common.camera_controls';
 
 export class OculusGoModule extends AbstractModule {
     public oculusGoManager: OculusGoManager;
@@ -42,6 +43,7 @@ export class OculusGoModule extends AbstractModule {
         return [
             this.oculusGoManager,
             actionController,
+            new CameraWrapperControls(data.viewer.cameraWrap)
         ];
     }
 
@@ -55,8 +57,16 @@ export class OculusGoModule extends AbstractModule {
     /**
      * Returns module container
      */
-    getModuleContainer(): Object3D {
+    getContainer(): Object3D {
         return this.container;
+    }
+
+    /**
+     * Returns module container for adding to scene in ScenarioProcessor
+     */
+
+    getModuleContainer(): Object3D | void {
+        return undefined;
     }
 
     /**
