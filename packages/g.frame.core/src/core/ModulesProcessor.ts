@@ -7,6 +7,7 @@ import {Bootstrap} from './Bootstrap';
 import {Object3D} from 'three';
 import {ConstructorInstanceMap} from '../utils/ConstructorInstanceMap';
 import createUniversalAgent = AgentsFabric.createUniversalAgent;
+import * as TWEEN from '../utils/animation/Tween';
 
 type Agent<T> = T;
 
@@ -92,6 +93,7 @@ export class ModulesProcessor extends EventDispatcher<string> {
     }
 
     private update(frame: any) {
+        TWEEN.update(performance.now());
         for (const module of this.configuration.modules) {
             if (!this.modulesStatus.get(module).enabled) continue;
             module.onUpdate({currentTime: performance.now(), frame: frame});
