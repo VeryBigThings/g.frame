@@ -5,6 +5,7 @@ import { OculusGoActionController } from './OculusGoControllers/OculusGoActionCo
 import { OculusGoManager } from './OculusGoManager';
 import { OculusGoModel } from './OculusGoModel';
 import {CameraWrapperControls} from '@verybigthings/g.frame.common.camera_controls';
+import {XREvent} from '@verybigthings/g.frame.common.xr_manager';
 
 export class OculusGoModule extends AbstractModule {
     public oculusGoManager: OculusGoManager;
@@ -40,10 +41,18 @@ export class OculusGoModule extends AbstractModule {
         // Adds view to the module container
         this.container.add(oculusGoModel.mainContainer);
 
+        const cameraWrapControls = new CameraWrapperControls(data.viewer.cameraWrap);
+        this.oculusGoManager.on(XREvent.goToVR, ()=> {
+            cameraWrapControls.enabled = true;
+        });
+        this.oculusGoManager.on(XREvent.goFromVR, ()=> {
+            cameraWrapControls.enabled = false;
+        });
+
         return [
             this.oculusGoManager,
             actionController,
-            new CameraWrapperControls(data.viewer.cameraWrap)
+            cameraWrapControls
         ];
     }
 

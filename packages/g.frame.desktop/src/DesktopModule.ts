@@ -11,6 +11,7 @@ import {CameraWrapperControls} from '@verybigthings/g.frame.common.camera_contro
     ]
 })
 export class DesktopModule extends AbstractModule {
+    private controls: OrbitControls;
     constructor() {
         super();
     }
@@ -24,14 +25,16 @@ export class DesktopModule extends AbstractModule {
 
     async onInit(data: any): Promise<Array<any>> {
         // console.info('Module initialization. Create all instances.');
+
+        this.controls = new OrbitControls(data.viewer.camera, data.viewer.renderer.domElement);
+
         return [
             new MouseActionController({
                 minRaycasterDistance: 0,
                 maxRaycasterDistance: Infinity
             }, data.viewer.renderer, data.viewer.camera),
-            new OrbitControls(data.viewer.camera, data.viewer.renderer.domElement),
+            this.controls,
             new KeyboardController(),
-            new CameraWrapperControls(data.viewer.cameraWrap)
         ];
     }
 

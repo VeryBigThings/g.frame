@@ -2,6 +2,7 @@ import { AbstractModule, AbstractModuleStatus } from '@verybigthings/g.frame.cor
 import { DeviceOrientationController } from './controllers/DeviceOrientationController';
 import { TouchActionController } from './controllers/TouchActionController';
 import {CameraWrapperControls} from '@verybigthings/g.frame.common.camera_controls';
+import {XREvent} from '../../g.frame.common.xr_manager/build/main';
 
 export class MobileModule extends AbstractModule {
     deviceOrientationController: DeviceOrientationController;

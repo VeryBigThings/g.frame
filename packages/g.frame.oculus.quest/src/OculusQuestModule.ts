@@ -1,11 +1,12 @@
-import { AbstractModule, AbstractModuleStatus, ConstructorInstanceMap } from '@verybigthings/g.frame.core';
-import { Loader } from '@verybigthings/g.frame.common.loaders';
-import { Object3D } from 'three';
-import { OculusQuestPickingController } from './OculusQuestControllers/OculusQuestPickingController';
-import { OculusQuestActionController } from './OculusQuestControllers/OculusQuestActionController';
-import { OculusQuestManager } from './OculusQuestManager';
-import { OculusQuestModel } from './OculusQuestModel';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
+import {Loader} from '@verybigthings/g.frame.common.loaders';
+import {Object3D} from 'three';
+import {OculusQuestPickingController} from './OculusQuestControllers/OculusQuestPickingController';
+import {OculusQuestActionController} from './OculusQuestControllers/OculusQuestActionController';
+import {OculusQuestManager} from './OculusQuestManager';
+import {OculusQuestModel} from './OculusQuestModel';
 import {CameraWrapperControls} from '@verybigthings/g.frame.common.camera_controls';
+import {XREvent} from '@verybigthings/g.frame.common.xr_manager';
 
 export class OculusQuestModule extends AbstractModule {
     public oculusQuestManager: OculusQuestManager;
@@ -50,6 +51,13 @@ export class OculusQuestModule extends AbstractModule {
         this.container.add(oculusQuestModel.mainContainer);
         data.viewer.cameraWrap.add(this.container);
 
+        const cameraWrapControls = new CameraWrapperControls(data.viewer.cameraWrap);
+        this.oculusQuestManager.on(XREvent.goToVR, ()=> {
+            cameraWrapControls.enabled = true;
+        });
+        this.oculusQuestManager.on(XREvent.goFromVR, ()=> {
+            cameraWrapControls.enabled = false;
+        });
 
         console.log('onInit Data', data);
 
@@ -57,7 +65,7 @@ export class OculusQuestModule extends AbstractModule {
             this.oculusQuestManager,
             actionController,
             pickingController,
-            new CameraWrapperControls(data.viewer.cameraWrap)
+            cameraWrapControls
         ];
     }
 

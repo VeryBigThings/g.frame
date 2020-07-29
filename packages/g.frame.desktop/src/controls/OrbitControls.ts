@@ -237,7 +237,6 @@ export class OrbitControls extends CameraControls {
         };
 
         this.onMouseMove = (event: ThreeEvent) => {
-
             if (this.enabled === false) return;
 
             event.preventDefault();
@@ -477,28 +476,34 @@ export class OrbitControls extends CameraControls {
     }
 
     setPosition(newX: number, newY: number, newZ: number) {
+        if (this.enabled === false) return;
+        // console.log(this, 'orbit controls')
         const targetToObjectVector = this.target.clone().sub(this.object.position.clone());
-        const currentPos = this.object.position.clone();
-        this.object.position.set(newX ? newX : currentPos.x, newY ? newY : currentPos.y, newZ ? newZ : currentPos.z);
-        this.target.copy(this.object.position.clone().add(targetToObjectVector));
+        // console.log(this.target, 'old target pos', this.target.distanceTo(this.object.position), 'old distance')
+        const newTargetPosition = new Vector3(newX ? newX : this.object.position.x, newY ? newY : this.object.position.y, newZ ? newZ : this.object.position.z).add(targetToObjectVector);
+        this.target.copy(newTargetPosition);
+        this.object.position.copy(newTargetPosition.sub(targetToObjectVector));
+        // console.log(this.target, 'new target pos', this.target.distanceTo(this.object.position), 'new distance')
+        this.update();
     }
 
     getPosition() {
         return this.object.position.clone();
     }
 
-    getOrientation(): Euler {
-        const quaternion = new Quaternion().setFromUnitVectors(this.object.position.clone(), this.target.clone());
-        const euler = new Euler().setFromQuaternion(quaternion);
-        return euler;
-    }
-
+    // getOrientation(): Euler {
+    //     const quaternion = new Quaternion().setFromUnitVectors(this.object.position.clone(), this.target.clone());
+    //     const euler = new Euler().setFromQuaternion(quaternion);
+    //     return euler;
+    // }
 
     addPosition(addedPosition: Vector3) {
+        if (this.enabled === false) return;
         const targetToObjectVector = this.target.clone().sub(this.object.position.clone());
         const newPos = this.object.position.clone().add(addedPosition);
         this.object.position.copy(newPos);
         this.target.copy(this.object.position.clone().add(targetToObjectVector));
+        this.update();
     }
     // backward compatibility
     get center(): Vector3 {

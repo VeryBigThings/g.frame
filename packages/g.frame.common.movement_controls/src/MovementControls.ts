@@ -68,8 +68,8 @@ export class Locomotion extends MovementControls {
                 } else {
                     addedVector.set(0.05 * model.left.stick.axes.z, 0, 0.05 * model.left.stick.axes.w);
                 }
-                const euler = this.cameraControls.getOrientation();
-                if (euler) addedVector.applyEuler(euler);
+                // const euler = this.cameraControls.getOrientation();
+                // if (euler) addedVector.applyEuler(euler);
                 this.cameraControls.addPosition(addedVector);
             }
             if (model.right.enabled) {
@@ -80,8 +80,8 @@ export class Locomotion extends MovementControls {
                     } else {
                         addedVector.set(0, -.025 * model.right.stick.axes.w, 0);
                     }
-                    const euler = this.cameraControls.getOrientation();
-                    if (euler) addedVector.applyEuler(euler);
+                    // const euler = this.cameraControls.getOrientation();
+                    // if (euler) addedVector.applyEuler(euler);
                     this.cameraControls.addPosition(addedVector);
                 }
             }
@@ -101,8 +101,8 @@ export class Locomotion extends MovementControls {
             // console.log('model', model.right.touchpad.axes);
             if (model.touchpad.axes.z !== 0 || model.touchpad.axes.w !== 0) {
                 const addedVector = new Vector3(0.05 * model.touchpad.axes.z, 0, 0.05 * model.touchpad.axes.w);
-                const euler = this.cameraControls.getOrientation();
-                if (euler) addedVector.applyEuler(euler);
+                // const euler = this.cameraControls.getOrientation();
+                // if (euler) addedVector.applyEuler(euler);
                 this.cameraControls.addPosition(addedVector);
             }
         }

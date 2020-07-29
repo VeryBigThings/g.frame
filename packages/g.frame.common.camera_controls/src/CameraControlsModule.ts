@@ -1,5 +1,6 @@
 import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 
+
 export class CameraControlsModule extends AbstractModule {
 
     constructor() {
