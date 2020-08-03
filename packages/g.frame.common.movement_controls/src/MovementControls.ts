@@ -119,7 +119,6 @@ export class Teleport extends MovementControls {
 
     onClick(event: ActionControllerEvent) {
         const clickLocation = event.data.intersection.point;
-        console.log('teleported to', event);
         this.cameraControls.setPosition(clickLocation.x, null, clickLocation.z);
     }
 
@@ -199,7 +198,7 @@ class Waypoint {
         this.container.add(this.background);
         this.border = new Mesh(new CylinderGeometry(this.componentRadius, this.componentRadius, this.componentHeight, 32, 1, true), new MeshBasicMaterial({
             color: options.bottomColor || options.wallsColor || 'white',
-            opacity: 0.7,
+            opacity: 0.4,
             transparent: true,
             side: 2
         }));
@@ -231,7 +230,6 @@ class Waypoint {
 
     start() {
         if (!this.container.visible) {
-            console.log('waypoint started');
             this.container.visible = true;
             this.animate();
         }

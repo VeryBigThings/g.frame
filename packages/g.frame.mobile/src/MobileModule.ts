@@ -22,7 +22,7 @@ export class MobileModule extends AbstractModule {
         // console.info('Module initialization. Create all instances.');
         this.deviceOrientationController = new DeviceOrientationController(data.viewer.camera);
 
-        const something = false;
+        const something = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
         if (something) {
             this.deviceOrientationController.connect();
         }
@@ -33,7 +33,8 @@ export class MobileModule extends AbstractModule {
                 minRaycasterDistance: 0,
                 maxRaycasterDistance: Infinity
             }, data.viewer.renderer, data.viewer.camera),
-            new CameraWrapperControls(data.viewer.cameraWrap)
+            // CameraWrapperControls disabled as default. If you have no DesktopModule, enable it later on
+            this.deviceOrientationController
         ];
     }
 
