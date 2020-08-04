@@ -3,6 +3,7 @@ import {MouseActionController} from './controllers/MouseActionController';
 import {OrbitControls} from './controls/OrbitControls';
 import {InputModule} from '@verybigthings/g.frame.input';
 import {KeyboardController} from './controllers/KeyboardController';
+import {MousePickingController} from './controllers/MousePickingController';
 
 @requires({
     modules: [
@@ -23,13 +24,21 @@ export class DesktopModule extends AbstractModule {
 
     async onInit(data: any): Promise<Array<any>> {
         // console.info('Module initialization. Create all instances.');
+        const actionController = new MouseActionController({
+            minRaycasterDistance: 0,
+            maxRaycasterDistance: Infinity
+        }, data.viewer.renderer, data.viewer.camera);
+
+        const controls = new OrbitControls(data.viewer.camera, data.viewer.renderer.domElement);
         return [
-            new MouseActionController({
-                minRaycasterDistance: 0,
-                maxRaycasterDistance: Infinity
-            }, data.viewer.renderer, data.viewer.camera),
-            new OrbitControls(data.viewer.camera, data.viewer.renderer.domElement),
-            new KeyboardController()
+            actionController,
+            controls,
+            new KeyboardController(),
+            new MousePickingController(data, {
+                minPickingDistance: 0,
+                maxPickingDistance: Infinity,
+                controllersQuantity: 1,
+            }, actionController, controls)
         ];
     }
 
