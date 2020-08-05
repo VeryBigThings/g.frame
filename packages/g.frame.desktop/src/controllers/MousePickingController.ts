@@ -29,23 +29,23 @@ export class MousePickingController extends PickingController {
                 this.controls.enabled = false;
 
                 this.forcePickUp(intersectedEventsObjectsAmount[0].object, intersectedEventsObjectsAmount[0].distance, this.getPosition(event), new Quaternion().setFromUnitVectors(new Vector3(0,0,-1), event.data.ray.direction), 0);
-
-                this.mouseActionController.on(ActionControllerEventName.move, null, this.moveCallback = (event) => {
-                    const newPosition = this.getPosition(event);
-                    // console.log('newPosition', newPosition);
-                    this.update(newPosition,
-                        new Quaternion().setFromUnitVectors(new Vector3(0,0,-1), event.data.ray.direction),
-                        true,
-                        0
-                    );
-                });
             }
+        });
+
+        this.mouseActionController.on(ActionControllerEventName.move, null, (event) => {
+            if (this.currentObject) {
+                const newPosition = this.getPosition(event);
+                // console.log('newPosition', newPosition);
+                this.update(newPosition,
+                    new Quaternion().setFromUnitVectors(new Vector3(0, 0, -1), event.data.ray.direction),
+                    true,
+                    0
+                );}
         });
 
         this.mouseActionController.once(ActionControllerEventName.buttonUp, null, (event) => {
             this.controls.enabled = true;
             if (this.currentObject) this.forceRelease();
-            if (this.moveCallback) this.mouseActionController.off(ActionControllerEventName.move, null, this.moveCallback);
         });
 
     }
