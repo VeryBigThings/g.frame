@@ -48,6 +48,6 @@ export class PickingControllerAgent extends PickingController {
         }
     }
 
-    }
+}
 
 PickingController.prototype.__agentConstructor = PickingControllerAgent;
