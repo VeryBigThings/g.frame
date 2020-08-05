@@ -1,17 +1,24 @@
 import {AbstractModule, AbstractModuleStatus, requires} from '@verybigthings/g.frame.core';
-import {MouseActionController} from './controllers/MouseActionController';
+import {IMouseActionControllerConfig, MouseActionController} from './controllers/MouseActionController';
 import {OrbitControls} from './controls/OrbitControls';
 import {InputModule} from '@verybigthings/g.frame.input';
 import {KeyboardController} from './controllers/KeyboardController';
 import {MousePickingController} from './controllers/MousePickingController';
+import {IPickingControllerConfig} from '@verybigthings/g.frame.common.picking_controller';
 
 @requires({
     modules: [
         InputModule
     ]
 })
+
+interface IDesktopOptions {
+    mouseActionController?: IMouseActionControllerConfig;
+    mousePickingController?: IPickingControllerConfig;
+}
+
 export class DesktopModule extends AbstractModule {
-    constructor() {
+    constructor(private config: IDesktopOptions) {
         super();
     }
 
@@ -25,8 +32,8 @@ export class DesktopModule extends AbstractModule {
     async onInit(data: any): Promise<Array<any>> {
         // console.info('Module initialization. Create all instances.');
         const actionController = new MouseActionController({
-            minRaycasterDistance: 0,
-            maxRaycasterDistance: Infinity
+            minRaycasterDistance: this.config.mouseActionController.minRaycasterDistance || 0,
+            maxRaycasterDistance: this.config.mouseActionController.maxRaycasterDistance || Infinity
         }, data.viewer.renderer, data.viewer.camera);
 
         const controls = new OrbitControls(data.viewer.camera, data.viewer.renderer.domElement);
@@ -35,8 +42,8 @@ export class DesktopModule extends AbstractModule {
             controls,
             new KeyboardController(),
             new MousePickingController(data, {
-                minPickingDistance: 0,
-                maxPickingDistance: Infinity,
+                minPickingDistance: this.config.mousePickingController.minPickingDistance || .001,
+                maxPickingDistance: this.config.mousePickingController.maxPickingDistance || 15,
                 controllersQuantity: 1,
             }, actionController, controls)
         ];

@@ -1,25 +1,27 @@
 import {IPickingControllerConfig, PickingController} from '@verybigthings/g.frame.common.picking_controller';
 import {MouseActionController} from './MouseActionController';
 import {ActionControllerEvent, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
-import {Vector3, Quaternion, Scene, Raycaster, Ray, Object3D, Intersection} from 'three';
+import {Vector3, Quaternion, Scene, Raycaster, Ray, Object3D, Intersection, Box3} from 'three';
 import {OrbitControls} from '..';
 
 
 export class MousePickingController extends PickingController {
     private isSqueezed: boolean = false;
     private lastDistance: number;
+    private currentObject: Object3D;
     private scene: Scene;
 
     constructor(protected data: any, protected config: IPickingControllerConfig, protected mouseActionController: MouseActionController, protected controls: OrbitControls) {
         super(config);
-        this.config.maxPickingDistance = this.config.maxPickingDistance || 50;
-        this.config.minPickingDistance = this.config.minPickingDistance || .001;
         this.lastDistance = this.config.maxPickingDistance;
         this.scene = data.viewer.scene;
 
-        this.mouseActionController.on(ActionControllerEventName.buttonDown, null, (event) => {
-           // if (this.getIntersectedObjects(event.data.ray).find(intersect => this.draggables.find(draggable => draggable === intersect))) {
-           if (this.getIntersectedObjects(event.data.ray)[0]) {
+            this.mouseActionController.on(ActionControllerEventName.buttonDown, null, (event) => {
+            const eventObjects = this.events.map(el => el.mesh);
+            const intersectedEventsObjects = this.getIntersectedObjects(event.data.ray).find(intersect => eventObjects.find(draggable => draggable === intersect.object));
+           if (intersectedEventsObjects) {
+               console.log('intersectedEventsObjects', intersectedEventsObjects);
+           // if (this.getIntersectedObjects(event.data.ray)[0]) {
                this.isSqueezed = true;
                this.controls.enabled = false;
            }
@@ -29,7 +31,9 @@ export class MousePickingController extends PickingController {
             this.controls.enabled = true;
         });
         this.mouseActionController.on(ActionControllerEventName.move, null, (event) => {
-            this.update(this.getPosition(event),
+            const newPosition = this.getPosition(event);
+            console.log('position', newPosition, new Quaternion().setFromUnitVectors(event.data.ray.origin, event.data.ray.direction),);
+            this.update(newPosition,
                 new Quaternion(),
                 this.isSqueezed,
                 0
@@ -48,13 +52,18 @@ export class MousePickingController extends PickingController {
 
         const intersects = this.getIntersectedObjects(event.data.ray);
 
-        if (intersects[0]) {
-            console.log('intersects', intersects);
+        const objectSize = new Vector3();
+        if (this.currentObject) {
+            const objectBox = new Box3();
+            objectBox.setFromObject(this.currentObject);
+            objectBox.getSize(objectSize);
+        }
 
+        if (intersects[0]) {
             if (intersects.length === 0 || intersects[0].distance > this.config.maxPickingDistance || intersects[0].distance < this.config.minPickingDistance) {
                 position.z = this.lastDistance;
             } else {
-                this.lastDistance = intersects[0].distance;
+                this.lastDistance = intersects[0].distance - objectSize.z / 2;
                 position.z = this.lastDistance;
             }
 
@@ -63,5 +72,16 @@ export class MousePickingController extends PickingController {
         }
 
         return position;
+    }
+
+    protected onObjectPick(pickedObject: Object3D) {
+        this.currentObject = pickedObject;
+        this.currentObject.userData.oldRaycast = this.currentObject.raycast;
+        this.currentObject.raycast = null;
+    }
+
+    protected onObjectRelease() {
+        this.currentObject.raycast = this.currentObject.userData?.oldRaycast?;
+        this.currentObject = null;
     }
 }
