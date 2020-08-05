@@ -4,7 +4,24 @@ import {OrbitControls} from './controls/OrbitControls';
 import {InputModule} from '@verybigthings/g.frame.input';
 import {KeyboardController} from './controllers/KeyboardController';
 import {MousePickingController} from './controllers/MousePickingController';
-import {IPickingControllerConfig} from '@verybigthings/g.frame.common.picking_controller';
+import {IPickingControllerConfig, PickingController} from '@verybigthings/g.frame.common.picking_controller';
+
+interface IDesktopOptions {
+    mouseActionController?: IMouseActionControllerConfig;
+    mousePickingController?: IPickingControllerConfig;
+}
+
+const defaultConfig = {
+    mouseActionController: {
+        minRaycasterDistance: 0,
+        maxRaycasterDistance: Infinity
+    },
+    mousePickingController: {
+        minPickingDistance: .001,
+        maxPickingDistance: 15,
+        controllersQuantity: 1
+    }
+};
 
 @requires({
     modules: [
@@ -12,14 +29,15 @@ import {IPickingControllerConfig} from '@verybigthings/g.frame.common.picking_co
     ]
 })
 
-interface IDesktopOptions {
-    mouseActionController?: IMouseActionControllerConfig;
-    mousePickingController?: IPickingControllerConfig;
-}
-
 export class DesktopModule extends AbstractModule {
-    constructor(private config: IDesktopOptions) {
+    private pickingController: PickingController;
+    private cameraControls: OrbitControls;
+    private config: IDesktopOptions;
+    constructor(config?: IDesktopOptions) {
         super();
+        this.config = config || defaultConfig;
+        this.config.mouseActionController = this.config.mouseActionController || defaultConfig.mouseActionController;
+        this.config.mousePickingController = this.config.mousePickingController || defaultConfig.mousePickingController;
     }
 
     async preInit(): Promise<AbstractModuleStatus> {
@@ -31,26 +49,23 @@ export class DesktopModule extends AbstractModule {
 
     async onInit(data: any): Promise<Array<any>> {
         // console.info('Module initialization. Create all instances.');
-        const actionController = new MouseActionController({
-            minRaycasterDistance: this.config.mouseActionController.minRaycasterDistance || 0,
-            maxRaycasterDistance: this.config.mouseActionController.maxRaycasterDistance || Infinity
-        }, data.viewer.renderer, data.viewer.camera);
+        const actionController = new MouseActionController(this.config.mouseActionController, data.viewer.renderer, data.viewer.camera);
 
-        const controls = new OrbitControls(data.viewer.camera, data.viewer.renderer.domElement);
+        this.cameraControls = new OrbitControls(data.viewer.camera, data.viewer.renderer.domElement);
         return [
             actionController,
-            controls,
+            this.cameraControls,
             new KeyboardController(),
-            new MousePickingController(data, {
-                minPickingDistance: this.config.mousePickingController.minPickingDistance || .001,
-                maxPickingDistance: this.config.mousePickingController.maxPickingDistance || 15,
-                controllersQuantity: 1,
-            }, actionController, controls)
+            this.pickingController = new MousePickingController(data, this.config.mousePickingController, actionController)
         ];
     }
 
     afterInit(): void {
         // console.info('Module after initialization. Here you can start save the World.');
+
+        // @ts-ignore
+        if (this.pickingController.init) this.pickingController.init(this.cameraControls);
+        // TODO: Add controls agent after merge
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {
