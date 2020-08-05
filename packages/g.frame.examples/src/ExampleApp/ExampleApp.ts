@@ -143,11 +143,6 @@ export default class ExampleApp extends Bootstrap {
         });
         dropdownComponent.uiObject.position.set(2, 1.5, -1);
         dropdownComponent.uiObject.scale.setScalar(0.15);
-
-        console.log('PickingController', modulesProcessor.agents.get(PickingController));
-        modulesProcessor.agents.get(PickingController).on(PickingControllerEvents.MOVED, dropdownComponent.uiObject, () => {
-            console.log('moved to', dropdownComponent.uiObject.position);
-        });
         this.addObject(dropdownComponent);
 
         const circleSlider = modulesProcessor.agents.get(Factory).getFactory(CircleSliderComponent)({
