@@ -21,31 +21,34 @@ export class MousePickingController extends PickingController {
         this.lastDistance = this.config.maxPickingDistance;
         this.controls = controls;
         this.mouseActionController.on(ActionControllerEventName.buttonDown, null, (event) => {
-            const intersectedEventsObjectsAmount = this.getIntersectsFromRay(event.data.ray, this.getEventObjects());
-            // console.log('intersectedEventsObjects = ', intersectedEventsObjectsAmount, 'newPos = ', this.getPosition(event));
-            if (intersectedEventsObjectsAmount.length !== 0) {
-
-                // console.log('this.currentValues',this.currentValues);
-                this.controls.enabled = false;
-
-                this.forcePickUp(intersectedEventsObjectsAmount[0].object, intersectedEventsObjectsAmount[0].distance, this.getPosition(event), new Quaternion().setFromUnitVectors(new Vector3(0,0,-1), event.data.ray.direction), 0);
+            if (this.enabled) {
+                const intersectedEventsObjectsAmount = this.getIntersectsFromRay(event.data.ray, this.getEventObjects());
+                // console.log('intersectedEventsObjects = ', intersectedEventsObjectsAmount, 'newPos = ', this.getPosition(event));
+                if (intersectedEventsObjectsAmount.length !== 0) {
+                    // console.log('this.currentValues',this.currentValues);
+                    this.controls.enabled = false;
+                    this.forcePickUp(intersectedEventsObjectsAmount[0].object, intersectedEventsObjectsAmount[0].distance, this.getPosition(event), new Quaternion().setFromUnitVectors(new Vector3(0, 0, -1), event.data.ray.direction), 0);
+                }
             }
         });
 
         this.mouseActionController.on(ActionControllerEventName.move, null, (event) => {
-            if (this.currentObject) {
+            if (this.currentObject && this.enabled) {
                 const newPosition = this.getPosition(event);
                 // console.log('newPosition', newPosition);
                 this.update(newPosition,
                     new Quaternion().setFromUnitVectors(new Vector3(0, 0, -1), event.data.ray.direction),
                     true,
                     0
-                );}
+                );
+            }
         });
 
         this.mouseActionController.once(ActionControllerEventName.buttonUp, null, (event) => {
-            this.controls.enabled = true;
-            if (this.currentObject) this.forceRelease();
+            if (this.enabled) {
+                if (this.currentObject) this.forceRelease();
+                this.controls.enabled = true;
+            }
         });
 
     }
@@ -94,7 +97,8 @@ export class MousePickingController extends PickingController {
     protected onObjectPick(pickedObject: Object3D) {
         this.currentObject = pickedObject;
         this.currentObject.userData.oldRaycast = this.currentObject.raycast;
-        this.currentObject.raycast = () => {};
+        this.currentObject.raycast = () => {
+        };
     }
 
     protected onObjectRelease() {

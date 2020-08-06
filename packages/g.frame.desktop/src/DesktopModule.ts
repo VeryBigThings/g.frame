@@ -66,6 +66,7 @@ export class DesktopModule extends AbstractModule {
         // @ts-ignore
         if (this.pickingController.init) this.pickingController.init(this.cameraControls);
         // TODO: Add controls agent after merge
+        this.pickingController.enabled = true;
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {
