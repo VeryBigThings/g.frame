@@ -12,10 +12,11 @@ import {Loader} from '@verybigthings/g.frame.common.loaders';
 import {TemplateModule} from '../Modules/TemplateModule';
 import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
 import {oimo} from 'oimophysics';
-import World = oimo.dynamics.World;
 import {DropdownComponent} from '../../../g.frame.components.dropdown/src/DropdownComponent';
 import {TextComponent} from '@verybigthings/g.frame.components.text';
-import { OculusGoModule } from '@verybigthings/g.frame.oculus.go';
+import {OculusGoModule} from '@verybigthings/g.frame.oculus.go';
+import {PickingController, PickingControllerEvents} from '@verybigthings/g.frame.common.picking_controller';
+import World = oimo.dynamics.World;
 
 export default class ExampleApp extends Bootstrap {
     constructor() {

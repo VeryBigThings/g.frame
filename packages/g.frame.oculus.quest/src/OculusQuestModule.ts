@@ -1,10 +1,11 @@
-import { AbstractModule, AbstractModuleStatus, ConstructorInstanceMap } from '@verybigthings/g.frame.core';
-import { Loader } from '@verybigthings/g.frame.common.loaders';
-import { Object3D } from 'three';
-import { OculusQuestPickingController } from './OculusQuestControllers/OculusQuestPickingController';
-import { OculusQuestActionController } from './OculusQuestControllers/OculusQuestActionController';
-import { OculusQuestManager } from './OculusQuestManager';
-import { OculusQuestModel } from './OculusQuestModel';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
+import {Loader} from '@verybigthings/g.frame.common.loaders';
+import {Object3D} from 'three';
+import {OculusQuestPickingController} from './OculusQuestControllers/OculusQuestPickingController';
+import {OculusQuestActionController} from './OculusQuestControllers/OculusQuestActionController';
+import {OculusQuestManager} from './OculusQuestManager';
+import {OculusQuestModel} from './OculusQuestModel';
+import {XREvent} from '@verybigthings/g.frame.common.xr_manager';
 
 export class OculusQuestModule extends AbstractModule {
     public oculusQuestManager: OculusQuestManager;
@@ -45,6 +46,13 @@ export class OculusQuestModule extends AbstractModule {
 
         // Adds view to the module container
         this.container.add(oculusQuestModel.mainContainer);
+
+        this.oculusQuestManager.on(XREvent.goToVR, () => {
+            pickingController.enabled = true;
+        });
+        this.oculusQuestManager.on(XREvent.goFromVR, () => {
+            pickingController.enabled = false;
+        });
 
         return [
             this.oculusQuestManager,

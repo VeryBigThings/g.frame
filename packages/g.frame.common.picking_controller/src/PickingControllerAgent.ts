@@ -1,4 +1,4 @@
-import {Object3D} from 'three';
+import {Object3D, Vector3, Quaternion} from 'three';
 import {PickingController, PickingControllerEvents} from './PickingController';
 import {ParentEvent} from '@verybigthings/g.frame.core';
 
@@ -33,6 +33,18 @@ export class PickingControllerAgent extends PickingController {
     once(eventName: PickingControllerEvents, mesh: Object3D, callback1: Function, callback2?: Function): void {
         for (let i = 0; i < this.instances.length; i++) {
             this.instances[i].once(eventName, mesh, callback1, callback2);
+        }
+    }
+
+    forcePickUp(object: Object3D, distance: number, newPosition: Vector3, newRotation: Quaternion, controllerNumber: number = 0) {
+        for (let i = 0; i < this.instances.length; i++) {
+            this.instances[i].forcePickUp(object, distance, newPosition, newRotation, controllerNumber);
+        }
+    }
+
+    forceRelease(controllerNumber: number = 0) {
+        for (let i = 0; i < this.instances.length; i++) {
+            this.instances[i].forceRelease(controllerNumber);
         }
     }
 

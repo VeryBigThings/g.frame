@@ -5,7 +5,7 @@ import {ActionController, ActionControllerEventName} from '@verybigthings/g.fram
  * A special config for MouseActionController to store the most important options
  * such as near/far parameters of the raycaster
  */
-interface IMouseActionControllerConfig {
+export interface IMouseActionControllerConfig {
     minRaycasterDistance: number;
     maxRaycasterDistance: number;
 }

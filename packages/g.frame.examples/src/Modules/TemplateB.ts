@@ -1,5 +1,5 @@
 import {TemplateA} from './TemplateA';
-import {Mesh, MeshBasicMaterial, Object3D, PlaneGeometry, PositionalAudio, Scene, PointLight, LineCurve, AmbientLight} from 'three';
+import {Mesh, MeshBasicMaterial, Object3D, PlaneGeometry, PositionalAudio, Scene, PointLight, LineCurve, AmbientLight, BoxGeometry} from 'three';
 import {FBX_MODEL, Loader, POSITIONAL_AUDIO, TEXTURE, VIDEO, DAE_MODEL, GLTF_MODEL, OBJ_MODEL, OBJ2_MODEL} from '@verybigthings/g.frame.common.loaders';
 import {PickingController, PickingControllerEvents} from '@verybigthings/g.frame.common.picking_controller';
 import {ActionController} from '@verybigthings/g.frame.common.action_controller';
@@ -96,7 +96,7 @@ export class TemplateB extends TemplateA {
         this.scene.add(audio = this.loader.getResource<PositionalAudio>('sample_positional_audio'));
         this.scene.add(
             plane = new Mesh(
-                new PlaneGeometry(0.3, 0.3),
+                new BoxGeometry(0.3, 0.3, .3),
                 new MeshBasicMaterial({
                     color: 'white',
                     map: this.loader.getResource('sample_texture')

@@ -18,6 +18,7 @@ export class PickingController extends MeshEventDispatcher {
      */
     public __agentConstructor: Function;
 
+    public enabled: boolean;
     protected currentValues: Array<{
         currentPickedObject: Object3D;
         raycaster: Raycaster;
@@ -65,6 +66,53 @@ export class PickingController extends MeshEventDispatcher {
 
     off(eventName?: PickingControllerEvents, mesh?: Object3D, callback?: Function) {
         super.off(eventName, mesh, callback);
+    }
+
+    forcePickUp(object: Object3D, distance: number, newPosition: Vector3, newRotation: Quaternion, controllerNumber: number = 0) {
+        if (!this.enabled) return;
+        const scope = this.currentValues[controllerNumber];
+        const direction = new Vector3(0, 0, -1).applyQuaternion(newRotation);
+
+        scope.currentPickedObject = object;
+        scope.intersectionDistance = distance;
+
+        const quat = new Quaternion();
+        const sposition = new Vector3();
+        scope.currentPickedObject.matrixWorld.decompose(sposition, quat, scope.startScale);
+        quat.inverse();
+        const matrix = new Matrix4();
+        matrix.makeRotationFromQuaternion(quat);
+
+        const objectPosition = new Vector3(0.0, 0.0, 0.0);
+        objectPosition.applyMatrix4(scope.currentPickedObject.matrixWorld);
+        const stylusEnd = new Vector3();
+        stylusEnd.copy(newPosition);
+        stylusEnd.addScaledVector(direction, distance);
+
+        const offset = new Vector3();
+        offset.subVectors(objectPosition, stylusEnd);
+        scope.startOffset.copy(offset);
+        scope.startOffset.applyMatrix4(matrix);
+
+        const rotation = new Quaternion();
+        rotation.copy(newRotation);
+        rotation.inverse();
+
+        scope.currentPickedObject.matrixWorld.decompose(sposition, quat, scope.startScale);
+        scope.startRotation.multiplyQuaternions(rotation, quat);
+
+        this.fire(PickingControllerEvents.PICKED, scope.currentPickedObject, new ParentEvent<string>('picked'));
+
+        this.onObjectPick(object);
+        this.update(newPosition, newRotation, true, controllerNumber);
+    }
+
+    forceRelease(controllerNumber: number = 0) {
+        if (!this.enabled) return;
+        const scope = this.currentValues[controllerNumber];
+        scope.currentPickedObject = null;
+        this.fire(PickingControllerEvents.RELEASED, scope.currentPickedObject, new ParentEvent<string>('released'));
+        this.onObjectRelease();
     }
 
     protected update(newPosition: Vector3, newRotation: Quaternion, isSqueezed: boolean, controllerNumber: number) {
