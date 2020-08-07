@@ -38,7 +38,7 @@ export class PickingControllerAgent extends PickingController {
 
     forcePickUp(object: Object3D, distance: number, newPosition: Vector3, newRotation: Quaternion, controllerNumber: number = 0) {
         for (let i = 0; i < this.instances.length; i++) {
-            this.instances[i].forcePickUp(object, distance, newPosition, newRotation, controllerNumber,);
+            this.instances[i].forcePickUp(object, distance, newPosition, newRotation, controllerNumber);
         }
     }
 
