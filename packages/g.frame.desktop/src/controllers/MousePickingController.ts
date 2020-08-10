@@ -22,12 +22,12 @@ export class MousePickingController extends PickingController {
         this.controls = controls;
         this.mouseActionController.on(ActionControllerEventName.buttonDown, null, (event) => {
             if (this.enabled) {
-                const intersectedEventsObjectsAmount = this.getIntersectsFromRay(event.data.ray, this.getEventObjects());
+                const intersectedEventsObjects = this.getIntersectsFromRay(event.data.ray, this.getEventObjects());
                 // console.log('intersectedEventsObjects = ', intersectedEventsObjectsAmount, 'newPos = ', this.getPosition(event));
-                if (intersectedEventsObjectsAmount.length !== 0) {
+                if (intersectedEventsObjects.length !== 0 && this.checkDistance(intersectedEventsObjects)) {
                     // console.log('this.currentValues',this.currentValues);
                     this.controls.enabled = false;
-                    this.forcePickUp(intersectedEventsObjectsAmount[0].object, intersectedEventsObjectsAmount[0].distance, this.getPosition(event), new Quaternion().setFromUnitVectors(new Vector3(0, 0, -1), event.data.ray.direction), 0);
+                    this.forcePickUp(intersectedEventsObjects[0].object, intersectedEventsObjects[0].distance, this.getPosition(event), new Quaternion().setFromUnitVectors(new Vector3(0, 0, -1), event.data.ray.direction), 0);
                 }
             }
         });
@@ -75,8 +75,8 @@ export class MousePickingController extends PickingController {
     }
 
     updateDistance(event: ActionControllerEvent) {
-        if (this.currentObject && typeof this.currentObject.userData.pickingDistance === 'number') {
-            this.lastDistance = this.currentObject.userData.pickingDistance;
+        if (this.currentObject && typeof this.currentObject.userData.pickingMoveDistance === 'number') {
+            this.lastDistance = this.currentObject.userData.pickingMoveDistance;
         } else {
             const intersects = this.getIntersectsFromRay(event.data.ray);
             const toPoint = intersects[0]?.distance;
@@ -91,6 +91,29 @@ export class MousePickingController extends PickingController {
             if (toPoint < currentConfig.maxPickingDistance && toPoint > currentConfig.minPickingDistance) {
                 this.lastDistance = toPoint;
             }
+        }
+    }
+
+    checkDistance(intersects: Array<Intersection>, intersectIndex?: number): boolean {
+        const currentIndex = intersectIndex || 0;
+        const currentObject = intersects[currentIndex]?.object;
+        if (currentObject) {
+            const toPoint = intersects[currentIndex]?.distance;
+            const currentConfig = {
+                maxPickingDistance: this.config.maxPickingDistance,
+                minPickingDistance: this.config.minPickingDistance,
+            };
+            if (currentObject.userData.pickingConfig) {
+                currentConfig.maxPickingDistance = typeof currentObject.userData.pickingConfig.maxPickingDistance === 'number' ?
+                    currentObject.userData.pickingConfig.maxPickingDistance :
+                    currentConfig.maxPickingDistance;
+                currentConfig.minPickingDistance = typeof currentObject.userData.pickingConfig.minPickingDistance === 'number' ?
+                    currentObject.userData.pickingConfig.minPickingDistance :
+                    currentConfig.minPickingDistance;
+            }
+            return toPoint <= currentConfig.maxPickingDistance && toPoint >= currentConfig.minPickingDistance;
+        } else {
+            return false;
         }
     }
 

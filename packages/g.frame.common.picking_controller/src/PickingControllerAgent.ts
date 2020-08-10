@@ -3,6 +3,7 @@ import {PickingController, PickingControllerEvents} from './PickingController';
 import {ParentEvent} from '@verybigthings/g.frame.core';
 
 export class PickingControllerAgent extends PickingController {
+    public enabled: boolean = true;
 
     constructor(private instances: Array<PickingController>) {
         super({
@@ -37,14 +38,30 @@ export class PickingControllerAgent extends PickingController {
     }
 
     forcePickUp(object: Object3D, distance: number, newPosition: Vector3, newRotation: Quaternion, controllerNumber: number = 0) {
+        if (!this.enabled) return;
         for (let i = 0; i < this.instances.length; i++) {
             this.instances[i].forcePickUp(object, distance, newPosition, newRotation, controllerNumber);
         }
     }
 
     forceRelease(controllerNumber: number = 0) {
+        if (!this.enabled) return;
         for (let i = 0; i < this.instances.length; i++) {
             this.instances[i].forceRelease(controllerNumber);
+        }
+    }
+
+    enable() {
+        this.enabled = true;
+        for (let i = 0; i < this.instances.length; i++) {
+            this.instances[i].enabled = true;
+        }
+    }
+
+    disable() {
+        this.enabled = false;
+        for (let i = 0; i < this.instances.length; i++) {
+            this.instances[i].enabled = false;
         }
     }
 
