@@ -4,7 +4,7 @@ import {XRControllerModelEvents} from '@verybigthings/g.frame.common.xr_manager'
 export class OculusQuestPickingController extends PickingController {
     constructor(protected data: any, protected config: IPickingControllerConfig, protected oculusQuestModel: any) {
         super(config);
-        
+
         this.oculusQuestModel.on(XRControllerModelEvents.controllerChanged, (event) => {
             if (this.enabled) {
                 this.update(this.data.viewer.camera.parent.localToWorld(
