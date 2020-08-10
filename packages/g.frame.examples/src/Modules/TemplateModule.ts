@@ -5,6 +5,7 @@ import {Object3D} from 'three';
 import {Loader} from '@verybigthings/g.frame.common.loaders';
 import {PickingController} from '@verybigthings/g.frame.common.picking_controller';
 import QuestHandView from './QuestHandView';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
 const delay = async time => new Promise(resolve => setTimeout(resolve, time));
 
@@ -44,6 +45,7 @@ export class TemplateModule extends AbstractModule {
         this.questHandView.prepareResources(agents.get(Loader));
         this.templateB.prepareResources(agents.get(Loader));
         this.templateB.setPickingController(agents.get(PickingController));
+        this.templateB.setActionController(agents.get(ActionController));
 
         console.info('Module after initialization. Here you can start save the World.');
     }

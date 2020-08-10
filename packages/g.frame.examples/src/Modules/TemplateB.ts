@@ -1,8 +1,29 @@
 import {TemplateA} from './TemplateA';
-import {Mesh, MeshBasicMaterial, Object3D, PlaneGeometry, PositionalAudio, Scene, PointLight, LineCurve, AmbientLight, BoxGeometry} from 'three';
-import {FBX_MODEL, Loader, POSITIONAL_AUDIO, TEXTURE, VIDEO, DAE_MODEL, GLTF_MODEL, OBJ_MODEL, OBJ2_MODEL} from '@verybigthings/g.frame.common.loaders';
+import {
+    Mesh,
+    MeshBasicMaterial,
+    Object3D,
+    PlaneGeometry,
+    PositionalAudio,
+    Scene,
+    PointLight,
+    LineCurve,
+    AmbientLight,
+    BoxGeometry
+} from 'three';
+import {
+    FBX_MODEL,
+    Loader,
+    POSITIONAL_AUDIO,
+    TEXTURE,
+    VIDEO,
+    DAE_MODEL,
+    GLTF_MODEL,
+    OBJ_MODEL,
+    OBJ2_MODEL
+} from '@verybigthings/g.frame.common.loaders';
 import {PickingController, PickingControllerEvents} from '@verybigthings/g.frame.common.picking_controller';
-import {ActionController} from '@verybigthings/g.frame.common.action_controller';
+import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
 import {LoaderEventsName} from '@verybigthings/g.frame.common.loaders/build/main';
 
 declare function require(s: string): string;
@@ -108,7 +129,22 @@ export class TemplateB extends TemplateA {
         audio.position.set(0, 0, -1.5);
 
 
-        if (this.pickingController) this.pickingController.on(PickingControllerEvents.MOVED, plane, () => {});
+        if (this.pickingController) {
+            this.pickingController.on(PickingControllerEvents.MOVED, plane, () => {
+            });
+            // this.pickingController.on(PickingControllerEvents.MOVED, modelObj, () => {});
+            this.actionController.on(ActionControllerEventName.click, modelObj, () => {
+                if (this.pickingController.enabled) {
+                    // @ts-ignore
+                    this.pickingController.disable();
+                    console.log('pickingController', 'disabled');
+                } else {
+                    // @ts-ignore
+                    this.pickingController.enable();
+                    console.log('pickingController', 'enabled');
+                }
+            });
+        }
     }
 
 
