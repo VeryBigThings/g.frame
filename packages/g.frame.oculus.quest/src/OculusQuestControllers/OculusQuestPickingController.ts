@@ -8,15 +8,15 @@ import {IOculusQuestControllersModel, OculusQuestModel} from '../OculusQuestMode
 
 interface IOculusQuestPickingForcedState {
     left: {
-        pose: Vector3,
-        orientation: Quaternion,
-        isSqueezed: boolean,
-    },
+        pose: Vector3;
+        orientation: Quaternion;
+        isSqueezed: boolean;
+    };
     right: {
-        pose: Vector3,
-        orientation: Quaternion,
-        isSqueezed: boolean,
-    }
+        pose: Vector3;
+        orientation: Quaternion;
+        isSqueezed: boolean;
+    };
 }
 
 export class OculusQuestPickingController extends PickingController {
