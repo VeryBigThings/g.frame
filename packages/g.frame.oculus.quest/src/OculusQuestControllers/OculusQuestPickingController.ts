@@ -1,23 +1,74 @@
-import {IPickingControllerConfig, PickingController} from '@verybigthings/g.frame.common.picking_controller';
+import {
+    IPickingControllerConfig,
+    PickingController
+} from '@verybigthings/g.frame.common.picking_controller';
 import {XRControllerModelEvents} from '@verybigthings/g.frame.common.xr_manager';
+import {Object3D, Quaternion, Vector3} from 'three';
+import {IOculusQuestControllersModel, OculusQuestModel} from '../OculusQuestModel';
+
+interface IOculusQuestPickingForcedState {
+    left: {
+        pose: Vector3,
+        orientation: Quaternion,
+        isSqueezed: boolean,
+    },
+    right: {
+        pose: Vector3,
+        orientation: Quaternion,
+        isSqueezed: boolean,
+    }
+}
 
 export class OculusQuestPickingController extends PickingController {
-    constructor(protected data: any, protected config: IPickingControllerConfig, protected oculusQuestModel: any) {
+    private forcedState: IOculusQuestPickingForcedState;
+    private oldModel: IOculusQuestControllersModel;
+
+    constructor(protected data: any, protected config: IPickingControllerConfig, protected oculusQuestModel: OculusQuestModel) {
         super(config);
+        this.forcedState = {
+            left: {
+                pose: null,
+                orientation: null,
+                isSqueezed: null,
+            },
+            right: {
+                pose: null,
+                orientation: null,
+                isSqueezed: null,
+            },
+        };
 
         this.oculusQuestModel.on(XRControllerModelEvents.controllerChanged, (event) => {
             if (this.enabled) {
+                if (this.forcedState.left.isSqueezed && !event.data.left.squeeze.pressed && this.oldModel.left.squeeze.pressed) {
+                    this.forcedState.left.isSqueezed = null;
+                    this.forceRelease(0);
+                }
+                if (this.forcedState.right.isSqueezed && !event.data.right.squeeze.pressed && this.oldModel.right.squeeze.pressed) {
+                    this.forcedState.right.isSqueezed = null;
+                    this.forceRelease(1);
+                }
+                this.oldModel = JSON.parse(JSON.stringify(event.data));
                 this.update(this.data.viewer.camera.parent.localToWorld(
                     event.data.left.pose.position.clone()),
                     event.data.left.pose.orientation,
-                    event.data.left.squeeze.pressed, 0
+                    this.forcedState.left.isSqueezed || event.data.left.squeeze.pressed,
+                    0
                 );
                 this.update(this.data.viewer.camera.parent.localToWorld(
                     event.data.right.pose.position.clone()),
                     event.data.right.pose.orientation,
-                    event.data.right.squeeze.pressed, 1
+                    this.forcedState.right.isSqueezed || event.data.right.squeeze.pressed,
+                    1
                 );
             }
         });
+    }
+
+    forcePickUp(object: Object3D, distance: number, newPosition: Vector3, newRotation: Quaternion, controllerNumber?: number): void {
+        super.forcePickUp(object, distance, newPosition, newRotation, controllerNumber);
+        if (this.enabled) {
+            this.forcedState[controllerNumber ? 'right' : 'left'].isSqueezed = true;
+        }
     }
 }

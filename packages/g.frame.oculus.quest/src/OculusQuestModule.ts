@@ -6,9 +6,11 @@ import {OculusQuestActionController} from './OculusQuestControllers/OculusQuestA
 import {OculusQuestManager} from './OculusQuestManager';
 import {OculusQuestModel} from './OculusQuestModel';
 import {XREvent} from '@verybigthings/g.frame.common.xr_manager';
+import {PickingController, PickingControllerAgent} from '@verybigthings/g.frame.common.picking_controller';
 
 export class OculusQuestModule extends AbstractModule {
     public oculusQuestManager: OculusQuestManager;
+    public pickingController: OculusQuestPickingController;
     private readonly container: Object3D;
 
     constructor() {
@@ -38,7 +40,7 @@ export class OculusQuestModule extends AbstractModule {
             maxRaycasterDistance: Infinity
         }, oculusQuestModel);
 
-        const pickingController = new OculusQuestPickingController(data, {
+        this.pickingController = new OculusQuestPickingController(data, {
             minPickingDistance: 0,
             maxPickingDistance: Infinity,
             controllersQuantity: 2,
@@ -47,17 +49,10 @@ export class OculusQuestModule extends AbstractModule {
         // Adds view to the module container
         this.container.add(oculusQuestModel.mainContainer);
 
-        this.oculusQuestManager.on(XREvent.goToVR, () => {
-            pickingController.enabled = true;
-        });
-        this.oculusQuestManager.on(XREvent.goFromVR, () => {
-            pickingController.enabled = false;
-        });
-
         return [
             this.oculusQuestManager,
             actionController,
-            pickingController,
+            this.pickingController,
         ];
     }
 
@@ -66,6 +61,13 @@ export class OculusQuestModule extends AbstractModule {
      */
     afterInit(agents: ConstructorInstanceMap<any>): void {
         this.oculusQuestManager.prepareResources(agents.get(Loader));
+
+        this.oculusQuestManager.on(XREvent.goToVR, () => {
+            (<PickingControllerAgent>agents.get(PickingController)).enableSingleInstance(this.pickingController);
+        });
+        this.oculusQuestManager.on(XREvent.goFromVR, () => {
+            (<PickingControllerAgent>agents.get(PickingController)).disableSingleInstance(this.pickingController);
+        });
     }
 
     /**

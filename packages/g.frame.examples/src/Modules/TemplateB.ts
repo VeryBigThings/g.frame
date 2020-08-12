@@ -9,7 +9,9 @@ import {
     PointLight,
     LineCurve,
     AmbientLight,
-    BoxGeometry
+    BoxGeometry,
+    Quaternion,
+    Vector3
 } from 'three';
 import {
     FBX_MODEL,
@@ -22,7 +24,10 @@ import {
     OBJ_MODEL,
     OBJ2_MODEL
 } from '@verybigthings/g.frame.common.loaders';
-import {PickingController, PickingControllerEvents} from '@verybigthings/g.frame.common.picking_controller';
+import {
+    PickingController,
+    PickingControllerEventNames
+} from '@verybigthings/g.frame.common.picking_controller';
 import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
 import {LoaderEventsName} from '@verybigthings/g.frame.common.loaders/build/main';
 
@@ -112,11 +117,11 @@ export class TemplateB extends TemplateA {
         this.scene.add(modelCollada, modelGltf, modelObj, modelObj2, new AmbientLight());
 
 
-        let model, audio, plane;
+        let model, audio, cube;
         this.scene.add(model = this.loader.getResource<Object3D>('sample_model'));
         this.scene.add(audio = this.loader.getResource<PositionalAudio>('sample_positional_audio'));
         this.scene.add(
-            plane = new Mesh(
+            cube = new Mesh(
                 new BoxGeometry(0.3, 0.3, .3),
                 new MeshBasicMaterial({
                     color: 'white',
@@ -125,14 +130,18 @@ export class TemplateB extends TemplateA {
 
 
         model.position.set(-1, 0, -1.5);
-        plane.position.set(1, 0, -1.5);
+        cube.position.set(1, 0, -1.5);
         audio.position.set(0, 0, -1.5);
 
 
         if (this.pickingController) {
-            this.pickingController.on(PickingControllerEvents.MOVED, plane, () => {
+            this.pickingController.on(PickingControllerEventNames.RELEASED, cube, (event) => {
+                console.log('RELEASED EVENT', event);
+                console.log('RELEASED cube', cube);
             });
-            // this.pickingController.on(PickingControllerEvents.MOVED, modelObj, () => {});
+            this.pickingController.on(PickingControllerEventNames.PICKED, cube, (event) => {
+                console.log('PICKED EVENT', event);
+            });
             this.actionController.on(ActionControllerEventName.click, modelObj, () => {
                 if (this.pickingController.enabled) {
                     // @ts-ignore
@@ -144,6 +153,14 @@ export class TemplateB extends TemplateA {
                     console.log('pickingController', 'enabled');
                 }
             });
+            this.actionController.on(ActionControllerEventName.click, cube, (event) => {
+                this.pickingController.forcePickUp(cube, event.data.intersection.distance,
+                    event.data.intersection.point,
+                    new Quaternion().setFromUnitVectors(new Vector3(0, 0, -1), event.data.ray.direction),
+                    0);
+                console.log('forcePicked', 'disabled');
+            });
+
         }
     }
 
