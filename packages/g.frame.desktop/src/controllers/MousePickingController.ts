@@ -10,7 +10,7 @@ import {OrbitControls} from '..';
 import {ParentEvent} from '@verybigthings/g.frame.core';
 
 interface IMousePickingControllerConfig extends IPickingControllerConfig {
-    offSet?: number
+    offSet?: number;
 }
 
 
