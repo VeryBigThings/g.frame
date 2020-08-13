@@ -1,7 +1,7 @@
 import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 import {Loader} from '@verybigthings/g.frame.common.loaders';
 import {Object3D} from 'three';
-import {OculusQuestPickingController,} from './OculusQuestControllers/OculusQuestPickingController';
+import {OculusQuestPickingController} from './OculusQuestControllers/OculusQuestPickingController';
 import {OculusQuestActionController} from './OculusQuestControllers/OculusQuestActionController';
 import {OculusQuestManager} from './OculusQuestManager';
 import {OculusQuestModel} from './OculusQuestModel';
