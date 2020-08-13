@@ -1,20 +1,53 @@
 import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 import {Loader} from '@verybigthings/g.frame.common.loaders';
 import {Object3D} from 'three';
-import {OculusQuestPickingController} from './OculusQuestControllers/OculusQuestPickingController';
-import {OculusQuestActionController} from './OculusQuestControllers/OculusQuestActionController';
+import {
+    OculusQuestPickingController,
+    OculusPickButton,
+    IOculusQuestPickingControllerConfig
+} from './OculusQuestControllers/OculusQuestPickingController';
+import {
+    IOculusQuestActionControllerConfig,
+    OculusQuestActionController
+} from './OculusQuestControllers/OculusQuestActionController';
 import {OculusQuestManager} from './OculusQuestManager';
 import {OculusQuestModel} from './OculusQuestModel';
 import {XREvent} from '@verybigthings/g.frame.common.xr_manager';
-import {PickingController, PickingControllerAgent} from '@verybigthings/g.frame.common.picking_controller';
+import {
+    IPickingControllerConfig,
+    PickingController,
+    PickingControllerAgent
+} from '@verybigthings/g.frame.common.picking_controller';
+
+interface IOculusQuestOptions {
+    mouseActionController?: IOculusQuestActionControllerConfig;
+    mousePickingController?: IOculusQuestPickingControllerConfig;
+}
+
+const defaultConfig = {
+    mouseActionController: {
+        minRaycasterDistance: 0,
+        maxRaycasterDistance: Infinity
+    },
+    mousePickingController: {
+        minPickingDistance: 0,
+        maxPickingDistance: Infinity,
+        controllersQuantity: 2,
+        buttonToPick: OculusPickButton.SQUEEZE,
+    }
+};
 
 export class OculusQuestModule extends AbstractModule {
     public oculusQuestManager: OculusQuestManager;
     public pickingController: OculusQuestPickingController;
+    public config: IOculusQuestOptions;
     private readonly container: Object3D;
 
-    constructor() {
+    constructor(config?: IOculusQuestOptions) {
         super();
+        this.config = config || defaultConfig;
+        this.config.mouseActionController = this.config.mouseActionController || defaultConfig.mouseActionController;
+        this.config.mousePickingController = this.config.mousePickingController || defaultConfig.mousePickingController;
         this.container = new Object3D();
         this.container.name = 'OculusQuestModuleContainer';
     }
@@ -35,16 +68,9 @@ export class OculusQuestModule extends AbstractModule {
         const oculusQuestModel = new OculusQuestModel(data);
         this.oculusQuestManager = new OculusQuestManager(data.viewer.renderer, oculusQuestModel);
 
-        const actionController = new OculusQuestActionController(data, {
-            minRaycasterDistance: 0,
-            maxRaycasterDistance: Infinity
-        }, oculusQuestModel);
+        const actionController = new OculusQuestActionController(data, this.config.mouseActionController, oculusQuestModel);
 
-        this.pickingController = new OculusQuestPickingController(data, {
-            minPickingDistance: 0,
-            maxPickingDistance: Infinity,
-            controllersQuantity: 2,
-        }, oculusQuestModel);
+        this.pickingController = new OculusQuestPickingController(data, this.config.mousePickingController, oculusQuestModel);
 
         // Adds view to the module container
         this.container.add(oculusQuestModel.mainContainer);
