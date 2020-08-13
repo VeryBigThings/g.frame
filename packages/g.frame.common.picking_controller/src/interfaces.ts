@@ -9,11 +9,11 @@ export class PickingControllerEvent extends ParentEvent<any> {
 }
 
 export interface IPickingControllerEventData {
-    currentValue: ICurrentValue;
+    currentValue: IPickingControllerCurrentValue;
     controllerNumber: number;
 }
 
-export interface ICurrentValue {
+export interface IPickingControllerCurrentValue {
     currentPickedObject: Object3D;
     raycaster: Raycaster;
     intersectionDistance: number;

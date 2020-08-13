@@ -1,31 +1,9 @@
-import {
-    IPickingControllerConfig,
-    PickingController
-} from '@verybigthings/g.frame.common.picking_controller';
+import {PickingController} from '@verybigthings/g.frame.common.picking_controller';
 import {XRControllerModelEvents} from '@verybigthings/g.frame.common.xr_manager';
 import {Object3D, Quaternion, Vector3} from 'three';
 import {IOculusQuestControllersModel, OculusQuestModel} from '../OculusQuestModel';
+import {IOculusQuestPickingControllerConfig, IOculusQuestPickingForcedState} from '../interfaces';
 
-interface IOculusQuestPickingForcedState {
-    left: {
-        pose: Vector3;
-        orientation: Quaternion;
-        isSqueezed: boolean;
-    };
-    right: {
-        pose: Vector3;
-        orientation: Quaternion;
-        isSqueezed: boolean;
-    };
-}
-
-export interface IOculusQuestPickingControllerConfig extends IPickingControllerConfig {
-    buttonToPick: OculusPickButton;
-}
-
-export enum OculusPickButton {
-    TRIGGER = 'trigger', SQUEEZE = 'squeeze', ANY = 'any', BOTH = 'both'
-}
 
 export class OculusQuestPickingController extends PickingController {
     private forcedState: IOculusQuestPickingForcedState;
@@ -60,13 +38,15 @@ export class OculusQuestPickingController extends PickingController {
                 this.update(this.data.viewer.camera.parent.localToWorld(
                     event.data.left.pose.position.clone()),
                     event.data.left.pose.orientation,
-                    this.forcedState.left.isSqueezed || this.getSqueezed(event.data.left),
+                    typeof this.forcedState.left.isSqueezed === 'boolean' ? this.forcedState.left.isSqueezed
+                        : this.getSqueezed(event.data.left),
                     0
                 );
                 this.update(this.data.viewer.camera.parent.localToWorld(
                     event.data.right.pose.position.clone()),
                     event.data.right.pose.orientation,
-                    this.forcedState.right.isSqueezed || this.getSqueezed(event.data.right),
+                    typeof this.forcedState.right.isSqueezed === 'boolean' ? this.forcedState.right.isSqueezed
+                        : this.getSqueezed(event.data.right),
                     1
                 );
             }

@@ -1,7 +1,7 @@
 import {Intersection, Matrix4, Object3D, Quaternion, Raycaster, Vector3} from 'three';
 import {MeshEventDispatcher, ParentEvent} from '@verybigthings/g.frame.core';
 import {
-    ICurrentValue,
+    IPickingControllerCurrentValue,
     IPickingControllerConfig,
 } from './interfaces';
 
@@ -15,7 +15,7 @@ export class PickingController extends MeshEventDispatcher {
      */
     public __agentConstructor: Function;
     public enabled: boolean;
-    protected currentValues: Array<ICurrentValue> = [];
+    protected currentValues: Array<IPickingControllerCurrentValue> = [];
 
     constructor(protected config: IPickingControllerConfig) {
         super();

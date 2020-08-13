@@ -1,18 +1,9 @@
-import {
-    IPickingControllerConfig,
-    PickingController,
-    PickingControllerEventNames
-} from '@verybigthings/g.frame.common.picking_controller';
+import {PickingController, PickingControllerEventNames} from '@verybigthings/g.frame.common.picking_controller';
 import {MouseActionController} from './MouseActionController';
 import {ActionControllerEvent, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
-import {Vector3, Quaternion, Scene, Raycaster, Ray, Object3D, Intersection, Box3, Mesh} from 'three';
+import {Intersection, Object3D, Quaternion, Ray, Raycaster, Scene, Vector3} from 'three';
 import {OrbitControls} from '..';
-import {ParentEvent} from '@verybigthings/g.frame.core';
-
-interface IMousePickingControllerConfig extends IPickingControllerConfig {
-    offSet?: number;
-}
-
+import {IMousePickingControllerConfig} from '../interfaces';
 
 export class MousePickingController extends PickingController {
     private lastDistance: number;

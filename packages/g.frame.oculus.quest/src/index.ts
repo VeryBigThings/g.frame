@@ -1,3 +1,4 @@
+export * from './interfaces';
 export * from './OculusQuestModule';
 export * from './OculusQuestManager';
 export * from './OculusQuestModel';

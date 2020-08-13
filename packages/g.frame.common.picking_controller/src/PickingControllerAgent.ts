@@ -1,6 +1,6 @@
-import {Object3D, Vector3, Quaternion} from 'three';
+import {Object3D, Quaternion, Vector3} from 'three';
 import {PickingController, PickingControllerEventNames} from './PickingController';
-import {ParentEvent} from '@verybigthings/g.frame.core';
+import {Constructor, ParentEvent} from '@verybigthings/g.frame.core';
 
 export class PickingControllerAgent extends PickingController {
     public enabled: boolean = true;
@@ -65,15 +65,15 @@ export class PickingControllerAgent extends PickingController {
         }
     }
 
-    enableSingleInstance(instance: PickingController) {
+    enableSingleInstance<P extends PickingController>(instanceConstructor: Constructor<P>) {
         for (let i = 0; i < this.instances.length; i++) {
-            this.instances[i].enabled = this.instances[i] === instance;
+            this.instances[i].enabled = Object.getPrototypeOf(this.instances[i]).constructor === instanceConstructor;
         }
     }
 
-    disableSingleInstance(instance: PickingController) {
+    disableSingleInstance<P extends PickingController>(instanceConstructor: Constructor<P>) {
         for (let i = 0; i < this.instances.length; i++) {
-            this.instances[i].enabled = this.instances[i] !== instance;
+            this.instances[i].enabled = Object.getPrototypeOf(this.instances[i]).constructor !== instanceConstructor;
         }
     }
 
