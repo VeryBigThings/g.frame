@@ -37,14 +37,14 @@ export class OculusQuestPickingController extends PickingController {
                 this.oldModel = JSON.parse(JSON.stringify(event.data));
                 this.update(this.data.viewer.camera.parent.localToWorld(
                     event.data.left.pose.position.clone()),
-                    event.data.left.pose.orientation,
+                    event.data.left.pose.orientation.clone(),
                     typeof this.forcedState.left.isSqueezed === 'boolean' ? this.forcedState.left.isSqueezed
                         : this.getSqueezed(event.data.left),
                     0
                 );
                 this.update(this.data.viewer.camera.parent.localToWorld(
                     event.data.right.pose.position.clone()),
-                    event.data.right.pose.orientation,
+                    event.data.right.pose.orientation.clone(),
                     typeof this.forcedState.right.isSqueezed === 'boolean' ? this.forcedState.right.isSqueezed
                         : this.getSqueezed(event.data.right),
                     1
