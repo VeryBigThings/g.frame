@@ -1,14 +1,6 @@
 import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
 import {Raycaster, Vector3} from 'three';
-
-/**
- * A special config for OculusQuestActionController class to store the most important options
- * Such as near/far parameters of the raycaster
- */
-export interface IOculusQuestActionControllerConfig {
-    minRaycasterDistance: number;
-    maxRaycasterDistance: number;
-}
+import {IOculusQuestActionControllerConfig} from '../interfaces';
 
 export class OculusQuestActionController extends ActionController {
     protected onButtonDown: (event: any) => void;
@@ -50,14 +42,6 @@ export class OculusQuestActionController extends ActionController {
     }
 
     /**
-     * Function to create a raycaster
-     * @returns raycaster with a done ray
-     */
-    protected getRaycaster(position: Vector3, direction: Vector3) {
-        return new Raycaster(position, direction, this.config.minRaycasterDistance, this.config.maxRaycasterDistance);
-    }
-
-    /**
      * Function to unsubscribe OculusQuestActionController from all of the listened events
      */
     dispose() {
@@ -65,5 +49,13 @@ export class OculusQuestActionController extends ActionController {
         this.oculusQuestModel.off('buttonUp', this.onButtonUp);
         this.oculusQuestModel.off('click', this.onClick);
         this.oculusQuestModel.off('move', this.onMove);
+    }
+
+    /**
+     * Function to create a raycaster
+     * @returns raycaster with a done ray
+     */
+    protected getRaycaster(position: Vector3, direction: Vector3) {
+        return new Raycaster(position, direction, this.config.minRaycasterDistance, this.config.maxRaycasterDistance);
     }
 }

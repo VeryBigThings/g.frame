@@ -1,15 +1,11 @@
 import {AbstractModule, AbstractModuleStatus, requires} from '@verybigthings/g.frame.core';
-import {IMouseActionControllerConfig, MouseActionController} from './controllers/MouseActionController';
+import {MouseActionController} from './controllers/MouseActionController';
 import {OrbitControls} from './controls/OrbitControls';
 import {InputModule} from '@verybigthings/g.frame.input';
 import {KeyboardController} from './controllers/KeyboardController';
 import {MousePickingController} from './controllers/MousePickingController';
-import {IPickingControllerConfig, PickingController} from '@verybigthings/g.frame.common.picking_controller';
-
-interface IDesktopOptions {
-    mouseActionController?: IMouseActionControllerConfig;
-    mousePickingController?: IPickingControllerConfig;
-}
+import {PickingController} from '@verybigthings/g.frame.common.picking_controller';
+import {IMousePickingControllerConfig, IDesktopOptions} from './interfaces';
 
 const defaultConfig = {
     mouseActionController: {
@@ -19,7 +15,8 @@ const defaultConfig = {
     mousePickingController: {
         minPickingDistance: .001,
         maxPickingDistance: 15,
-        controllersQuantity: 1
+        controllersQuantity: 1,
+        offSet: 0.95
     }
 };
 
@@ -33,6 +30,7 @@ export class DesktopModule extends AbstractModule {
     private pickingController: PickingController;
     private cameraControls: OrbitControls;
     private config: IDesktopOptions;
+
     constructor(config?: IDesktopOptions) {
         super();
         this.config = config || defaultConfig;

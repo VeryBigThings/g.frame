@@ -1,14 +1,6 @@
 import {Camera, Raycaster, Vector2, Vector3, WebGLRenderer} from 'three';
 import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
-
-/**
- * A special config for MouseActionController to store the most important options
- * such as near/far parameters of the raycaster
- */
-export interface IMouseActionControllerConfig {
-    minRaycasterDistance: number;
-    maxRaycasterDistance: number;
-}
+import {IMouseActionControllerConfig} from '../interfaces';
 
 export class MouseActionController extends ActionController {
     protected onMouseDown: (event: MouseEvent) => void;

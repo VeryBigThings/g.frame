@@ -1,33 +1,21 @@
 import {Intersection, Matrix4, Object3D, Quaternion, Raycaster, Vector3} from 'three';
 import {MeshEventDispatcher, ParentEvent} from '@verybigthings/g.frame.core';
+import {
+    IPickingControllerCurrentValue,
+    IPickingControllerConfig,
+} from './interfaces';
 
-export enum PickingControllerEvents {
+export enum PickingControllerEventNames {
     PICKED = 'picked', MOVED = 'moved', RELEASED = 'released'
 }
-
-export interface IPickingControllerConfig {
-    minPickingDistance: number;
-    maxPickingDistance: number;
-    controllersQuantity: number;
-}
-
 
 export class PickingController extends MeshEventDispatcher {
     /**
      * @ignore
      */
     public __agentConstructor: Function;
-
     public enabled: boolean;
-    protected currentValues: Array<{
-        currentPickedObject: Object3D;
-        raycaster: Raycaster;
-        intersectionDistance: number;
-        startScale: Vector3;
-        startOffset: Vector3;
-        startRotation: Quaternion;
-    }> = [];
-
+    protected currentValues: Array<IPickingControllerCurrentValue> = [];
 
     constructor(protected config: IPickingControllerConfig) {
         super();
@@ -52,19 +40,19 @@ export class PickingController extends MeshEventDispatcher {
         });
     }
 
-    on(eventName: PickingControllerEvents, mesh, callback1: Function, callback2?: Function) {
+    on(eventName: PickingControllerEventNames, mesh, callback1: Function, callback2?: Function) {
         super.on(eventName, mesh, callback1, callback2);
     }
 
-    once(eventName: PickingControllerEvents, mesh, callback1: Function, callback2?: Function): any {
+    once(eventName: PickingControllerEventNames, mesh, callback1: Function, callback2?: Function): any {
         return super.once(eventName, mesh, callback1, callback2);
     }
 
-    fire(eventName?: PickingControllerEvents, mesh?: Object3D, data: ParentEvent<string> = new ParentEvent<string>('')) {
+    fire(eventName?: PickingControllerEventNames, mesh?: Object3D, data: ParentEvent<string> = new ParentEvent<string>('')) {
         super.fire(eventName, mesh, data);
     }
 
-    off(eventName?: PickingControllerEvents, mesh?: Object3D, callback?: Function) {
+    off(eventName?: PickingControllerEventNames, mesh?: Object3D, callback?: Function) {
         super.off(eventName, mesh, callback);
     }
 
@@ -101,7 +89,10 @@ export class PickingController extends MeshEventDispatcher {
         scope.currentPickedObject.matrixWorld.decompose(sposition, quat, scope.startScale);
         scope.startRotation.multiplyQuaternions(rotation, quat);
 
-        this.fire(PickingControllerEvents.PICKED, scope.currentPickedObject, new ParentEvent<string>('picked'));
+        this.fire(PickingControllerEventNames.PICKED, scope.currentPickedObject, new ParentEvent<string>('picked', {
+            scope: scope,
+            controllerNumber: controllerNumber
+        }));
 
         this.onObjectPick(object);
         this.update(newPosition, newRotation, true, controllerNumber);
@@ -110,7 +101,10 @@ export class PickingController extends MeshEventDispatcher {
     forceRelease(controllerNumber: number = 0) {
         if (!this.enabled) return;
         const scope = this.currentValues[controllerNumber];
-        this.fire(PickingControllerEvents.RELEASED, scope.currentPickedObject, new ParentEvent<string>('released'));
+        this.fire(PickingControllerEventNames.RELEASED, scope.currentPickedObject, new ParentEvent<string>('released', {
+            scope: scope,
+            controllerNumber: controllerNumber
+        }));
         scope.currentPickedObject = null;
         this.onObjectRelease();
     }
@@ -159,11 +153,17 @@ export class PickingController extends MeshEventDispatcher {
                 scope.currentPickedObject.scale.copy(newScale);
                 scope.currentPickedObject.updateMatrix();
                 scope.currentPickedObject.updateMatrixWorld();
-                this.fire(PickingControllerEvents.MOVED, scope.currentPickedObject, new ParentEvent<string>('moved'));
+                this.fire(PickingControllerEventNames.MOVED, scope.currentPickedObject, new ParentEvent<string>('moved', {
+                    scope: scope,
+                    controllerNumber: controllerNumber
+                }));
                 this.onObjectMove();
             } else {
                 // Releasing picked object, firing event
-                this.fire(PickingControllerEvents.RELEASED, scope.currentPickedObject, new ParentEvent<string>('released'));
+                this.fire(PickingControllerEventNames.RELEASED, scope.currentPickedObject, new ParentEvent<string>('released', {
+                    scope: scope,
+                    controllerNumber: controllerNumber
+                }));
                 scope.currentPickedObject = null;
                 this.onObjectRelease();
             }
@@ -212,7 +212,10 @@ export class PickingController extends MeshEventDispatcher {
                     scope.currentPickedObject.matrixWorld.decompose(sposition, quat, scope.startScale);
                     scope.startRotation.multiplyQuaternions(rotation, quat);
 
-                    this.fire(PickingControllerEvents.PICKED, scope.currentPickedObject, new ParentEvent<string>('picked'));
+                    this.fire(PickingControllerEventNames.PICKED, scope.currentPickedObject, new ParentEvent<string>('picked', {
+                        scope: scope,
+                        controllerNumber: controllerNumber
+                    }));
 
                     this.onObjectPick(intersection.object);
                 } else {

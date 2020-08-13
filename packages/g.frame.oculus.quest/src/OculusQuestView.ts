@@ -241,6 +241,7 @@ export class OculusQuestView implements IOculusQuestView {
      * @param coefficient Left view should be mirrored
      */
     private showView(model: any, gamepad: any, wrapper: Group, coefficient: number = 1) {
+        if (!wrapper) return;
         // Check if hided
         if (!wrapper.visible) wrapper.visible = !wrapper.visible;
 

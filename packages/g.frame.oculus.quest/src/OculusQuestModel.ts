@@ -18,12 +18,12 @@ const config = {
  */
 type XRFrame = any;
 
-interface IOculusQuestControllersModel {
+export interface IOculusQuestControllersModel {
     left: IOculusQuestControllerModel;
     right: IOculusQuestControllerModel;
 }
 
-interface IOculusQuestControllerModel {
+export interface IOculusQuestControllerModel {
     enabled: boolean;
     pose: {
         position: Vector3;
@@ -226,11 +226,13 @@ export class OculusQuestModel extends EventDispatcher<XRControllerModelEvents> i
         }
 
         const inputPose = this.frame.getPose(inputSource.targetRaySpace, this.data.viewer.renderer.xr.getReferenceSpace());
-        new Matrix4().fromArray(inputPose.transform.matrix).decompose(model.pose.position, model.pose.orientation, new Vector3());
-        new Matrix4().fromArray(inputPose.transform.matrix).decompose(pointerWrapper.position, pointerWrapper.quaternion, new Vector3());
+        if (inputPose) {
+            new Matrix4().fromArray(inputPose.transform.matrix).decompose(model.pose.position, model.pose.orientation, new Vector3());
+            new Matrix4().fromArray(inputPose.transform.matrix).decompose(pointerWrapper.position, pointerWrapper.quaternion, new Vector3());
 
-        pointer.updateMatrixWorld(true);
-        this.mainContainer.updateMatrixWorld(true);
+            pointer.updateMatrixWorld(true);
+            this.mainContainer.updateMatrixWorld(true);
+        }
     }
 
     /**
