@@ -14,7 +14,7 @@ export default class VideosLoader extends Loader<HTMLVideoElement> {
 
         return new Promise((resolve, reject) => {
             const video = document.createElement('video');
-            video.crossOrigin = 'anonymous';
+            video.crossOrigin = 'use-credentials';
             video.loop = false;
             video.autoplay = false;
             video.muted = false;

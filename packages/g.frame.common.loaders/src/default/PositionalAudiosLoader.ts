@@ -17,6 +17,7 @@ export default class PositionalAudiosLoader extends Loader<PositionalAudio> {
 
         this.audioListener = new AudioListener();
         this.audioLoader = new AudioLoader();
+        this.audioLoader.setCrossOrigin('use-credentials');
 
     }
 

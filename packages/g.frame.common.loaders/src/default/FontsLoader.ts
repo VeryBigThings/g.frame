@@ -41,7 +41,7 @@ export default class FontsLoader extends Loader<IFontFace> {
                 const fontStyle = fontParams[4];
 
                 const loader = new FontFace(fontName, `url(${url})`, {style: fontStyle, weight: fontWeight});
-
+                // loader.setCrossOrigin('use-credentials');
                 loader.load().then((loaded_face) => {
                     this.library.set(name, loaded_face);
                     (<any>document).fonts.add(loaded_face);

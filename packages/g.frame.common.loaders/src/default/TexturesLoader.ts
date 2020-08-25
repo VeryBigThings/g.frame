@@ -14,6 +14,8 @@ export default class TexturesLoader extends Loader<Texture> {
     protected resourceToPromise(url: string, name: string): Promise<Texture> {
 
         return new Promise((resolve, reject) => {
+            const loader = new TextureLoader();
+            loader.setCrossOrigin('use-credentials');
 
             const onLoad = (texture) => {
                 resolve(texture);
@@ -21,7 +23,7 @@ export default class TexturesLoader extends Loader<Texture> {
 
             const onError = (event) => reject(event);
 
-            this.library.set(name, new TextureLoader().load(url, onLoad, undefined, onError));
+            this.library.set(name, loader.load(url, onLoad, undefined, onError));
         });
     }
 

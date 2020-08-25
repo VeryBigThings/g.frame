@@ -14,6 +14,7 @@ export default class GLTFModelsLoader extends Loader<Object3D> {
 
         return new Promise((resolve, reject) => {
             const loader = new GLTFLoader();
+            loader.setCrossOrigin('use-credentials');
             loader.load(url, (gltf) => {
                 this.library.set(name, gltf.scene);
                 resolve(gltf.scene);

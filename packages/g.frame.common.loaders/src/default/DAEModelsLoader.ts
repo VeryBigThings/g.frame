@@ -14,6 +14,7 @@ export default class DAEModelsLoader extends Loader<Object3D> {
 
         return new Promise((resolve, reject) => {
             const loader = new ColladaLoader();
+            loader.setCrossOrigin('use-credentials');
             loader.load(url, (collada) => {
                 this.library.set(name, collada.scene);
                 resolve(collada.scene);

@@ -14,6 +14,7 @@ export default class OBJModelsLoader extends Loader<Object3D> {
 
         return new Promise((resolve, reject) => {
             const loader = new OBJLoader();
+            loader.setCrossOrigin('use-credentials');
             loader.load(url, (obj) => {
                 this.library.set(name, obj);
                 resolve(obj);

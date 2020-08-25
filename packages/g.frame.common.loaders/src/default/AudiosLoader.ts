@@ -14,6 +14,7 @@ export default class AudiosLoader extends Loader<HTMLAudioElement> {
 
         return new Promise((resolve, reject) => {
             const audio = new Audio(url);
+            audio.crossOrigin = 'use-credentials';
             audio.load();
             audio.addEventListener('canplaythrough', () => resolve(), false);
             audio.addEventListener('error', () => reject(), false);
