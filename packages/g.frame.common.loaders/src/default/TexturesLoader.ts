@@ -11,11 +11,11 @@ export default class TexturesLoader extends Loader<Texture> {
         super();
     }
 
-    protected resourceToPromise(url: string, name: string): Promise<Texture> {
+    protected resourceToPromise(url: string, name: string, crossOrigin?: string): Promise<Texture> {
 
         return new Promise((resolve, reject) => {
             const loader = new TextureLoader();
-            loader.setCrossOrigin('use-credentials');
+            loader.setCrossOrigin(crossOrigin || this.defaultCrossOrigin);
 
             const onLoad = (texture) => {
                 resolve(texture);

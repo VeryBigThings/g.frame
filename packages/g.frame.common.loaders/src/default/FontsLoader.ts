@@ -32,7 +32,7 @@ export default class FontsLoader extends Loader<IFontFace> {
         this.nameExp = new RegExp('^(.+)&(.+)-(.+)-(.+)$');
     }
 
-    protected resourceToPromise(url: string, name: string): Promise<IFontFace> {
+    protected resourceToPromise(url: string, name: string, crossOrigin?: string): Promise<IFontFace> {
         return new Promise((resolve, reject) => {
             const fontParams = name.match(this.nameExp);
             if (fontParams) {

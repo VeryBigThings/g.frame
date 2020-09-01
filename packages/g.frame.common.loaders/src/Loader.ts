@@ -14,6 +14,7 @@ export class Loader<T> extends EventDispatcher<LoaderEventsName> {
     public __agentConstructor: Function;
 
     public readonly loaderType: string;
+    public defaultCrossOrigin: string = 'use-credentials';
     protected readonly library: Map<string, T> = new Map<string, T>();
     protected readonly resourcesRaw: Array<ResourceRaw> = [];
 
@@ -50,7 +51,7 @@ export class Loader<T> extends EventDispatcher<LoaderEventsName> {
             Promise.all(
                 notLoadedResources
                     .map(resourceRaw =>
-                        this.resourceToPromise(<string>resourceRaw.url, resourceRaw.name)
+                        this.resourceToPromise(<string>resourceRaw.url, resourceRaw.name, resourceRaw.crossOrigin)
                     )
             ).then(() => {
                 resolve();
@@ -90,10 +91,11 @@ export class Loader<T> extends EventDispatcher<LoaderEventsName> {
      * You can look for ModelsLoader|AudiosLoader|FontsLoader and find an example there
      * @param url string path that leads to the file
      * @param name string resource name to set
+     * @param crossOrigin string crossOrigin setting for current resource
      * @returns resource Promise with new resource
      */
 
-    protected resourceToPromise(url: string, name: string): Promise<T> {
+    protected resourceToPromise(url: string, name: string, crossOrigin?: string): Promise<T> {
         return;
     }
 }

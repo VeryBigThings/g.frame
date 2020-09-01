@@ -10,11 +10,11 @@ export default class FBXModelsLoader extends Loader<Object3D> {
         super();
     }
 
-    protected resourceToPromise(url: string, name: string): Promise<Object3D> {
+    protected resourceToPromise(url: string, name: string, crossOrigin?: string): Promise<Object3D> {
 
         return new Promise((resolve, reject) => {
             const loader = new FBXLoader();
-            loader.setCrossOrigin('use-credentials');
+            loader.setCrossOrigin(crossOrigin || this.defaultCrossOrigin);
             loader.load(url, (object) => {
                 this.library.set(name, object);
                 resolve(object);

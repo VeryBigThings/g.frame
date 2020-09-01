@@ -17,7 +17,7 @@ export default class PositionalAudiosLoader extends Loader<PositionalAudio> {
 
         this.audioListener = new AudioListener();
         this.audioLoader = new AudioLoader();
-        this.audioLoader.setCrossOrigin('use-credentials');
+        this.audioLoader.setCrossOrigin(this.defaultCrossOrigin);
 
     }
 
@@ -29,10 +29,10 @@ export default class PositionalAudiosLoader extends Loader<PositionalAudio> {
         this.audioListener.setMasterVolume(1);
     }
 
-    protected resourceToPromise(url: string, name: string): Promise<PositionalAudio> {
+    protected resourceToPromise(url: string, name: string, crossOrigin?: string): Promise<PositionalAudio> {
 
         return new Promise((resolve, reject) => {
-            this.audioLoader.load(url, (audioBuffer) => {
+            this.audioLoader.setCrossOrigin(crossOrigin || this.defaultCrossOrigin).load(url, (audioBuffer) => {
                 const audio = new PositionalAudio(this.audioListener);
                 audio.setBuffer(audioBuffer);
                 audio.setRefDistance(20);

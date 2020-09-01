@@ -10,11 +10,11 @@ export default class VideosLoader extends Loader<HTMLVideoElement> {
         super();
     }
 
-    protected resourceToPromise(url: string, name: string): Promise<HTMLVideoElement> {
+    protected resourceToPromise(url: string, name: string, crossOrigin?: string): Promise<HTMLVideoElement> {
 
         return new Promise((resolve, reject) => {
             const video = document.createElement('video');
-            video.crossOrigin = 'use-credentials';
+            video.crossOrigin = crossOrigin || this.defaultCrossOrigin;
             video.loop = false;
             video.autoplay = false;
             video.muted = false;

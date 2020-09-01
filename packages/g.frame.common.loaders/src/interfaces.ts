@@ -10,4 +10,5 @@ export interface ResourceRaw {
     url: string | Array<string>;
     loaded?: boolean;
     type: string;
+    crossOrigin?: string;
 }

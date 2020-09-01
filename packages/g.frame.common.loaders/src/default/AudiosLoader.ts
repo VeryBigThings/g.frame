@@ -10,11 +10,11 @@ export default class AudiosLoader extends Loader<HTMLAudioElement> {
         super();
     }
 
-    protected resourceToPromise(url: string, name: string): Promise<HTMLAudioElement> {
+    protected resourceToPromise(url: string, name: string, crossOrigin?: string): Promise<HTMLAudioElement> {
 
         return new Promise((resolve, reject) => {
             const audio = new Audio(url);
-            audio.crossOrigin = 'use-credentials';
+            audio.crossOrigin = crossOrigin || this.defaultCrossOrigin;
             audio.load();
             audio.addEventListener('canplaythrough', () => resolve(), false);
             audio.addEventListener('error', () => reject(), false);
