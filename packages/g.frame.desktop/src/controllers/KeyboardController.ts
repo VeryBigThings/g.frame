@@ -20,7 +20,7 @@ export class KeyboardController extends Keyboard {
                 this.fire(KeyboardEvents.onDelete);
             } else if (event.code === 'Escape') {
                 this.fire(KeyboardEvents.onUnFocus);
-            } else if (event.code === 'Enter') {
+            } else if (event.keyCode  === 13) { // this is both Enter buttons
                 this.fire(KeyboardEvents.onSubmit);
             } else if (event.key.length <= 1) {
                 this.fire(KeyboardEvents.onEnterSymbol, new ParentEvent<KeyboardEvents>(KeyboardEvents.onEnterSymbol, {
