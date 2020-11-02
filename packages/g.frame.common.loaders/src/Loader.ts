@@ -31,9 +31,10 @@ export class Loader<T> extends EventDispatcher<LoaderEventsName> {
     addResources(newResource: Array<ResourceRaw> | ResourceRaw): boolean {
         if (newResource instanceof Array) return false;
         if (newResource.type === this.loaderType && newResource.name.length && newResource.url.length) {
-            this.resourcesRaw.push(newResource);
             if (this.resourcesRaw.find(el => el.name === newResource.name)) {
-                console.warn('a resource with name ' + newResource.name + ' was found in the ' + this.loaderType + ' Loader library. It be replaced with new one, once loaded');
+                console.warn('a resource with name ' + newResource.name + ' was found in the ' + this.loaderType + ' loader library. It won\'t be replaced with new one.');
+            } else {
+                this.resourcesRaw.push(newResource);
             }
             return true;
         }
