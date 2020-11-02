@@ -15,7 +15,6 @@ export enum PhysicMeshLinkType {
 
 export class PhysicMeshUpdater {
     private links: Array<{object: Object3D, rigidBody: RigidBody, linkType: PhysicMeshLinkType}>;
-    // private objects: Array<Object3D>;
 
     constructor() {
         this.links = [];

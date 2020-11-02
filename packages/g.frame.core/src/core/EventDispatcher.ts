@@ -1,5 +1,9 @@
 export class EventDescriptor<T extends string> {
-    constructor(public eventName: T, public callback: Function, public condition?: Function) {
+    constructor(private eventDispatcher: EventDispatcher<T>, public eventName: T, public callback: Function, public condition?: Function) {
+    }
+
+    off() {
+        this.eventDispatcher.offEvent(this);
     }
 }
 
@@ -15,21 +19,27 @@ export class EventDispatcher<T extends string> {
         this.events = [];
     }
 
-    on(eventName: T, callback1: Function, callback2?: Function) {
+    on(eventName: T, callback1?: Function, callback2?: Function) {
         const condition = callback2 ? callback1 : null;
         const callback = callback2 ? callback2 : callback1;
-        this.events.push(new EventDescriptor(eventName, callback, condition));
-        return this;
+        let descriptor;
+        this.events.push(descriptor = new EventDescriptor(this, eventName, callback, condition));
+        return descriptor;
     }
 
-    once(eventName: T, callback1: Function, callback2?: Function) {
+    once(eventName: T, callback1?: Function, callback2?: Function) {
         const condition = callback2 ? callback1 : null;
         const callback = callback2 ? callback2 : callback1;
-        let savedEvent;
-        this.events.push(new EventDescriptor(eventName, savedEvent = (event: ParentEvent<T>) => {
+        let savedEvent, descriptor;
+        this.events.push(descriptor = new EventDescriptor(this, eventName, savedEvent = (event: ParentEvent<T>) => {
             this.off(eventName, savedEvent);
             callback(event);
         }, condition));
+        return descriptor;
+    }
+
+    offEvent(eventDescriptor: EventDescriptor<T>): EventDispatcher<T> {
+        this.events.splice(this.events.indexOf(eventDescriptor), 1);
         return this;
     }
 
@@ -42,12 +52,13 @@ export class EventDispatcher<T extends string> {
         return this;
     }
 
+
     fire(eventName: T | Array<T>, data: ParentEvent<T> = new ParentEvent<T>()) {
         if (eventName instanceof Array) {
             eventName.forEach(event => this.fire(event, data));
         } else {
             data.eventName = eventName;
-            this.events.slice().forEach(event => event.eventName === eventName && (!event.condition || (event.condition && event.condition(data))) && event.callback(data));
+            this.events.slice().forEach(event => event.eventName === eventName && (!event.condition || (event.condition && event.condition(data, event, this))) && event.callback(data, event, this));
         }
         return this;
     }

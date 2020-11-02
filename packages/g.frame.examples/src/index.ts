@@ -17,6 +17,7 @@ import {OimoPhysicsModule} from '@verybigthings/g.frame.physics.oimo';
 import {DropdownComponentModule} from '../../g.frame.components.dropdown/src/DropdownComponentModule';
 import {OculusGoModule} from '@verybigthings/g.frame.oculus.go';
 
+
 class App {
     private framework: ModulesProcessor;
 
@@ -36,8 +37,8 @@ class App {
                 new TextComponentModule(),
                 new SlidersComponentModule(),
                 new InputModule(),
-                new VirtualKeyboardModule(),
                 new LoadersModule(),
+                new VirtualKeyboardModule(),
                 new OculusQuestModule(),
                 new DropdownComponentModule(),
                 new OimoPhysicsModule(),

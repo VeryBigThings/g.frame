@@ -1,10 +1,6 @@
 import {EventDispatcher, ParentEvent} from './EventDispatcher';
-import {Box3, Camera, Mesh, MeshBasicMaterial, Object3D, PlaneGeometry, Texture, Vector2, Vector3} from 'three';
-// import {ActionController} from '../controls/action_controller/ActionController';
-// import {CardMesh, IDisposeParams} from '../interfaces';
-// import {OrbitControls} from '../controls/OrbitControls';
-// import {VRControls} from '../controls/vr_controls/VRControls';
-// import {ResourceRaw} from '../utils/loaders/ResourcesManager';
+import {Mesh, Object3D, Vector3} from 'three';
+import {Pipe} from './Pipe';
 
 interface IDisposeParams {
     geometry: boolean;
@@ -15,21 +11,16 @@ interface IDisposeParams {
 }
 
 export class ViewerModule extends EventDispatcher<string> {
-    // public camera: Camera;
 
-    // public actionController: ActionController;
-    // public vrControls: VRControls;
-    // public controls: OrbitControls;
-    // public resourcesInUse: Array<ResourceRaw> = [];
-
-    public uiObject: Object3D;
-    public isViewer: boolean = true;
-    private disposeObjects: Array<any>;
+    public readonly uiObject: Object3D;
+    public readonly isViewer: boolean = true;
+    public readonly data: any = {};
+    protected readonly disposeObjects: Array<any>;
 
     constructor() {
         super();
         this.uiObject = new Object3D;
-        this.uiObject.name = 'UI Object';
+        this.uiObject.name = `UI_Object_${this.constructor.name}`;
         this.uiObject.userData.viewerModule = this;
 
         this.disposeObjects = [];
@@ -125,6 +116,24 @@ export class ViewerModule extends EventDispatcher<string> {
         }));
 
         this.removeObject(object);
+    }
+
+    /**
+     * Function to update this object using Pipe function.
+     * @param pipe Pipe Pipe function
+     * @return this ViewerModule
+     */
+    pipe(pipe: Pipe<ViewerModule>) {
+        const that = pipe(this);
+        if (that !== this) {
+            console.error(
+                'Next pipe changed returned new instance of ViewerModule (pipe, this, that)',
+                pipe,
+                this,
+                that
+            );
+        }
+        return this;
     }
 
     /**
