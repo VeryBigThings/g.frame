@@ -105,6 +105,7 @@ export class ModulesProcessor extends EventDispatcher<string> {
             if (!this.modulesStatus.get(module).enabled) continue;
             module.onDestroy();
         }
+        this.configuration.bootstrap.dispose();
         this.viewer.dispose();
     }
 
