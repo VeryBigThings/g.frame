@@ -100,21 +100,22 @@ export class ModulesProcessor extends EventDispatcher<string> {
         }
     }
 
-    private destroy() {
+    public destroy() {
         for (const module of this.configuration.modules) {
             if (!this.modulesStatus.get(module).enabled) continue;
             module.onDestroy();
         }
+        this.viewer.dispose();
     }
 
-    private pause() {
+    public pause() {
         for (const module of this.configuration.modules) {
             if (!this.modulesStatus.get(module).enabled) continue;
             module.onPause();
         }
     }
 
-    private resume() {
+    public resume() {
         for (const module of this.configuration.modules) {
             if (!this.modulesStatus.get(module).enabled) continue;
             module.onResume();

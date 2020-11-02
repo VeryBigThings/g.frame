@@ -5,7 +5,7 @@ import {InputModule} from '@verybigthings/g.frame.input';
 import {KeyboardController} from './controllers/KeyboardController';
 import {MousePickingController} from './controllers/MousePickingController';
 import {PickingController} from '@verybigthings/g.frame.common.picking_controller';
-import {IMousePickingControllerConfig, IDesktopOptions} from './interfaces';
+import {IDesktopOptions} from './interfaces';
 
 const defaultConfig = {
     mouseActionController: {
@@ -30,6 +30,8 @@ export class DesktopModule extends AbstractModule {
     private pickingController: PickingController;
     private cameraControls: OrbitControls;
     private config: IDesktopOptions;
+    private actionController: MouseActionController;
+    private keyboardController: KeyboardController;
 
     constructor(config?: IDesktopOptions) {
         super();
@@ -47,14 +49,16 @@ export class DesktopModule extends AbstractModule {
 
     async onInit(data: any): Promise<Array<any>> {
         // console.info('Module initialization. Create all instances.');
-        const actionController = new MouseActionController(this.config.mouseActionController, data.viewer.renderer, data.viewer.camera);
+        this.actionController = new MouseActionController(this.config.mouseActionController, data.viewer.renderer, data.viewer.camera);
 
         this.cameraControls = new OrbitControls(data.viewer.camera, data.viewer.renderer.domElement);
+        this.keyboardController = new KeyboardController();
+        this.pickingController = new MousePickingController(data, this.config.mousePickingController, this.actionController);
         return [
-            actionController,
+            this.actionController,
             this.cameraControls,
-            new KeyboardController(),
-            this.pickingController = new MousePickingController(data, this.config.mousePickingController, actionController)
+            this.keyboardController,
+            this.pickingController
         ];
     }
 
@@ -73,6 +77,9 @@ export class DesktopModule extends AbstractModule {
 
     onDestroy(): void {
         // console.info('Module destroy function. Use it to destroy and dispose instances.');
+        this.actionController.dispose();
+        this.keyboardController.dispose();
+        this.actionController.dispose();
     }
 
     onResume(): void {

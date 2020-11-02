@@ -8,12 +8,12 @@ export default class FrameworkViewer extends EventDispatcher<string> {
     public readonly renderer: WebGLRenderer;
     public readonly scene: Scene;
     public readonly camera: PerspectiveCamera;
-    private readonly container: Element;
-
     public readonly cameraWrapParent: Object3D;
     public readonly cameraWrap: Object3D;
     public readonly modulesContainer: Object3D;
+    private readonly container: Element;
     private currentViewer: ViewerModule;
+    private _onResizeCallback: () => void;
 
     constructor(private config: IViewerConfig) {
         super();
@@ -73,7 +73,7 @@ export default class FrameworkViewer extends EventDispatcher<string> {
         this.camera.lookAt(this.camera.userData.target);
         this.cameraWrap.add(this.camera);
 
-        if (this.config.renderer.onWindowResize) window.addEventListener('resize', () => this.updateSize());
+        if (this.config.renderer.onWindowResize) window.addEventListener('resize', this._onResizeCallback = () => this.updateSize());
     }
 
     static getContext(webglCanvas) {
@@ -134,5 +134,11 @@ export default class FrameworkViewer extends EventDispatcher<string> {
         this.camera.aspect = newCanvasSize.width / newCanvasSize.height;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(newCanvasSize.width, newCanvasSize.height);
+    }
+
+    dispose() {
+        this.renderer.dispose();
+        document.body.removeChild(this.container);
+        window.removeEventListener('resize', this._onResizeCallback);
     }
 }

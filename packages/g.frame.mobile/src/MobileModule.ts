@@ -2,6 +2,7 @@ import {AbstractModule, AbstractModuleStatus} from '@verybigthings/g.frame.core'
 import {TouchActionController} from './controllers/TouchActionController';
 
 export class MobileModule extends AbstractModule {
+    private touchActionController: TouchActionController;
     constructor() {
         super();
     }
@@ -16,7 +17,7 @@ export class MobileModule extends AbstractModule {
     async onInit(data: any): Promise<Array<any>> {
         // console.info('Module initialization. Create all instances.');
         return [
-            new TouchActionController({
+            this.touchActionController = new TouchActionController({
                 minRaycasterDistance: 0,
                 maxRaycasterDistance: Infinity
             }, data.viewer.renderer, data.viewer.camera),
@@ -32,7 +33,7 @@ export class MobileModule extends AbstractModule {
     }
 
     onDestroy(): void {
-        console.info('Module destroy function. Use it to destroy and dispose instances.');
+        this.touchActionController.dispose();
     }
 
     onResume(): void {

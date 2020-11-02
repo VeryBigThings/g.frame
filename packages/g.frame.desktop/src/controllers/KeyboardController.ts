@@ -3,11 +3,13 @@ import {Keyboard, KeyboardEvents} from '@verybigthings/g.frame.input';
 
 export class KeyboardController extends Keyboard {
     public keysPressed: Array<string>;
+    private keydownEvent: (event) => void;
+    private keyupEvent: (event) => void;
 
     constructor() {
         super();
         this.keysPressed = [];
-        window.addEventListener('keydown', event => {
+        window.addEventListener('keydown', this.keydownEvent = event => {
             this.fire(KeyboardEvents.keyDown, new ParentEvent(KeyboardEvents.keyDown));
             if (this.keysPressed.indexOf(event.key) === -1) this.keysPressed.push(event.key);
             this.fire(KeyboardEvents.keyPressed, new ParentEvent(KeyboardEvents.keyPressed, {
@@ -20,7 +22,7 @@ export class KeyboardController extends Keyboard {
                 this.fire(KeyboardEvents.onDelete);
             } else if (event.code === 'Escape') {
                 this.fire(KeyboardEvents.onUnFocus);
-            } else if (event.keyCode  === 13) { // this is both Enter buttons
+            } else if (event.keyCode === 13) { // this is both Enter buttons
                 this.fire(KeyboardEvents.onSubmit);
             } else if (event.key.length <= 1) {
                 this.fire(KeyboardEvents.onEnterSymbol, new ParentEvent<KeyboardEvents>(KeyboardEvents.onEnterSymbol, {
@@ -31,11 +33,16 @@ export class KeyboardController extends Keyboard {
             }
 
         });
-        window.addEventListener('keyup', event => {
+        window.addEventListener('keyup', this.keyupEvent = event => {
             const key = event.key;
             this.fire(KeyboardEvents.keyUp, new ParentEvent(KeyboardEvents.keyUp));
             this.keysPressed.splice(this.keysPressed.indexOf(key), 1);
         });
+    }
+
+    dispose() {
+        window.removeEventListener('keydown', this.keydownEvent);
+        window.removeEventListener('keyup', this.keyupEvent);
     }
 
 }
