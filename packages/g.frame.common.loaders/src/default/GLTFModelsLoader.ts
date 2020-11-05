@@ -1,6 +1,7 @@
 import {Loader} from '../Loader';
 import {Object3D} from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
+import {disposeObject3D} from './utils';
 export const GLTF_MODEL = 'gltfModel';
 
 export default class GLTFModelsLoader extends Loader<Object3D> {
@@ -10,6 +11,9 @@ export default class GLTFModelsLoader extends Loader<Object3D> {
         super();
     }
 
+    protected disposeResource(resource: Object3D) {
+        disposeObject3D(resource);
+    }
     protected resourceToPromise(url: string, name: string, crossOrigin?: string): Promise<Object3D> {
 
         return new Promise((resolve, reject) => {

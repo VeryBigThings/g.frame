@@ -78,6 +78,16 @@ export class Loader<T> extends EventDispatcher<LoaderEventsName> {
         return <C>res;
     }
 
+    dispose() {
+        this.off();
+        this.library.forEach((resource, name) => {
+            this.disposeResource(resource);
+            this.library.set(name, null);
+        });
+    }
+
+    protected disposeResource(resource: T) {}
+
     /**
      * @param name string Resource name to set
      * @param resource to set to library of loaded resources

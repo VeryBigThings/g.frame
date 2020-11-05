@@ -11,6 +11,11 @@ export default class TexturesLoader extends Loader<Texture> {
         super();
     }
 
+
+    protected disposeResource(resource: Texture) {
+        resource.dispose();
+    }
+
     protected resourceToPromise(url: string, name: string, crossOrigin?: string): Promise<Texture> {
 
         return new Promise((resolve, reject) => {

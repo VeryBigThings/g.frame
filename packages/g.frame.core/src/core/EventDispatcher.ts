@@ -44,6 +44,8 @@ export class EventDispatcher<T extends string> {
     }
 
     off(eventName?: T, callback?: Function) {
+        if (!eventName && !callback) this.events.splice(0, this.events.length);
+
         this.events.filter(event =>
             (event.eventName === eventName && !callback) ||
             (event.eventName === null && callback && event.callback === callback) ||

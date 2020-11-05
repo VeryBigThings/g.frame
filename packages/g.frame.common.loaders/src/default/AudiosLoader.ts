@@ -10,6 +10,13 @@ export default class AudiosLoader extends Loader<HTMLAudioElement> {
         super();
     }
 
+    protected disposeResource(resource: HTMLAudioElement) {
+        resource.pause();
+        resource.removeAttribute('src'); // empty source
+        resource.load();
+        resource.remove();
+    }
+
     protected resourceToPromise(url: string, name: string, crossOrigin?: string): Promise<HTMLAudioElement> {
 
         return new Promise((resolve, reject) => {

@@ -10,6 +10,13 @@ export default class VideosLoader extends Loader<HTMLVideoElement> {
         super();
     }
 
+    protected disposeResource(resource: HTMLVideoElement) {
+        resource.pause();
+        resource.removeAttribute('src'); // empty source
+        resource.load();
+        resource.remove();
+    }
+
     protected resourceToPromise(url: string, name: string, crossOrigin?: string): Promise<HTMLVideoElement> {
 
         return new Promise((resolve, reject) => {

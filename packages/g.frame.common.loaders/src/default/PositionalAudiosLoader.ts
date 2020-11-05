@@ -21,6 +21,9 @@ export default class PositionalAudiosLoader extends Loader<PositionalAudio> {
 
     }
 
+    protected disposeResource(resource: PositionalAudio) {
+    }
+
     public muteAll(group?: string) {
         this.audioListener.setMasterVolume(0);
     }

@@ -79,6 +79,10 @@ export class LoaderAgent extends Loader<any> {
 
         return loader;
     }
+
+    dispose() {
+        this.loaders.forEach(loader => loader.dispose());
+    }
 }
 
 

@@ -9,9 +9,14 @@ import OBJModelsLoader2 from './default/OBJ2ModelsLoader';
 import OBJModelsLoader from './default/OBJModelsLoader';
 import TexturesLoader from './default/TexturesLoader';
 import VideosLoader from './default/VideosLoader';
+import {Loader} from './Loader';
 
 export class LoadersModule extends AbstractModule {
-    constructor() {
+    private loaders: Array<Loader<any>>;
+
+    constructor(private config: {
+        disposeAssets?: boolean
+    } = {disposeAssets: true}) {
         super();
     }
 
@@ -24,7 +29,7 @@ export class LoadersModule extends AbstractModule {
 
     async onInit(data: any): Promise<Array<any>> {
         // console.info('Module initialization. Create all instances.');
-        return [
+        this.loaders = [
             new AudiosLoader(),
             new PositionalAudiosLoader(),
             new FontsLoader(),
@@ -37,6 +42,7 @@ export class LoadersModule extends AbstractModule {
             new TexturesLoader(),
             new VideosLoader()
         ];
+        return this.loaders.slice();
     }
 
     afterInit(agents: ConstructorInstanceMap<any>): void {
@@ -47,7 +53,8 @@ export class LoadersModule extends AbstractModule {
     }
 
     onDestroy(): void {
-        // console.info('Module destroy function. Use it to destroy and dispose instances.');
+        if (this.config.disposeAssets)
+            this.loaders.forEach(loader => loader.dispose());
     }
 
     onResume(): void {
