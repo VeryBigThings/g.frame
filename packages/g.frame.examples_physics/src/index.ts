@@ -4,13 +4,7 @@ import {TemplateModule} from './Modules/TemplateModule';
 import {Vector3} from 'three';
 import {DesktopModule} from '@verybigthings/g.frame.desktop';
 import {MobileModule} from '@verybigthings/g.frame.mobile';
-import {WindowComponentModule} from '@verybigthings/g.frame.components.window';
-import {ButtonsComponentModule} from '@verybigthings/g.frame.components.buttons';
-import {TextComponentModule} from '@verybigthings/g.frame.components.text';
-import {SlidersComponentModule} from '@verybigthings/g.frame.components.sliders';
 import {InputModule} from '@verybigthings/g.frame.input';
-import {InputComponentModule} from '@verybigthings/g.frame.components.input';
-import {VirtualKeyboardModule} from '@verybigthings/g.frame.components.keyboard';
 import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
 import {LoadersModule} from '@verybigthings/g.frame.common.loaders';
 import {OimoPhysicsModule} from '@verybigthings/g.frame.physics.oimo';
@@ -31,16 +25,9 @@ class App {
                 new TemplateModule(),
                 new DesktopModule(),
                 new MobileModule(),
-                new WindowComponentModule(),
-                new InputComponentModule(),
-                new ButtonsComponentModule(),
-                new TextComponentModule(),
-                new SlidersComponentModule(),
                 new InputModule(),
                 new LoadersModule(),
-                new VirtualKeyboardModule(),
                 new OculusQuestModule(),
-                // new DropdownComponentModule(),
                 new OimoPhysicsModule(),
                 new OculusGoModule(),
             ],
