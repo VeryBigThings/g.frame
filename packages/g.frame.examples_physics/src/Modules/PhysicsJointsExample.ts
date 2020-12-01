@@ -1,11 +1,4 @@
-import App from '../ts/main';
-import {Level, ParentEvent, Viewer} from '../../../src';
-import {config} from '../ts/config';
-import {lines, triangles} from '../../../src/ts/libs/oimo/OIMO_debugger';
 import {BoxGeometry, DirectionalLight, Mesh, MeshBasicMaterial, SphereGeometry, Vector3} from 'three';
-import OimoUtil from '../../../src/ts/libs/oimo/OimoUtil';
-import {PhysicMeshUpdater} from '../../../src/ts/libs/oimo/PhysicMeshUpdater';
-import {OimoMousePuller} from '../../../src/ts/libs/oimo/OimoMousePuller';
 import {oimo} from 'oimophysics';
 import Vec3 = oimo.common.Vec3;
 import RigidBody = oimo.dynamics.rigidbody.RigidBody;
@@ -19,17 +12,17 @@ import RotationalLimitMotor = oimo.dynamics.constraint.joint.RotationalLimitMoto
 import SpringDamper = oimo.dynamics.constraint.joint.SpringDamper;
 import TranslationalLimitMotor = oimo.dynamics.constraint.joint.TranslationalLimitMotor;
 import DebugDraw = oimo.dynamics.common.DebugDraw;
+import {PhysicsExample} from "./PhysicsExample";
+import {ActionController} from "@verybigthings/g.frame.common.action_controller";
 
-export default class PhysicsJointsExample extends Level {
-    public app: App;
-
+export default class PhysicsJointsExample extends PhysicsExample {
     // physic
     private world: World;
 
     private decal: Vector3;
 
-    constructor(app: App) {
-        super(config);
+    constructor() {
+        super();
 
         const directionLight = new DirectionalLight(0xffffff, 0.2);
         directionLight.position.set(6, 100, 10);
@@ -39,8 +32,8 @@ export default class PhysicsJointsExample extends Level {
         this.cameraTargetNormal = new Vector3(0, 1.9564181483126553, 10.27582224845674);
     }
 
-    init(event: ParentEvent) {
-        super.init(event);
+    init(actionController: ActionController) {
+        super.init(actionController);
 
         this.decal = new Vector3(0, 1, 0);
 

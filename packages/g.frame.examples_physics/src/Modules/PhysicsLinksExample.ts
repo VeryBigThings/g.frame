@@ -1,37 +1,30 @@
-import App from '../ts/main';
-import {Level, ParentEvent, Viewer} from '../../../src';
-import {config} from '../ts/config';
-import {lines, triangles} from '../../../src/ts/libs/oimo/OIMO_debugger';
 import {BoxGeometry, DirectionalLight, Mesh, MeshBasicMaterial, SphereGeometry, Vector3} from 'three';
-import OimoUtil from '../../../src/ts/libs/oimo/OimoUtil';
-import {PhysicMeshLinkType, PhysicMeshUpdater} from '../../../src/ts/libs/oimo/PhysicMeshUpdater';
-import {OimoMousePuller} from '../../../src/ts/libs/oimo/OimoMousePuller';
 import {oimo} from 'oimophysics';
 import Vec3 = oimo.common.Vec3;
 import RigidBody = oimo.dynamics.rigidbody.RigidBody;
 import OBoxGeometry = oimo.collision.geometry.BoxGeometry;
 import OSphereGeometry = oimo.collision.geometry.SphereGeometry;
 import BroadPhaseType = oimo.collision.broadphase.BroadPhaseType;
-import RigidBodyType = oimo.dynamics.rigidbody.RigidBodyType;
 import MathUtil = oimo.common.MathUtil;
 import World = oimo.dynamics.World;
 import RotationalLimitMotor = oimo.dynamics.constraint.joint.RotationalLimitMotor;
 import SpringDamper = oimo.dynamics.constraint.joint.SpringDamper;
-import TranslationalLimitMotor = oimo.dynamics.constraint.joint.TranslationalLimitMotor;
 import DebugDraw = oimo.dynamics.common.DebugDraw;
-import {vec3FromVector3} from '../../../src/ts/utils/PhysUtils';
+import {PhysicsExample} from "./PhysicsExample";
+import {ActionController} from "@verybigthings/g.frame.common.action_controller";
+import {OimoMousePuller} from "@verybigthings/g.frame.physics.oimo/build/main/three.utils/OimoMousePuller";
+import {lines, PhysicMeshLinkType, PhysicMeshUpdater, triangles} from "@verybigthings/g.frame.physics.oimo";
+import OimoUtil from "@verybigthings/g.frame.physics.oimo/build/main/oimo.utils/OimoUtil";
 
 
-export default class PhysicsLinksExample extends Level {
-    public app: App;
-
+export default class PhysicsLinksExample extends PhysicsExample {
     // physic
     private world: World;
 
     private decal: Vector3;
 
-    constructor(app: App) {
-        super(config);
+    constructor() {
+        super();
 
         const directionLight = new DirectionalLight(0xffffff, 0.2);
         directionLight.position.set(6, 100, 10);
@@ -41,8 +34,8 @@ export default class PhysicsLinksExample extends Level {
         this.cameraTargetNormal = new Vector3(0, 1.9564181483126553, 10.27582224845674);
     }
 
-    init(event: ParentEvent) {
-        super.init(event);
+    init(actionController: ActionController) {
+        super.init(actionController);
 
         this.decal = new Vector3(0, 1, 0);
 
@@ -55,8 +48,8 @@ export default class PhysicsLinksExample extends Level {
 
     initPhysic() {
 
-        Viewer.scene.add(lines);
-        Viewer.scene.add(triangles);
+        this.addObject(lines);
+        this.addObject(triangles);
 
 
         this.world = new World(BroadPhaseType.BVH, new Vec3(0, -9.8, 0));
@@ -67,7 +60,7 @@ export default class PhysicsLinksExample extends Level {
         }
         this.world.getDebugDraw().drawJointLimits = true;
 
-        Viewer.on('update', (event) => {
+        this.on('update', (event) => {
             this.world.step(1 / 60);
             this.world.debugDraw();
         });
@@ -81,7 +74,7 @@ export default class PhysicsLinksExample extends Level {
         this.createBallChainRotation(new Vec3(-2, 5, -2), 0.4, 7);
 
 
-        const objects = this.addSphere(this.world, vec3FromVector3(new Vector3(0, 20, 0)), 1, false, PhysicMeshLinkType.MESH_RIGID_BODY_POSITION);
+        const objects = this.addSphere(this.world, OimoUtil.vec3FromVector3(new Vector3(0, 20, 0)), 1, false, PhysicMeshLinkType.MESH_RIGID_BODY_POSITION);
         console.log('objects', objects);
     }
 
@@ -181,13 +174,13 @@ export default class PhysicsLinksExample extends Level {
     }
 
 
-    startAnimation(): Promise<any> {
-        return super.startAnimation().then(() => {
-        });
-    }
-
-    endAnimation(): Promise<any> {
-        return super.endAnimation().then(() => {
-        });
-    }
+    // startAnimation(): Promise<any> {
+    //     return super.startAnimation().then(() => {
+    //     });
+    // }
+    //
+    // endAnimation(): Promise<any> {
+    //     return super.endAnimation().then(() => {
+    //     });
+    // }
 }

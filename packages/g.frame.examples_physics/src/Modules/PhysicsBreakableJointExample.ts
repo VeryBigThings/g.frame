@@ -1,10 +1,4 @@
-import App from '../ts/main';
-import {ActionControllerEvent, ActionControllerEventName, Level, ParentEvent, Viewer} from '../../../src';
-import {config} from '../ts/config';
-import {beforeRender, lines, triangles} from '../../../src/ts/libs/oimo/OIMO_debugger';
 import {BoxGeometry, DirectionalLight, Mesh, Vector3} from 'three';
-import OimoUtil from '../../../src/ts/libs/oimo/OimoUtil';
-import {PhysicMeshUpdater} from '../../../src/ts/libs/oimo/PhysicMeshUpdater';
 import {oimo} from 'oimophysics';
 import World = oimo.dynamics.World;
 import Vec3 = oimo.common.Vec3;
@@ -12,30 +6,31 @@ import RigidBody = oimo.dynamics.rigidbody.RigidBody;
 import OBoxGeometry = oimo.collision.geometry.BoxGeometry;
 import BroadPhaseType = oimo.collision.broadphase.BroadPhaseType;
 import DebugDraw = oimo.dynamics.common.DebugDraw;
-import {OimoMousePuller} from '../../../src/ts/libs/oimo/OimoMousePuller';
 import Joint = oimo.dynamics.constraint.joint.Joint;
+import {lines, triangles, OimoMousePuller} from "@verybigthings/g.frame.physics.oimo";
+import {PhysicsExample} from "./PhysicsExample";
+import {ActionController} from "@verybigthings/g.frame.common.action_controller";
+import OimoUtil from "@verybigthings/g.frame.physics.oimo/build/main/oimo.utils/OimoUtil";
 
-export default class PhysicsJointsExample extends Level {
-    public app: App;
-
+export default class PhysicsJointsExample extends PhysicsExample {
     // physic
     private world: World;
 
     private decal: Vector3;
 
-    constructor(app: App) {
-        super(config);
+    constructor() {
+        super();
 
         const directionLight = new DirectionalLight(0xffffff, 0.2);
         directionLight.position.set(6, 100, 10);
         this.addObject(directionLight);
 
-        this.cameraPosition = new Vector3(0, 2.271217166830045, 11.00889126950031);
-        this.cameraTargetNormal = new Vector3(0, 1.9564181483126553, 10.27582224845674);
+        // this.cameraPosition = new Vector3(0, 2.271217166830045, 11.00889126950031);
+        // this.cameraTargetNormal = new Vector3(0, 1.9564181483126553, 10.27582224845674);
     }
 
-    init(event: ParentEvent) {
-        super.init(event);
+    init(actionController: ActionController) {
+        super.init(actionController);
 
         this.decal = new Vector3(0, 1, 0);
 
@@ -48,8 +43,8 @@ export default class PhysicsJointsExample extends Level {
 
     initPhysic() {
 
-        Viewer.scene.add(lines);
-        Viewer.scene.add(triangles);
+        this.addObject(lines);
+        this.addObject(triangles);
 
 
         this.world = new World(BroadPhaseType.BVH, new Vec3(0, -9, 0));
@@ -59,7 +54,7 @@ export default class PhysicsJointsExample extends Level {
         }
         this.world.getDebugDraw().drawJointLimits = true;
 
-        Viewer.on('update', (event) => {
+        this.on('update', (event) => {
             this.world.step(1 / 30);
             this.world.debugDraw();
         });
