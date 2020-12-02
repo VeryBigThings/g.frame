@@ -34,9 +34,11 @@
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
-    "@verybigthings/g.frame.core": "^0.1.6",
-    "oimophysics": "^1.2.2",
-    "three": "^0.114.0"
+    "oimophysics": "^1.2.2"
+  },
+  "peerDependencies": {
+    "three": "^0.123.0",
+    "@verybigthings/g.frame.core": "^0.1.6"
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
