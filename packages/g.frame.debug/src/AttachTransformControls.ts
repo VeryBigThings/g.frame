@@ -1,23 +1,29 @@
-import {Object3D} from 'three';
+import {Camera, Object3D, Scene} from 'three';
 import {TransformControls} from 'three/examples/jsm/controls/TransformControls';
 import {OrbitControls} from '@verybigthings/g.frame.desktop';
 
 export default class AttachTransformControls {
     public currentAttachedObject: Object3D;
     public inited: boolean = false;
-    private scene: any;
-    private controls: any;
+    private scene: Scene;
+    private camera: Camera;
+    private controls: OrbitControls;
     private domElement: any;
     private transformControls: TransformControls;
 
     constructor() {
     }
 
-    public init(domElement: any, controls: OrbitControls, scene: any) {
+    public init(domElement: any, scene: any, camera: any, controls?: OrbitControls) {
         this.domElement = domElement;
-        this.controls = controls;
         this.scene = scene;
+        this.camera = camera;
+        this.controls = controls || this.controls;
         this.initTransfromControls();
+    }
+
+    setControls(controls: OrbitControls) {
+        this.controls = controls;
     }
 
     public attach(object?: Object3D) {
@@ -40,8 +46,7 @@ export default class AttachTransformControls {
         if (this.inited) return;
 
         this.inited = true;
-        // @ts-ignore
-        this.transformControls = new TransformControls(camera, domElement);
+        this.transformControls = new TransformControls(this.camera, this.domElement);
         const transformControls = this.transformControls;
 
         this.transformControls.addEventListener('dragging-changed', function (event) {

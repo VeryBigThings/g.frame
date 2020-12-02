@@ -34,10 +34,10 @@
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
-    "@types/dat.gui": "^0.7.5",
-    "@verybigthings/g.frame.action_controller": "^0.1.3",
-    "@verybigthings/g.frame.core": "^0.1.5",
-    "@verybigthings/g.frame.desktop": "^0.1.7",
+    "@types/dat.gui": "0.7.5",
+    "@verybigthings/g.frame.core": "0.1.6",
+    "@verybigthings/g.frame.common.action_controller": "0.1.4",
+    "@verybigthings/g.frame.desktop": "0.1.7",
     "three": "^0.114.0"
   },
   "devDependencies": {

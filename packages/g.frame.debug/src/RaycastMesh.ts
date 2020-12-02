@@ -1,17 +1,16 @@
-import {Object3D, Raycaster} from 'three';
-import {ActionController, ActionControllerEvent} from '@verybigthings/g.frame.common.action_controller';
-import {ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
+import {Object3D, Raycaster, Scene} from 'three';
+import {ActionController, ActionControllerEvent, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
 
 export default class RaycastMesh {
-    private actionController: any;
-    private scene: any;
+    private actionController: ActionController;
+    private scene: Scene;
     private inited: boolean = false;
     private raycastedViewerModules: any = 0;
     private raycastedMeshes: any = 0;
 
     constructor() {}
 
-    init(actionController: ActionController, scene: any) {
+    init(actionController: ActionController, scene: Scene) {
         this.actionController = actionController;
         this.scene = scene;
     }
