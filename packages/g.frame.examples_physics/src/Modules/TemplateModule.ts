@@ -1,17 +1,15 @@
 import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
-import {TemplateB} from './TemplateB';
-import {TemplateC} from './TemplateC';
 import {Object3D} from 'three';
-import {Loader} from '@verybigthings/g.frame.common.loaders';
-import {PickingController} from '@verybigthings/g.frame.common.picking_controller';
-import QuestHandView from './QuestHandView';
 import {ActionController} from '@verybigthings/g.frame.common.action_controller';
+import {PhysicsExample} from "./PhysicsExample";
+import PhysicsBreakableJointExample from "./PhysicsBreakableJointExample";
+import {OimoPhysicsModule, PhysicMeshUpdater, WorldFactory} from "@verybigthings/g.frame.physics.oimo";
 
 const delay = async time => new Promise(resolve => setTimeout(resolve, time));
 
 
 export class TemplateModule extends AbstractModule {
-    public templateB: TemplateB;
+    public example: PhysicsExample;
     private readonly container: Object3D;
 
     constructor() {
@@ -30,8 +28,8 @@ export class TemplateModule extends AbstractModule {
     async onInit(data: any): Promise<Array<any>> {
         console.info('Module initialization. Create all instances.');
         return [
-            this.templateB = new TemplateB(this.container),
-            new TemplateC(),
+            this.example = new PhysicsBreakableJointExample(),
+            // new TemplateC(),
         ];
     }
 
@@ -40,15 +38,16 @@ export class TemplateModule extends AbstractModule {
     }
 
     afterInit(agents: ConstructorInstanceMap<any>, modules: ConstructorInstanceMap<AbstractModule>): void {
-        this.templateB.prepareResources(agents.get(Loader));
-        this.templateB.setPickingController(agents.get(PickingController));
-        this.templateB.setActionController(agents.get(ActionController));
+        console.log(modules);
+        const physicsModule = (<OimoPhysicsModule>modules.get(OimoPhysicsModule));
+        // @ts-ignore
+        this.example.init(agents.get(ActionController), (<PhysicMeshUpdater>physicsModule.physicMeshUpdater), (<WorldFactory>physicsModule.worldFactory), this.container);
 
         console.info('Module after initialization. Here you can start save the World.');
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {
-        // console.info('Module on update function. Use it to update instances.');
+        this.example.update();
     }
 
     onDestroy(): void {

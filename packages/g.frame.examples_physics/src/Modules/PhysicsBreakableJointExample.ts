@@ -1,4 +1,4 @@
-import {BoxGeometry, DirectionalLight, Mesh, Vector3} from 'three';
+import {BoxGeometry, DirectionalLight, Mesh, Object3D, Vector3} from 'three';
 import {oimo} from 'oimophysics';
 import World = oimo.dynamics.World;
 import Vec3 = oimo.common.Vec3;
@@ -7,12 +7,16 @@ import OBoxGeometry = oimo.collision.geometry.BoxGeometry;
 import BroadPhaseType = oimo.collision.broadphase.BroadPhaseType;
 import DebugDraw = oimo.dynamics.common.DebugDraw;
 import Joint = oimo.dynamics.constraint.joint.Joint;
-import {lines, triangles, OimoMousePuller} from "@verybigthings/g.frame.physics.oimo";
+import {lines, triangles, OimoMousePuller, PhysicMeshUpdater, WorldFactory} from "@verybigthings/g.frame.physics.oimo";
 import {PhysicsExample} from "./PhysicsExample";
-import {ActionController} from "@verybigthings/g.frame.common.action_controller";
+import {
+    ActionController,
+    ActionControllerEvent,
+    ActionControllerEventName
+} from "@verybigthings/g.frame.common.action_controller";
 import OimoUtil from "@verybigthings/g.frame.physics.oimo/build/main/oimo.utils/OimoUtil";
 
-export default class PhysicsJointsExample extends PhysicsExample {
+export default class PhysicsBreakableJointExample extends PhysicsExample {
     // physic
     private world: World;
 
@@ -29,8 +33,8 @@ export default class PhysicsJointsExample extends PhysicsExample {
         // this.cameraTargetNormal = new Vector3(0, 1.9564181483126553, 10.27582224845674);
     }
 
-    init(actionController: ActionController) {
-        super.init(actionController);
+    init(actionController: ActionController, physicMeshUpdater: PhysicMeshUpdater, worldFactory: WorldFactory, container: Object3D) {
+        super.init(actionController, physicMeshUpdater, worldFactory, container);
 
         this.decal = new Vector3(0, 1, 0);
 
@@ -47,20 +51,15 @@ export default class PhysicsJointsExample extends PhysicsExample {
         this.addObject(triangles);
 
 
-        this.world = new World(BroadPhaseType.BVH, new Vec3(0, -9, 0));
+        this.world = this.worldFactory.get({
+            broadPhaseType: BroadPhaseType.BVH,
+            gravity: new Vec3(0, -9, 0)
+        });
 
         if (!this.world.getDebugDraw()) {
             this.world.setDebugDraw(new DebugDraw());
         }
         this.world.getDebugDraw().drawJointLimits = true;
-
-        this.on('update', (event) => {
-            this.world.step(1 / 30);
-            this.world.debugDraw();
-        });
-
-
-
     }
 
     addDemo() {
@@ -85,9 +84,10 @@ export default class PhysicsJointsExample extends PhysicsExample {
             chain.push(obj.physics);
 
             if (obj.meshBox) this.actionController.on(ActionControllerEventName.click, obj.meshBox, (event: ActionControllerEvent) => {
-                const pos = event.point.clone();
-                const normal = event.object.localToWorld(event.face.normal.clone()).sub(event.object.localToWorld(new Vector3())).normalize().multiplyScalar(-0.05);
-                obj.physics.applyImpulse(new Vec3(normal.x, normal.y, normal.z), new Vec3(pos.x, pos.y, pos.z));
+                console.log(event);
+                // const pos = event.point.clone();
+                // const normal = event.object.localToWorld(event.face.normal.clone()).sub(event.object.localToWorld(new Vector3())).normalize().multiplyScalar(-0.05);
+                // obj.physics.applyImpulse(new Vec3(normal.x, normal.y, normal.z), new Vec3(pos.x, pos.y, pos.z));
             });
 
             chain[i].setLinearVelocity(this.randVec3In(-1, 1).scaleEq(0.05));
@@ -119,7 +119,7 @@ export default class PhysicsJointsExample extends PhysicsExample {
 
         const physics = OimoUtil.addRigidBody(w, center, new OBoxGeometry(new Vec3(halfExtents.x / 2, halfExtents.y / 2, halfExtents.z / 2)), wall);
         meshBox.userData.physics = physics;
-        PhysicMeshUpdater.register(meshBox);
+        this.physicMeshUpdater.register(meshBox);
         return {
             physics: physics,
             meshBox: meshBox
@@ -132,14 +132,8 @@ export default class PhysicsJointsExample extends PhysicsExample {
         return new Vec3(min + Math.random() * (max - min), min + Math.random() * (max - min), min + Math.random() * (max - min));
     }
 
-
-    startAnimation(): Promise<any> {
-        return super.startAnimation().then(() => {
-        });
-    }
-
-    endAnimation(): Promise<any> {
-        return super.endAnimation().then(() => {
-        });
+    update(): void {
+            this.world.step(1 / 30);
+            this.world.debugDraw();
     }
 }
