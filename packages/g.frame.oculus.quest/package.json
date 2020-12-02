@@ -13,7 +13,7 @@
     "build:assets": "copyfiles -f -s ./src/assets/models/* ./build/main/assets/models/",
     "clean": "trash build test",
     "test": "jest --passWithNoTests",
-    "lint": "tslint 'src/**/*.ts?(x)'",
+    "lint": "tslint \"src/**/*.ts?(x)\"",
     "docs": "trash docs && typedoc && touch docs/.nojekyll"
   },
   "repository": {

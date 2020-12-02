@@ -2,10 +2,10 @@ import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@ver
 import AttachTransformControls from './AttachTransformControls';
 import RaycastMesh from './RaycastMesh';
 import {DebugGUI} from './DebugGUI';
-import {OrbitControls} from "@verybigthings/g.frame.desktop";
-import GlobalNamespace from "./GlobalNamespace";
-import {ActionController} from "@verybigthings/g.frame.common.action_controller";
-import FrameworkViewer from "@verybigthings/g.frame.core/build/main/rendering/Viewer";
+import {OrbitControls} from '@verybigthings/g.frame.desktop';
+import GlobalNamespace from './GlobalNamespace';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
+import FrameworkViewer from '@verybigthings/g.frame.core/build/main/rendering/Viewer';
 
 export class DebugModule extends AbstractModule {
     public attachTransformControls: AttachTransformControls;

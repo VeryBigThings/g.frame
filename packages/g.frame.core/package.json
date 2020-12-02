@@ -12,7 +12,7 @@
     "build:main": "tsc -p tsconfig.json",
     "clean": "trash build test",
     "test": "jest --passWithNoTests",
-    "lint": "tslint 'src/**/*.ts?(x)'",
+    "lint": "tslint \"src/**/*.ts?(x)\"",
     "docs": "trash docs && typedoc && touch docs/.nojekyll"
   },
   "repository": {
