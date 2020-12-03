@@ -294,7 +294,7 @@ export class ActionController extends MeshEventDispatcher {
                 if (event.eventName === ActionControllerEventName.out
                     && event.object.userData.isOver[controllerNumber]) {
                     const intersection = intersects.find(intersectionEl => intersectionEl.object === event.object);
-                    if (intersection) {
+                    if (!intersection) {
                         this.fire(ActionControllerEventName.out, event.object, new ActionControllerEvent(ActionControllerEventName.out, {
                             controllerNumber: controllerNumber,
                             context: this,
