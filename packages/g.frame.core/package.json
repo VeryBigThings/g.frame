@@ -51,7 +51,8 @@
     "ts-jest": "^25.2.1",
     "tslint": "^6.1.0",
     "typedoc": "^0.17.4",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "three": "^0.123.0"
   },
   "gitHead": "3c512de2b33f1d86fc1fe9383e311c63b75e1557"
 }

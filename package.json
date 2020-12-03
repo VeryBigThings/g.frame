@@ -47,8 +47,5 @@
     "typedoc-plugin-lerna-packages": "^0.3.0",
     "typescript": "^3.8.3"
   },
-  "dependencies": {
-    "three": "^0.123.0",
-    "@verybigthings/g.frame.core": "^0.1.6"
-  }
+  "dependencies": {}
 }
