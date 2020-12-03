@@ -226,10 +226,7 @@ export class PickingController extends MeshEventDispatcher {
             } else {
                 this.onEmptyControllerMove();
             }
-
         }
-
-
     }
 
     protected onObjectPick(pickedObject: Object3D) {
