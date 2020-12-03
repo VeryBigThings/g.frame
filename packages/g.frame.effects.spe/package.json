@@ -36,9 +36,11 @@
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
     "@verybigthings/g.frame.common.loaders": "^0.1.7",
-    "@verybigthings/g.frame.core": "^0.1.6",
-    "@verybigthings/shader-particle-engine": "1.0.11",
-    "three": "^0.114.0"
+    "@verybigthings/shader-particle-engine": "1.0.11"
+  },
+  "peerDependencies": {
+    "three": "^0.123.0",
+    "@verybigthings/g.frame.core": "^0.1.6"
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
@@ -50,7 +52,9 @@
     "ts-jest": "^25.2.1",
     "tslint": "^6.1.0",
     "typedoc": "^0.17.4",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "three": "^0.123.0",
+    "@verybigthings/g.frame.core": "^0.1.6"
   },
   "gitHead": "2adcda2e0de0598d1351dea6068d39f70edc7f99"
 }

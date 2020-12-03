@@ -67,7 +67,8 @@ export class XRManager extends EventDispatcher<XREvent> {
      * Creates "Enter VR" button
      */
     protected createButton() {
-        const button = VRButton.createButton(this.renderer, { referenceSpaceType: 'local' });
+        //  todo https://github.com/mrdoob/three.js/pull/19174
+        const button = VRButton.createButton(this.renderer);
         document.body.appendChild(button);
     }
 
