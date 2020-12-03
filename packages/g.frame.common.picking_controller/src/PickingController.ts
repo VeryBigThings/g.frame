@@ -169,7 +169,7 @@ export class PickingController extends MeshEventDispatcher {
             }
         } else {
             let objectsToRaycast = [...new Set(this.events
-                .map(el => el.mesh)
+                .map(el => el.object)
                 .filter(mesh => {
                     return this.currentValues.map(el => el.currentPickedObject).indexOf(mesh) === -1;
                 })

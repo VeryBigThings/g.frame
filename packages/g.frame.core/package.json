@@ -33,6 +33,8 @@
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
+  },
+  "peerDependencies": {
     "three": "^0.123.0"
   },
   "devDependencies": {

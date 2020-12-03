@@ -33,8 +33,7 @@
     "registry": "https://npm.pkg.github.com/@VeryBigThings"
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
-  "dependencies": {
-  },
+  "dependencies": {},
   "peerDependencies": {
     "three": "^0.123.0",
     "@verybigthings/g.frame.core": "^0.1.6"
