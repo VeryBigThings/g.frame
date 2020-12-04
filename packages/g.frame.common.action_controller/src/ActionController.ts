@@ -144,14 +144,18 @@ export class ActionController extends MeshEventDispatcher {
      * @param event
      */
     fire(eventName: ActionControllerEventName, mesh?: Object3D, event?: ActionControllerEvent) {
-        super.fire(eventName, mesh, event);
-        if (!mesh) return;
+        if (!mesh) {
+            super.fire(eventName, mesh, event);
+            return;
+        }
 
         if (eventName === ActionControllerEventName.buttonDown) mesh.userData.isButtonDown[event.data.controllerNumber] = true;
         if (eventName === ActionControllerEventName.buttonUp) mesh.userData.isButtonDown[event.data.controllerNumber] = false;
 
         if (eventName === ActionControllerEventName.over) mesh.userData.isOver[event.data.controllerNumber] = true;
         if (eventName === ActionControllerEventName.out) mesh.userData.isOver[event.data.controllerNumber] = false;
+
+        super.fire(eventName, mesh, event);
     }
 
     /**
@@ -289,11 +293,14 @@ export class ActionController extends MeshEventDispatcher {
                 // Check if there is out event
                 if (event.eventName === ActionControllerEventName.out
                     && event.object.userData.isOver[controllerNumber]) {
-                    this.fire(ActionControllerEventName.out, event.object, new ActionControllerEvent(ActionControllerEventName.out, {
-                        controllerNumber: controllerNumber,
-                        context: this,
-                        ray: raycaster.ray.clone()
-                    }));
+                    const intersection = intersects.find(intersectionEl => intersectionEl.object === event.object);
+                    if (!intersection) {
+                        this.fire(ActionControllerEventName.out, event.object, new ActionControllerEvent(ActionControllerEventName.out, {
+                            controllerNumber: controllerNumber,
+                            context: this,
+                            ray: raycaster.ray.clone()
+                        }));
+                    }
                 }
             }
         }
