@@ -35,6 +35,7 @@
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
     "@verybigthings/g.frame.core": "^0.1.6",
+    "@verybigthings/g.frame.common.action_controller": "0.1.5",
     "oimophysics": "^1.2.2",
     "three": "^0.114.0"
   },

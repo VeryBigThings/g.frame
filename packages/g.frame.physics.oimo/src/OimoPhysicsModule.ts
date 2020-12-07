@@ -3,6 +3,7 @@ import {PhysicMeshUpdater} from './three.utils';
 import {AbstractModule, AbstractModuleStatus} from '@verybigthings/g.frame.core';
 import {WorldFactory} from './WorldFactory';
 import {afterRender, beforeRender, lines, triangles} from './three.debugger';
+import {OimoMousePuller} from "./three.utils/OimoMousePuller";
 
 const delay = async time => new Promise(resolve => setTimeout(resolve, time));
 
@@ -11,6 +12,7 @@ export class OimoPhysicsModule extends AbstractModule {
     private readonly container: Object3D;
     private physicMeshUpdater: PhysicMeshUpdater;
     private worldFactory: WorldFactory;
+    private oimoMousePuller: OimoMousePuller;
 
     constructor() {
         super();
@@ -30,7 +32,8 @@ export class OimoPhysicsModule extends AbstractModule {
         console.info('Module initialization. Create all instances.');
         return [
             this.physicMeshUpdater = new PhysicMeshUpdater(),
-            this.worldFactory = new WorldFactory()
+            this.worldFactory = new WorldFactory(),
+            this.oimoMousePuller = new OimoMousePuller(),
         ];
     }
 

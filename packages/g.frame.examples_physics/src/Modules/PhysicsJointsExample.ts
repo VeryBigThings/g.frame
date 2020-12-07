@@ -19,9 +19,6 @@ import {OimoMousePuller} from "@verybigthings/g.frame.physics.oimo/build/main/th
 import OimoUtil from "@verybigthings/g.frame.physics.oimo/build/main/oimo.utils/OimoUtil";
 
 export default class PhysicsJointsExample extends PhysicsExample {
-    // physic
-    private world: World;
-
     private decal: Vector3;
 
     constructor() {
@@ -35,27 +32,19 @@ export default class PhysicsJointsExample extends PhysicsExample {
         this.cameraTargetNormal = new Vector3(0, 1.9564181483126553, 10.27582224845674);
     }
 
-    init(actionController: ActionController, physicMeshUpdater: PhysicMeshUpdater, worldFactory: WorldFactory, container: Object3D) {
-        super.init(actionController, physicMeshUpdater, worldFactory, container);
+    init(actionController: ActionController, physicMeshUpdater: PhysicMeshUpdater, world: World, mousePuller: OimoMousePuller, container: Object3D) {
+        super.init(actionController, physicMeshUpdater, world, mousePuller, container);
 
         this.decal = new Vector3(0, 1, 0);
 
         this.initPhysic();
         this.addDemo();
-
-        OimoMousePuller.init(this.world);
     }
 
 
     initPhysic() {
-
         this.addObject(lines);
         this.addObject(triangles);
-
-        this.world = this.worldFactory.get({
-            broadPhaseType: BroadPhaseType.BVH,
-            gravity: new Vec3(0, -9, 0)
-        });
 
         if (!this.world.getDebugDraw()) {
             this.world.setDebugDraw(new DebugDraw());

@@ -21,7 +21,7 @@
     "@verybigthings/g.frame.oculus.go": "0.1.4",
     "@verybigthings/g.frame.oculus.quest": "0.1.9",
     "@verybigthings/g.frame.physics.oimo": "0.1.4",
-    "three": "0.114.0"
+    "three": "^0.114.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",

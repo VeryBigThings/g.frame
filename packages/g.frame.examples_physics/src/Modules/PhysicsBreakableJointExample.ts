@@ -17,9 +17,6 @@ import {
 import OimoUtil from "@verybigthings/g.frame.physics.oimo/build/main/oimo.utils/OimoUtil";
 
 export default class PhysicsBreakableJointExample extends PhysicsExample {
-    // physic
-    private world: World;
-
     private decal: Vector3;
 
     constructor() {
@@ -33,28 +30,19 @@ export default class PhysicsBreakableJointExample extends PhysicsExample {
         // this.cameraTargetNormal = new Vector3(0, 1.9564181483126553, 10.27582224845674);
     }
 
-    init(actionController: ActionController, physicMeshUpdater: PhysicMeshUpdater, worldFactory: WorldFactory, container: Object3D) {
-        super.init(actionController, physicMeshUpdater, worldFactory, container);
+    init(actionController: ActionController, physicMeshUpdater: PhysicMeshUpdater, world: World, mousePuller: OimoMousePuller, container: Object3D) {
+        super.init(actionController, physicMeshUpdater, world, mousePuller, container);
 
         this.decal = new Vector3(0, 1, 0);
 
         this.initPhysic();
         this.addDemo();
-
-        OimoMousePuller.init(this.world);
     }
 
 
     initPhysic() {
-
         this.addObject(lines);
         this.addObject(triangles);
-
-
-        this.world = this.worldFactory.get({
-            broadPhaseType: BroadPhaseType.BVH,
-            gravity: new Vec3(0, -9, 0)
-        });
 
         if (!this.world.getDebugDraw()) {
             this.world.setDebugDraw(new DebugDraw());
@@ -67,27 +55,30 @@ export default class PhysicsBreakableJointExample extends PhysicsExample {
 
         const ground = this.addBox(this.world, new Vec3(0, -thickness, 0), new Vec3(7, thickness, 7), true);
 
-
         const chain: Array<RigidBody> = [];
 
         chain.push(OimoUtil.addSphere(this.world, new Vec3(0, 6, 0), 0.3, true));
         for (let i = 0; i < 12; i++) {
             let obj;
 
-
-            if (i % 2 === 0) obj = {
-                physics: OimoUtil.addSphere(this.world, new Vec3(0, (12 - i + 1) * 0.4, 0), 0.25, false),
-                meshBox: null
-            };
-            else obj = this.addBox(this.world, new Vec3(0, (12 - i + 1) * 0.4, 0), new Vec3(0.25, 0.25, 0.25), false);
+            if (i % 2 === 0) {
+                obj = {
+                    physics: OimoUtil.addSphere(this.world, new Vec3(0, (12 - i + 1) * 0.4, 0), 0.25, false),
+                    meshBox: null,
+                }
+            } else {
+                obj = this.addBox(this.world, new Vec3(0, (12 - i + 1) * 0.4, 0), new Vec3(0.25, 0.25, 0.25), false);
+            }
 
             chain.push(obj.physics);
 
             if (obj.meshBox) this.actionController.on(ActionControllerEventName.click, obj.meshBox, (event: ActionControllerEvent) => {
-                console.log(event);
-                // const pos = event.point.clone();
-                // const normal = event.object.localToWorld(event.face.normal.clone()).sub(event.object.localToWorld(new Vector3())).normalize().multiplyScalar(-0.05);
-                // obj.physics.applyImpulse(new Vec3(normal.x, normal.y, normal.z), new Vec3(pos.x, pos.y, pos.z));
+                const pos = event.data.intersection.point.clone();
+                const normal = event.data.intersection.object.localToWorld(event.data.intersection.face.normal.clone())
+                    .sub(event.data.intersection.object.localToWorld(new Vector3()))
+                    .normalize()
+                    .multiplyScalar(-0.05);
+                obj.physics.applyImpulse(new Vec3(normal.x, normal.y, normal.z), new Vec3(pos.x, pos.y, pos.z));
             });
 
             chain[i].setLinearVelocity(this.randVec3In(-1, 1).scaleEq(0.05));
@@ -113,6 +104,7 @@ export default class PhysicsBreakableJointExample extends PhysicsExample {
 
     public addBox(w: World, center: Vec3, halfExtents: Vec3, wall: boolean): { physics: RigidBody, meshBox: Mesh } {
         const meshBox = new Mesh(new BoxGeometry(halfExtents.x, halfExtents.y, halfExtents.z));
+        // meshBox.visible = false;
         meshBox.position.set(center.x, center.y, center.z);
 
         this.addObject(meshBox);
