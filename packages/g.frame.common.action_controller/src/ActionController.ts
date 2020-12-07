@@ -99,8 +99,8 @@ export class ActionController extends MeshEventDispatcher {
                 (event.eventName === eventName
                     || (eventName === ActionControllerEventName.move
                         && (event.eventName === ActionControllerEventName.over || event.eventName === ActionControllerEventName.out))
-                    || (wasClick && event.eventName === ActionControllerEventName.click)) && event.mesh)
-            .map(event => event.mesh))];
+                    || (wasClick && event.eventName === ActionControllerEventName.click)) && event.object)
+            .map(event => event.object))];
     }
 
     /**
@@ -144,14 +144,18 @@ export class ActionController extends MeshEventDispatcher {
      * @param event
      */
     fire(eventName: ActionControllerEventName, mesh?: Object3D, event?: ActionControllerEvent) {
-        super.fire(eventName, mesh, event);
-        if (!mesh) return;
+        if (!mesh) {
+            super.fire(eventName, mesh, event);
+            return;
+        }
 
         if (eventName === ActionControllerEventName.buttonDown) mesh.userData.isButtonDown[event.data.controllerNumber] = true;
         if (eventName === ActionControllerEventName.buttonUp) mesh.userData.isButtonDown[event.data.controllerNumber] = false;
 
         if (eventName === ActionControllerEventName.over) mesh.userData.isOver[event.data.controllerNumber] = true;
         if (eventName === ActionControllerEventName.out) mesh.userData.isOver[event.data.controllerNumber] = false;
+
+        super.fire(eventName, mesh, event);
     }
 
     /**
@@ -254,14 +258,14 @@ export class ActionController extends MeshEventDispatcher {
         for (index = 0; index < this.events.length; index++) {
             const event = this.events[index];
 
-            if (!event.mesh) continue;
+            if (!event.object) continue;
             // Button up was already not over object
             if (eventName === ActionControllerEventName.buttonUp
                 && event.eventName === ActionControllerEventName.buttonUp
-                && event.mesh.userData.isButtonDown[controllerNumber]
-                && !ActionController.hasInvisibleParent(event.mesh)
-                && objectsIntersected.indexOf(event.mesh) === -1)
-                this.fire(eventName, event.mesh, new ActionControllerEvent(eventName, {
+                && event.object.userData.isButtonDown[controllerNumber]
+                && !ActionController.hasInvisibleParent(event.object)
+                && objectsIntersected.indexOf(event.object) === -1)
+                this.fire(eventName, event.object, new ActionControllerEvent(eventName, {
                     controllerNumber: controllerNumber,
                     context: this,
                     ray: raycaster.ray.clone()
@@ -272,8 +276,8 @@ export class ActionController extends MeshEventDispatcher {
 
                 // Check if there is over event
                 if (event.eventName === ActionControllerEventName.over
-                    && !event.mesh.userData.isOver[controllerNumber]) {
-                    const intersection = intersects.find(intersectionEl => intersectionEl.object === event.mesh);
+                    && !event.object.userData.isOver[controllerNumber]) {
+                    const intersection = intersects.find(intersectionEl => intersectionEl.object === event.object);
                     if (intersection) {
                         this.fire(ActionControllerEventName.over, intersection.object,
                             new ActionControllerEvent(ActionControllerEventName.over, {
@@ -288,12 +292,15 @@ export class ActionController extends MeshEventDispatcher {
 
                 // Check if there is out event
                 if (event.eventName === ActionControllerEventName.out
-                    && event.mesh.userData.isOver[controllerNumber]) {
-                    this.fire(ActionControllerEventName.out, event.mesh, new ActionControllerEvent(ActionControllerEventName.out, {
-                        controllerNumber: controllerNumber,
-                        context: this,
-                        ray: raycaster.ray.clone()
-                    }));
+                    && event.object.userData.isOver[controllerNumber]) {
+                    const intersection = intersects.find(intersectionEl => intersectionEl.object === event.object);
+                    if (!intersection) {
+                        this.fire(ActionControllerEventName.out, event.object, new ActionControllerEvent(ActionControllerEventName.out, {
+                            controllerNumber: controllerNumber,
+                            context: this,
+                            ray: raycaster.ray.clone()
+                        }));
+                    }
                 }
             }
         }

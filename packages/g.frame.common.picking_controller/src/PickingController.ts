@@ -58,6 +58,7 @@ export class PickingController extends MeshEventDispatcher {
 
     forcePickUp(object: Object3D, distance: number, newPosition: Vector3, newRotation: Quaternion, controllerNumber: number = 0) {
         if (!this.enabled) return;
+
         const scope = this.currentValues[controllerNumber];
         const direction = new Vector3(0, 0, -1).applyQuaternion(newRotation);
 
@@ -169,9 +170,9 @@ export class PickingController extends MeshEventDispatcher {
             }
         } else {
             let objectsToRaycast = [...new Set(this.events
-                .map(el => el.mesh)
-                .filter(mesh => {
-                    return this.currentValues.map(el => el.currentPickedObject).indexOf(mesh) === -1;
+                .map(el => el.object)
+                .filter(object => {
+                    return object && this.currentValues.map(el => el.currentPickedObject).indexOf(object) === -1;
                 })
             )];
             scope.raycaster.ray.set(newPosition, direction);
@@ -225,10 +226,7 @@ export class PickingController extends MeshEventDispatcher {
             } else {
                 this.onEmptyControllerMove();
             }
-
         }
-
-
     }
 
     protected onObjectPick(pickedObject: Object3D) {

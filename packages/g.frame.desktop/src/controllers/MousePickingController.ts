@@ -69,7 +69,7 @@ export class MousePickingController extends PickingController {
     }
 
     private getEventObjects() {
-        return this.events.map(el => el.mesh);
+        return this.events.map(el => el.object);
     }
 
     private getIntersectsFromRay(ray: Ray, objectsToRaycast?: Array<Object3D>): Array<Intersection> {
