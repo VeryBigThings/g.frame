@@ -37,6 +37,7 @@ export default class RaycastMesh {
         }
         this.actionController.once(ActionControllerEventName.buttonUp, null, (event: ActionControllerEvent) => {
             const raycaster = new Raycaster();
+            // @ts-ignore
             raycaster.ray.copy(event.data.ray);
             const intersects = raycaster.intersectObject(this.scene, true);
             if (intersects.length) {
