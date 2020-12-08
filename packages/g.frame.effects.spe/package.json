@@ -13,7 +13,7 @@
     "build:assets": "copyfiles -f -s ./src/assets/textures/* ./build/main/assets/textures/",
     "clean": "trash build test",
     "test": "jest --passWithNoTests",
-    "lint": "tslint 'src/**/*.ts?(x)'",
+    "lint": "tslint \"src/**/*.ts?(x)\"",
     "docs": "trash docs && typedoc && touch docs/.nojekyll"
   },
   "repository": {
