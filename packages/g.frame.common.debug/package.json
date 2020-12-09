@@ -1,6 +1,6 @@
 {
   "name": "@verybigthings/g.frame.common.debug",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Template module from g.frame",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -33,9 +33,11 @@
     "registry": "https://npm.pkg.github.com/@VeryBigThings"
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
-  "dependencies": {},
-  "peerDependencies": {
+  "dependencies": {
     "@types/dat.gui": "0.7.5",
+    "dat.gui": "^0.7.6"
+  },
+  "peerDependencies": {
     "@verybigthings/g.frame.core": "0.1.6",
     "@verybigthings/g.frame.common.action_controller": "0.1.6",
     "@verybigthings/g.frame.desktop": "0.1.8",
@@ -52,7 +54,6 @@
     "tslint": "^6.1.0",
     "typedoc": "^0.17.4",
     "typescript": "^3.8.3",
-    "@types/dat.gui": "0.7.5",
     "@verybigthings/g.frame.core": "0.1.6",
     "@verybigthings/g.frame.common.action_controller": "0.1.6",
     "@verybigthings/g.frame.desktop": "0.1.8",
