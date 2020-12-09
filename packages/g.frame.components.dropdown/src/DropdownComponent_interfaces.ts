@@ -1,5 +1,5 @@
 import {Object3D, Vector2} from 'three';
-import { TextComponent, ITextViewerModuleOptionsTextMargin } from '@verybigthings/g.frame.components.text';
+import { TextComponent, ITextGComponentOptionsTextMargin } from '@verybigthings/g.frame.components.text';
 
 
 export interface IDDArrowSymbolsOptions {
@@ -25,7 +25,7 @@ export interface IDDOptionsStyleOptions {
     height?: number;
     color?: string;
     bgColor?: string;
-    margin?: number | ITextViewerModuleOptionsTextMargin;
+    margin?: number | ITextGComponentOptionsTextMargin;
     disableBorder?: boolean;
     hoverBorderColor?: string;
 }

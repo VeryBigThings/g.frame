@@ -1,7 +1,7 @@
 import {Vector2} from 'three';
-import {ITextViewerModuleOptions} from './TextViewerModule_interfaces';
+import {ITextGComponentOptions} from './TextGComponent_interfaces';
 
-export interface ITextComponentOptions extends ITextViewerModuleOptions {
+export interface ITextComponentOptions extends ITextGComponentOptions {
     size: Vector2;
     pxSize: Vector2;
 }

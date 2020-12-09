@@ -1,8 +1,8 @@
 import {CircleGeometry, Color, DoubleSide, Group, Mesh, MeshBasicMaterial, Object3D, Vector2, Vector3} from 'three';
-import {ITextViewerModuleOptions, TextViewerModule} from '@verybigthings/g.frame.components.text';
+import {ITextGComponentOptions, TextGComponent} from '@verybigthings/g.frame.components.text';
 import {IButtonComponentOptions} from './ButtonComponent_interfaces';
 // import * as TWEEN from '../libs/TWEEN/Tween';
-import {RoundedPlane, ViewerModule} from '@verybigthings/g.frame.core';
+import {RoundedPlane, GComponent} from '@verybigthings/g.frame.core';
 import {
     ActionController,
     ActionControllerEvent,
@@ -10,7 +10,7 @@ import {
 } from '@verybigthings/g.frame.common.action_controller';
 import {WindowComponent} from '@verybigthings/g.frame.components.window';
 
-export class ButtonComponent extends TextViewerModule {
+export class ButtonComponent extends TextGComponent {
     protected box: Mesh;
     protected group: Group;
 
@@ -82,7 +82,7 @@ export class ButtonComponent extends TextViewerModule {
     }
 
 
-    updateElement(options: ITextViewerModuleOptions): Mesh {
+    updateElement(options: ITextGComponentOptions): Mesh {
         const temp = super.updateElement(options);
 
         if (this.options.type === '3d') {
@@ -233,7 +233,7 @@ export class ButtonComponent extends TextViewerModule {
         //     .start();
     }
 
-    disposeObject(object?: Object3D | ViewerModule, disposeParams?: any): void {
+    disposeObject(object?: Object3D | GComponent, disposeParams?: any): void {
         super.disposeObject(object, disposeParams);
 
         if (!object && disposeParams) object = disposeParams.object;

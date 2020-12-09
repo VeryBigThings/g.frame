@@ -42,7 +42,7 @@ import {
     ActionControllerEvent,
     ActionControllerEventName
 } from '@verybigthings/g.frame.common.action_controller';
-import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
+import {GMesh, GComponent} from '@verybigthings/g.frame.core';
 
 export interface IVBTubeVideoPlayerOptions {
     videoScale: number;
@@ -54,7 +54,7 @@ export interface IVBTubeVideoPlayerOptions {
  * VBTubeVideoPlayer is a main class that unites other modules, such as VBTubeButtons, VBTubeProgressbar, VBTubeSubtitles, etc.
  * It is extended form VideoViewerComponent, so you can set video as well and use different events
  */
-export class VBTubeVideoPlayer extends ViewerModule {
+export class VBTubeVideoPlayer extends GComponent {
     private progressbar: VBTubeProgressbar;
     private bars: VBTubeCinematographicBars;
     private buttons: VBTubeButtons;

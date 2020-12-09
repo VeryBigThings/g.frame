@@ -1,4 +1,4 @@
-import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {Factory, ParentEvent, GComponent} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
 import {ButtonComponent} from './ButtonComponent';
 import {IButtonComponentOptions} from './ButtonComponent_interfaces';
@@ -26,7 +26,7 @@ export class ButtonComponentFactory extends Factory<ButtonComponent> {
         return component;
     }
 
-    onDispose(component: ButtonComponent, disposedObject: Object3D | ViewerModule) {
+    onDispose(component: ButtonComponent, disposedObject: Object3D | GComponent) {
         if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
     }
 

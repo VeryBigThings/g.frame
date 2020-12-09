@@ -1,11 +1,11 @@
 import {BACKGROUND_BLACK_COLOR, BOTTOM_SPACE, CINEMATOGRAPHIC_BAR} from './constants';
 import {MeshBasicMaterial, PlaneBufferGeometry} from 'three';
-import {GMesh, ViewerModule, Tween} from '@verybigthings/g.frame.core';
+import {GMesh, GComponent, Tween} from '@verybigthings/g.frame.core';
 
 /**
  * Class to add black top and bottom cinematographic lines
  */
-export class VBTubeCinematographicBars extends ViewerModule {
+export class VBTubeCinematographicBars extends GComponent {
     private topLine: GMesh<PlaneBufferGeometry, MeshBasicMaterial>;
     private bottomLine: GMesh<PlaneBufferGeometry, MeshBasicMaterial>;
 

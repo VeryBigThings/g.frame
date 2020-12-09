@@ -1,9 +1,9 @@
 import {XRViewStatus, ControllerHandnessCodes, IXRControllerModel, IXRControllerView} from '@verybigthings/g.frame.common.xr_manager';
 import {FBX_MODEL, Loader, LoaderEventsName} from '@verybigthings/g.frame.common.loaders';
-import {ViewerModule} from '@verybigthings/g.frame.core';
+import {GComponent} from '@verybigthings/g.frame.core';
 import {ConeBufferGeometry, Group, Mesh, MeshBasicMaterial, Object3D, Vector3} from 'three';
 
-export default class QuestHandView extends ViewerModule implements IXRControllerView {
+export default class QuestHandView extends GComponent implements IXRControllerView {
     private _status: XRViewStatus = XRViewStatus.PREPARING;
     private loader: Loader<any>;
     private controllerLeft: Object3D;

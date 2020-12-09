@@ -12,7 +12,7 @@ import {
     UI_BASIC_COLOR,
     VIDEO_CLICKABLE_PART
 } from './constants';
-import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
+import {GMesh, GComponent} from '@verybigthings/g.frame.core';
 import {ITextComponentOptions, TextComponent} from '@verybigthings/g.frame.components.text';
 import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
 
@@ -25,7 +25,7 @@ export interface IDisableButtons {
 /**
  * Class to contain buttons
  */
-export class VBTubeButtons extends ViewerModule {
+export class VBTubeButtons extends GComponent {
     public playPauseButton: TextComponent;
     public skipButton: TextComponent;
     public soundButton: TextComponent;

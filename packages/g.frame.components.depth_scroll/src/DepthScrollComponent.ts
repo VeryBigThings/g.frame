@@ -1,9 +1,9 @@
-import {ViewerModule} from '@verybigthings/g.frame.core';
+import {GComponent} from '@verybigthings/g.frame.core';
 import {Vector3} from 'three';
 import {IDepthScrollComponentOptions} from './DepthScrollComponent_interfaces';
 
-export class DepthScrollComponent extends ViewerModule {
-    private layers: Array<ViewerModule>;
+export class DepthScrollComponent extends GComponent {
+    private layers: Array<GComponent>;
     private options: IDepthScrollComponentOptions;
 
     constructor(options: IDepthScrollComponentOptions) {
@@ -12,14 +12,14 @@ export class DepthScrollComponent extends ViewerModule {
         this.options = options;
     }
 
-    public addLayer(component: ViewerModule, orderNumber?: number) {
+    public addLayer(component: GComponent, orderNumber?: number) {
         this.addObject(component);
         if (orderNumber === null) this.layers.push(component);
         else this.layers.splice(orderNumber, 0, component);
         this.scroll(this.layers.length === 1 ? null : 0);
     }
 
-    public removeLayer(component: ViewerModule) {
+    public removeLayer(component: GComponent) {
         this.removeObject(component);
         this.layers.splice(this.layers.indexOf(component), 1);
         component.dispose();
@@ -53,7 +53,7 @@ export class DepthScrollComponent extends ViewerModule {
         this.scroll(null);
     }
 
-    private animateLayer(component: ViewerModule, newIndex: number, withoutTime: boolean = false) {
+    private animateLayer(component: GComponent, newIndex: number, withoutTime: boolean = false) {
         if (withoutTime) {
             component.uiObject.position.copy(this.getLayerPosition(newIndex));
         } else {

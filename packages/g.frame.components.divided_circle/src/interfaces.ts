@@ -1,12 +1,12 @@
 import {Object3D} from 'three';
-import {ViewerModule} from '@verybigthings/g.frame.core';
+import {GComponent} from '@verybigthings/g.frame.core';
 import {IDepthScrollComponentOptions} from '@verybigthings/g.frame.components.depth_scroll';
-import {ITextViewerModuleOptionsText} from '@verybigthings/g.frame.components.text';
+import {ITextGComponentOptionsText} from '@verybigthings/g.frame.components.text';
 import {ButtonComponent} from '@verybigthings/g.frame.components.buttons';
 
 export interface ISectorItem {
     name: string;
-    mesh: Object3D | ViewerModule;
+    mesh: Object3D | GComponent;
 }
 
 export interface IPrimarySectorProps {
@@ -43,7 +43,7 @@ export interface IDividedCircleMenu extends IPrimarySectorProps {
     enableBackground?: boolean;
     enableCancelButton?: boolean;
     sectorsData: Array<ISectorItem>;
-    centerText?: ITextViewerModuleOptionsText;
+    centerText?: ITextGComponentOptionsText;
     cancelButton?: ButtonComponent;
     enableSectorAfterClick?: boolean;
 }

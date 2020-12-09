@@ -1,5 +1,5 @@
 import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
-import {ObjectsPositioning, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {ObjectsPositioning, ParentEvent, GComponent} from '@verybigthings/g.frame.core';
 import {Object3D, Vector2} from 'three';
 import {ITextComponentOptions, TextComponent} from '@verybigthings/g.frame.components.text';
 
@@ -7,7 +7,7 @@ export interface ICheckRadioComponentOptions extends ITextComponentOptions {
     isCheckbox: boolean;
 }
 
-export class CheckRadioComponent extends ViewerModule {
+export class CheckRadioComponent extends GComponent {
     public readonly isCheckbox: boolean;
     private readonly icon: TextComponent;
     private readonly text: TextComponent;
@@ -93,7 +93,7 @@ export class CheckRadioComponent extends ViewerModule {
         if (isChanged) this.fire('changed', new ParentEvent<string>('changed', this));
     }
 
-    disposeObject(object?: Object3D | ViewerModule, disposeParams?: any): void {
+    disposeObject(object?: Object3D | GComponent, disposeParams?: any): void {
         super.disposeObject(object, disposeParams);
 
         if (!object && disposeParams) object = disposeParams.object;

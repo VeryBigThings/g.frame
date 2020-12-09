@@ -1,4 +1,4 @@
-import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {Factory, ParentEvent, GComponent} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
 import {DividedCircleComponent} from './DividedCircleComponent';
 import {IDividedCircleMenu} from './interfaces';
@@ -26,7 +26,7 @@ export class DividedCircleComponentFactory extends Factory<DividedCircleComponen
         return component;
     }
 
-    onDispose(component: DividedCircleComponent, disposedObject: Object3D | ViewerModule) {
+    onDispose(component: DividedCircleComponent, disposedObject: Object3D | GComponent) {
         if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
     }
 

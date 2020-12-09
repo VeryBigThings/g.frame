@@ -5,7 +5,7 @@ import {
     PROGRESS_BAR_WIDTH, PROGRESS_BAR_BACKGROUND_COLOR,
     PROGRESS_BAR_BACKGROUND_LOADED_COLOR, PROGRESS_BAR_SCALE, MINIMAL_SCALE, BOTTOM_SPACE
 } from './constants';
-import {ViewerModule} from '@verybigthings/g.frame.core';
+import {GComponent} from '@verybigthings/g.frame.core';
 import { ProgressbarComponent } from '@verybigthings/g.frame.components.progressbar';
 import { GMesh } from '@verybigthings/g.frame.core';
 import {
@@ -17,7 +17,7 @@ import {
 /**
  * Class to manipulate progress bar
  */
-export class VBTubeProgressbar extends ViewerModule {
+export class VBTubeProgressbar extends GComponent {
     public progressbar: ProgressbarComponent;
     private redCircle: GMesh<CircleBufferGeometry, MeshBasicMaterial>;
     private grayMoveProgressbar: GMesh<PlaneBufferGeometry, MeshBasicMaterial>;

@@ -1,8 +1,8 @@
-import {GMesh, RoundedPlane, ViewerModule} from '@verybigthings/g.frame.core';
+import {GMesh, RoundedPlane, GComponent} from '@verybigthings/g.frame.core';
 import {CanvasTexture, ExtrudeGeometry, Geometry, Mesh, MeshBasicMaterial, Vector2} from 'three';
-import {ITextViewerModuleOptions, ITextViewerModuleOptionsTextStyle} from './TextViewerModule_interfaces';
+import {ITextGComponentOptions, ITextGComponentOptionsTextStyle} from './TextGComponent_interfaces';
 
-export class TextViewerModule extends ViewerModule {
+export class TextGComponent extends GComponent {
     public mesh: Mesh;
     public material: MeshBasicMaterial;
     private canvas: HTMLCanvasElement;
@@ -23,11 +23,11 @@ export class TextViewerModule extends ViewerModule {
         this.canvas.height = this.sizePX.y;
     }
 
-    public static generateFontProperty(font: ITextViewerModuleOptionsTextStyle): string {
+    public static generateFontProperty(font: ITextGComponentOptionsTextStyle): string {
         return `${font.style || ''} ${font.weight || ''} ${font.size || ''} ${font.family || ''}`;
     }
 
-    public static getTextStyleSeparated(context: CanvasRenderingContext2D): ITextViewerModuleOptionsTextStyle {
+    public static getTextStyleSeparated(context: CanvasRenderingContext2D): ITextGComponentOptionsTextStyle {
         const fontValues = (context['fontSaved'] || context.font).split(' ');
         const color = context.fillStyle;
         return {
@@ -74,21 +74,21 @@ export class TextViewerModule extends ViewerModule {
                         if (type === 'color') {
                             ctx.fillStyle = stylesStack[type].pop();
                         } else {
-                            const currentFont = TextViewerModule.getTextStyleSeparated(ctx);
+                            const currentFont = TextGComponent.getTextStyleSeparated(ctx);
                             currentFont[type] = stylesStack[type].pop();
-                            ctx.font = ctx['fontSaved'] = TextViewerModule.generateFontProperty(currentFont);
+                            ctx.font = ctx['fontSaved'] = TextGComponent.generateFontProperty(currentFont);
                         }
                     } else {
                         const type = word.replace('{{', '').replace('}}', '').split(':')[0];
                         const value = word.replace('{{', '').replace('}}', '').split(':')[1];
-                        const currentFont = TextViewerModule.getTextStyleSeparated(ctx);
+                        const currentFont = TextGComponent.getTextStyleSeparated(ctx);
                         stylesStack[type].push(currentFont[type]);
 
                         if (type === 'color') {
                             ctx.fillStyle = value;
                         } else {
                             currentFont[type] = value;
-                            ctx.font = ctx['fontSaved'] = TextViewerModule.generateFontProperty(currentFont);
+                            ctx.font = ctx['fontSaved'] = TextGComponent.generateFontProperty(currentFont);
                         }
                     }
                     return;
@@ -202,7 +202,7 @@ export class TextViewerModule extends ViewerModule {
      * @param {Number} [options.background.radius = 0] Radius of the background. There is no radius on border.
      * @returns {Mesh}
      */
-    public updateElement(options: ITextViewerModuleOptions) {
+    public updateElement(options: ITextGComponentOptions) {
         // Set arguments to defaults
         options = options || {};
         options.text = options.text || {};
@@ -250,7 +250,7 @@ export class TextViewerModule extends ViewerModule {
         // }
 
         if (options.text.autoWrapping) {
-            this.context.font = this.context['fontSaved'] = TextViewerModule.generateFontProperty(options.text.style);
+            this.context.font = this.context['fontSaved'] = TextGComponent.generateFontProperty(options.text.style);
             this.context.textAlign = options.text.align;
             this.context.fillStyle = options.text.style.color;
             this.calculateWrapping(
@@ -268,7 +268,7 @@ export class TextViewerModule extends ViewerModule {
         }
 
         if (options.text.autoWrappingHorizontal) {
-            this.context.font = this.context['fontSaved'] = TextViewerModule.generateFontProperty(options.text.style);
+            this.context.font = this.context['fontSaved'] = TextGComponent.generateFontProperty(options.text.style);
             this.context.textAlign = options.text.align;
             this.context.fillStyle = options.text.style.color;
             const metrics = this.context.measureText(options.text.value.split(' ').filter(word => word.indexOf('{{') === -1 && word.indexOf('}}') === -1).join(' '));
@@ -311,10 +311,10 @@ export class TextViewerModule extends ViewerModule {
             // console.log(this.neededSize.x, this.sizePX.x, this.canvas.width, this.neededSize.y, this.sizePX.y, this.canvas.height);
         }
 
-        this.context.font = this.context['fontSaved'] = TextViewerModule.generateFontProperty(options.text.style);
+        this.context.font = this.context['fontSaved'] = TextGComponent.generateFontProperty(options.text.style);
         this.context.textAlign = options.text.align;
         this.context.fillStyle = options.text.style.color;
-        TextViewerModule.wrapText(
+        TextGComponent.wrapText(
             this.context,
             options.text.value,
             options.text.align === 'left' ?

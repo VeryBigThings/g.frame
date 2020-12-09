@@ -11,12 +11,12 @@ import {
     ActionControllerEvent,
     ActionControllerEventName
 } from '@verybigthings/g.frame.common.action_controller';
-import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
+import {GMesh, GComponent} from '@verybigthings/g.frame.core';
 
 /**
  * Class to manipulate volume bar
  */
-export class VBTubeVolumeBar extends ViewerModule {
+export class VBTubeVolumeBar extends GComponent {
     private grayBar: GMesh<PlaneBufferGeometry, MeshBasicMaterial>;
     private whiteBar: GMesh<PlaneBufferGeometry, MeshBasicMaterial>;
     private whiteCircle: GMesh<CircleBufferGeometry, MeshBasicMaterial>;

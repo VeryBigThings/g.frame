@@ -1,4 +1,4 @@
-import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {Factory, ParentEvent, GComponent} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
 import {ProgressbarComponent} from './ProgressbarComponent';
 import {IProgressbarComponentOptions} from './ProgressbarComponent_interfaces';
@@ -20,7 +20,7 @@ export class ProgressbarComponentFactory extends Factory<ProgressbarComponent> {
         return component;
     }
 
-    onDispose(component: ProgressbarComponent, disposedObject: Object3D | ViewerModule) {
+    onDispose(component: ProgressbarComponent, disposedObject: Object3D | GComponent) {
         if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
     }
 

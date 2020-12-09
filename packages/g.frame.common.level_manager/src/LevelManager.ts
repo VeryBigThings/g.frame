@@ -1,4 +1,4 @@
-import {ViewerModule, ParentEvent} from '@verybigthings/g.frame.core';
+import {GComponent, ParentEvent} from '@verybigthings/g.frame.core';
 import {Loader, LoaderEventsName, ResourceRaw} from '@verybigthings/g.frame.common.loaders';
 import {LevelManagerOptions, ScenarioItem} from './LevelManager_interfaces';
 import {Level} from './Level';
@@ -6,7 +6,7 @@ import { Router } from './Router';
 
 
 
-export class LevelManager extends ViewerModule {
+export class LevelManager extends GComponent {
     public name: string;
     public currentLevel: ScenarioItem;
     private router: Router;

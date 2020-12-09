@@ -1,4 +1,4 @@
-import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {Factory, ParentEvent, GComponent} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
 import {ISliderComponentOptions, SliderComponent} from './SliderComponent';
 import {ActionController} from '@verybigthings/g.frame.common.action_controller';
@@ -25,7 +25,7 @@ export class SliderComponentFactory extends Factory<SliderComponent> {
         return component;
     }
 
-    onDispose(component: SliderComponent, disposedObject: Object3D | ViewerModule) {
+    onDispose(component: SliderComponent, disposedObject: Object3D | GComponent) {
         if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
     }
 

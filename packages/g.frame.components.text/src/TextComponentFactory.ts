@@ -1,4 +1,4 @@
-import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {Factory, ParentEvent, GComponent} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
 import {TextComponent} from './TextComponent';
 import {ITextComponentOptions} from './TextComponent_interfaces';
@@ -19,7 +19,7 @@ export class TextComponentFactory extends Factory<TextComponent> {
         return component;
     }
 
-    onDispose(component: TextComponent, disposedObject: Object3D | ViewerModule) {
+    onDispose(component: TextComponent, disposedObject: Object3D | GComponent) {
         if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
     }
 

@@ -1,4 +1,4 @@
-import { ViewerModule } from '@verybigthings/g.frame.core';
+import { GComponent } from '@verybigthings/g.frame.core';
 import {
     DoubleSide,
     Mesh,
@@ -23,7 +23,7 @@ interface IPointerOptions {
     color?: number;
 }
 
-export class Pointer extends ViewerModule {
+export class Pointer extends GComponent {
     public defaultPointerMesh: Mesh;
     public pointerContainer: Object3D;
     public currentCustomPointer: Object3D;

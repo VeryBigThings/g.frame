@@ -1,7 +1,7 @@
-import {ViewerModule, ParentEvent} from '@verybigthings/g.frame.core';
+import {GComponent, ParentEvent} from '@verybigthings/g.frame.core';
 import {ResourceRaw} from '@verybigthings/g.frame.common.loaders';
 
-export class Level extends ViewerModule {
+export class Level extends GComponent {
     public __inited: boolean = false;
     public resourcesInUse: Array<ResourceRaw> = [];
 

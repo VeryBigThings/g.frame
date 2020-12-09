@@ -1,13 +1,13 @@
 import {Vector2} from 'three';
 
-export interface ITextViewerModuleOptionsTextMargin {
+export interface ITextGComponentOptionsTextMargin {
     left?: number;
     right?: number;
     top?: number;
     bottom?: number;
 }
 
-export interface ITextViewerModuleOptionsTextStyle {
+export interface ITextGComponentOptionsTextStyle {
     color?: string | CanvasGradient | CanvasPattern;
     style?: string;
     weight?: string;
@@ -15,9 +15,9 @@ export interface ITextViewerModuleOptionsTextStyle {
     size?: string;
 }
 
-export interface ITextViewerModuleOptionsText {
-    margin?: number | ITextViewerModuleOptionsTextMargin;
-    style?: ITextViewerModuleOptionsTextStyle;
+export interface ITextGComponentOptionsText {
+    margin?: number | ITextGComponentOptionsTextMargin;
+    style?: ITextGComponentOptionsTextStyle;
     align?: CanvasTextAlign;
     lineHeight?: number;
     autoWrapping?: boolean;
@@ -25,20 +25,20 @@ export interface ITextViewerModuleOptionsText {
     value?: string;
 }
 
-export interface ITextViewerModuleOptionsBackgroundBorder {
+export interface ITextGComponentOptionsBackgroundBorder {
     width?: number;
     color?: string;
 }
 
-export interface ITextViewerModuleOptionsBackground {
+export interface ITextGComponentOptionsBackground {
     size?: Vector2;
     style?: string;
     color?: string;
-    border?: ITextViewerModuleOptionsBackgroundBorder;
+    border?: ITextGComponentOptionsBackgroundBorder;
     radius?: number;
 }
 
-export interface ITextViewerModuleOptions {
-    text?: ITextViewerModuleOptionsText;
-    background?: ITextViewerModuleOptionsBackground;
+export interface ITextGComponentOptions {
+    text?: ITextGComponentOptionsText;
+    background?: ITextGComponentOptionsBackground;
 }

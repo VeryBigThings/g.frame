@@ -1,4 +1,4 @@
-import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
+import {GMesh, GComponent} from '@verybigthings/g.frame.core';
 import {Color, DoubleSide, MathUtils, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Texture, Vector2} from 'three';
 import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
@@ -25,7 +25,7 @@ export interface ITorusComponentOptions {
     arc?: number;
 }
 
-export class TorusComponent extends ViewerModule {
+export class TorusComponent extends GComponent {
     private borderTorus: GMesh<ShapeGeometry, MeshBasicMaterial>;
     private backgroundTorus: GMesh<ShapeGeometry, MeshBasicMaterial>;
 
@@ -136,7 +136,7 @@ export class TorusComponent extends ViewerModule {
         }
     }
 
-    disposeObject(object?: Object3D | ViewerModule, disposeParams?: any): void {
+    disposeObject(object?: Object3D | GComponent, disposeParams?: any): void {
         super.disposeObject(object, disposeParams);
 
         if (!object && disposeParams) object = disposeParams.object;

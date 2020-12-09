@@ -1,6 +1,6 @@
 import {WindowComponent} from './WindowComponent';
 import {WindowComponentOptions} from './WindowComponent_interfaces';
-import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {Factory, ParentEvent, GComponent} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
 
 export class WindowComponentFactory extends Factory<WindowComponent> {
@@ -20,7 +20,7 @@ export class WindowComponentFactory extends Factory<WindowComponent> {
         return component;
     }
 
-    onDispose(component: WindowComponent, disposedObject: Object3D | ViewerModule) {
+    onDispose(component: WindowComponent, disposedObject: Object3D | GComponent) {
         if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
     }
 

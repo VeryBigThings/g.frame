@@ -1,7 +1,7 @@
-import {TextViewerModule} from './TextViewerModule';
+import {TextGComponent} from './TextGComponent';
 import {ITextComponentOptions} from './TextComponent_interfaces';
 
-export class TextComponent extends TextViewerModule {
+export class TextComponent extends TextGComponent {
     public options: ITextComponentOptions;
 
     constructor(options: ITextComponentOptions) {

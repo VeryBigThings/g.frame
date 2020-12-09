@@ -15,10 +15,10 @@ import {
     Texture,
     TorusBufferGeometry
 } from 'three';
-import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
+import {GMesh, GComponent} from '@verybigthings/g.frame.core';
 import {PrimitiveMaterials, PrimitiveType} from './Primitive_interfaces';
 
-export class Primitive extends ViewerModule {
+export class Primitive extends GComponent {
     public mesh: GMesh<BufferGeometry, Material>;
     private _size: Array<Number>;
     private _materialType: PrimitiveMaterials;

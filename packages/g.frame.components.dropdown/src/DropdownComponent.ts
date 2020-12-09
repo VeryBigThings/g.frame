@@ -1,5 +1,5 @@
 import {Color, Mesh, MeshBasicMaterial, Object3D, Vector2, Vector3, Box3, PlaneGeometry} from 'three';
-import {Tween, ViewerModule, ParentEvent} from '@verybigthings/g.frame.core';
+import {Tween, GComponent, ParentEvent} from '@verybigthings/g.frame.core';
 
 import {IDropdownComponentOptions} from './DropdownComponent_interfaces';
 import {TextComponent} from '@verybigthings/g.frame.components.text';
@@ -13,7 +13,7 @@ import {ActionControllerEvent} from '@verybigthings/g.frame.common.action_contro
 // import * as TWEEN from '../libs/TWEEN/Tween';
 
 
-export class DropdownComponent extends ViewerModule {
+export class DropdownComponent extends GComponent {
     public isOpened: boolean = true;
     private wrapHead: Object3D;
     private selectedText: TextComponent;

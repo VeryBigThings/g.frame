@@ -13,13 +13,13 @@ import {
 } from './constants';
 import {Group, MeshBasicMaterial, PlaneBufferGeometry, Vector2} from 'three';
 import {TextComponent} from '@verybigthings/g.frame.components.text';
-import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
+import {GMesh, GComponent} from '@verybigthings/g.frame.core';
 import {IDisableButtons} from './';
 
 /**
  * Class to add subtitles
  */
-export class VBTubeSubtitles extends ViewerModule {
+export class VBTubeSubtitles extends GComponent {
     public subtitlesWrapper: Group;
     private subtitles: TextComponent;
     private redUnderline: GMesh<PlaneBufferGeometry, MeshBasicMaterial>;

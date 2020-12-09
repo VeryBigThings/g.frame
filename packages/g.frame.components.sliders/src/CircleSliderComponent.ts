@@ -1,6 +1,6 @@
 import {Color, Group, Mesh, MeshStandardMaterial, Object3D, PlaneGeometry, Vector2, Vector3} from 'three';
 import {ButtonComponent} from '@verybigthings/g.frame.components.buttons';
-import {ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {ParentEvent, GComponent} from '@verybigthings/g.frame.core';
 import {TorusComponent} from './TorusComponent';
 import {TextComponent} from '@verybigthings/g.frame.components.text';
 import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
@@ -41,7 +41,7 @@ export interface ICircleSliderComponentOptions {
 
 }
 
-export class CircleSliderComponent extends ViewerModule {
+export class CircleSliderComponent extends GComponent {
     private mainContainer: Group;
     private visualGroup: Group;
     private dragGroup: Group;
@@ -274,7 +274,7 @@ export class CircleSliderComponent extends ViewerModule {
         super.dispose();
     }
 
-    disposeObject(object?: Object3D | ViewerModule, disposeParams?: any): void {
+    disposeObject(object?: Object3D | GComponent, disposeParams?: any): void {
         super.disposeObject(object, disposeParams);
 
         if (!object && disposeParams) object = disposeParams.object;

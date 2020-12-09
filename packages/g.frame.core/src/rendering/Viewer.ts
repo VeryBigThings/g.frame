@@ -1,7 +1,7 @@
 import {Object3D, PerspectiveCamera, Scene, Vector3, WebGLRenderer} from 'three';
 import {IViewerConfig} from './IViewerConfig';
 import {EventDispatcher, ParentEvent} from '../core/EventDispatcher';
-import {ViewerModule} from '../core/ViewerModule';
+import {GComponent} from '../core/GComponent';
 
 
 export default class FrameworkViewer extends EventDispatcher<string> {
@@ -12,7 +12,7 @@ export default class FrameworkViewer extends EventDispatcher<string> {
     public readonly cameraWrap: Object3D;
     public readonly modulesContainer: Object3D;
     private readonly container: Element;
-    private currentViewer: ViewerModule;
+    private currentViewer: GComponent;
     private _onResizeCallback: () => void;
 
     constructor(private config: IViewerConfig) {
@@ -105,7 +105,7 @@ export default class FrameworkViewer extends EventDispatcher<string> {
         this.renderer.render(this.scene, this.camera);
     }
 
-    setCurrentViewer(newViewer?: ViewerModule) {
+    setCurrentViewer(newViewer?: GComponent) {
         if (newViewer === this.currentViewer) return;
         if (this.currentViewer && this.currentViewer.uiObject.parent) {
             this.currentViewer.uiObject.parent.remove(this.currentViewer.uiObject);
