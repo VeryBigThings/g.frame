@@ -1,20 +1,10 @@
 import {Object3D, PerspectiveCamera, Scene, Vector3, WebGLRenderer} from 'three';
-import {IViewerConfig} from './IViewerConfig';
-import {EventDispatcher, ParentEvent} from '../core/EventDispatcher';
-import {ViewerModule} from '../core/ViewerModule';
-import FrameworkViewer from './Viewer';
+import {IViewerConfig} from './interfaces';
+import {ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import RenderAbstract from './RenderAbstract';
 
 
-export default class DefaultViewer extends FrameworkViewer {
-    public readonly renderer: WebGLRenderer;
-    public readonly scene: Scene;
-    public readonly camera: PerspectiveCamera;
-    public readonly cameraWrapParent: Object3D;
-    public readonly cameraWrap: Object3D;
-    public readonly modulesContainer: Object3D;
-    private currentViewer: ViewerModule;
-    private _onResizeCallback: () => void;
-
+export default class FrameworkViewer extends RenderAbstract {
     constructor(private config: IViewerConfig) {
         super();
         const webglCanvas: any = document.createElement('canvas');
@@ -73,10 +63,77 @@ export default class DefaultViewer extends FrameworkViewer {
         this.camera.lookAt(this.camera.userData.target);
         this.cameraWrap.add(this.camera);
 
+        // render que
+        this.renderQue = [() => { this.renderer.render(this.scene, this.camera); }];
+
         if (this.config.renderer.onWindowResize) window.addEventListener('resize', this._onResizeCallback = () => this.updateSize());
+    }
+
+    static getContext(webglCanvas) {
+        const contextTypes = ['webgl2', 'experimental-webgl', 'webgl'];
+        let glContext;
+
+        for (const contextType of contextTypes) {
+            glContext = webglCanvas.getContext(contextType, {});
+
+            if (glContext) break;
+        }
+
+        return glContext;
+    }
+
+    update = (_time, frame) => {
+        const time = performance.now();
+
+        // if (this.controls.enabled) this.controls.update();
+
+        // TWEEN.update(time);
+
+        this.fire('update', new ParentEvent<string>('update', {time: time, frame: frame}));
+
+        this.render();
     }
 
     render() {
         this.renderer.render(this.scene, this.camera);
+
+        // this.renderQue.forEach(func => func());
+    }
+
+    setCurrentViewer(newViewer?: ViewerModule) {
+        if (newViewer === this.currentViewer) return;
+        if (this.currentViewer && this.currentViewer.uiObject.parent) {
+            this.currentViewer.uiObject.parent.remove(this.currentViewer.uiObject);
+            this.currentViewer.dispose();
+        }
+
+        if (newViewer) {
+            this.currentViewer = newViewer;
+            this.scene.add(newViewer.uiObject);
+        }
+    }
+
+    getDOMContainer(): Element {
+        return this.container;
+    }
+
+    updateSize(width?: number, height?: number) {
+        const newCanvasSize = {
+            width: width || this.container.clientWidth,
+            height: height || window.innerHeight,
+        };
+
+        this.renderer.domElement.style.width = newCanvasSize.width + 'px';
+        this.renderer.domElement.style.height = newCanvasSize.height + 'px';
+
+        this.camera.aspect = newCanvasSize.width / newCanvasSize.height;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(newCanvasSize.width, newCanvasSize.height);
+    }
+
+    dispose() {
+        this.renderer.dispose();
+        document.body.removeChild(this.container);
+        window.removeEventListener('resize', this._onResizeCallback);
     }
 }

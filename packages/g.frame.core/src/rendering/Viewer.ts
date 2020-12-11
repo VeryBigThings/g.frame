@@ -4,7 +4,7 @@ import {EventDispatcher, ParentEvent} from '../core/EventDispatcher';
 import {ViewerModule} from '../core/ViewerModule';
 
 
-export default class FrameworkViewer extends EventDispatcher<string> {
+export default class Viewer extends EventDispatcher<string> {
     public readonly renderer: WebGLRenderer;
     public readonly scene: Scene;
     public readonly camera: PerspectiveCamera;
@@ -18,7 +18,7 @@ export default class FrameworkViewer extends EventDispatcher<string> {
     constructor(private config: IViewerConfig) {
         super();
         const webglCanvas: any = document.createElement('canvas');
-        const glContext = FrameworkViewer.getContext(webglCanvas);
+        const glContext = Viewer.getContext(webglCanvas);
 
         this.renderer = new WebGLRenderer({
             context: glContext,
