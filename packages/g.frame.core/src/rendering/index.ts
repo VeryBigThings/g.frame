@@ -1,2 +1,2 @@
 export * from './IViewerConfig';
-export * from './Viewer';
+export * from './RenderAbstract';

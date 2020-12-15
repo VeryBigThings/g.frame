@@ -1,7 +1,7 @@
 import ExampleApp from './ExampleApp/ExampleApp';
 import {ModulesProcessor} from '@verybigthings/g.frame.core';
 import {TemplateModule} from './Modules/TemplateModule';
-import {Vector3} from 'three';
+import {Vector3, ShaderMaterial} from 'three';
 import {DesktopModule} from '@verybigthings/g.frame.desktop';
 import {MobileModule} from '@verybigthings/g.frame.mobile';
 import {WindowComponentModule} from '@verybigthings/g.frame.components.window';
@@ -17,6 +17,19 @@ import {OimoPhysicsModule} from '@verybigthings/g.frame.physics.oimo';
 import {DropdownComponentModule} from '../../g.frame.components.dropdown/src/DropdownComponentModule';
 import {OculusGoModule} from '@verybigthings/g.frame.oculus.go';
 
+// ????
+// import {ModulesProcessor} from '../../g.frame.core/src/core/ModulesProcessor';
+import {RenderModule} from '../../g.frame.common.render/src/RenderModule';
+import {Renderer, PPRender} from '../../g.frame.common.render/build/main/index';
+
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
+import { FilmShader } from 'three/examples/jsm/shaders/FilmShader';
+import { VignetteShader } from 'three/examples/jsm/shaders/VignetteShader';
+import { VerticalBlurShader } from 'three/examples/jsm/shaders/VerticalBlurShader';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
 class App {
     private framework: ModulesProcessor;
@@ -25,6 +38,29 @@ class App {
 
         const modules = [];
 
+        const renderer = new PPRender({
+            renderer: {
+                antialias: true,
+                alpha: true,
+                preserveDrawingBuffer: false,
+                sortObjects: false,
+                shadowMapEnabled: false,
+                clearColor: 0x222222,
+                width: window.innerWidth,
+                height: window.innerHeight,
+                autoResize: true,
+                containerID: 'app',
+                onWindowResize: true,
+            },
+            scene: {},
+            camera: {
+                fov: 75,
+                near: 0.1,
+                far: 10000,
+                position: new Vector3(0, 0, 10),
+                target: new Vector3(0, 0, 0),
+            }
+        })
 
         this.framework = new ModulesProcessor({
             modules: [
@@ -44,39 +80,77 @@ class App {
                 new OimoPhysicsModule(),
                 new OculusGoModule(),
             ],
-            viewerConfig: {
-                renderer: {
-                    antialias: true,
-                    alpha: true,
-                    preserveDrawingBuffer: false,
-                    sortObjects: false,
-                    shadowMapEnabled: false,
-                    clearColor: 0x222222,
-                    width: window.innerWidth,
-                    height: window.innerHeight,
-                    autoResize: true,
-                    containerID: 'app',
-                    onWindowResize: true,
-                },
-                scene: {
-                    // overrideMaterial: Material;
-                },
-                camera: {
-                    fov: 75,
-                    near: 0.1,
-                    far: 10000,
-                    position: new Vector3(0, 0, 10),
-                    target: new Vector3(0, 0, 0),
-                }
-            },
+            viewer: renderer,
+            // viewerConfig: {
+            //     renderer: {
+            //         antialias: true,
+            //         alpha: true,
+            //         preserveDrawingBuffer: false,
+            //         sortObjects: false,
+            //         shadowMapEnabled: false,
+            //         clearColor: 0x222222,
+            //         width: window.innerWidth,
+            //         height: window.innerHeight,
+            //         autoResize: true,
+            //         containerID: 'app',
+            //         onWindowResize: true,
+            //     },
+            //     scene: {
+            //         // overrideMaterial: Material;
+            //     },
+            //     camera: {
+            //         fov: 75,
+            //         near: 0.1,
+            //         far: 10000,
+            //         position: new Vector3(0, 0, 10),
+            //         target: new Vector3(0, 0, 0),
+            //     }
+            // },
             bootstrap: new ExampleApp()
         });
+        this.setComposer(renderer);
+
         this.init();
     }
 
     init() {
 
 
+    }
+
+    setComposer(renderer) {
+        const composer = renderer.composer;
+        console.log(renderer);
+        const pixelRatio = renderer.renderer.getPixelRatio();
+
+        const fxaaPass = new ShaderPass( FXAAShader );
+        // @ts-ignore
+        (<ShaderMaterial>fxaaPass.material).uniforms[ 'resolution' ].value.x = 1 / ( renderer.container.clientWidth * pixelRatio );
+        // (<ShaderMaterial>fxaaPass.material).uniforms[ 'resolution' ].value.x = 1 / ( this.containerWidth * pixelRatio );
+        // @ts-ignore
+        (<ShaderMaterial>fxaaPass.material).uniforms[ 'resolution' ].value.y = 1 / ( renderer.container.clientHeight * pixelRatio );
+
+
+        // blur shader
+        const blurPass = new ShaderPass( VerticalBlurShader );
+        // (<ShaderMaterial>blurPass.material).uniforms[ 'v' ].value = 0.3 / this.containerWidth;
+        (<ShaderMaterial>blurPass.material).uniforms[ 'v' ].value = 0.8 / 1300;
+
+
+        // vignete shader
+        const VignettePass = new ShaderPass( VignetteShader );
+        (<ShaderMaterial>VignettePass.material).uniforms[ 'darkness' ].value = 1.0;
+        (<ShaderMaterial>VignettePass.material).uniforms[ 'offset' ].value = 0.6;
+
+        const renderPass = new RenderPass(renderer.scene, renderer.camera);
+
+        composer.renderToScreen = true;
+
+        composer.addPass(renderPass);
+
+        composer.addPass(VignettePass);
+        composer.addPass(blurPass);
+        // composer.addPass(fxaaPass);
     }
 }
 

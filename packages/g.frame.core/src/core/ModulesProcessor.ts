@@ -8,6 +8,7 @@ import {Object3D} from 'three';
 import {ConstructorInstanceMap} from '../utils/ConstructorInstanceMap';
 import createUniversalAgent = AgentsFabric.createUniversalAgent;
 import * as TWEEN from '../utils/animation/Tween';
+import {RenderAbstract} from '../rendering/RenderAbstract';
 
 type Agent<T> = T;
 
@@ -15,12 +16,13 @@ export class ModulesProcessor extends EventDispatcher<string> {
     public readonly agents: ConstructorInstanceMap<any>;
     public readonly modulesInstances: Map<typeof AbstractModule, Array<any>> = new Map<typeof AbstractModule, Array<any>>();
     public readonly modules: ConstructorInstanceMap<AbstractModule>;
-    public readonly viewer: Viewer;
+    public readonly viewer: RenderAbstract;
     private modulesStatus: Map<AbstractModule, AbstractModuleStatus> = new Map<AbstractModule, AbstractModuleStatus>();
 
     constructor(private configuration: {
         modules: Array<AbstractModule>,
-        viewerConfig: IViewerConfig,
+        viewer: RenderAbstract,
+        // viewerConfig: IViewerConfig,
         bootstrap: Bootstrap
     }) {
         super();
@@ -28,7 +30,10 @@ export class ModulesProcessor extends EventDispatcher<string> {
         this.agents = new ConstructorInstanceMap<any>();
         this.modules = new ConstructorInstanceMap<AbstractModule>();
 
-        this.viewer = new Viewer(this.configuration.viewerConfig);
+        // this.viewer = new Viewer(this.configuration.viewerConfig);
+        this.viewer = this.configuration.viewer; //ft
+
+        console.log('MPConstr', this.modulesStatus, this.modules);
 
         this.modulesPreInitialization()
             .then(() => this.modulesInitialization())

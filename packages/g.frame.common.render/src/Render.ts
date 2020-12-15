@@ -1,14 +1,24 @@
 import {Object3D, PerspectiveCamera, Scene, Vector3, WebGLRenderer} from 'three';
 import {IViewerConfig} from './interfaces';
-import {ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
-import RenderAbstract from './RenderAbstract';
+import {ParentEvent, ViewerModule, RenderAbstract} from '@verybigthings/g.frame.core';
 
+export class Renderer extends RenderAbstract {
+    public renderer: WebGLRenderer;
+    public scene: Scene;
+    public camera: PerspectiveCamera;
+    public cameraWrapParent: Object3D;
+    public cameraWrap: Object3D;
+    public modulesContainer: Object3D;
+    protected container: Element;
+    protected currentViewer: ViewerModule;
+    protected _onResizeCallback: () => void;
 
-export default class FrameworkViewer extends RenderAbstract {
+    protected renderQue: Array<Function>;
+
     constructor(private config: IViewerConfig) {
         super();
         const webglCanvas: any = document.createElement('canvas');
-        const glContext = FrameworkViewer.getContext(webglCanvas);
+        const glContext = Renderer.getContext(webglCanvas);
 
         this.renderer = new WebGLRenderer({
             context: glContext,

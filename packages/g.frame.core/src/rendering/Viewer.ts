@@ -52,7 +52,7 @@ export default class Viewer extends EventDispatcher<string> {
 
         // SCENE
         this.scene = new Scene();
-        this.scene.overrideMaterial = this.config.scene.overrideMaterial;
+        this.scene.overrideMaterial = this.config.scene.overrideMaterial || null;
 
         this.modulesContainer = new Object3D();
         this.scene.add(this.modulesContainer);

@@ -1,19 +1,18 @@
 import {Object3D, PerspectiveCamera, Scene, Vector3, WebGLRenderer} from 'three';
 import {IViewerConfig} from './interfaces';
-import {ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
-import RenderAbstract from './RenderAbstract';
+import {ParentEvent, ViewerModule, RenderAbstract} from '@verybigthings/g.frame.core';
 
 
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 
 
-export default class FrameworkViewer extends RenderAbstract {
+export class PPRender extends RenderAbstract {
     public composer: EffectComposer;
 
     constructor(private config: IViewerConfig) {
         super();
         const webglCanvas: any = document.createElement('canvas');
-        const glContext = FrameworkViewer.getContext(webglCanvas);
+        const glContext = PPRender.getContext(webglCanvas);
 
         this.renderer = new WebGLRenderer({
             context: glContext,
@@ -28,7 +27,8 @@ export default class FrameworkViewer extends RenderAbstract {
         this.renderer.shadowMap.enabled = this.config.renderer.shadowMapEnabled == null ? false : this.config.renderer.shadowMapEnabled;
 
         this.renderer.setPixelRatio(1);
-        this.renderer.setClearColor(this.config.renderer.clearColor, this.config.renderer.clearColorAlpha);
+        // this.renderer.setClearColor(this.config.renderer.clearColor, this.config.renderer.clearColorAlpha);
+        this.renderer.setClearColor('#333355', this.config.renderer.clearColorAlpha);
         this.renderer.setSize(this.config.renderer.width || window.innerWidth, this.config.renderer.height || window.innerHeight);
         this.renderer.setAnimationLoop(this.update);
 
@@ -47,7 +47,7 @@ export default class FrameworkViewer extends RenderAbstract {
 
         // SCENE
         this.scene = new Scene();
-        this.scene.overrideMaterial = this.config.scene.overrideMaterial;
+        this.scene.overrideMaterial = this.config.scene.overrideMaterial || null;
 
         this.modulesContainer = new Object3D();
         this.scene.add(this.modulesContainer);
@@ -76,71 +76,47 @@ export default class FrameworkViewer extends RenderAbstract {
         this.setComposer();
     }
 
+    update = (_time, frame) => {
+        const time = performance.now();
+
+        this.fire('update', new ParentEvent<string>('update', {time: time, frame: frame}));
+
+        this.render();
+    }
+
     setComposer() {
         this.composer = new EffectComposer(this.renderer);
     }
 
-
     render() {
         // this.renderer.render(this.scene, this.camera);
 
-        this.renderQue.forEach(func => func());
+        // this.renderQue.forEach(func => func());
         //
-        // this.composer.render();
+        this.composer.render();
     }
 
     setRenderQue(newQue: Array<Function>) {
         this.renderQue = [...newQue];
     }
 
-    setComposer_() {
-        const pixelRatio = this.renderer.getPixelRatio();
-
-        const fxaaPass = new ShaderPass( FXAAShader );
-        (<ShaderMaterial>fxaaPass.material).uniforms[ 'resolution' ].value.x = 1 / ( this.containerWidth * pixelRatio );
-        (<ShaderMaterial>fxaaPass.material).uniforms[ 'resolution' ].value.y = 1 / ( this.containerHeight * pixelRatio );
-
-        // film shader
-        const filmPass = new ShaderPass( FilmShader );
-        (<ShaderMaterial>filmPass.material).uniforms['grayscale'].value = 0;
-        (<ShaderMaterial>filmPass.material).uniforms['nIntensity'].value = 0.3;
-        (<ShaderMaterial>filmPass.material).uniforms['sIntensity'].value = 0;
-
-        // blur shader
-        const blurPass = new ShaderPass( VerticalBlurShader );
-        (<ShaderMaterial>blurPass.material).uniforms[ 'v' ].value = 0.3 / this.containerWidth;
-
-
-        // vignete shader
-        const VignettePass = new ShaderPass( VignetteShader );
-        (<ShaderMaterial>VignettePass.material).uniforms[ 'darkness' ].value = 1.0;
-        (<ShaderMaterial>VignettePass.material).uniforms[ 'offset' ].value = 0.6;
-
-        this.scenePasses();
-
-
-        // screenPass
-        this.screenPass = new ShaderPass( ScreenShader );
-        const screenMat = (<ShaderMaterial>this.screenPass.material);
-
-        screenMat.uniforms[ 'resolution' ].value.x = 1 / ( this.containerWidth * pixelRatio );
-        screenMat.uniforms[ 'resolution' ].value.y = 1 / ( this.containerHeight * pixelRatio );
- 
-        screenMat.uniforms[ 'tEffectsScene1' ].value = this.effectsComposer1.renderTarget2.texture;
-        screenMat.uniforms[ 'tBloomScene1' ].value = this.effectsComposer1_bloom.renderTarget2.texture;
-        screenMat.uniforms[ 'tEffectsScene2' ].value = this.effectsComposer2.renderTarget2.texture;
-        screenMat.uniforms[ 'tBloomScene2' ].value = this.effectsComposer2_bloom.renderTarget2.texture;
-
-        this.composer = new EffectComposer( this.renderer );
-        this.composer.renderToScreen = true;
-
-        this.composer.addPass(this.screenPass);
-
-        this.composer.addPass(filmPass);
-        this.composer.addPass(VignettePass);
-        // this.composer.addPass(blurPass);
-        this.composer.addPass(fxaaPass);
+    addToRenderQue(pass: Function) {
+        this.renderQue.push(pass);
     }
+
+    setCurrentViewer(newViewer?: ViewerModule) {
+        if (newViewer === this.currentViewer) return;
+        if (this.currentViewer && this.currentViewer.uiObject.parent) {
+            this.currentViewer.uiObject.parent.remove(this.currentViewer.uiObject);
+            this.currentViewer.dispose();
+        }
+
+        if (newViewer) {
+            this.currentViewer = newViewer;
+            this.scene.add(newViewer.uiObject);
+        }
+    }
+
 
     updateSize(width?: number, height?: number) {
         const newCanvasSize = {
