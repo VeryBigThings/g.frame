@@ -38,7 +38,7 @@
     "dat.gui": "^0.7.6"
   },
   "peerDependencies": {
-    "@verybigthings/g.frame.core": "0.1.6",
+    "@verybigthings/g.frame.core": "0.1.7",
     "@verybigthings/g.frame.common.action_controller": "0.1.6",
     "@verybigthings/g.frame.desktop": "0.1.8",
     "three": "^0.123.0"
@@ -54,7 +54,7 @@
     "tslint": "^6.1.0",
     "typedoc": "^0.17.4",
     "typescript": "^3.8.3",
-    "@verybigthings/g.frame.core": "0.1.6",
+    "@verybigthings/g.frame.core": "0.1.7",
     "@verybigthings/g.frame.common.action_controller": "0.1.6",
     "@verybigthings/g.frame.desktop": "0.1.8",
     "three": "^0.123.0"

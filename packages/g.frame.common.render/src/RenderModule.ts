@@ -1,24 +1,15 @@
-import {AbstractModule, AbstractModuleStatus, requires} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, RenderAbstract, requires} from '@verybigthings/g.frame.core';
+import { Scene, WebGLRenderer } from 'three';
 import {IViewerConfig} from './interfaces';
+import { Renderer } from './Render';
+import { WEBGLRenderer } from './'
 
-const defaultConfig = {
-    renderer: {
-
-    },
-    scene: {
-
-    },
-    camera: {
-
-    },
-};
 
 export class RenderModule extends AbstractModule {
-    private config: IViewerConfig;
+    private viewer: RenderAbstract;
 
-    constructor(config?: IViewerConfig) {
+    constructor(private config: IViewerConfig) {
         super();
-        this.config = config || defaultConfig;
     }
 
     async preInit(): Promise<AbstractModuleStatus> {
@@ -30,8 +21,12 @@ export class RenderModule extends AbstractModule {
 
     async onInit(data: any): Promise<Array<any>> {
         // console.info('Module initialization. Create all instances.');
-        return [
 
+        this.webglrenderer = new WEBGLRenderer(this.config.renderer);
+        this.viewer = new Renderer(this.config);
+
+        return [
+            
         ];
     }
 

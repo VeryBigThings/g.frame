@@ -1,7 +1,7 @@
 import ExampleApp from './ExampleApp/ExampleApp';
 import {ModulesProcessor} from '@verybigthings/g.frame.core';
 import {TemplateModule} from './Modules/TemplateModule';
-import {Vector3, ShaderMaterial} from 'three';
+import {Vector3, ShaderMaterial, Vector2, PerspectiveCamera, Scene} from 'three';
 import {DesktopModule} from '@verybigthings/g.frame.desktop';
 import {MobileModule} from '@verybigthings/g.frame.mobile';
 import {WindowComponentModule} from '@verybigthings/g.frame.components.window';
@@ -26,7 +26,6 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
-import { FilmShader } from 'three/examples/jsm/shaders/FilmShader';
 import { VignetteShader } from 'three/examples/jsm/shaders/VignetteShader';
 import { VerticalBlurShader } from 'three/examples/jsm/shaders/VerticalBlurShader';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
@@ -52,14 +51,15 @@ class App {
                 containerID: 'app',
                 onWindowResize: true,
             },
-            scene: {},
-            camera: {
-                fov: 75,
-                near: 0.1,
-                far: 10000,
-                position: new Vector3(0, 0, 10),
-                target: new Vector3(0, 0, 0),
-            }
+            scene: new Scene,
+            camera: new PerspectiveCamera(75, (window.innerWidth) / (window.innerHeight), 0.1, 10000)
+            // camera: {
+            //     fov: 75,
+            //     near: 0.1,
+            //     far: 10000,
+            //     position: new Vector3(0, 0, 10),
+            //     target: new Vector3(0, 0, 0),
+            // }
         })
 
         this.framework = new ModulesProcessor({
@@ -81,31 +81,6 @@ class App {
                 new OculusGoModule(),
             ],
             viewer: renderer,
-            // viewerConfig: {
-            //     renderer: {
-            //         antialias: true,
-            //         alpha: true,
-            //         preserveDrawingBuffer: false,
-            //         sortObjects: false,
-            //         shadowMapEnabled: false,
-            //         clearColor: 0x222222,
-            //         width: window.innerWidth,
-            //         height: window.innerHeight,
-            //         autoResize: true,
-            //         containerID: 'app',
-            //         onWindowResize: true,
-            //     },
-            //     scene: {
-            //         // overrideMaterial: Material;
-            //     },
-            //     camera: {
-            //         fov: 75,
-            //         near: 0.1,
-            //         far: 10000,
-            //         position: new Vector3(0, 0, 10),
-            //         target: new Vector3(0, 0, 0),
-            //     }
-            // },
             bootstrap: new ExampleApp()
         });
         this.setComposer(renderer);
@@ -137,6 +112,9 @@ class App {
         (<ShaderMaterial>blurPass.material).uniforms[ 'v' ].value = 0.8 / 1300;
 
 
+        // bloom 
+        const bloomPass = new UnrealBloomPass( new Vector2( renderer.container.clientWidth, renderer.container.clientHeight ), 0.3, 0.05, 0 );
+
         // vignete shader
         const VignettePass = new ShaderPass( VignetteShader );
         (<ShaderMaterial>VignettePass.material).uniforms[ 'darkness' ].value = 1.0;
@@ -148,9 +126,10 @@ class App {
 
         composer.addPass(renderPass);
 
-        composer.addPass(VignettePass);
-        composer.addPass(blurPass);
-        // composer.addPass(fxaaPass);
+        // composer.addPass(VignettePass);
+        composer.addPass(bloomPass);
+        // composer.addPass(blurPass);
+        composer.addPass(fxaaPass);
     }
 }
 

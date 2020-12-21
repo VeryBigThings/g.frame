@@ -21,7 +21,7 @@
     "@verybigthings/g.frame.components.sliders": "^0.1.4",
     "@verybigthings/g.frame.components.text": "^0.1.4",
     "@verybigthings/g.frame.components.window": "^0.1.4",
-    "@verybigthings/g.frame.core": "^0.1.6",
+    "@verybigthings/g.frame.core": "^0.1.7",
     "@verybigthings/g.frame.desktop": "^0.1.8",
     "@verybigthings/g.frame.input": "^0.1.4",
     "@verybigthings/g.frame.mobile": "^0.1.4",

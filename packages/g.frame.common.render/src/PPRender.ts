@@ -46,8 +46,9 @@ export class PPRender extends RenderAbstract {
         document.body.appendChild(this.container);
 
         // SCENE
-        this.scene = new Scene();
-        this.scene.overrideMaterial = this.config.scene.overrideMaterial || null;
+        // this.scene = new Scene();
+        this.scene = config.scene || new Scene();
+        // this.scene.overrideMaterial = this.config.scene.overrideMaterial || null;
 
         this.modulesContainer = new Object3D();
         this.scene.add(this.modulesContainer);
@@ -59,10 +60,14 @@ export class PPRender extends RenderAbstract {
         this.cameraWrap = new Object3D();
         this.cameraWrapParent.add(this.cameraWrap);
 
-        this.camera = new PerspectiveCamera(this.config.camera.fov,
-            (this.config.renderer.width || window.innerWidth) / (this.config.renderer.height || window.innerHeight),
-            this.config.camera.near,
-            this.config.camera.far);
+        // this.camera = new PerspectiveCamera(this.config.camera.fov,
+        //     (this.config.renderer.width || window.innerWidth) / (this.config.renderer.height || window.innerHeight),
+        //     this.config.camera.near,
+        //     this.config.camera.far);
+
+        this.camera = config.camera;
+
+
         this.camera.position.copy(this.config.camera.position);
         this.camera.userData.target = new Vector3().copy(this.config.camera.target);
         this.camera.lookAt(this.camera.userData.target);

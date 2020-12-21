@@ -1,4 +1,4 @@
-import {Object3D, PerspectiveCamera, Scene, Vector3, WebGLRenderer} from 'three';
+import {Camera, Object3D, PerspectiveCamera, Scene, Vector3, WebGLRenderer} from 'three';
 import {IViewerConfig} from './IViewerConfig';
 import {EventDispatcher, ParentEvent} from '../core/EventDispatcher';
 import {ViewerModule} from '../core/ViewerModule';
@@ -7,7 +7,8 @@ import {ViewerModule} from '../core/ViewerModule';
 export abstract class RenderAbstract extends EventDispatcher<string> {
     public renderer: WebGLRenderer;
     public scene: Scene;
-    public camera: PerspectiveCamera;
+    // public camera: PerspectiveCamera;
+    public camera: Camera;
     public cameraWrapParent: Object3D;
     public cameraWrap: Object3D;
     public modulesContainer: Object3D;
