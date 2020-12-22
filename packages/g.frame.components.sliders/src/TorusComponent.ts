@@ -42,7 +42,7 @@ export class TorusComponent extends ViewerModule {
     public static getSegment({color, map, innerRadius, outerRadius, innerAngle, outerAngle, startAngle, outerStartAngle, segmentsQuantity}: ISegmentOptions): GMesh<ShapeGeometry, MeshBasicMaterial> {
         const shape = new Shape();
         color = color || new Color(0xffffff);
-        segmentsQuantity = segmentsQuantity || 36;
+        segmentsQuantity = segmentsQuantity || 72;
         startAngle = startAngle || 0;
 
         // OUTER CIRCLE
