@@ -6,6 +6,7 @@ import {KeyboardController} from './controllers/KeyboardController';
 import {MousePickingController} from './controllers/MousePickingController';
 import {PickingController} from '@verybigthings/g.frame.common.picking_controller';
 import {IDesktopOptions} from './interfaces';
+import {RenderModule} from '../../g.frame.common.render/build/main/index';
 
 const defaultConfig = {
     mouseActionController: {
@@ -22,7 +23,8 @@ const defaultConfig = {
 
 @requires({
     modules: [
-        InputModule
+        InputModule,
+        RenderModule
     ]
 })
 

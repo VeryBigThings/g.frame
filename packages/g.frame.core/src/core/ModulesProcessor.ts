@@ -30,10 +30,14 @@ export class ModulesProcessor extends EventDispatcher<string> {
         // this.viewer = new Viewer(this.configuration.viewerConfig);
         this.viewer = this.configuration.viewer; //ft
 
-        console.log('MPConstr', this.modulesStatus, this.modules);
+        console.log('MPConstr', this.configuration);
+
+        const modulesList = this.modulesPrioritySort(this.configuration.modules);
+
+        console.log('SORT', modulesList);
 
         this.modulesPreInitialization()
-            .then(() => this.modulesInitialization())
+            .then(() => this.modulesInitialization(modulesList))
 
             .then(() => this.placeModulesOnScene())
 
@@ -47,7 +51,22 @@ export class ModulesProcessor extends EventDispatcher<string> {
             .then(() => this.viewer.on('update', (event) => this.update(event.data.frame)));
     }
 
-    private async modulesPreInitialization(): Promise<void> {
+    private async modulesPreInitialization(list: {[id: number]: Array<AbstractModule>}): Promise<void> {
+        for (const prio in list) {
+            console.log(prio, list[prio]);
+
+            for (const module of list[prio]) {
+                const status: AbstractModuleStatus = await module.preInit();
+
+                this.modulesStatus.set(module, status);
+
+                this.modules.set(Object.getPrototypeOf(module).constructor, module);
+            }
+
+        }   
+    }
+
+    private async modulesPreInitialization_(): Promise<void> {
         for (const module of this.configuration.modules) {
 
             if (module.__requiredModules?.length) {
@@ -70,6 +89,53 @@ export class ModulesProcessor extends EventDispatcher<string> {
         }
     }
 
+    private modulesPrioritySort(modules: Array<AbstractModule>) {
+        
+        const list = {
+            0: [],
+        };
+
+        for (const module of modules) {
+            if (module.__requiredModules?.length) {
+                const deep = this.getDependencyChain(module);
+
+                if (list[deep]) {
+                    list[deep].push(module);
+                } else {
+                    list[deep] = [module];
+                }
+            } else {
+                list[0].push(module);
+            }
+        }
+
+        return list;
+
+    }
+
+    private getDependencyChain(module) {
+        let deep = 0;
+
+        module.__requiredModules.forEach(requiredModule => {
+
+            this.configuration.modules.forEach((mod) => {
+
+                if (mod instanceof requiredModule) {
+                    deep = Math.max(deep, 1);
+
+                    if (mod.__requiredModules?.length) {
+                        deep = Math.max(deep, this.getDependencyChain(mod));
+                    }
+                }
+
+            }) 
+            
+        });
+
+        return deep;
+
+    }
+
     private async modulesInitialization(): Promise<void> {
         const modulesInstances = [];
 
@@ -77,9 +143,11 @@ export class ModulesProcessor extends EventDispatcher<string> {
 
             if (!this.modulesStatus.get(module).enabled) continue;
 
-            const instances: Array<any> = await module.onInit({
-                viewer: this.viewer
-            });
+            // const instances: Array<any> = await module.onInit({
+            //     viewer: this.viewer
+            // });
+
+            const instances: Array<any> = await module.onInit({});
 
             this.modulesInstances.set(Object.getPrototypeOf(module).constructor, instances);
 

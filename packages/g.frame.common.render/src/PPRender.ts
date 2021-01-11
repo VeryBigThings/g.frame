@@ -8,6 +8,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 
 export class PPRender extends RenderAbstract {
     public composer: EffectComposer;
+    public camera: PerspectiveCamera;
 
     constructor(private config: IViewerConfig) {
         super();
@@ -65,7 +66,7 @@ export class PPRender extends RenderAbstract {
         //     this.config.camera.near,
         //     this.config.camera.far);
 
-        this.camera = config.camera;
+        this.camera = config.camera.object;
 
 
         this.camera.position.copy(this.config.camera.position);

@@ -2,11 +2,12 @@ import {AbstractModule, AbstractModuleStatus, RenderAbstract, requires} from '@v
 import { Scene, WebGLRenderer } from 'three';
 import {IViewerConfig} from './interfaces';
 import { Renderer } from './Render';
-import { WEBGLRenderer } from './'
+import { WEBGLRenderer } from './WEBGLRenderer';
 
 
 export class RenderModule extends AbstractModule {
     private viewer: RenderAbstract;
+    private webglrenderer: WEBGLRenderer;
 
     constructor(private config: IViewerConfig) {
         super();
@@ -22,8 +23,10 @@ export class RenderModule extends AbstractModule {
     async onInit(data: any): Promise<Array<any>> {
         // console.info('Module initialization. Create all instances.');
 
-        this.webglrenderer = new WEBGLRenderer(this.config.renderer);
+        // this.webglrenderer = new WEBGLRenderer(this.config.renderer);
         this.viewer = new Renderer(this.config);
+
+        // this.webglrenderer.setAnimationLoop(this.viewer.update);
 
         return [
             

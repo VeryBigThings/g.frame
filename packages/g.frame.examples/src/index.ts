@@ -37,6 +37,8 @@ class App {
 
         const modules = [];
 
+        const camera = new PerspectiveCamera(75, (window.innerWidth) / (window.innerHeight), 0.1, 10000);
+
         const renderer = new PPRender({
             renderer: {
                 antialias: true,
@@ -52,14 +54,11 @@ class App {
                 onWindowResize: true,
             },
             scene: new Scene,
-            camera: new PerspectiveCamera(75, (window.innerWidth) / (window.innerHeight), 0.1, 10000)
-            // camera: {
-            //     fov: 75,
-            //     near: 0.1,
-            //     far: 10000,
-            //     position: new Vector3(0, 0, 10),
-            //     target: new Vector3(0, 0, 0),
-            // }
+            camera: {
+                object: camera,
+                position: new Vector3(0, 0, 10),
+                target: new Vector3(0, 0, 0),
+            }
         })
 
         this.framework = new ModulesProcessor({

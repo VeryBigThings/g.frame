@@ -1,4 +1,4 @@
-import {Camera, Material, Scene, Vector3} from 'three';
+import {Camera, Material, PerspectiveCamera, Scene, Vector3} from 'three';
 
 export interface IViewerConfig {
     renderer: {
@@ -19,12 +19,9 @@ export interface IViewerConfig {
     // scene: {
     //     overrideMaterial?: Material;
     // };
-    camera: Camera;
-    // camera: {
-    //     fov?: number;
-    //     near?: number;
-    //     far?: number;
-    //     position?: Vector3;
-    //     target?: Vector3;
-    // };
+    camera: {
+        object: PerspectiveCamera;
+        position?: Vector3;
+        target?: Vector3;
+    };
 }

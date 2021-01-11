@@ -40,7 +40,7 @@ export class WEBGLRenderer {
         // const glContext = PPRender.getContext(webglCanvas); // ???
 
         this.renderer = new WebGLRenderer({
-            context: glContext,
+            context: this.getContext(webglCanvas),
             canvas: webglCanvas,
             antialias: this.config.antialias,
             alpha: this.config.alpha,
@@ -52,8 +52,8 @@ export class WEBGLRenderer {
         this.renderer.shadowMap.enabled = this.config.shadowMapEnabled == null ? false : this.config.shadowMapEnabled;
 
         this.renderer.setPixelRatio(1);
-        // this.renderer.setClearColor(this.config.renderer.clearColor, this.config.renderer.clearColorAlpha);
-        this.renderer.setClearColor('#333355', this.config.clearColorAlpha);
+        this.renderer.setClearColor(this.config.clearColor, this.config.clearColorAlpha);
+        // this.renderer.setClearColor('#333355', this.config.clearColorAlpha);
         this.renderer.setSize(this.config.width || window.innerWidth, this.config.height || window.innerHeight);
         // this.renderer.setAnimationLoop(this.update);
 
@@ -61,5 +61,22 @@ export class WEBGLRenderer {
         if (this.renderer.getContext().makeXRCompatible instanceof Function)
             // @ts-ignore
             this.renderer.getContext().makeXRCompatible();
+    }
+
+    setAnimationLoop(func: any) {
+        this.renderer.setAnimationLoop(func);
+    }
+
+    getContext(webglCanvas) {
+        const contextTypes = ['webgl2', 'experimental-webgl', 'webgl'];
+        let glContext;
+
+        for (const contextType of contextTypes) {
+            glContext = webglCanvas.getContext(contextType, {});
+
+            if (glContext) break;
+        }
+
+        return glContext;
     }
 }

@@ -4,7 +4,7 @@ import {EventDispatcher, ParentEvent} from '../core/EventDispatcher';
 import {ViewerModule} from '../core/ViewerModule';
 
 
-export abstract class RenderAbstract extends EventDispatcher<string> {
+export class RenderAbstract extends EventDispatcher<string> {
     public renderer: WebGLRenderer;
     public scene: Scene;
     // public camera: PerspectiveCamera;
