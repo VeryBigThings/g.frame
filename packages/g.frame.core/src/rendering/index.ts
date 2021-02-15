@@ -1,2 +1,3 @@
 export * from './IViewerConfig';
-export * from './RenderAbstract';
+export * from './ViewerAbstract';
+export * from './RenderModuleAbstract';

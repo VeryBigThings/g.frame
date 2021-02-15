@@ -98,7 +98,7 @@ export default class ExampleApp extends Bootstrap {
         console.log('Universal agent for template class', modulesProcessor.agents.get(TemplateA));
 
 
-        modulesProcessor.agents.get(Loader).load().then(() => {
+        // modulesProcessor.agents.get(Loader).load().then(() => {
             // const hands = modulesProcessor.modules.get(TemplateModule).questHandView;
 
             // modulesProcessor.agents.get(ActionController).on(ActionControllerEventName.buttonDown, _window.uiObject, (event) => {
@@ -108,6 +108,6 @@ export default class ExampleApp extends Bootstrap {
             //         oculusQuestManager?.setXRControllerView(hands);
             //     }
             // });
-        });
+        // });
     }
 }

@@ -1,4 +1,4 @@
-import {AbstractModule, AbstractModuleStatus, requires} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, requires, RenderModuleAbstract} from '@verybigthings/g.frame.core';
 import {MouseActionController} from './controllers/MouseActionController';
 import {OrbitControls} from './controls/OrbitControls';
 import {InputModule} from '@verybigthings/g.frame.input';
@@ -6,7 +6,6 @@ import {KeyboardController} from './controllers/KeyboardController';
 import {MousePickingController} from './controllers/MousePickingController';
 import {PickingController} from '@verybigthings/g.frame.common.picking_controller';
 import {IDesktopOptions} from './interfaces';
-import {RenderModule} from '../../g.frame.common.render/build/main/index';
 
 const defaultConfig = {
     mouseActionController: {
@@ -24,7 +23,7 @@ const defaultConfig = {
 @requires({
     modules: [
         InputModule,
-        RenderModule
+        RenderModuleAbstract
     ]
 })
 
@@ -37,6 +36,7 @@ export class DesktopModule extends AbstractModule {
 
     constructor(config?: IDesktopOptions) {
         super();
+
         this.config = config || defaultConfig;
         this.config.mouseActionController = this.config.mouseActionController || defaultConfig.mouseActionController;
         this.config.mousePickingController = this.config.mousePickingController || defaultConfig.mousePickingController;
@@ -50,12 +50,28 @@ export class DesktopModule extends AbstractModule {
     }
 
     async onInit(data: any): Promise<Array<any>> {
-        // console.info('Module initialization. Create all instances.');
-        this.actionController = new MouseActionController(this.config.mouseActionController, data.viewer.renderer, data.viewer.camera);
 
-        this.cameraControls = new OrbitControls(data.viewer.camera, data.viewer.renderer.domElement);
+        console.log('ON INIT DESKTOP', data);
+
+        let renderModule = null;
+
+        data.forEach(element => {
+            if(element instanceof RenderModuleAbstract) renderModule = element;
+        });
+
+        const viewer = renderModule.getViewer();
+
+        console.log('ON INIT DESKTOP', data, renderModule, viewer);
+
+
+        // console.info('Module initialization. Create all instances.');
+        this.actionController = new MouseActionController(this.config.mouseActionController, viewer.renderer, viewer.camera);
+
+        this.cameraControls = new OrbitControls(viewer.camera, viewer.renderer.domElement);
+
         this.keyboardController = new KeyboardController();
-        this.pickingController = new MousePickingController(data, this.config.mousePickingController, this.actionController);
+
+        this.pickingController = new MousePickingController(viewer, this.config.mousePickingController, this.actionController);
         return [
             this.actionController,
             this.cameraControls,

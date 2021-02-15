@@ -28,6 +28,8 @@
     "@verybigthings/g.frame.oculus.go": "^0.1.4",
     "@verybigthings/g.frame.oculus.quest": "^0.1.9",
     "@verybigthings/g.frame.physics.oimo": "^0.1.4",
+    "@verybigthings/g.frame.common.render": "^0.1.6",
+    "@verybigthings/g.frame.common.render_pp": "^0.1.6",
     "three": "^0.123.0"
   },
   "devDependencies": {

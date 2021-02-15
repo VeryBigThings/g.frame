@@ -11,10 +11,10 @@ export class MousePickingController extends PickingController {
     private currentObject: Object3D;
     private scene: Scene;
 
-    constructor(protected data: any, protected config: IMousePickingControllerConfig, protected mouseActionController: MouseActionController) {
+    constructor(protected viewer: any, protected config: IMousePickingControllerConfig, protected mouseActionController: MouseActionController) {
         super(config);
         this.config.offSet = this.config.offSet || 0.95;
-        this.scene = data.viewer.scene;
+        this.scene = viewer.scene;
     }
 
     init(controls: OrbitControls) {

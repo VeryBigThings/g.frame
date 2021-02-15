@@ -19,8 +19,9 @@ import {OculusGoModule} from '@verybigthings/g.frame.oculus.go';
 
 // ????
 // import {ModulesProcessor} from '../../g.frame.core/src/core/ModulesProcessor';
-import {RenderModule} from '../../g.frame.common.render/src/RenderModule';
-import {Renderer, PPRender} from '../../g.frame.common.render/build/main/index';
+import {RenderModule} from '@verybigthings/g.frame.common.render';
+import {PPRenderModule} from '@verybigthings/g.frame.common.render_pp';
+
 
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
@@ -39,7 +40,7 @@ class App {
 
         const camera = new PerspectiveCamera(75, (window.innerWidth) / (window.innerHeight), 0.1, 10000);
 
-        const renderer = new PPRender({
+        const renderConfig = {
             renderer: {
                 antialias: true,
                 alpha: true,
@@ -59,30 +60,41 @@ class App {
                 position: new Vector3(0, 0, 10),
                 target: new Vector3(0, 0, 0),
             }
-        })
+        };
+
+
+        const rendererModulePP = new PPRenderModule(renderConfig)
 
         this.framework = new ModulesProcessor({
             modules: [
                 new TemplateModule(),
                 new DesktopModule(),
-                new MobileModule(),
-                new WindowComponentModule(),
-                new InputComponentModule(),
-                new ButtonsComponentModule(),
-                new TextComponentModule(),
-                new SlidersComponentModule(),
+                // new MobileModule(),
+                // new WindowComponentModule(),
+                // new InputComponentModule(),
+                // new ButtonsComponentModule(),
+                // new TextComponentModule(),
+                // new SlidersComponentModule(),
                 new InputModule(),
-                new LoadersModule(),
-                new VirtualKeyboardModule(),
-                new OculusQuestModule(),
-                new DropdownComponentModule(),
-                new OimoPhysicsModule(),
-                new OculusGoModule(),
+                // new LoadersModule(),
+                // new VirtualKeyboardModule(),
+                // new OculusQuestModule(),
+                // new DropdownComponentModule(),
+                // new OimoPhysicsModule(),
+                // new OculusGoModule(),
+                // new RenderModule(renderConfig),
+                rendererModulePP
             ],
-            viewer: renderer,
             bootstrap: new ExampleApp()
         });
-        this.setComposer(renderer);
+
+        this.framework.on('module_init', () => {
+
+            console.log('MODULE INIT');
+
+            this.setComposer(rendererModulePP.getViewer());
+        });
+        
 
         this.init();
     }

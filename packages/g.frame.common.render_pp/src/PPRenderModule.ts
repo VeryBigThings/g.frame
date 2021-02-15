@@ -1,10 +1,10 @@
 import {AbstractModule, AbstractModuleStatus, ViewerAbstract, RenderModuleAbstract, IViewerConfig} from '@verybigthings/g.frame.core';
 import { Scene, WebGLRenderer } from 'three';
-import { Renderer } from './Render';
+import { PPRender } from './PPRender';
 import { WEBGLRenderer } from './WEBGLRenderer';
 
 
-export class RenderModule extends RenderModuleAbstract {
+export class PPRenderModule extends RenderModuleAbstract {
     protected viewer: ViewerAbstract;
     protected webglrenderer: WEBGLRenderer;
 
@@ -23,7 +23,7 @@ export class RenderModule extends RenderModuleAbstract {
         // console.info('Module initialization. Create all instances.');
 
         // this.webglrenderer = new WEBGLRenderer(this.config.renderer);
-        this.viewer = new Renderer(this.config);
+        this.viewer = new PPRender(this.config);
 
         // this.webglrenderer.setAnimationLoop(this.viewer.update);
 

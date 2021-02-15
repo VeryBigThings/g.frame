@@ -14,9 +14,11 @@ export class TemplateModule extends AbstractModule {
     public templateB: TemplateB;
     public questHandView: QuestHandView;
     private readonly container: Object3D;
+    
 
     constructor() {
         super();
+
         this.container = new Object3D();
     }
 

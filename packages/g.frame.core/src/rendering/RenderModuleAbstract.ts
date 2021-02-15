@@ -1,15 +1,14 @@
-import {AbstractModule, AbstractModuleStatus, ViewerAbstract, RenderModuleAbstract, IViewerConfig} from '@verybigthings/g.frame.core';
-import { Scene, WebGLRenderer } from 'three';
-import { Renderer } from './Render';
-import { WEBGLRenderer } from './WEBGLRenderer';
+import {AbstractModule, AbstractModuleStatus} from '../core';
+import {IViewerConfig} from './IViewerConfig';
+
+import { ViewerAbstract } from './ViewerAbstract';
 
 
-export class RenderModule extends RenderModuleAbstract {
+export class RenderModuleAbstract extends AbstractModule {
     protected viewer: ViewerAbstract;
-    protected webglrenderer: WEBGLRenderer;
 
     constructor(protected config: IViewerConfig) {
-        super(config);
+        super();
     }
 
     async preInit(): Promise<AbstractModuleStatus> {
@@ -20,16 +19,7 @@ export class RenderModule extends RenderModuleAbstract {
     }
 
     async onInit(data: any): Promise<Array<any>> {
-        // console.info('Module initialization. Create all instances.');
-
-        // this.webglrenderer = new WEBGLRenderer(this.config.renderer);
-        this.viewer = new Renderer(this.config);
-
-        // this.webglrenderer.setAnimationLoop(this.viewer.update);
-
-        return [
-            this.viewer
-        ];
+        return [];
     }
 
     getViewer(): ViewerAbstract {

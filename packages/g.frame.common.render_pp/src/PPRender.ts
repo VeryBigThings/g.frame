@@ -1,14 +1,22 @@
 import {Object3D, PerspectiveCamera, Scene, Vector3, WebGLRenderer} from 'three';
-import {IViewerConfig} from './interfaces';
-import {ParentEvent, ViewerModule, RenderAbstract} from '@verybigthings/g.frame.core';
+import {ParentEvent, ViewerModule, ViewerAbstract, IViewerConfig} from '@verybigthings/g.frame.core';
 
 
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 
 
-export class PPRender extends RenderAbstract {
-    public composer: EffectComposer;
+export class PPRender extends ViewerAbstract {
+    public renderer: WebGLRenderer;
+    public scene: Scene;
     public camera: PerspectiveCamera;
+    public cameraWrapParent: Object3D;
+    public cameraWrap: Object3D;
+    public modulesContainer: Object3D;
+    public composer: EffectComposer;
+
+    protected container: Element;
+    protected currentViewer: ViewerModule;
+    protected _onResizeCallback: () => void;
 
     constructor(private config: IViewerConfig) {
         super();
@@ -29,7 +37,6 @@ export class PPRender extends RenderAbstract {
 
         this.renderer.setPixelRatio(1);
         // this.renderer.setClearColor(this.config.renderer.clearColor, this.config.renderer.clearColorAlpha);
-        this.renderer.setClearColor('#333355', this.config.renderer.clearColorAlpha);
         this.renderer.setSize(this.config.renderer.width || window.innerWidth, this.config.renderer.height || window.innerHeight);
         this.renderer.setAnimationLoop(this.update);
 
