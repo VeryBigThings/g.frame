@@ -35,7 +35,15 @@ export class MousePickingController extends PickingController {
 
         this.mouseActionController.once(ActionControllerEventName.buttonUp, null, (event) => {
             if (this.enabled) {
-                if (this.currentObject) this.forceRelease();
+                if (this.currentObject) {
+                    const newPosition = this.getPosition(event);
+                    this.forceRelease(
+                        newPosition,
+                        new Quaternion().setFromUnitVectors(new Vector3(0, 0, -1), event.data.ray.direction),
+                        true,
+                        0
+                    );
+                }
                 this.controls.enabled = true;
             }
         });
