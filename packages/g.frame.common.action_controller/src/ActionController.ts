@@ -195,7 +195,7 @@ export class ActionController extends MeshEventDispatcher {
             !mesh.userData.isButtonDown && (mesh.userData.isButtonDown = []);
             !mesh.userData.isOver && (mesh.userData.isOver = []);
         }
-        super.on(eventName, mesh, callback1, callback2);
+        super.once(eventName, mesh, callback1, callback2);
     }
 
     /**
