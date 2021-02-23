@@ -92,19 +92,27 @@ export class PickingController extends MeshEventDispatcher {
 
         this.fire(PickingControllerEventNames.PICKED, scope.currentPickedObject, new ParentEvent<string>('picked', {
             scope: scope,
-            controllerNumber: controllerNumber
+            controllerNumber: controllerNumber,
+            eventData: {
+                newPosition: newPosition,
+                newRotation: newRotation,
+            },
         }));
 
         this.onObjectPick(object);
         this.update(newPosition, newRotation, true, controllerNumber);
     }
 
-    forceRelease(controllerNumber: number = 0) {
+    forceRelease(newPosition: Vector3, newRotation: Quaternion, isSqueezed: boolean, controllerNumber: number = 0) {
         if (!this.enabled) return;
         const scope = this.currentValues[controllerNumber];
         this.fire(PickingControllerEventNames.RELEASED, scope.currentPickedObject, new ParentEvent<string>('released', {
             scope: scope,
-            controllerNumber: controllerNumber
+            controllerNumber: controllerNumber,
+            eventData: {
+                newPosition: newPosition,
+                newRotation: newRotation,
+            },
         }));
         scope.currentPickedObject = null;
         this.onObjectRelease();
@@ -156,14 +164,22 @@ export class PickingController extends MeshEventDispatcher {
                 scope.currentPickedObject.updateMatrixWorld();
                 this.fire(PickingControllerEventNames.MOVED, scope.currentPickedObject, new ParentEvent<string>('moved', {
                     scope: scope,
-                    controllerNumber: controllerNumber
+                    controllerNumber: controllerNumber,
+                    eventData: {
+                        newPosition: newPosition,
+                        newRotation: newRotation,
+                    },
                 }));
                 this.onObjectMove();
             } else {
                 // Releasing picked object, firing event
                 this.fire(PickingControllerEventNames.RELEASED, scope.currentPickedObject, new ParentEvent<string>('released', {
                     scope: scope,
-                    controllerNumber: controllerNumber
+                    controllerNumber: controllerNumber,
+                    eventData: {
+                        newPosition: newPosition,
+                        newRotation: newRotation,
+                    },
                 }));
                 scope.currentPickedObject = null;
                 this.onObjectRelease();

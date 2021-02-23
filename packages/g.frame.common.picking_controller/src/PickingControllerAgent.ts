@@ -44,10 +44,10 @@ export class PickingControllerAgent extends PickingController {
         }
     }
 
-    forceRelease(controllerNumber: number = 0) {
+    forceRelease(newPosition: Vector3, newRotation: Quaternion, isSqueezed: boolean, controllerNumber: number = 0) {
         if (!this.enabled) return;
         for (let i = 0; i < this.instances.length; i++) {
-            this.instances[i].forceRelease(controllerNumber);
+            this.instances[i].forceRelease(newPosition, newRotation, isSqueezed, controllerNumber);
         }
     }
 
