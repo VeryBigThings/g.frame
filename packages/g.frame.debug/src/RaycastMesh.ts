@@ -13,6 +13,7 @@ export default class RaycastMesh {
     init(actionController: ActionController, scene: Scene) {
         this.actionController = actionController;
         this.scene = scene;
+        this.inited = true;
     }
 
     raycastViewerModule(callback?: (ViewerModule) => void) {
