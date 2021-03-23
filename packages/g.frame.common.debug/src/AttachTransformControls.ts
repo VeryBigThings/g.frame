@@ -8,18 +8,18 @@ export default class AttachTransformControls {
     private scene: Scene;
     private camera: Camera;
     private controls: OrbitControls;
-    private domElement: any;
+    private domElement: HTMLElement;
     private transformControls: TransformControls;
 
     constructor() {
     }
 
-    public init(domElement: any, scene: any, camera: any, controls?: OrbitControls) {
+    public init(domElement: HTMLElement, scene: Scene, camera: Camera, controls?: OrbitControls) {
         this.domElement = domElement;
         this.scene = scene;
         this.camera = camera;
         this.controls = controls || this.controls;
-        this.initTransfromControls();
+        this.initTransformControls();
     }
 
     setControls(controls: OrbitControls) {
@@ -27,10 +27,13 @@ export default class AttachTransformControls {
     }
 
     public attach(object?: Object3D) {
+        console.log('attach', object);
         if (!this.inited) {
             console.warn('AttachTransformControls used before inited');
             return;
         }
+
+
         if (this.currentAttachedObject) {
             this.transformControls.detach();
             this.scene.remove(this.transformControls);
@@ -42,14 +45,18 @@ export default class AttachTransformControls {
         }
     }
 
-    private initTransfromControls() {
+    public detach() {
+        this.transformControls.detach();
+    }
+
+    private initTransformControls() {
         if (this.inited) return;
 
         this.inited = true;
         this.transformControls = new TransformControls(this.camera, this.domElement);
         const transformControls = this.transformControls;
 
-        this.transformControls.addEventListener('dragging-changed', function (event) {
+        this.transformControls.addEventListener('dragging-changed', (event) => {
             // @ts-ignore
             this.controls.enabled = !event.value;
         });
