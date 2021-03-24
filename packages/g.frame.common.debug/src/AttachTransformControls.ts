@@ -27,9 +27,13 @@ export default class AttachTransformControls {
     }
 
     public attach(object?: Object3D) {
-        console.log('attach', object);
         if (!this.inited) {
             console.warn('AttachTransformControls used before inited');
+            return;
+        }
+
+        if (!object.visible) {
+            console.log(`%cObject invisible`, 'color: red;');
             return;
         }
 
