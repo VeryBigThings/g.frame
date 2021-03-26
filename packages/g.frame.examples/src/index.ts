@@ -59,7 +59,7 @@ class App {
                     onWindowResize: true,
                 },
                 scene: {
-                    // overrideMaterial: Material;
+                    overrideMaterial: null,
                 },
                 camera: {
                     fov: 75,

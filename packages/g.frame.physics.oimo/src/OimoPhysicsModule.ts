@@ -1,8 +1,10 @@
 import {Object3D} from 'three';
-import {PhysicMeshUpdater} from './three.utils';
+import {PhysicMeshLinkType, PhysicMeshUpdater} from './three.utils';
 import {AbstractModule, AbstractModuleStatus} from '@verybigthings/g.frame.core';
 import {WorldFactory} from './WorldFactory';
 import {afterRender, beforeRender, lines, triangles} from './three.debugger';
+import {oimo} from 'oimophysics';
+import RigidBody = oimo.dynamics.rigidbody.RigidBody;
 
 const delay = async time => new Promise(resolve => setTimeout(resolve, time));
 
@@ -44,6 +46,14 @@ export class OimoPhysicsModule extends AbstractModule {
 
     afterInit(): void {
         console.info('Module after initialization. Here you can start save the World.');
+    }
+
+    register(obj: Object3D, rigidBody?: RigidBody, linkType: PhysicMeshLinkType = PhysicMeshLinkType.RIGID_BODY_MESH_FULL) {
+        this.physicMeshUpdater.register(obj, rigidBody, linkType);
+    }
+
+    remove(obj: Object3D) {
+        this.physicMeshUpdater.remove(obj);
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {
