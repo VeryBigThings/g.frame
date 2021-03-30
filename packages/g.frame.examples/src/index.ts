@@ -43,6 +43,7 @@ class App {
                 new DropdownComponentModule(),
                 new OimoPhysicsModule(),
                 new OculusGoModule(),
+                // new GamapadModule(),
             ],
             viewerConfig: {
                 renderer: {
@@ -59,7 +60,7 @@ class App {
                     onWindowResize: true,
                 },
                 scene: {
-                    // overrideMaterial: Material;
+                    overrideMaterial: null,
                 },
                 camera: {
                     fov: 75,
