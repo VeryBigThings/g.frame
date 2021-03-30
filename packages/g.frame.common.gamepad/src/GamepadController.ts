@@ -63,18 +63,18 @@ export class GamepadController extends AbstractGamepad {
         // this.enabled = true;
 
         this.axes = {
-            pitch : { min : -1, max : 1, gamePadvalue: 0, value: 0, keyboard : { min: 40, max: 38 } },
-            roll : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { min: 39, max: 37 } },
-            yaw : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { min: 68, max: 65 } },
-            updown : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { min: 83, max: 87 }},
-            action : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { max: 80 } },
-            changeView : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { max: 32 }, toggle : true, toggled : false },
-            pause : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { max: 27 }, toggle : true, toggled : false },
-            reset : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { max: 13 } },
-            restart : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { max: 18 } },
-            camera : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { min: 70, max: 82 } },
-            cameraLeftRight : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { min: 69, max: 84 } },
-            cameraZoom : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { min: 71, max: 84 } },
+            pitch : {min: -1, max: 1, gamePadvalue: 0},
+            roll : {min: -1, max: 1, gamePadvalue: 0},
+            yaw : {min: -1, max: 1, gamePadvalue: 0},
+            // updown : { min : -1, max : 1, gamePadvalue : 0},
+            // action : { min : -1, max : 1, gamePadvalue : 0},
+            // changeView : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { max: 32 }, toggle : true, toggled : false },
+            // pause : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { max: 27 }, toggle : true, toggled : false },
+            // reset : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { max: 13 } },
+            // restart : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { max: 18 } },
+            // camera : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { min: 70, max: 82 } },
+            // cameraLeftRight : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { min: 69, max: 84 } },
+            // cameraZoom : { min : -1, max : 1, gamePadvalue : 0, value: 0, keyboard : { min: 71, max: 84 } },
         };
 
         // this.callBacks = {
@@ -98,9 +98,8 @@ export class GamepadController extends AbstractGamepad {
         for (let name in this.axes) {
             let axis = this.axes[name];
             // @ts-ignore
-            let minPressed = axis.keyboard.min ? this.keyPressed.includes(axis.keyboard.min) : false;
-            // @ts-ignore
-            let maxPressed = axis.keyboard.max ? this.keyPressed.includes(axis.keyboard.max) : false;
+            let minPressed = false;
+            let maxPressed = false;
             let value = axis.value;
 
             if (axis.toggle) {

@@ -5,6 +5,7 @@ export enum GamepadEvents {
     // keyUp = 'keyup',
     keyPressed = 'keypressed',
     vibrationDone = 'vibrationdone',
+    all = 'all',
     // onDelete = 'ondelete',
     // onEnterSymbol = 'onentersymbol',
     // onUnFocus = 'onunfocus',
