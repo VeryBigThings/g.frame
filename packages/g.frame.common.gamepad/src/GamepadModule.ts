@@ -1,8 +1,9 @@
 import {AbstractModule, AbstractModuleStatus} from '@verybigthings/g.frame.core';
-import {GamepadController} from './GamepadController';
+import {GamepadModel} from './GamepadModel';
+import {GamepadEvents} from './AbstractGamepad';
 
 export class GamepadModule extends AbstractModule {
-    private gamepadController: GamepadController;
+    private gamepadController: GamepadModel;
 
     constructor() {
         super();
@@ -17,7 +18,7 @@ export class GamepadModule extends AbstractModule {
 
     async onInit(data: any): Promise<Array<any>> {
         // console.info('Module initialization. Create all instances.');
-        this.gamepadController = new GamepadController();
+        this.gamepadController = new GamepadModel();
 
         return [
             this.gamepadController
@@ -25,6 +26,7 @@ export class GamepadModule extends AbstractModule {
     }
 
     afterInit(): void {
+        this.gamepadController.on(GamepadEvents.keyPressed, (event) => console.log('>>>', event));
         // console.info('Module after initialization. Here you can start save the World.');
     }
 
