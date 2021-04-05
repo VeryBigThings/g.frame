@@ -36,7 +36,14 @@ export class DebugModule extends AbstractModule {
     }
 
     async onInit(data: any): Promise<Array<any>> {
-        console.log('onInit data', data);
+        console.info('Enable debugging features.');
+        console.info('The following debugging methods are available:' +
+            'attachTransformControls(object) or atc(object): adds TransformControls to the object; \n' +
+            'attachClickedMesh or acm: adds TransformControls to the clicked object; \n' +
+            'raycastViewerModule or rvm: display information about a clicked ViewerModule; \n' +
+            'raycastMesh or rm: display information about a clicked Mesh;'
+        );
+
         this.viewer = data.viewer;
         this.attachTransformControls = new AttachTransformControls();
         this.globalNamespace = new GlobalNamespace();
@@ -52,6 +59,7 @@ export class DebugModule extends AbstractModule {
 
         // AttachTransformControls
         this.globalNamespace.add('attach', (object?: Object3D) => this.attachTransformControls.attach(object));
+        this.globalNamespace.add('attachTransformControls', (object?: Object3D) => this.attachTransformControls.attach(object));
         this.globalNamespace.add('attachClickedMesh', () => {
             this.attachTransformControls.detach();
             this.raycastMesh.raycastMesh((object?: Object3D) => this.attachTransformControls.attach(object));
