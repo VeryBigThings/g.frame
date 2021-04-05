@@ -13,6 +13,7 @@ export default class RaycastMesh {
     init(actionController: ActionController, scene: Scene) {
         this.actionController = actionController;
         this.scene = scene;
+        this.inited = true;
     }
 
     raycastViewerModule(callback?: (ViewerModule) => void) {
@@ -37,10 +38,14 @@ export default class RaycastMesh {
         }
         this.actionController.once(ActionControllerEventName.buttonUp, null, (event: ActionControllerEvent) => {
             const raycaster = new Raycaster();
-            // @ts-ignore
             raycaster.ray.copy(event.data.ray);
             const intersects = raycaster.intersectObject(this.scene, true);
             if (intersects.length) {
+                if (!intersects[0].object.visible) {
+                    console.log(`%cObject invisible`, 'color: red;');
+                    return;
+                }
+
                 if (callback) callback(intersects[0].object);
                 else {
                     console.log(`%cClicked Mesh is mesh${++this.raycastedMeshes}`, 'color: green;', intersects[0].object);

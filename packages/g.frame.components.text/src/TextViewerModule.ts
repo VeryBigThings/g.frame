@@ -380,9 +380,9 @@ export class TextViewerModule extends ViewerModule {
             line = '';
         const words = text.split(' ');
         for (let n = 0; n < words.length; n++) {
-            const testLine = line + words[n] + ' ',
-                metrics = this.context.measureText(testLine),
-                testWidth = metrics.width;
+            const testLine = line + words[n] + (n !== words.length - 1 && words[n + 1] !== '\n' ? ' ' : '');
+            const metrics = this.context.measureText(testLine.split(' ').filter(word => word.indexOf('{{') === -1 && word.indexOf('}}') === -1).join(' '));
+            const testWidth = metrics.width;
             if (((testWidth > maxWidth && n > 0) || words[n] === '\n') && wrapOnLines) {
                 lines++;
                 line = words[n] + ' ';
