@@ -41,6 +41,11 @@ export default class RaycastMesh {
             raycaster.ray.copy(event.data.ray);
             const intersects = raycaster.intersectObject(this.scene, true);
             if (intersects.length) {
+                if (!intersects[0].object.visible) {
+                    console.log(`%cObject invisible`, 'color: red;');
+                    return;
+                }
+
                 if (callback) callback(intersects[0].object);
                 else {
                     console.log(`%cClicked Mesh is mesh${++this.raycastedMeshes}`, 'color: green;', intersects[0].object);

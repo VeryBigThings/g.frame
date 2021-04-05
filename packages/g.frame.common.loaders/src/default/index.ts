@@ -6,5 +6,6 @@ export * from './DAEModelsLoader';
 export * from './GLTFModelsLoader';
 export * from './OBJModelsLoader';
 export * from './OBJ2ModelsLoader';
+export * from './JSONModelsLoader';
 export * from './TexturesLoader';
 export * from './VideosLoader';
