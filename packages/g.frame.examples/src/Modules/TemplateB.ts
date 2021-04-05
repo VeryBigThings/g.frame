@@ -32,6 +32,7 @@ import {ActionController, ActionControllerEventName} from '@verybigthings/g.fram
 import {LoaderEventsName} from '@verybigthings/g.frame.common.loaders/build/main';
 
 
+
 declare function require(s: string): string;
 
 export class TemplateB extends TemplateA {
