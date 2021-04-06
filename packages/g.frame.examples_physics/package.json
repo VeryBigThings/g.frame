@@ -20,7 +20,7 @@
     "@verybigthings/g.frame.mobile": "^0.1.4",
     "@verybigthings/g.frame.oculus.go": "^0.1.4",
     "@verybigthings/g.frame.oculus.quest": "^0.1.11",
-    "@verybigthings/g.frame.physics.oimo": "^0.1.4",
+    "@verybigthings/g.frame.physics.oimo": "^0.1.5",
     "three": "^0.123.0"
   },
   "devDependencies": {

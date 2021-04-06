@@ -12,9 +12,9 @@ const delay = async time => new Promise(resolve => setTimeout(resolve, time));
 
 export class OimoPhysicsModule extends AbstractModule {
     private readonly container: Object3D;
-    private physicMeshUpdater: PhysicMeshUpdater;
-    private worldFactory: WorldFactory;
-    private oimoMousePuller: OimoMousePuller;
+    private _physicMeshUpdater: PhysicMeshUpdater;
+    private _worldFactory: WorldFactory;
+    private _oimoMousePuller: OimoMousePuller;
 
     constructor() {
         super();
@@ -33,10 +33,32 @@ export class OimoPhysicsModule extends AbstractModule {
     async onInit(data: any): Promise<Array<any>> {
         console.info('Module initialization. Create all instances.');
         return [
-            this.physicMeshUpdater = new PhysicMeshUpdater(),
-            this.worldFactory = new WorldFactory(),
-            this.oimoMousePuller = new OimoMousePuller(),
+            this._physicMeshUpdater = new PhysicMeshUpdater(),
+            this._worldFactory = new WorldFactory(),
+            this._oimoMousePuller = new OimoMousePuller(),
         ];
+    }
+
+    get oimoMousePuller(): OimoMousePuller {
+        return this._oimoMousePuller;
+    }
+
+    set oimoMousePuller(value: OimoMousePuller) {
+        console.error('You are trying to redefine instance in AbstractModule');
+    }
+    get worldFactory(): WorldFactory {
+        return this._worldFactory;
+    }
+
+    set worldFactory(value: WorldFactory) {
+        console.error('You are trying to redefine instance in AbstractModule');
+    }
+    get physicMeshUpdater(): PhysicMeshUpdater {
+        return this._physicMeshUpdater;
+    }
+
+    set physicMeshUpdater(value: PhysicMeshUpdater) {
+        console.error('You are trying to redefine instance in AbstractModule');
     }
 
     onResourcesReady(): void {
@@ -52,18 +74,18 @@ export class OimoPhysicsModule extends AbstractModule {
     }
 
     register(obj: Object3D, rigidBody?: RigidBody, linkType: PhysicMeshLinkType = PhysicMeshLinkType.RIGID_BODY_MESH_FULL) {
-        this.physicMeshUpdater.register(obj, rigidBody, linkType);
+        this._physicMeshUpdater.register(obj, rigidBody, linkType);
     }
 
     remove(obj: Object3D) {
-        this.physicMeshUpdater.remove(obj);
+        this._physicMeshUpdater.remove(obj);
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {
         // console.log('onUpdate');
         beforeRender();
-        this.physicMeshUpdater.update();
-        this.worldFactory.update();
+        this._physicMeshUpdater.update();
+        this._worldFactory.update();
         afterRender();
         // console.info('Module on update function. Use it to update instances.');
     }
