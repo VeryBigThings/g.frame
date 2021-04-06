@@ -5,7 +5,7 @@ import {WorldFactory} from './WorldFactory';
 import {afterRender, beforeRender, lines, triangles} from './three.debugger';
 import {oimo} from 'oimophysics';
 import RigidBody = oimo.dynamics.rigidbody.RigidBody;
-import {OimoMousePuller} from "./three.utils/OimoMousePuller";
+import {OimoMousePuller} from './three.utils/OimoMousePuller';
 
 const delay = async time => new Promise(resolve => setTimeout(resolve, time));
 
