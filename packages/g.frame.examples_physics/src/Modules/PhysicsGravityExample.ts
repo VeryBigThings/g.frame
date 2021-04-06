@@ -4,16 +4,15 @@ import World = oimo.dynamics.World;
 import Vec3 = oimo.common.Vec3;
 import RigidBody = oimo.dynamics.rigidbody.RigidBody;
 import OBoxGeometry = oimo.collision.geometry.BoxGeometry;
-import BroadPhaseType = oimo.collision.broadphase.BroadPhaseType;
 import DebugDraw = oimo.dynamics.common.DebugDraw;
-import {lines, triangles, OimoMousePuller, PhysicMeshUpdater, WorldFactory} from "@verybigthings/g.frame.physics.oimo";
-import {PhysicsExample} from "./PhysicsExample";
+import {lines, triangles, OimoMousePuller, PhysicMeshUpdater, WorldFactory, OimoUtil} from '@verybigthings/g.frame.physics.oimo';
+import {PhysicsExample} from './PhysicsExample';
 import {
     ActionController,
     ActionControllerEvent,
     ActionControllerEventName
-} from "@verybigthings/g.frame.common.action_controller";
-import OimoUtil from "@verybigthings/g.frame.physics.oimo/build/main/oimo.utils/OimoUtil";
+} from '@verybigthings/g.frame.common.action_controller';
+
 
 export default class PhysicsGravityExample extends PhysicsExample {
     private decal: Vector3;
@@ -76,6 +75,7 @@ export default class PhysicsGravityExample extends PhysicsExample {
 
         this.addObject(meshBox);
 
+
         const physics = OimoUtil.addRigidBody(w, center, new OBoxGeometry(new Vec3(halfExtents.x / 2, halfExtents.y / 2, halfExtents.z / 2)), wall);
         meshBox.userData.physics = physics;
         this.physicMeshUpdater.register(meshBox);
@@ -87,7 +87,7 @@ export default class PhysicsGravityExample extends PhysicsExample {
 
 
     update(): void {
-    this.world.step(1 / 30);
-    this.world.debugDraw();
+        this.world.step(1 / 30);
+        this.world.debugDraw();
     }
 }

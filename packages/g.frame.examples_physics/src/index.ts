@@ -6,9 +6,7 @@ import {DesktopModule} from '@verybigthings/g.frame.desktop';
 import {MobileModule} from '@verybigthings/g.frame.mobile';
 import {InputModule} from '@verybigthings/g.frame.input';
 import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
-import {LoadersModule} from '@verybigthings/g.frame.common.loaders';
 import {OimoPhysicsModule} from '@verybigthings/g.frame.physics.oimo';
-// import {DropdownComponentModule} from '../../g.frame.components.dropdown/src/DropdownComponentModule';
 import {OculusGoModule} from '@verybigthings/g.frame.oculus.go';
 
 
@@ -26,10 +24,9 @@ class App {
                 new DesktopModule(),
                 new MobileModule(),
                 new InputModule(),
-                new LoadersModule(),
                 new OculusQuestModule(),
-                new OimoPhysicsModule(),
                 new OculusGoModule(),
+                new OimoPhysicsModule(),
             ],
             viewerConfig: {
                 renderer: {
@@ -46,7 +43,7 @@ class App {
                     onWindowResize: true,
                 },
                 scene: {
-                    // overrideMaterial: Material;
+                    overrideMaterial: null,
                 },
                 camera: {
                     fov: 75,

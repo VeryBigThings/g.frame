@@ -12,11 +12,10 @@ import RotationalLimitMotor = oimo.dynamics.constraint.joint.RotationalLimitMoto
 import SpringDamper = oimo.dynamics.constraint.joint.SpringDamper;
 import TranslationalLimitMotor = oimo.dynamics.constraint.joint.TranslationalLimitMotor;
 import DebugDraw = oimo.dynamics.common.DebugDraw;
-import {PhysicsExample} from "./PhysicsExample";
-import {ActionController} from "@verybigthings/g.frame.common.action_controller";
-import {lines, PhysicMeshUpdater, triangles, WorldFactory} from "@verybigthings/g.frame.physics.oimo";
-import {OimoMousePuller} from "@verybigthings/g.frame.physics.oimo/build/main/three.utils/OimoMousePuller";
-import OimoUtil from "@verybigthings/g.frame.physics.oimo/build/main/oimo.utils/OimoUtil";
+import {PhysicsExample} from './PhysicsExample';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
+import {lines, PhysicMeshUpdater, triangles, WorldFactory, OimoUtil, OimoMousePuller} from '@verybigthings/g.frame.physics.oimo';
+
 
 export default class PhysicsJointsExample extends PhysicsExample {
     private decal: Vector3;

@@ -41,10 +41,10 @@ export class TemplateModule extends AbstractModule {
         console.info('Module initialization. Create all instances.');
         this.viewer = data.viewer;
         return [
-            // this.example = new PhysicsBreakableJointExample(),
+            this.example = new PhysicsBreakableJointExample(),
             // this.example = new PhysicsGravityExample(),
             // this.example = new PhysicsJointsExample(),
-            this.example = new PhysicsLinksExample(),
+            // this.example = new PhysicsLinksExample(),
         ];
     }
 

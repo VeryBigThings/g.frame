@@ -7,14 +7,13 @@ import OBoxGeometry = oimo.collision.geometry.BoxGeometry;
 import BroadPhaseType = oimo.collision.broadphase.BroadPhaseType;
 import DebugDraw = oimo.dynamics.common.DebugDraw;
 import Joint = oimo.dynamics.constraint.joint.Joint;
-import {lines, triangles, OimoMousePuller, PhysicMeshUpdater, WorldFactory} from "@verybigthings/g.frame.physics.oimo";
-import {PhysicsExample} from "./PhysicsExample";
+import {lines, triangles, OimoMousePuller, PhysicMeshUpdater, WorldFactory, OimoUtil} from '@verybigthings/g.frame.physics.oimo';
+import {PhysicsExample} from './PhysicsExample';
 import {
     ActionController,
     ActionControllerEvent,
     ActionControllerEventName
-} from "@verybigthings/g.frame.common.action_controller";
-import OimoUtil from "@verybigthings/g.frame.physics.oimo/build/main/oimo.utils/OimoUtil";
+} from '@verybigthings/g.frame.common.action_controller';
 
 export default class PhysicsBreakableJointExample extends PhysicsExample {
     private decal: Vector3;
@@ -65,7 +64,7 @@ export default class PhysicsBreakableJointExample extends PhysicsExample {
                 obj = {
                     physics: OimoUtil.addSphere(this.world, new Vec3(0, (12 - i + 1) * 0.4, 0), 0.25, false),
                     meshBox: null,
-                }
+                };
             } else {
                 obj = this.addBox(this.world, new Vec3(0, (12 - i + 1) * 0.4, 0), new Vec3(0.25, 0.25, 0.25), false);
             }
