@@ -1,7 +1,7 @@
 import {Object3D} from 'three';
 import {oimo} from 'oimophysics';
 import RigidBody = oimo.dynamics.rigidbody.RigidBody;
-import OimoUtil from '../oimo.utils/OimoUtil';
+import {OimoUtil} from '../oimo.utils';
 
 export enum PhysicMeshLinkType {
     DISABLED = 0,

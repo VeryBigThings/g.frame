@@ -1,6 +1,6 @@
 {
   "name": "@verybigthings/g.frame.physics.oimo",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Template module from g.frame",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -38,7 +38,8 @@
   },
   "peerDependencies": {
     "three": "^0.123.0",
-    "@verybigthings/g.frame.core": "^0.1.6"
+    "@verybigthings/g.frame.core": "^0.1.6",
+    "@verybigthings/g.frame.common.action_controller": "^0.1.7"
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
@@ -52,7 +53,8 @@
     "typedoc": "^0.17.4",
     "typescript": "^3.8.3",
     "three": "^0.123.0",
-    "@verybigthings/g.frame.core": "^0.1.6"
+    "@verybigthings/g.frame.core": "^0.1.6",
+    "@verybigthings/g.frame.common.action_controller": "^0.1.7"
   },
   "gitHead": "2adcda2e0de0598d1351dea6068d39f70edc7f99"
 }
