@@ -1,7 +1,7 @@
 {
   "name": "@verybigthings/g.frame.desktop",
   "version": "0.1.13",
-  "description": "Template module from g.frame",
+  "description": "Module to enable interactions on `desktop` devices for g.frame framework",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "directories": {
@@ -25,7 +25,7 @@
     "g.frame"
   ],
   "author": "Very Big Things",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/VeryBigThings/g.frame/issues"
   },

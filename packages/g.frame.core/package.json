@@ -24,7 +24,7 @@
     "three.js"
   ],
   "author": "Very Big Things",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/VeryBigThings/g.frame/issues"
   },
