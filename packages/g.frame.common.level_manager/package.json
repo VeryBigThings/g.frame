@@ -1,13 +1,13 @@
 {
   "name": "@verybigthings/g.frame.common.level_manager",
   "version": "0.1.4",
-  "description": "",
+  "description": "Level manager module for g.frame framework",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js --mode development"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@verybigthings/g.frame.common.action_controller": "^0.1.4",
     "@verybigthings/g.frame.common.loaders": "^0.1.7",
