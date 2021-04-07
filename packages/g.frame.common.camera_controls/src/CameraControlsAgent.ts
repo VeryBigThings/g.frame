@@ -40,6 +40,9 @@ export class CameraControlsAgent extends CameraControls {
                     position = new Vector3(<number>positionsMap[platform], <number>positionsMap[platform], <number>positionsMap[platform]);
                 } else if (positionsMap[platform] instanceof Vector3) {
                     position = new Vector3().copy(<Vector3>positionsMap[platform]);
+                } else if (positionsMap[platform] instanceof Object) {
+                    // @ts-ignore
+                    position = new Vector3(positionsMap[platform].x, positionsMap[platform].y, positionsMap[platform].z);
                 }
 
                 this.instances[i].copyPosition(position);
