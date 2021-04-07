@@ -7,13 +7,24 @@ import World = oimo.dynamics.World;
 import SphericalJoint = oimo.dynamics.constraint.joint.SphericalJoint;
 import SphericalJointConfig = oimo.dynamics.constraint.joint.SphericalJointConfig;
 import RayCastClosest = oimo.dynamics.callback.RayCastClosest;
+import {
+    ActionController,
+    ActionControllerEvent,
+    ActionControllerEventName
+} from '@verybigthings/g.frame.common.action_controller';
+import { PlaneGeometry, Mesh, MeshBasicMaterial, Vector3, Scene, PerspectiveCamera } from 'three';
 
-class OimoMousePullerClass {
+export class OimoMousePuller {
     world: World;
+    inited: boolean = false;
     count: number;
     mouseJointDummyBody: RigidBody;
     mouseJoint: SphericalJoint;
     previousSqueezed: boolean;
+    actionController: ActionController;
+    controls: any;
+    scene: Scene;
+    camera: PerspectiveCamera;
 
 
     constructor() {
@@ -21,7 +32,16 @@ class OimoMousePullerClass {
     }
 
 
-    public init(world: World): void {
+    public init(world: World, actionController: ActionController, controls: any, scene: Scene, camera: PerspectiveCamera): void {
+        if (this.inited) {
+            console.warn('OimoMousePuller was already inited');
+            return;
+        }
+        this.inited = true;
+        this.actionController = actionController;
+        this.controls = controls;
+        this.scene = scene;
+        this.camera = camera;
         this.world = world;
         const rigidBodyConfig: RigidBodyConfig = new RigidBodyConfig();
         rigidBodyConfig.type = RigidBodyType.STATIC;
@@ -30,32 +50,40 @@ class OimoMousePullerClass {
         this.previousSqueezed = false;
 
         let squeezed = false, moveCallback, upCallback;
-        // Viewer.actionController.on(ActionControllerEventName.buttonDown, null, (event: ActionControllerEvent) => {
-        //     squeezed = true;
-        //     const position = new Vec3(0, 0, 0);
-        //     const intersected = this.updateMouseJoint(squeezed, position, new Vec3(event.ray.origin.x, event.ray.origin.y, event.ray.origin.z), new Vec3(event.ray.direction.x, event.ray.direction.y, event.ray.direction.z));
-        //     if (intersected) {
-        //         Viewer.controls.enabled = false;
-        //         let plane;
-        //         Viewer.scene.add(plane = new Mesh(new PlaneGeometry(1000, 1000), new MeshBasicMaterial({visible: false})));
-        //         plane.position.set(position.x, position.y, position.z);
-        //         plane.lookAt(Viewer.camera.localToWorld(new Vector3()));
-        //         Viewer.actionController.once(ActionControllerEventName.buttonUp, null, (event: ActionControllerEvent) => {
-        //             Viewer.actionController.off(ActionControllerEventName.move, plane, moveCallback);
-        //             this.updateMouseJoint(false, new Vec3(null), new Vec3(null), new Vec3(null));
-        //             Viewer.controls.enabled = true;
-        //             Viewer.scene.remove(plane);
-        //             plane.geometry.dispose();
-        //             plane.material.dispose();
-        //             plane = null;
-        //             squeezed = false;
-        //         });
-        //         Viewer.actionController.on(ActionControllerEventName.move, plane, moveCallback = (event: ActionControllerEvent) => {
-        //             this.updateMouseJoint(squeezed, new Vec3(event.point.x, event.point.y, event.point.z), new Vec3(event.ray.origin.x, event.ray.origin.y, event.ray.origin.z), new Vec3(event.ray.direction.x, event.ray.direction.y, event.ray.direction.z));
-        //         });
-        //
-        //     }
-        // });
+        this.actionController.on(ActionControllerEventName.buttonDown, null, (event: ActionControllerEvent) => {
+            squeezed = true;
+            const position = new Vec3(0, 0, 0);
+            const intersected = this.updateMouseJoint(
+                squeezed,
+                position,
+                new Vec3(event.data.ray.origin.x, event.data.ray.origin.y, event.data.ray.origin.z),
+                new Vec3(event.data.ray.direction.x, event.data.ray.direction.y, event.data.ray.direction.z));
+            if (intersected) {
+                this.controls.enabled = false;
+                let plane;
+                this.scene.add(plane = new Mesh(new PlaneGeometry(1000, 1000), new MeshBasicMaterial({visible: false})));
+                plane.position.set(position.x, position.y, position.z);
+                plane.lookAt(this.camera.localToWorld(new Vector3()));
+                this.actionController.once(ActionControllerEventName.buttonUp, null, (event: ActionControllerEvent) => {
+                    this.actionController.off(ActionControllerEventName.move, plane, moveCallback);
+                    this.updateMouseJoint(false, new Vec3(null), new Vec3(null), new Vec3(null));
+                    this.controls.enabled = true;
+                    this.scene.remove(plane);
+                    plane.geometry.dispose();
+                    plane.material.dispose();
+                    plane = null;
+                    squeezed = false;
+                });
+                this.actionController.on(ActionControllerEventName.move, plane, moveCallback = (event: ActionControllerEvent) => {
+                    this.updateMouseJoint(
+                        squeezed,
+                        new Vec3(event.data.intersection.point.x, event.data.intersection.point.y, event.data.intersection.point.z),
+                        new Vec3(event.data.ray.origin.x, event.data.ray.origin.y, event.data.ray.origin.z),
+                        new Vec3(event.data.ray.direction.x, event.data.ray.direction.y, event.data.ray.direction.z));
+                });
+
+            }
+        });
     }
 
     updateMouseJoint(squeezed: boolean, newWorldPosition: Vec3, originPoint: Vec3, direction: Vec3): boolean {
@@ -103,6 +131,3 @@ class OimoMousePullerClass {
         return true;
     }
 }
-
-const OimoMousePuller = new OimoMousePullerClass();
-export {OimoMousePuller};
