@@ -9,6 +9,7 @@ import {
     Vector2,
     Vector3
 } from 'three';
+import {CameraControls} from '@verybigthings/g.frame.common.camera_controls';
 
 const STATE = {
     NONE: -1,
@@ -39,7 +40,7 @@ const EPS = 0.000001;
  *    Zoom - middle mouse, or mousewheel / touch: two finger spread or squish
  *    Pan - right mouse, or arrow keys / touch: three finger swipe
  */
-export class OrbitControls extends EventDispatcher {
+export class OrbitControls extends CameraControls {
     object: Object3D;
     object0: Object3D;
     domElement: HTMLElement | HTMLDocument;
@@ -488,6 +489,48 @@ export class OrbitControls extends EventDispatcher {
     set noZoom(value: boolean) {
         console.warn('OrbitControls: .noZoom has been deprecated. Use .enableZoom instead.');
         this.enableZoom = !value;
+    }
+
+    getOrientation(): Quaternion {
+        const direction = new Vector3().copy(this.object.localToWorld(this.object.position.clone())).sub(this.object.localToWorld(this.target.clone()));
+        const quaternion = new Quaternion().setFromUnitVectors(direction, new Vector3(0, 0, -1));
+        return quaternion;
+    }
+
+    setOrientation(newOrientation: Quaternion) {
+        newOrientation.normalize();
+        const vector = new Vector3().applyQuaternion(newOrientation);
+        this.target.copy(this.object.localToWorld(this.object.position.clone())).add(vector);
+        this.update();
+    }
+
+    setPosition(newX: number, newY: number, newZ: number) {
+        if (this.enabled === false) return;
+        // console.log(this, 'orbit controls')
+        const targetToObjectVector = this.target.clone().sub(this.object.position.clone());
+        // console.log(this.target, 'old target pos', this.target.distanceTo(this.object.position), 'old distance')
+        const newTargetPosition = new Vector3(typeof newX === 'number' ? newX : this.object.position.x,
+            typeof newY === 'number' ? newY : this.object.position.y,
+            typeof newZ === 'number' ? newZ : this.object.position.z
+        ).add(targetToObjectVector);
+
+        this.target.copy(newTargetPosition);
+        this.object.position.copy(newTargetPosition.sub(targetToObjectVector));
+        // console.log(this.target, 'new target pos', this.target.distanceTo(this.object.position), 'new distance')
+        this.update();
+    }
+
+    getPosition() {
+        return this.object.position.clone();
+    }
+
+    addPosition(addedPosition: Vector3) {
+        if (this.enabled === false) return;
+        const targetToObjectVector = this.target.clone().sub(this.object.position.clone());
+        const newPos = this.object.position.clone().add(addedPosition);
+        this.object.position.copy(newPos);
+        this.target.copy(this.object.position.clone().add(targetToObjectVector));
+        this.update();
     }
 
     update() {
