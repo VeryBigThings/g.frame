@@ -29,9 +29,6 @@
   "bugs": {
     "url": "https://github.com/VeryBigThings/g.frame/issues"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@VeryBigThings"
-  },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "devDependencies": {
     "@types/jest": "25.1.4",
