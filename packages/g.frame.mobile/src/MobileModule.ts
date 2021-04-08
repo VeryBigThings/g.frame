@@ -1,8 +1,9 @@
 import {AbstractModule, AbstractModuleStatus} from '@verybigthings/g.frame.core';
 import {TouchActionController} from './controllers/TouchActionController';
 
+
 export class MobileModule extends AbstractModule {
-    private touchActionController: TouchActionController;
+    private _touchActionController: TouchActionController;
     constructor() {
         super();
     }
@@ -17,7 +18,7 @@ export class MobileModule extends AbstractModule {
     async onInit(data: any): Promise<Array<any>> {
         // console.info('Module initialization. Create all instances.');
         return [
-            this.touchActionController = new TouchActionController({
+            this._touchActionController = new TouchActionController({
                 minRaycasterDistance: 0,
                 maxRaycasterDistance: Infinity
             }, data.viewer.renderer, data.viewer.camera),
@@ -32,8 +33,16 @@ export class MobileModule extends AbstractModule {
         // console.info('Module on update function. Use it to update instances.');
     }
 
+    get touchActionController(): TouchActionController {
+        return this._touchActionController;
+    }
+
+    set touchActionController(value: TouchActionController) {
+        console.error('You are trying to redefine instance in MobileModule');
+    }
+
     onDestroy(): void {
-        this.touchActionController.dispose();
+        this._touchActionController.dispose();
     }
 
     onResume(): void {

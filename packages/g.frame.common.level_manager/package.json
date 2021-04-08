@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --config webpack.dev.js --mode development"
+    "build": "run-s clean && run-p build:*",
+    "build:main": "tsc -p tsconfig.json",
+    "clean": "trash build test",
+    "test": "jest --passWithNoTests",
+    "lint": "tslint \"src/**/*.ts?(x)\"",
+    "docs": "trash docs && typedoc && touch docs/.nojekyll"
   },
   "author": "",
   "license": "ISC",

@@ -27,11 +27,11 @@ const defaultConfig = {
 })
 
 export class DesktopModule extends AbstractModule {
-    private pickingController: PickingController;
-    private cameraControls: OrbitControls;
+    private _pickingController: PickingController;
+    private _cameraControls: OrbitControls;
     private config: IDesktopOptions;
-    private actionController: MouseActionController;
-    private keyboardController: KeyboardController;
+    private _actionController: MouseActionController;
+    private _keyboardController: KeyboardController;
 
     constructor(config?: IDesktopOptions) {
         super();
@@ -49,16 +49,16 @@ export class DesktopModule extends AbstractModule {
 
     async onInit(data: any): Promise<Array<any>> {
         // console.info('Module initialization. Create all instances.');
-        this.actionController = new MouseActionController(this.config.mouseActionController, data.viewer.renderer, data.viewer.camera);
+        this._actionController = new MouseActionController(this.config.mouseActionController, data.viewer.renderer, data.viewer.camera);
 
-        this.cameraControls = new OrbitControls(data.viewer.camera, data.viewer.renderer.domElement);
-        this.keyboardController = new KeyboardController();
-        this.pickingController = new MousePickingController(data, this.config.mousePickingController, this.actionController);
+        this._cameraControls = new OrbitControls(data.viewer.camera, data.viewer.renderer.domElement);
+        this._keyboardController = new KeyboardController();
+        this._pickingController = new MousePickingController(data, this.config.mousePickingController, this._actionController);
         return [
-            this.actionController,
-            this.cameraControls,
-            this.keyboardController,
-            this.pickingController
+            this._actionController,
+            this._cameraControls,
+            this._keyboardController,
+            this._pickingController
         ];
     }
 
@@ -66,9 +66,41 @@ export class DesktopModule extends AbstractModule {
         // console.info('Module after initialization. Here you can start save the World.');
 
         // @ts-ignore
-        if (this.pickingController.init) this.pickingController.init(this.cameraControls);
+        if (this._pickingController.init) this._pickingController.init(this._cameraControls);
         // TODO: Add controls agent after merge
-        this.pickingController.enabled = true;
+        this._pickingController.enabled = true;
+    }
+
+    get pickingController(): PickingController {
+        return this._pickingController;
+    }
+
+    set pickingController(value: PickingController) {
+        console.error('You are trying to redefine instance in DesktopModule');
+    }
+
+    get cameraControls(): OrbitControls {
+        return this._cameraControls;
+    }
+
+    set cameraControls(value: OrbitControls) {
+        console.error('You are trying to redefine instance in DesktopModule');
+    }
+
+    get actionController(): MouseActionController {
+        return this._actionController;
+    }
+
+    set actionController(value: MouseActionController) {
+        console.error('You are trying to redefine instance in DesktopModule');
+    }
+
+    get keyboardController(): KeyboardController {
+        return this._keyboardController;
+    }
+
+    set keyboardController(value: KeyboardController) {
+        console.error('You are trying to redefine instance in DesktopModule');
     }
 
     onUpdate(params: { currentTime: number; frame: any }): void {
@@ -77,9 +109,9 @@ export class DesktopModule extends AbstractModule {
 
     onDestroy(): void {
         // console.info('Module destroy function. Use it to destroy and dispose instances.');
-        this.actionController.dispose();
-        this.keyboardController.dispose();
-        this.actionController.dispose();
+        this._keyboardController.dispose();
+        this._keyboardController.dispose();
+        this._actionController.dispose();
     }
 
     onResume(): void {
