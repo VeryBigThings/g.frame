@@ -29,18 +29,15 @@
   "bugs": {
     "url": "https://github.com/VeryBigThings/g.frame/issues"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@VeryBigThings"
-  },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
-    "@verybigthings/g.frame.common.action_controller": "^0.1.7",
-    "@verybigthings/g.frame.common.picking_controller": "^0.1.10",
-    "@verybigthings/g.frame.input": "^0.1.4"
+    "@verybigthings/g.frame.common.action_controller": "^0.2.0",
+    "@verybigthings/g.frame.common.picking_controller": "^0.2.0",
+    "@verybigthings/g.frame.input": "^0.2.0"
   },
   "peerDependencies": {
     "three": "^0.123.0",
-    "@verybigthings/g.frame.core": "^0.1.6"
+    "@verybigthings/g.frame.core": "^0.2.0"
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
@@ -54,7 +51,7 @@
     "typedoc": "^0.17.4",
     "typescript": "^3.8.3",
     "three": "^0.123.0",
-    "@verybigthings/g.frame.core": "^0.1.6"
+    "@verybigthings/g.frame.core": "^0.2.0"
   },
   "gitHead": "2adcda2e0de0598d1351dea6068d39f70edc7f99"
 }
