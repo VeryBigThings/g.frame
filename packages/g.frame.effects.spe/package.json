@@ -33,7 +33,7 @@
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
     "@verybigthings/g.frame.common.loaders": "^0.2.0",
-    "@verybigthings/shader-particle-engine": "1.0.11"
+    "shader-particle-engine": "^1.0.6"
   },
   "peerDependencies": {
     "three": "^0.123.0",
