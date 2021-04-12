@@ -1,14 +1,14 @@
-import {WindowComponent} from '@verybigthings/g.frame.components.window';
+import {WindowComponent} from 'g.frame.components.window';
 import {Box3, DoubleSide, Mesh, MeshBasicMaterial, Object3D, PlaneGeometry, Vector2, Vector3} from 'three';
-import {ITextComponentOptions, TextComponent} from '@verybigthings/g.frame.components.text';
+import {ITextComponentOptions, TextComponent} from 'g.frame.components.text';
 import {IInputComponentOptions} from './interfaces';
 import {
     ActionController,
     ActionControllerEvent,
     ActionControllerEventName
-} from '@verybigthings/g.frame.common.action_controller';
-import {ViewerModule} from '@verybigthings/g.frame.core';
-import {Input, InputManager, InputType} from '@verybigthings/g.frame.input';
+} from 'g.frame.common.action_controller';
+import {ViewerModule} from 'g.frame.core';
+import {Input, InputManager, InputType} from 'g.frame.input';
 
 export class InputComponent extends WindowComponent implements Input {
     public inputString: string = '';

@@ -1,5 +1,5 @@
-import {ParentEvent} from '@verybigthings/g.frame.core';
-import {Keyboard, KeyboardEvents} from '@verybigthings/g.frame.input';
+import {ParentEvent} from 'g.frame.core';
+import {Keyboard, KeyboardEvents} from 'g.frame.input';
 
 export class KeyboardController extends Keyboard {
     public keysPressed: Array<string>;

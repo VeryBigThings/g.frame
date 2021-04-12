@@ -1,4 +1,4 @@
-import {RoundedPlane, ViewerModule} from '@verybigthings/g.frame.core';
+import {RoundedPlane, ViewerModule} from 'g.frame.core';
 import {Mesh, MeshBasicMaterial, Vector2} from 'three';
 import {WindowComponentOptions} from './WindowComponent_interfaces';
 

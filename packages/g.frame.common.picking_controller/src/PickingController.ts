@@ -1,5 +1,5 @@
 import {Intersection, Matrix4, Object3D, Quaternion, Raycaster, Vector3} from 'three';
-import {MeshEventDispatcher, ParentEvent} from '@verybigthings/g.frame.core';
+import {MeshEventDispatcher, ParentEvent} from 'g.frame.core';
 import {IPickingControllerConfig, IPickingControllerCurrentValue} from './interfaces';
 
 export enum PickingControllerEventNames {

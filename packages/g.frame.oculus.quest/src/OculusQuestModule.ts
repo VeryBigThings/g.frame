@@ -1,12 +1,12 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
-import {Loader} from '@verybigthings/g.frame.common.loaders';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from 'g.frame.core';
+import {Loader} from 'g.frame.common.loaders';
 import {Object3D} from 'three';
 import {OculusQuestPickingController} from './OculusQuestControllers/OculusQuestPickingController';
 import {OculusQuestActionController} from './OculusQuestControllers/OculusQuestActionController';
 import {OculusQuestManager} from './OculusQuestManager';
 import {OculusQuestModel} from './OculusQuestModel';
-import {XREvent} from '@verybigthings/g.frame.common.xr_manager';
-import {PickingController, PickingControllerAgent} from '@verybigthings/g.frame.common.picking_controller';
+import {XREvent} from 'g.frame.common.xr_manager';
+import {PickingController, PickingControllerAgent} from 'g.frame.common.picking_controller';
 import {IOculusQuestOptions, OculusPickButton} from './interfaces';
 
 const defaultConfig = {

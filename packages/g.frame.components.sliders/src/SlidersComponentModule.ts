@@ -1,8 +1,8 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from 'g.frame.core';
 import {SliderComponentFactory} from './SliderComponentFactory';
 import {CircleSliderComponentFactory} from './CircleSliderComponentFactory';
 import {TorusComponentFactory} from './TorusComponentFactory';
-import {ActionController} from '@verybigthings/g.frame.common.action_controller';
+import {ActionController} from 'g.frame.common.action_controller';
 
 
 export class SlidersComponentModule extends AbstractModule {

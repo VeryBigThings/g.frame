@@ -1,5 +1,5 @@
-import { XRManager, XRViewStatus } from '@verybigthings/g.frame.common.xr_manager';
-import { Loader } from '@verybigthings/g.frame.common.loaders';
+import { XRManager, XRViewStatus } from 'g.frame.common.xr_manager';
+import { Loader } from 'g.frame.common.loaders';
 import { WebGLRenderer } from 'three';
 import { OculusGoModel } from './OculusGoModel';
 import { OculusGoView } from './OculusGoView';

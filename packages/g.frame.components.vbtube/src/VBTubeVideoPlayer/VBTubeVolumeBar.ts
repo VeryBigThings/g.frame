@@ -10,8 +10,8 @@ import {
     ActionController,
     ActionControllerEvent,
     ActionControllerEventName
-} from '@verybigthings/g.frame.common.action_controller';
-import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
+} from 'g.frame.common.action_controller';
+import {GMesh, ViewerModule} from 'g.frame.core';
 
 /**
  * Class to manipulate volume bar

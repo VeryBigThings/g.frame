@@ -1,4 +1,4 @@
-import {ViewerModule} from '@verybigthings/g.frame.core';
+import {ViewerModule} from 'g.frame.core';
 import {Vector3} from 'three';
 import {IDepthScrollComponentOptions} from './DepthScrollComponent_interfaces';
 

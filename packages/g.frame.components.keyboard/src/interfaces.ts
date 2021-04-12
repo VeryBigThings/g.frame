@@ -1,5 +1,5 @@
 import {Quaternion, Vector3} from 'three';
-import {InputType} from '@verybigthings/g.frame.input';
+import {InputType} from 'g.frame.input';
 
 export interface IVirtualKeyboardViewOptions {
     type: InputType;

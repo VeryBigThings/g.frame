@@ -1,5 +1,5 @@
-import {PickingController} from '@verybigthings/g.frame.common.picking_controller';
-import {XRControllerModelEvents} from '@verybigthings/g.frame.common.xr_manager';
+import {PickingController} from 'g.frame.common.picking_controller';
+import {XRControllerModelEvents} from 'g.frame.common.xr_manager';
 import {Object3D, Quaternion, Vector3} from 'three';
 import {IOculusQuestControllersModel, OculusQuestModel} from '../OculusQuestModel';
 import {IOculusQuestPickingControllerConfig, IOculusQuestPickingForcedState} from '../interfaces';

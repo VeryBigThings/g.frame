@@ -22,5 +22,5 @@ jobs:
       - run: rm -rf packages/*/package-lock.json
       - run: npx lerna publish from-package -y
         env:
-          NODE_AUTH_TOKEN: ${{secrets.TOKEN_PUBLISH_NPM}}
+          NODE_AUTH_TOKEN: ${{secrets.TOKEN_NPM}}
         continue-on-error: true

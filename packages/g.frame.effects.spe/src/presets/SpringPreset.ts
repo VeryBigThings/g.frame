@@ -1,4 +1,4 @@
-// import * as SPE from '@verybigthings/shader-particle-engine';
+// import * as SPE from 'shader-particle-engine';
 import * as SPE from 'shader-particle-engine';
 import {Color, NormalBlending, Texture, Vector2, Vector3} from 'three';
 import {Preset} from './Preset';
