@@ -14,8 +14,6 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 10
-      - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.TOKEN_NPM}}" >> ~/.npmrc
-      - run: echo "@verybigthings:registry=https://npm.pkg.github.com" >> ~/.npmrc
       - run: npm i
       - run: npx lerna bootstrap --no-ci
       - run: npm run lint
@@ -24,5 +22,5 @@ jobs:
       - run: rm -rf packages/*/package-lock.json
       - run: npx lerna publish from-package -y
         env:
-          NODE_AUTH_TOKEN: ${{secrets.TOKEN_NPM}}
+          NODE_AUTH_TOKEN: ${{secrets.TOKEN_PUBLISH_NPM}}
         continue-on-error: true

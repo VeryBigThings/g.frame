@@ -1,6 +1,6 @@
 import {AbstractModule, AbstractModuleStatus} from '@verybigthings/g.frame.core';
 import {GamepadModel} from './GamepadModel';
-import {GamepadEvents} from './AbstractGamepad';
+
 
 export class GamepadModule extends AbstractModule {
     public gamepadController: GamepadModel;

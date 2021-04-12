@@ -1,4 +1,5 @@
-import * as SPE from '@verybigthings/shader-particle-engine';
+// import * as SPE from '@verybigthings/shader-particle-engine';
+import * as SPE from 'shader-particle-engine';
 import {FallPreset, Preset, SpringPreset, WinterPreset} from './presets';
 import {Object3D} from 'three';
 import {Loader} from '@verybigthings/g.frame.common.loaders';

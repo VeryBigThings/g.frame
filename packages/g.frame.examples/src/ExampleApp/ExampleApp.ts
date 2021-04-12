@@ -12,13 +12,17 @@ import {Loader} from '@verybigthings/g.frame.common.loaders';
 import {TemplateModule} from '../Modules/TemplateModule';
 import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
 import {oimo} from 'oimophysics';
-import {DropdownComponent} from '../../../g.frame.components.dropdown/src/DropdownComponent';
+// import {DropdownComponent} from '../../../g.frame.components.dropdown/src/DropdownComponent';
 import {TextComponent} from '@verybigthings/g.frame.components.text';
 import {OculusGoModule} from '@verybigthings/g.frame.oculus.go';
 import World = oimo.dynamics.World;
 import {GamepadEvents, GamepadModule} from '@verybigthings/g.frame.common.gamepad';
+import {GamepadKeyNames} from '@verybigthings/g.frame.common.gamepad/build/main/GamepadModel';
 
 export default class ExampleApp extends Bootstrap {
+    private gamepadModule: GamepadModule;
+    private circleSlider: CircleSliderComponent;
+
     constructor() {
         super();
     }
@@ -27,39 +31,8 @@ export default class ExampleApp extends Bootstrap {
         super.onInit(modulesProcessor);
         console.log(modulesProcessor);
 
-        let gamepadModule: GamepadModule;
-        gamepadModule = modulesProcessor.modules.get(GamepadModule);
-        console.log('gamepadModule', gamepadModule);
-
-        // gamepadModule.gamepadController.on(GamepadEvents.keyDown, (event) => {
-        //     console.log('EVENT: ', event);
-        // });
-        //
-        // gamepadModule.gamepadController.on(GamepadEvents.keyPressed, (event) => {
-        //     console.log('EVENT: ', event);
-        // });
-        //
-        // gamepadModule.gamepadController.on(GamepadEvents.keyUp, (event) => {
-        //     console.log('EVENT: ', event);
-        // });
-
-        // gamepadModule.gamepadController.on(GamepadEvents.keyTouchStart, (event) => {
-        //     console.log('EVENT: ', event, event.data.value);
-        // });
-        //
-        // gamepadModule.gamepadController.on(GamepadEvents.keyTouched, (event) => {
-        //     console.log('EVENT: ', event, event.data.value);
-        // });
-        //
-        // gamepadModule.gamepadController.on(GamepadEvents.keyTouchEnd, (event) => {
-        //     console.log('EVENT: ', event, event.data.value);
-        // });
-
-        gamepadModule.gamepadController.on(GamepadEvents.stickChanged, (event) => {
-            console.log('EVENT: ', event);
-        });
-
-
+        this.gamepadModule = modulesProcessor.modules.get(GamepadModule);
+        console.log('gamepadModule', this.gamepadModule);
 
 
         const _world = modulesProcessor.agents.get(Factory).getFactory(World)(null);
@@ -91,7 +64,8 @@ export default class ExampleApp extends Bootstrap {
 
         let i_box = 0;
 
-        modulesProcessor.agents.get(ActionController).on(ActionControllerEventName.buttonDown, box, (event) => {
+        const actionController = modulesProcessor.agents.get(ActionController);
+        actionController.on(ActionControllerEventName.buttonDown, box, (event) => {
             console.log('Button down event', event);
             if (++i_box === 5) {
                 this.disposeObject(box);
@@ -128,59 +102,60 @@ export default class ExampleApp extends Bootstrap {
             {body: 'option 3333333333333', key: '4'},
         ];
         // @ts-ignore
-        const dropdownComponent = modulesProcessor.agents.get(Factory).getFactory(DropdownComponent)({
-            // size: new Vector2(3, 1),
-            optionList: optionList,
-            defaultSelectedOptionId: 1,
-            fontSize: '44px',
-            headStyle: {
-                color: '#000000',
-                selectedFontSize: '170px',
-                // // bgColor: '#dddddd',
-                // bgColor: '#fff0bf',
-                // bordRadius: 1,
-                headerWrap: modulesProcessor.agents.get(Factory).getFactory(WindowComponent)({
-                    size: new Vector2(6, 2),
-                    bordColor: 0x888888,
-                    background: 0xfff0bf,
-                    bordWidth: 0,
-                    bordRadius: 1
-                }).uiObject,
-                arrowComponent: modulesProcessor.agents.get(Factory).getFactory(TextComponent)({
-                    size: new Vector2(12, 2),
-                    pxSize: new Vector2(512, 256 / 3),
-                    text: {
-                        style: {
-                            size: '35px',
-                            weight: '400', family: 'FontAwesome',
-                            color: '#ffd652',
-                        },
-                        lineHeight: parseInt('35px') * 0.7,
-                        autoWrappingHorizontal: true,
-                        autoWrapping: true,
-                        value: '',
-                        // margin: {right: 35},
-                    },
-                    background: {color: '#fff0bf'}
-                }),
-                headSideOffset: 0.8,
-                arrowSymbols: {
-                    opened: '⬆',
-                    closed: '⬇',
-                }
-            },
-            optionsStyle: {
-                disableBorder: false,
-                margin: {left: 30, right: 30, top: 10, bottom: 11},
-                bgColor: '#fff0bf',
-                hoverBorderColor: '#ffd652',
-            }
-        });
-        dropdownComponent.uiObject.position.set(2, 1.5, -1);
-        dropdownComponent.uiObject.scale.setScalar(0.15);
-        this.addObject(dropdownComponent);
+        // const dropdownComponent = modulesProcessor.agents.get(Factory).getFactory(DropdownComponent)({
+        //     // size: new Vector2(3, 1),
+        //     optionList: optionList,
+        //     defaultSelectedOptionId: 1,
+        //     fontSize: '44px',
+        //     headStyle: {
+        //         color: '#000000',
+        //         selectedFontSize: '170px',
+        //         // // bgColor: '#dddddd',
+        //         // bgColor: '#fff0bf',
+        //         // bordRadius: 1,
+        //         headerWrap: modulesProcessor.agents.get(Factory).getFactory(WindowComponent)({
+        //             size: new Vector2(6, 2),
+        //             bordColor: 0x888888,
+        //             background: 0xfff0bf,
+        //             bordWidth: 0,
+        //             bordRadius: 1
+        //         }).uiObject,
+        //         arrowComponent: modulesProcessor.agents.get(Factory).getFactory(TextComponent)({
+        //             size: new Vector2(12, 2),
+        //             pxSize: new Vector2(512, 256 / 3),
+        //             text: {
+        //                 style: {
+        //                     size: '35px',
+        //                     weight: '400', family: 'FontAwesome',
+        //                     color: '#ffd652',
+        //                 },
+        //                 lineHeight: parseInt('35px') * 0.7,
+        //                 autoWrappingHorizontal: true,
+        //                 autoWrapping: true,
+        //                 value: '',
+        //                 // margin: {right: 35},
+        //             },
+        //             background: {color: '#fff0bf'}
+        //         }),
+        //         headSideOffset: 0.8,
+        //         arrowSymbols: {
+        //             opened: '⬆',
+        //             closed: '⬇',
+        //         }
+        //     },
+        //     optionsStyle: {
+        //         disableBorder: false,
+        //         margin: {left: 30, right: 30, top: 10, bottom: 11},
+        //         bgColor: '#fff0bf',
+        //         hoverBorderColor: '#ffd652',
+        //     }
+        // });
+        // dropdownComponent.uiObject.position.set(2, 1.5, -1);
+        // dropdownComponent.uiObject.scale.setScalar(0.15);
+        // this.addObject(dropdownComponent);
 
-        const circleSlider = modulesProcessor.agents.get(Factory).getFactory(CircleSliderComponent)({
+        const orbitControls = modulesProcessor.modulesInstances.get(DesktopModule).filter(instance => instance instanceof OrbitControls)[0];
+        this.circleSlider = new CircleSliderComponent({
             mode: CircleSliderComponentSlidingMode.onlyClockwise,
             diameter: 1,
             magnetOnSides: 0.05,
@@ -201,18 +176,11 @@ export default class ExampleApp extends Bootstrap {
                 mainColor: new Color(0x666666),
                 borderColor: new Color(0x999999)
             }
-        });
-        const orbitControls = modulesProcessor.modulesInstances.get(DesktopModule).filter(instance => instance instanceof OrbitControls)[0];
-        circleSlider.on('slideStart', () => {
-            orbitControls.enabled = false;
-        });
-        circleSlider.on('slideEnd', () => {
-            orbitControls.enabled = true;
-        });
-
-        circleSlider.uiObject.position.set(0.7, 1.5, -1.5);
-
-        this.addObject(circleSlider);
+        }, actionController);
+        this.circleSlider.on('slideStart', () => orbitControls.enabled = false);
+        this.circleSlider.on('slideEnd', () => orbitControls.enabled = true);
+        this.circleSlider.uiObject.position.set(0.7, 1.5, -1.5);
+        this.addObject(this.circleSlider);
 
         const inputOptions: IInputComponentOptions = {
             size: new Vector2(0.8 * 2 * 0.3, 0.8 * 0.3),
@@ -252,6 +220,45 @@ export default class ExampleApp extends Bootstrap {
                     oculusQuestManager?.setXRControllerView(hands);
                 }
             });
+        });
+
+        this.initGamepadEvents();
+    }
+
+    initGamepadEvents() {
+        // gamepadModule.gamepadController.on(GamepadEvents.keyDown, (event) => {
+        //     console.log('EVENT: ', event);
+        // });
+        //
+        // gamepadModule.gamepadController.on(GamepadEvents.keyPressed, (event) => {
+        //     console.log('EVENT: ', event);
+        // });
+        //
+        // gamepadModule.gamepadController.on(GamepadEvents.keyUp, (event) => {
+        //     console.log('EVENT: ', event);
+        // });
+
+        // gamepadModule.gamepadController.on(GamepadEvents.keyTouchStart, (event) => {
+        //     console.log('EVENT: ', event, event.data.value);
+        // });
+        //
+        // gamepadModule.gamepadController.on(GamepadEvents.keyTouched, (event) => {
+        //     console.log('EVENT: ', event, event.data.value);
+        // });
+        //
+        // gamepadModule.gamepadController.on(GamepadEvents.keyTouchEnd, (event) => {
+        //     console.log('EVENT: ', event, event.data.value);
+        // });
+
+        this.gamepadModule.gamepadController.on(GamepadEvents.stickChanged, (event) => {
+            if (event.data.stickName === GamepadKeyNames.stickLeft) {
+                this.circleSlider.uiObject.position.x += event.data.axes.x / 30;
+                this.circleSlider.uiObject.position.y -= event.data.axes.y / 30;
+            }
+            else if (event.data.stickName === GamepadKeyNames.stickRight) {
+                this.circleSlider.uiObject.rotation.x += event.data.axes.y / 30;
+                this.circleSlider.uiObject.rotation.y += event.data.axes.x / 30;
+            }
         });
     }
 }

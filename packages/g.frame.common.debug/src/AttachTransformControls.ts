@@ -27,9 +27,13 @@ export default class AttachTransformControls {
     }
 
     public attach(object?: Object3D) {
-        console.log('attach', object);
         if (!this.inited) {
             console.warn('AttachTransformControls used before inited');
+            return;
+        }
+
+        if (!object.visible) {
+            console.log(`%cObject invisible`, 'color: red;');
             return;
         }
 
@@ -42,6 +46,9 @@ export default class AttachTransformControls {
             this.transformControls.attach(object);
             this.scene.add(this.transformControls);
             this.currentAttachedObject = object;
+            console.log('%cTransform result', 'color: green;');
+            console.log('%cTransformControls keyboard shortcuts', 'color: orange;');
+            console.log('"W" translate | "E" rotate | "R" scale | "+" increase size | "-" decrease size \n"Q" toggle world/local space \n"X" toggle X | "Y" toggle Y | "Z" toggle Z | "Spacebar" toggle enabled');
         }
     }
 
@@ -57,8 +64,11 @@ export default class AttachTransformControls {
         const transformControls = this.transformControls;
 
         this.transformControls.addEventListener('dragging-changed', (event) => {
-            // @ts-ignore
             this.controls.enabled = !event.value;
+
+            console.log('%cTransform result', 'color: green;');
+            console.log('Local position:', `${this.currentAttachedObject.position.x}, ${this.currentAttachedObject.position.y}, ${this.currentAttachedObject.position.z} `);
+            console.log('Local rotation:', `${this.currentAttachedObject.rotation.x}, ${this.currentAttachedObject.rotation.y}, ${this.currentAttachedObject.rotation.z} `);
         });
 
         window.addEventListener('keydown', function (event) {

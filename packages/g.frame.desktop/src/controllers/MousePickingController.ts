@@ -54,7 +54,7 @@ export class MousePickingController extends PickingController {
         this.mouseActionController.on(ActionControllerEventName.buttonDown, mesh, (event) => {
             if (event.data.intersection.orderNumber !== 0) return;
             if (this.enabled) {
-                const intersectedEventsObjects = this.getIntersectsFromRay(event.data.ray, this.getEventObjects());
+                const intersectedEventsObjects = this.getIntersectsFromRay(event.data.ray, [mesh]);
                 // console.log('intersectedEventsObjects = ', intersectedEventsObjectsAmount, 'newPos = ', this.getPosition(event));
                 if (intersectedEventsObjects.length !== 0 && this.checkDistance(intersectedEventsObjects)) {
                     // console.log('this.currentValues',this.currentValues);

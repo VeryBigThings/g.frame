@@ -1,7 +1,7 @@
 {
   "name": "@verybigthings/g.frame.components.primitives",
-  "version": "0.1.3",
-  "description": "Primitives module from g.frame",
+  "version": "0.2.0",
+  "description": "Module for generating primitive objects for g.frame framework",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "directories": {
@@ -25,19 +25,16 @@
     "g.frame"
   ],
   "author": "Very Big Things",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/VeryBigThings/g.frame/issues"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@VeryBigThings"
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
   },
   "peerDependencies": {
     "three": "^0.123.0",
-    "@verybigthings/g.frame.core": "^0.1.6"
+    "@verybigthings/g.frame.core": "^0.2.0"
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
@@ -51,7 +48,7 @@
     "typedoc": "^0.17.4",
     "typescript": "^3.8.3",
     "three": "^0.123.0",
-    "@verybigthings/g.frame.core": "^0.1.6"
+    "@verybigthings/g.frame.core": "^0.2.0"
   },
   "gitHead": "2adcda2e0de0598d1351dea6068d39f70edc7f99"
 }

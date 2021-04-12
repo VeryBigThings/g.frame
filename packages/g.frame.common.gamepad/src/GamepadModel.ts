@@ -3,25 +3,47 @@ import {ParentEvent} from '@verybigthings/g.frame.core';
 import {IGamepadButton, IGamepadModel, IGamepadStick} from './interfaces';
 import {Vector2} from 'three';
 
+
+export enum GamepadKeyNames {
+    cross = 'cross',
+    circle = 'circle',
+    square = 'square',
+    triangle = 'triangle',
+    l1 = 'l1',
+    r1 = 'r1',
+    l2 = 'l2',
+    r2 = 'r2',
+    share = 'share',
+    options = 'options',
+    stickLeft = 'stickLeft',
+    stickRight = 'stickRight',
+    top = 'top',
+    down = 'down',
+    left = 'left',
+    right = 'right',
+    ps = 'ps',
+    touchpad = 'touchpad',
+}
+
 const btnConfig = {
-    0: 'cross',
-    1: 'circle',
-    2: 'square',
-    3: 'triangle',
-    4: 'l1',
-    5: 'r1',
-    6: 'l2',
-    7: 'r2',
-    8: 'share',
-    9: 'options',
-    10: 'stickLeft',
-    11: 'stickRight',
-    12: 'top',
-    13: 'down',
-    14: 'left',
-    15: 'right',
-    16: 'ps',
-    17: 'touchpad',
+    0: GamepadKeyNames.cross,
+    1: GamepadKeyNames.circle,
+    2: GamepadKeyNames.square,
+    3: GamepadKeyNames.triangle,
+    4: GamepadKeyNames.l1,
+    5: GamepadKeyNames.r1,
+    6: GamepadKeyNames.l2,
+    7: GamepadKeyNames.r2,
+    8: GamepadKeyNames.share,
+    9: GamepadKeyNames.options,
+    10: GamepadKeyNames.stickLeft,
+    11: GamepadKeyNames.stickRight,
+    12: GamepadKeyNames.top,
+    13: GamepadKeyNames.down,
+    14: GamepadKeyNames.left,
+    15: GamepadKeyNames.right,
+    16: GamepadKeyNames.ps,
+    17: GamepadKeyNames.touchpad,
 };
 
 export class GamepadModel extends AbstractGamepad {
@@ -96,11 +118,11 @@ export class GamepadModel extends AbstractGamepad {
         const stickLeftAxes = new Vector2(this.gamepad.axes[0], this.gamepad.axes[1]);
         const stickRightAxes = new Vector2(this.gamepad.axes[2], this.gamepad.axes[3]);
 
-
+        // STICK EVENTS
         if (stickLeftAxes.length() > 0.05) {
             this.isStateChanged = true;
             this.fire(GamepadEvents.stickChanged, new ParentEvent(GamepadEvents.stickChanged, {
-                stickName: 'left',
+                stickName: GamepadKeyNames.stickLeft,
                 axes: stickLeftAxes,
                 timestamp: this.gamepad.timestamp
             }));
@@ -108,7 +130,7 @@ export class GamepadModel extends AbstractGamepad {
         if (stickRightAxes.length() > 0.05) {
             this.isStateChanged = true;
             this.fire(GamepadEvents.stickChanged, new ParentEvent(GamepadEvents.stickChanged, {
-                stickName: 'right',
+                stickName: GamepadKeyNames.stickRight,
                 axes: stickRightAxes,
                 timestamp: this.gamepad.timestamp
             }));
@@ -126,7 +148,7 @@ export class GamepadModel extends AbstractGamepad {
                 timestamp: this.gamepad.timestamp
             };
 
-            // PRESSED
+            // PRESSED EVENTS
             if (!this.model[btnConfig[indexBtn]].pressed && gamepadBtn.pressed) {
                 this.isStateChanged = true;
                 this.fire(GamepadEvents.keyDown, new ParentEvent(GamepadEvents.keyDown, keyEventData));
@@ -141,7 +163,7 @@ export class GamepadModel extends AbstractGamepad {
             }
 
 
-            // TOUCHED
+            // TOUCHED EVENTS
             if (!this.model[btnConfig[indexBtn]].touched && gamepadBtn.touched) {
                 this.isStateChanged = true;
                 this.fire(GamepadEvents.keyTouchStart, new ParentEvent(GamepadEvents.keyTouchStart, keyEventData));
