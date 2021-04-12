@@ -6,10 +6,10 @@ export interface IGamepadStick extends IGamepadButton {
 
 export interface IGamepadButton {
     touched: boolean;
-    clicked: boolean;
     pressed: boolean;
     value: number;
 }
+
 
 export interface IGamepadModel {
     enabled: boolean;

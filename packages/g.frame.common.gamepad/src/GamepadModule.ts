@@ -3,7 +3,7 @@ import {GamepadModel} from './GamepadModel';
 import {GamepadEvents} from './AbstractGamepad';
 
 export class GamepadModule extends AbstractModule {
-    private gamepadController: GamepadModel;
+    public gamepadController: GamepadModel;
 
     constructor() {
         super();
@@ -26,7 +26,7 @@ export class GamepadModule extends AbstractModule {
     }
 
     afterInit(): void {
-        this.gamepadController.on(GamepadEvents.keyPressed, (event) => console.log('>>>', event));
+        // this.gamepadController.on(GamepadEvents.keyPressed, (event) => console.log('>>>', event));
         // console.info('Module after initialization. Here you can start save the World.');
     }
 

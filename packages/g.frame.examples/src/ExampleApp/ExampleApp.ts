@@ -15,8 +15,8 @@ import {oimo} from 'oimophysics';
 import {DropdownComponent} from '../../../g.frame.components.dropdown/src/DropdownComponent';
 import {TextComponent} from '@verybigthings/g.frame.components.text';
 import {OculusGoModule} from '@verybigthings/g.frame.oculus.go';
-import {PickingController} from '@verybigthings/g.frame.common.picking_controller';
 import World = oimo.dynamics.World;
+import {GamepadEvents, GamepadModule} from '@verybigthings/g.frame.common.gamepad';
 
 export default class ExampleApp extends Bootstrap {
     constructor() {
@@ -26,6 +26,41 @@ export default class ExampleApp extends Bootstrap {
     onInit(modulesProcessor: ModulesProcessor) {
         super.onInit(modulesProcessor);
         console.log(modulesProcessor);
+
+        let gamepadModule: GamepadModule;
+        gamepadModule = modulesProcessor.modules.get(GamepadModule);
+        console.log('gamepadModule', gamepadModule);
+
+        // gamepadModule.gamepadController.on(GamepadEvents.keyDown, (event) => {
+        //     console.log('EVENT: ', event);
+        // });
+        //
+        // gamepadModule.gamepadController.on(GamepadEvents.keyPressed, (event) => {
+        //     console.log('EVENT: ', event);
+        // });
+        //
+        // gamepadModule.gamepadController.on(GamepadEvents.keyUp, (event) => {
+        //     console.log('EVENT: ', event);
+        // });
+
+        // gamepadModule.gamepadController.on(GamepadEvents.keyTouchStart, (event) => {
+        //     console.log('EVENT: ', event, event.data.value);
+        // });
+        //
+        // gamepadModule.gamepadController.on(GamepadEvents.keyTouched, (event) => {
+        //     console.log('EVENT: ', event, event.data.value);
+        // });
+        //
+        // gamepadModule.gamepadController.on(GamepadEvents.keyTouchEnd, (event) => {
+        //     console.log('EVENT: ', event, event.data.value);
+        // });
+
+        gamepadModule.gamepadController.on(GamepadEvents.stickChanged, (event) => {
+            console.log('EVENT: ', event);
+        });
+
+
+
 
         const _world = modulesProcessor.agents.get(Factory).getFactory(World)(null);
         console.log('_world', _world);
@@ -84,7 +119,7 @@ export default class ExampleApp extends Bootstrap {
 
         new Tween({})
             .onUpdate(alpha => console.log(alpha))
-            .start()
+            .start();
 
         const optionList = [
             {body: 'False', key: 'False'},

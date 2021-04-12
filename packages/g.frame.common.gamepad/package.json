@@ -1,7 +1,7 @@
 {
   "name": "@verybigthings/g.frame.common.gamepad",
-  "version": "0.0.1",
-  "description": "Debug module from g.frame",
+  "version": "0.0.2",
+  "description": "Gamepad module from g.frame",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "directories": {

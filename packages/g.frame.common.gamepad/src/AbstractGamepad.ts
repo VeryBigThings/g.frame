@@ -1,14 +1,16 @@
 import {EventDispatcher, ParentEvent} from '@verybigthings/g.frame.core';
 
 export enum GamepadEvents {
-    // keyDown = 'keydown',
-    // keyUp = 'keyup',
+    keyDown = 'keydown',
+    keyUp = 'keyup',
     keyPressed = 'keypressed',
-    vibrationDone = 'vibrationdone',
-    all = 'all',
-    // onDelete = 'ondelete',
-    // onEnterSymbol = 'onentersymbol',
-    // onUnFocus = 'onunfocus',
+    keyTouchStart = 'keytouchstart',
+    keyTouched = 'keytouched',
+    keyTouchEnd = 'keytouchend',
+    stickChanged = 'stickchanged',
+    vibrationStart = 'vibrationstart',
+    vibrationEnd = 'vibrationend',
+    changed = 'changed',
 }
 
 export class AbstractGamepad extends EventDispatcher<GamepadEvents> {
