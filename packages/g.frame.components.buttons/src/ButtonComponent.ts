@@ -1,14 +1,14 @@
 import {CircleGeometry, Color, DoubleSide, Group, Mesh, MeshBasicMaterial, Object3D, Vector2, Vector3} from 'three';
-import {ITextViewerModuleOptions, TextViewerModule} from '@verybigthings/g.frame.components.text';
+import {ITextViewerModuleOptions, TextViewerModule} from 'g.frame.components.text';
 import {IButtonComponentOptions} from './ButtonComponent_interfaces';
 // import * as TWEEN from '../libs/TWEEN/Tween';
-import {RoundedPlane, ViewerModule} from '@verybigthings/g.frame.core';
+import {RoundedPlane, ViewerModule} from 'g.frame.core';
 import {
     ActionController,
     ActionControllerEvent,
     ActionControllerEventName
-} from '@verybigthings/g.frame.common.action_controller';
-import {WindowComponent} from '@verybigthings/g.frame.components.window';
+} from 'g.frame.common.action_controller';
+import {WindowComponent} from 'g.frame.components.window';
 
 export class ButtonComponent extends TextViewerModule {
     protected box: Mesh;

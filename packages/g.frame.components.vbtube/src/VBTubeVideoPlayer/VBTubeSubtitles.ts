@@ -12,8 +12,8 @@ import {
     UI_BASIC_COLOR
 } from './constants';
 import {Group, MeshBasicMaterial, PlaneBufferGeometry, Vector2} from 'three';
-import {TextComponent} from '@verybigthings/g.frame.components.text';
-import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
+import {TextComponent} from 'g.frame.components.text';
+import {GMesh, ViewerModule} from 'g.frame.core';
 import {IDisableButtons} from './';
 
 /**

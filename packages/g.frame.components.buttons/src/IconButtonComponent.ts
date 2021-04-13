@@ -1,7 +1,7 @@
 import {Group, Mesh, Vector2, Vector3} from 'three';
 import {ButtonComponent} from './ButtonComponent';
 import {IIconButtonComponentOptions} from './IconButtonComponent_interfaces';
-import {ActionController} from '@verybigthings/g.frame.common.action_controller';
+import {ActionController} from 'g.frame.common.action_controller';
 
 export class IconButtonComponent extends ButtonComponent {
     protected box: Mesh;

@@ -1,23 +1,22 @@
 import {BoxGeometry, Color, Mesh, MeshBasicMaterial, Vector2} from 'three';
-import {Bootstrap, Factory, ModulesProcessor, Tween} from '@verybigthings/g.frame.core';
+import {Bootstrap, Factory, ModulesProcessor, Tween} from 'g.frame.core';
 import {TemplateA} from '../Modules/TemplateA';
-import {WindowComponent} from '@verybigthings/g.frame.components.window';
-import {IconButtonComponent} from '@verybigthings/g.frame.components.buttons';
-import {CircleSliderComponent, CircleSliderComponentSlidingMode} from '@verybigthings/g.frame.components.sliders';
-import {DesktopModule, OrbitControls} from '@verybigthings/g.frame.desktop';
-import {InputModule, InputType} from '@verybigthings/g.frame.input';
-import {IInputComponentOptions, InputComponent} from '@verybigthings/g.frame.components.input';
-import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
-import {Loader} from '@verybigthings/g.frame.common.loaders';
+import {WindowComponent} from 'g.frame.components.window';
+import {IconButtonComponent} from 'g.frame.components.buttons';
+import {CircleSliderComponent, CircleSliderComponentSlidingMode} from 'g.frame.components.sliders';
+import {DesktopModule, OrbitControls} from 'g.frame.desktop';
+import {InputModule, InputType} from 'g.frame.input';
+import {IInputComponentOptions, InputComponent} from 'g.frame.components.input';
+import {ActionController, ActionControllerEventName} from 'g.frame.common.action_controller';
+import {Loader} from 'g.frame.common.loaders';
 import {TemplateModule} from '../Modules/TemplateModule';
-import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
+import {OculusQuestModule} from 'g.frame.oculus.quest';
 import {oimo} from 'oimophysics';
 // import {DropdownComponent} from '../../../g.frame.components.dropdown/src/DropdownComponent';
-import {TextComponent} from '@verybigthings/g.frame.components.text';
-import {OculusGoModule} from '@verybigthings/g.frame.oculus.go';
+import {OculusGoModule} from 'g.frame.oculus.go';
 import World = oimo.dynamics.World;
-import {GamepadEvents, GamepadModule} from '@verybigthings/g.frame.common.gamepad';
-import {GamepadKeyNames} from '@verybigthings/g.frame.common.gamepad/build/main/GamepadModel';
+import {GamepadEvents, GamepadModule, GamepadKeyNames} from 'g.frame.common.gamepad';
+// import {GamepadKeyNames} from 'g.frame.common.gamepad/build/main/GamepadModel';
 
 export default class ExampleApp extends Bootstrap {
     private gamepadModule: GamepadModule;

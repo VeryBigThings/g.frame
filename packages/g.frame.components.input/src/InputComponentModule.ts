@@ -1,7 +1,7 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap, requires} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap, requires} from 'g.frame.core';
 import {InputComponentFactory} from './InputComponentFactory';
-import {InputModule} from '@verybigthings/g.frame.input';
-import {ActionController} from '@verybigthings/g.frame.common.action_controller';
+import {InputModule} from 'g.frame.input';
+import {ActionController} from 'g.frame.common.action_controller';
 
 @requires({
     modules: [

@@ -1,5 +1,5 @@
 import {Object3D, Raycaster, Scene} from 'three';
-import {ActionController, ActionControllerEvent, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
+import {ActionController, ActionControllerEvent, ActionControllerEventName} from 'g.frame.common.action_controller';
 
 export default class RaycastMesh {
     private actionController: ActionController;

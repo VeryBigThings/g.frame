@@ -1,5 +1,5 @@
-import { ControllerHandnessCodes, IXRControllerModel, IXRControllerView, XRControllerModelEvents } from '@verybigthings/g.frame.common.xr_manager';
-import { EventDispatcher, ParentEvent } from '@verybigthings/g.frame.core';
+import { ControllerHandnessCodes, IXRControllerModel, IXRControllerView, XRControllerModelEvents } from 'g.frame.common.xr_manager';
+import { EventDispatcher, ParentEvent } from 'g.frame.core';
 import { Matrix4, Mesh, Object3D, Quaternion, Vector3, Vector4 } from 'three';
 import { VRControlsEvent } from './OculusQuestControllers/VRControlsEvent';
 import { Pointer } from './OculusQuestControllers/Pointer';

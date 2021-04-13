@@ -1,4 +1,4 @@
-import {EventDispatcher, ParentEvent} from '@verybigthings/g.frame.core';
+import {EventDispatcher, ParentEvent} from 'g.frame.core';
 import {Keyboard, KeyboardEvents} from './Keyboard';
 import {Input} from './Input';
 
