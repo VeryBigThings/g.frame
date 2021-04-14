@@ -11,7 +11,7 @@ import RotationalLimitMotor = oimo.dynamics.constraint.joint.RotationalLimitMoto
 import SpringDamper = oimo.dynamics.constraint.joint.SpringDamper;
 import DebugDraw = oimo.dynamics.common.DebugDraw;
 import {PhysicsExample} from './PhysicsExample';
-import {ActionController} from '@verybigthings/g.frame.common.action_controller';
+import {ActionController} from 'g.frame.common.action_controller';
 import {
     lines,
     PhysicMeshLinkType,
@@ -20,7 +20,7 @@ import {
     WorldFactory,
     OimoUtil,
     OimoMousePuller
-} from '@verybigthings/g.frame.physics.oimo';
+} from 'g.frame.physics.oimo';
 
 
 export default class PhysicsLinksExample extends PhysicsExample {

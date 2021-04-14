@@ -1,10 +1,10 @@
-import {AbstractModule, AbstractModuleStatus, requires} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, requires} from 'g.frame.core';
 import {MouseActionController} from './controllers/MouseActionController';
 import {OrbitControls} from './controls/OrbitControls';
-import {InputModule} from '@verybigthings/g.frame.input';
+import {InputModule} from 'g.frame.input';
 import {KeyboardController} from './controllers/KeyboardController';
 import {MousePickingController} from './controllers/MousePickingController';
-import {PickingController} from '@verybigthings/g.frame.common.picking_controller';
+import {PickingController} from 'g.frame.common.picking_controller';
 import {IDesktopOptions} from './interfaces';
 
 const defaultConfig = {
@@ -29,15 +29,15 @@ const defaultConfig = {
 export class DesktopModule extends AbstractModule {
     private _pickingController: PickingController;
     private _cameraControls: OrbitControls;
-    private config: IDesktopOptions;
+    private _config: IDesktopOptions;
     private _actionController: MouseActionController;
     private _keyboardController: KeyboardController;
 
     constructor(config?: IDesktopOptions) {
         super();
-        this.config = config || defaultConfig;
-        this.config.mouseActionController = this.config.mouseActionController || defaultConfig.mouseActionController;
-        this.config.mousePickingController = this.config.mousePickingController || defaultConfig.mousePickingController;
+        this._config = config || defaultConfig;
+        this._config.mouseActionController = this._config.mouseActionController || defaultConfig.mouseActionController;
+        this._config.mousePickingController = this._config.mousePickingController || defaultConfig.mousePickingController;
     }
 
     async preInit(): Promise<AbstractModuleStatus> {
@@ -49,11 +49,11 @@ export class DesktopModule extends AbstractModule {
 
     async onInit(data: any): Promise<Array<any>> {
         // console.info('Module initialization. Create all instances.');
-        this._actionController = new MouseActionController(this.config.mouseActionController, data.viewer.renderer, data.viewer.camera);
+        this._actionController = new MouseActionController(this._config.mouseActionController, data.viewer.renderer, data.viewer.camera);
 
         this._cameraControls = new OrbitControls(data.viewer.camera, data.viewer.renderer.domElement);
         this._keyboardController = new KeyboardController();
-        this._pickingController = new MousePickingController(data, this.config.mousePickingController, this._actionController);
+        this._pickingController = new MousePickingController(data, this._config.mousePickingController, this._actionController);
         return [
             this._actionController,
             this._cameraControls,
@@ -69,6 +69,14 @@ export class DesktopModule extends AbstractModule {
         if (this._pickingController.init) this._pickingController.init(this._cameraControls);
         // TODO: Add controls agent after merge
         this._pickingController.enabled = true;
+    }
+
+    get config(): IDesktopOptions {
+        return this._config;
+    }
+
+    set config(value: IDesktopOptions) {
+        console.error('You are trying to redefine instance in DesktopModule');
     }
 
     get pickingController(): PickingController {

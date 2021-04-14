@@ -1,7 +1,7 @@
 import {Object3D, Vector3} from 'three';
-import {ViewerModule} from '@verybigthings/g.frame.core';
-import {ActionController} from '@verybigthings/g.frame.common.action_controller';
-import {OimoMousePuller, PhysicMeshUpdater, WorldFactory} from '@verybigthings/g.frame.physics.oimo';
+import {ViewerModule} from 'g.frame.core';
+import {ActionController} from 'g.frame.common.action_controller';
+import {OimoMousePuller, PhysicMeshUpdater, WorldFactory} from 'g.frame.physics.oimo';
 import {oimo} from 'oimophysics';
 import World = oimo.dynamics.World;
 

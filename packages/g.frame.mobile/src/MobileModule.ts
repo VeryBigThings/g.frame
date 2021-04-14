@@ -1,4 +1,4 @@
-import {AbstractModule, AbstractModuleStatus} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus} from 'g.frame.core';
 import {TouchActionController} from './controllers/TouchActionController';
 
 

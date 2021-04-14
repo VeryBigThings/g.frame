@@ -5,13 +5,13 @@ import Vec3 = oimo.common.Vec3;
 import RigidBody = oimo.dynamics.rigidbody.RigidBody;
 import OBoxGeometry = oimo.collision.geometry.BoxGeometry;
 import DebugDraw = oimo.dynamics.common.DebugDraw;
-import {lines, triangles, OimoMousePuller, PhysicMeshUpdater, WorldFactory, OimoUtil} from '@verybigthings/g.frame.physics.oimo';
+import {lines, triangles, OimoMousePuller, PhysicMeshUpdater, WorldFactory, OimoUtil} from 'g.frame.physics.oimo';
 import {PhysicsExample} from './PhysicsExample';
 import {
     ActionController,
     ActionControllerEvent,
     ActionControllerEventName
-} from '@verybigthings/g.frame.common.action_controller';
+} from 'g.frame.common.action_controller';
 
 
 export default class PhysicsGravityExample extends PhysicsExample {

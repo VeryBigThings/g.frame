@@ -1,4 +1,4 @@
-import { ActionController, ActionControllerEventName } from '@verybigthings/g.frame.common.action_controller';
+import { ActionController, ActionControllerEventName } from 'g.frame.common.action_controller';
 import { Vector3, Raycaster } from 'three';
 
 /**

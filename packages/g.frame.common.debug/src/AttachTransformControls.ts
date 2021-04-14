@@ -1,6 +1,6 @@
 import {Camera, Object3D, Scene} from 'three';
 import {TransformControls} from 'three/examples/jsm/controls/TransformControls';
-import {OrbitControls} from '@verybigthings/g.frame.desktop';
+import {OrbitControls} from 'g.frame.desktop';
 
 export default class AttachTransformControls {
     public currentAttachedObject: Object3D;
