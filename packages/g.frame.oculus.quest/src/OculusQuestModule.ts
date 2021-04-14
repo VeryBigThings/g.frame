@@ -24,6 +24,7 @@ const defaultConfig = {
 
 export class OculusQuestModule extends AbstractModule {
     public oculusQuestManager: OculusQuestManager;
+    public actionController: OculusQuestActionController;
     public pickingController: OculusQuestPickingController;
     public config: IOculusQuestOptions;
     public oculusQuestModel: OculusQuestModel;
@@ -54,8 +55,7 @@ export class OculusQuestModule extends AbstractModule {
         this.oculusQuestModel = new OculusQuestModel(data);
         this.oculusQuestManager = new OculusQuestManager(data.viewer.renderer, this.oculusQuestModel);
 
-        const actionController = new OculusQuestActionController(data, this.config.oculusQuestActionController, this.oculusQuestModel);
-
+        this.actionController = new OculusQuestActionController(data, this.config.oculusQuestActionController, this.oculusQuestModel);
         this.pickingController = new OculusQuestPickingController(data, this.config.oculusQuestPickingController, this.oculusQuestModel);
 
         // Adds view to the module container
@@ -63,7 +63,7 @@ export class OculusQuestModule extends AbstractModule {
 
         return [
             this.oculusQuestManager,
-            actionController,
+            this.actionController,
             this.pickingController,
         ];
     }
