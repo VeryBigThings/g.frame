@@ -12,7 +12,9 @@ export enum XRControllerModelEvents {
     buttonDown = 'buttonDown',
     buttonUp = 'buttonUp',
     click = 'click',
-    controllerChanged = 'controllerChanged'
+    controllerChanged = 'controllerChanged',
+    vibrationStart = 'vibrationstart',
+    vibrationEnd = 'vibrationend',
 }
 
 export interface IXRControllerModel extends EventDispatcher<XRControllerModelEvents> {
