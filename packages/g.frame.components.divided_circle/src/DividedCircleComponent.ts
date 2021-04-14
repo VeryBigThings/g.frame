@@ -12,11 +12,11 @@ import {
     Vector2,
     Vector3
 } from 'three';
-import {ParentEvent, ViewerModule} from 'g.frame.core';
-import {TextComponent} from 'g.frame.components.text';
-import {ButtonComponent, IconButtonComponent} from 'g.frame.components.buttons';
+import {ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {TextComponent} from '@verybigthings/g.frame.components.text';
+import {ButtonComponent, IconButtonComponent} from '@verybigthings/g.frame.components.buttons';
 import {IDividedCircleMenu, ISectorItem, ISectorOptions} from './interfaces';
-import {ActionController, ActionControllerEventName} from 'g.frame.common.action_controller';
+import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
 
 
 export class Sector extends ViewerModule {

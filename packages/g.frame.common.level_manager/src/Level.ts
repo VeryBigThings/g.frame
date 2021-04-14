@@ -1,5 +1,5 @@
-import {ViewerModule, ParentEvent} from 'g.frame.core';
-import {ResourceRaw} from 'g.frame.common.loaders';
+import {ViewerModule, ParentEvent} from '@verybigthings/g.frame.core';
+import {ResourceRaw} from '@verybigthings/g.frame.common.loaders';
 
 export class Level extends ViewerModule {
     public __inited: boolean = false;

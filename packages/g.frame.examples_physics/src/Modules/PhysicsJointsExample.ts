@@ -13,8 +13,8 @@ import SpringDamper = oimo.dynamics.constraint.joint.SpringDamper;
 import TranslationalLimitMotor = oimo.dynamics.constraint.joint.TranslationalLimitMotor;
 import DebugDraw = oimo.dynamics.common.DebugDraw;
 import {PhysicsExample} from './PhysicsExample';
-import {ActionController} from 'g.frame.common.action_controller';
-import {lines, PhysicMeshUpdater, triangles, WorldFactory, OimoUtil, OimoMousePuller} from 'g.frame.physics.oimo';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
+import {lines, PhysicMeshUpdater, triangles, WorldFactory, OimoUtil, OimoMousePuller} from '@verybigthings/g.frame.physics.oimo';
 
 
 export default class PhysicsJointsExample extends PhysicsExample {

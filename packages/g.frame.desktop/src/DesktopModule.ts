@@ -1,10 +1,10 @@
-import {AbstractModule, AbstractModuleStatus, requires} from 'g.frame.core';
+import {AbstractModule, AbstractModuleStatus, requires} from '@verybigthings/g.frame.core';
 import {MouseActionController} from './controllers/MouseActionController';
 import {OrbitControls} from './controls/OrbitControls';
-import {InputModule} from 'g.frame.input';
+import {InputModule} from '@verybigthings/g.frame.input';
 import {KeyboardController} from './controllers/KeyboardController';
 import {MousePickingController} from './controllers/MousePickingController';
-import {PickingController} from 'g.frame.common.picking_controller';
+import {PickingController} from '@verybigthings/g.frame.common.picking_controller';
 import {IDesktopOptions} from './interfaces';
 
 const defaultConfig = {

@@ -1,8 +1,8 @@
 import {Object3D} from 'three';
-import {ViewerModule} from 'g.frame.core';
-import {IDepthScrollComponentOptions} from 'g.frame.components.depth_scroll';
-import {ITextViewerModuleOptionsText} from 'g.frame.components.text';
-import {ButtonComponent} from 'g.frame.components.buttons';
+import {ViewerModule} from '@verybigthings/g.frame.core';
+import {IDepthScrollComponentOptions} from '@verybigthings/g.frame.components.depth_scroll';
+import {ITextViewerModuleOptionsText} from '@verybigthings/g.frame.components.text';
+import {ButtonComponent} from '@verybigthings/g.frame.components.buttons';
 
 export interface ISectorItem {
     name: string;

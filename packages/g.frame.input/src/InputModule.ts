@@ -1,4 +1,4 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from 'g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 import {InputManager, Keyboard} from './common';
 
 export class InputModule extends AbstractModule {

@@ -1,8 +1,8 @@
-import {Factory, ParentEvent, ViewerModule} from 'g.frame.core';
+import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
 import {DividedCircleComponent} from './DividedCircleComponent';
 import {IDividedCircleMenu} from './interfaces';
-import {ActionController} from 'g.frame.common.action_controller';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
 export class DividedCircleComponentFactory extends Factory<DividedCircleComponent> {
     __constructor: typeof DividedCircleComponent = DividedCircleComponent;

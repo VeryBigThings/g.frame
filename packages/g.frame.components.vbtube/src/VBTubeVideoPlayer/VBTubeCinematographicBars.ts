@@ -1,6 +1,6 @@
 import {BACKGROUND_BLACK_COLOR, BOTTOM_SPACE, CINEMATOGRAPHIC_BAR} from './constants';
 import {MeshBasicMaterial, PlaneBufferGeometry} from 'three';
-import {GMesh, ViewerModule, Tween} from 'g.frame.core';
+import {GMesh, ViewerModule, Tween} from '@verybigthings/g.frame.core';
 
 /**
  * Class to add black top and bottom cinematographic lines

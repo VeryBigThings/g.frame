@@ -1,5 +1,5 @@
 import {Object3D, Quaternion, Vector3, Vector4} from 'three';
-import {EventDispatcher} from 'g.frame.core/build/main';
+import {EventDispatcher} from '@verybigthings/g.frame.core/build/main';
 
 export enum XRViewStatus {
     PREPARING,

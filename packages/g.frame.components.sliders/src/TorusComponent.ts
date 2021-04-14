@@ -1,6 +1,6 @@
-import {GMesh, ViewerModule} from 'g.frame.core';
+import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
 import {Color, DoubleSide, MathUtils, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Texture, Vector2} from 'three';
-import {ActionController} from 'g.frame.common.action_controller';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
 export interface ISegmentOptions {
     color?: Color;

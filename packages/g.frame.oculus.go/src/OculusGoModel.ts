@@ -1,5 +1,5 @@
-import { ControllerHandnessCodes, IXRControllerModel, XRControllerModelEvents } from 'g.frame.common.xr_manager';
-import { EventDispatcher, ParentEvent } from 'g.frame.core';
+import { ControllerHandnessCodes, IXRControllerModel, XRControllerModelEvents } from '@verybigthings/g.frame.common.xr_manager';
+import { EventDispatcher, ParentEvent } from '@verybigthings/g.frame.core';
 import { Object3D, Vector3, Quaternion, Vector4, Mesh, Matrix4 } from 'three';
 import { IOculusGoView } from './OculusGoView';
 import { Pointer } from './OculusGoControllers/Pointer';

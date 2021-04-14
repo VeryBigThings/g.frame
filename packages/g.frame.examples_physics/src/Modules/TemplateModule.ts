@@ -1,13 +1,13 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from 'g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
-import {ActionController} from 'g.frame.common.action_controller';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 import {PhysicsExample} from './PhysicsExample';
-import {OimoMousePuller, OimoPhysicsModule, PhysicMeshUpdater, WorldFactory} from 'g.frame.physics.oimo';
+import {OimoMousePuller, OimoPhysicsModule, PhysicMeshUpdater, WorldFactory} from '@verybigthings/g.frame.physics.oimo';
 import {oimo} from 'oimophysics';
 import Vec3 = oimo.common.Vec3;
 import BroadPhaseType = oimo.collision.broadphase.BroadPhaseType;
-import {DesktopModule} from 'g.frame.desktop';
-import FrameworkViewer from 'g.frame.core/build/main/rendering/Viewer';
+import {DesktopModule} from '@verybigthings/g.frame.desktop';
+import FrameworkViewer from '@verybigthings/g.frame.core/build/main/rendering/Viewer';
 import PhysicsJointsExample from './PhysicsJointsExample';
 
 
