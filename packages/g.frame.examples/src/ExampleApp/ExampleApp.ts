@@ -17,8 +17,8 @@ import {TextComponent} from 'g.frame.components.text';
 import {OculusGoModule} from 'g.frame.oculus.go';
 import {PickingController} from 'g.frame.common.picking_controller';
 import World = oimo.dynamics.World;
-import {OimoPhysicsModule, PhysicMeshLinkType} from 'g.frame.physics.oimo';
-import OimoUtil from 'g.frame.physics.oimo/build/main/oimo.utils/OimoUtil';
+import {OimoPhysicsModule, PhysicMeshLinkType, OimoUtil} from 'g.frame.physics.oimo';
+// import OimoUtil from 'g.frame.physics.oimo/build/main/oimo.utils/OimoUtil';
 
 export default class ExampleApp extends Bootstrap {
     constructor() {

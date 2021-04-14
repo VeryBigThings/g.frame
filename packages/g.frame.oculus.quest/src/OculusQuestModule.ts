@@ -26,6 +26,7 @@ export class OculusQuestModule extends AbstractModule {
     public oculusQuestManager: OculusQuestManager;
     public pickingController: OculusQuestPickingController;
     public config: IOculusQuestOptions;
+    public oculusQuestModel: OculusQuestModel;
     private readonly container: Object3D;
 
     constructor(config?: IOculusQuestOptions) {
@@ -50,15 +51,15 @@ export class OculusQuestModule extends AbstractModule {
      * Module initialization.. Inits main controllers. Inits Oculus Quest model and manager
      */
     async onInit(data: any): Promise<Array<any>> {
-        const oculusQuestModel = new OculusQuestModel(data);
-        this.oculusQuestManager = new OculusQuestManager(data.viewer.renderer, oculusQuestModel);
+        this.oculusQuestModel = new OculusQuestModel(data);
+        this.oculusQuestManager = new OculusQuestManager(data.viewer.renderer, this.oculusQuestModel);
 
-        const actionController = new OculusQuestActionController(data, this.config.oculusQuestActionController, oculusQuestModel);
+        const actionController = new OculusQuestActionController(data, this.config.oculusQuestActionController, this.oculusQuestModel);
 
-        this.pickingController = new OculusQuestPickingController(data, this.config.oculusQuestPickingController, oculusQuestModel);
+        this.pickingController = new OculusQuestPickingController(data, this.config.oculusQuestPickingController, this.oculusQuestModel);
 
         // Adds view to the module container
-        this.container.add(oculusQuestModel.mainContainer);
+        this.container.add(this.oculusQuestModel.mainContainer);
 
         return [
             this.oculusQuestManager,

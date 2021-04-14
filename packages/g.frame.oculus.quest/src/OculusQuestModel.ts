@@ -335,6 +335,38 @@ export class OculusQuestModel extends EventDispatcher<XRControllerModelEvents> i
         return new VRControlsEvent('createdEvent', pointerWrapper.localToWorld(new Vector3()), pointer.localToWorld(new Vector3()), code);
     }
 
+    public vibrate(duration: number = 500, controllerName: 'both' | 'left' | 'right' = 'both', power: number = 1, delay: number = 0) {
+        if (!this.inputSourceLeft && !this.inputSourceRight) return;
+        if (duration + delay > 5000) {
+            console.error('The delay and duration of vibration should not exceed 5000ms');
+            return;
+        }
+
+        if (this.inputSourceLeft && ['both', 'left'].includes(controllerName)) {
+            // @ts-ignore
+            this.inputSourceLeft.gamepad.vibrationActuator.playEffect('dual-rumble', {
+                startDelay: delay, // Add a delay in milliseconds
+                duration: duration, // Total duration in milliseconds
+                weakMagnitude: power, // intensity (0-1) of the small ERM
+                strongMagnitude: power // intesity (0-1) of the bigger ERM
+            })
+                .then(() => this.fire('vibrationend'));
+        }
+
+        if (this.inputSourceLeft && ['both', 'left'].includes(controllerName)) {
+            // @ts-ignore
+            this.inputSourceRight.gamepad.vibrationActuator.playEffect('dual-rumble', {
+                startDelay: delay, // Add a delay in milliseconds
+                duration: duration, // Total duration in milliseconds
+                weakMagnitude: power, // intensity (0-1) of the small ERM
+                strongMagnitude: power // intesity (0-1) of the bigger ERM
+            })
+                .then(() => this.fire('vibrationend'));
+        }
+
+        setTimeout(() => this.fire('vibrationstart', delay);
+    }
+
     /**
      * Removes pointers
      */
