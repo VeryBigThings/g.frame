@@ -1,9 +1,9 @@
-import {Factory, ParentEvent, ViewerModule} from 'g.frame.core';
+import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
-import {InputManager} from 'g.frame.input';
+import {InputManager} from '@verybigthings/g.frame.input';
 import {VirtualKeyboardComponent} from './VirtualKeyboardComponent';
 import {IVirtualKeyboardViewOptions} from './interfaces';
-import {ActionController} from 'g.frame.common.action_controller';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
 export class VirtualKeyboardComponentFactory extends Factory<VirtualKeyboardComponent> {
     __constructor: typeof VirtualKeyboardComponent = VirtualKeyboardComponent;

@@ -1,4 +1,4 @@
-import { EventDispatcher } from 'g.frame.core';
+import { EventDispatcher } from '@verybigthings/g.frame.core';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton';
 import { WebGLRenderer } from 'three';
 import { IXRControllerModel, IXRControllerView } from './interfaces';

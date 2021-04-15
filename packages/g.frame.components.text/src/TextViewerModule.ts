@@ -1,4 +1,4 @@
-import {GMesh, RoundedPlane, ViewerModule} from 'g.frame.core';
+import {GMesh, RoundedPlane, ViewerModule} from '@verybigthings/g.frame.core';
 import {CanvasTexture, ExtrudeGeometry, Geometry, Mesh, MeshBasicMaterial, Vector2} from 'three';
 import {ITextViewerModuleOptions, ITextViewerModuleOptionsTextStyle} from './TextViewerModule_interfaces';
 

@@ -1,13 +1,13 @@
 import ExampleApp from './ExampleApp/ExampleApp';
-import {ModulesProcessor} from 'g.frame.core';
+import {ModulesProcessor} from '@verybigthings/g.frame.core';
 import {TemplateModule} from './Modules/TemplateModule';
 import {Vector3} from 'three';
-import {DesktopModule} from 'g.frame.desktop';
-import {MobileModule} from 'g.frame.mobile';
-import {InputModule} from 'g.frame.input';
-import {OculusQuestModule} from 'g.frame.oculus.quest';
-import {OimoPhysicsModule} from 'g.frame.physics.oimo';
-import {OculusGoModule} from 'g.frame.oculus.go';
+import {DesktopModule} from '@verybigthings/g.frame.desktop';
+import {MobileModule} from '@verybigthings/g.frame.mobile';
+import {InputModule} from '@verybigthings/g.frame.input';
+import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
+import {OimoPhysicsModule} from '@verybigthings/g.frame.physics.oimo';
+import {OculusGoModule} from '@verybigthings/g.frame.oculus.go';
 
 
 class App {

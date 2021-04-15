@@ -1,9 +1,9 @@
-import {Factory, ParentEvent, ViewerModule} from 'g.frame.core';
+import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
 import {InputComponent} from './InputComponent';
 import {IInputComponentOptions} from './interfaces';
-import {InputManager} from 'g.frame.input';
-import {ActionController} from 'g.frame.common.action_controller';
+import {InputManager} from '@verybigthings/g.frame.input';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
 export class InputComponentFactory extends Factory<InputComponent> {
     __constructor: typeof InputComponent = InputComponent;

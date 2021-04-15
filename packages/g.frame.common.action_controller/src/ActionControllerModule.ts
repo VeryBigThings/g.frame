@@ -1,4 +1,4 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from 'g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 
 export class ActionControllerModule extends AbstractModule {
 

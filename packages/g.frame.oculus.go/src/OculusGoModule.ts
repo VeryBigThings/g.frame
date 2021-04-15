@@ -1,5 +1,5 @@
-import { AbstractModule, AbstractModuleStatus, ConstructorInstanceMap } from 'g.frame.core';
-import { Loader } from 'g.frame.common.loaders';
+import { AbstractModule, AbstractModuleStatus, ConstructorInstanceMap } from '@verybigthings/g.frame.core';
+import { Loader } from '@verybigthings/g.frame.common.loaders';
 import { Object3D } from 'three';
 import { OculusGoActionController } from './OculusGoControllers/OculusGoActionController';
 import { OculusGoManager } from './OculusGoManager';

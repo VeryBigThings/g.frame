@@ -1,5 +1,5 @@
 import * as dat from 'dat.gui';
-import { EventDispatcher, ParentEvent } from 'g.frame.core';
+import { EventDispatcher, ParentEvent } from '@verybigthings/g.frame.core';
 
 export interface DebugGUIFieldOptions {
     name: string;

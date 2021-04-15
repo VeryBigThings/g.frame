@@ -1,5 +1,5 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from 'g.frame.core';
-import {ActionController} from 'g.frame.common.action_controller';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 import {DropdownComponentFactory} from './DropdownComponentFactory';
 
 export class DropdownComponentModule extends AbstractModule {

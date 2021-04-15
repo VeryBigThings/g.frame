@@ -1,6 +1,6 @@
 import {Object3D} from 'three';
 import {PhysicMeshLinkType, PhysicMeshUpdater} from './three.utils';
-import {AbstractModule, AbstractModuleStatus} from 'g.frame.core';
+import {AbstractModule, AbstractModuleStatus} from '@verybigthings/g.frame.core';
 import {WorldFactory} from './WorldFactory';
 import {afterRender, beforeRender, lines, triangles} from './three.debugger';
 import {oimo} from 'oimophysics';

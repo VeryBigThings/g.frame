@@ -1,10 +1,10 @@
-import {ParentEvent, ViewerModule} from 'g.frame.core';
+import {ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
 import {Mesh, Vector2, Vector3, Object3D} from 'three';
 import {DividedCircleComponent} from './DividedCircleComponent';
-import {ButtonComponent} from 'g.frame.components.buttons';
-import {DepthScrollComponent, IDepthScrollComponentOptions} from 'g.frame.components.depth_scroll';
+import {ButtonComponent} from '@verybigthings/g.frame.components.buttons';
+import {DepthScrollComponent, IDepthScrollComponentOptions} from '@verybigthings/g.frame.components.depth_scroll';
 import {IDividedCircleMenu, IMultipleCircleMenuComponent, ISectorItem} from './interfaces';
-import {ActionController} from 'g.frame.common.action_controller';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
 
 export class MultipleCircleMenuComponent extends ViewerModule {

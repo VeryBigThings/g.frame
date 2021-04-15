@@ -2,7 +2,7 @@
 import * as SPE from 'shader-particle-engine';
 import {FallPreset, Preset, SpringPreset, WinterPreset} from './presets';
 import {Object3D} from 'three';
-import {Loader} from 'g.frame.common.loaders';
+import {Loader} from '@verybigthings/g.frame.common.loaders';
 
 export enum PresetType {
     winter = 'winter',

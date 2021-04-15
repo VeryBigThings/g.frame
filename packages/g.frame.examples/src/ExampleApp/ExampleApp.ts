@@ -1,26 +1,30 @@
 import {BoxGeometry, Color, Mesh, MeshBasicMaterial, Vector2} from 'three';
-import {Bootstrap, Factory, ModulesProcessor, Tween} from 'g.frame.core';
+import {Bootstrap, Factory, ModulesProcessor, Tween} from '@verybigthings/g.frame.core';
 import {TemplateA} from '../Modules/TemplateA';
-import {WindowComponent} from 'g.frame.components.window';
-import {IconButtonComponent} from 'g.frame.components.buttons';
-import {CircleSliderComponent, CircleSliderComponentSlidingMode} from 'g.frame.components.sliders';
-import {DesktopModule, OrbitControls} from 'g.frame.desktop';
-import {InputModule, InputType} from 'g.frame.input';
-import {IInputComponentOptions, InputComponent} from 'g.frame.components.input';
-import {ActionController, ActionControllerEventName} from 'g.frame.common.action_controller';
-import {Loader} from 'g.frame.common.loaders';
+import {WindowComponent} from '@verybigthings/g.frame.components.window';
+import {IconButtonComponent} from '@verybigthings/g.frame.components.buttons';
+import {CircleSliderComponent, CircleSliderComponentSlidingMode} from '@verybigthings/g.frame.components.sliders';
+import {DesktopModule, OrbitControls} from '@verybigthings/g.frame.desktop';
+import {InputModule, InputType} from '@verybigthings/g.frame.input';
+import {IInputComponentOptions, InputComponent} from '@verybigthings/g.frame.components.input';
+import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
+import {Loader} from '@verybigthings/g.frame.common.loaders';
 import {TemplateModule} from '../Modules/TemplateModule';
-import {OculusQuestModule} from 'g.frame.oculus.quest';
+import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
 import {oimo} from 'oimophysics';
 // import {DropdownComponent} from '../../../g.frame.components.dropdown/src/DropdownComponent';
-import {OculusGoModule} from 'g.frame.oculus.go';
+import {OculusGoModule} from '@verybigthings/g.frame.oculus.go';
 import World = oimo.dynamics.World;
-import {GamepadEvents, GamepadModule, GamepadKeyNames} from 'g.frame.common.gamepad';
+import {GamepadEvents, GamepadModule, GamepadKeyNames} from '@verybigthings/g.frame.common.gamepad';
 // import {GamepadKeyNames} from 'g.frame.common.gamepad/build/main/GamepadModel';
+// import {GamepadEvents, GamepadModule, GamepadKeyNames} from '@verybigthings/g.frame.common.gamepad';
+// import {GamepadKeyNames} from '@verybigthings/g.frame.common.gamepad/build/main/GamepadModel';
 
 export default class ExampleApp extends Bootstrap {
-    private gamepadModule: GamepadModule;
+    // private gamepadModule: GamepadModule;
     private circleSlider: CircleSliderComponent;
+    private oculusQuestModule: OculusQuestModule;
+    private actionController: ActionController;
 
     constructor() {
         super();
@@ -30,8 +34,8 @@ export default class ExampleApp extends Bootstrap {
         super.onInit(modulesProcessor);
         console.log(modulesProcessor);
 
-        this.gamepadModule = modulesProcessor.modules.get(GamepadModule);
-        console.log('gamepadModule', this.gamepadModule);
+        // this.gamepadModule = modulesProcessor.modules.get(GamepadModule);
+        // console.log('gamepadModule', this.gamepadModule);
 
 
         const _world = modulesProcessor.agents.get(Factory).getFactory(World)(null);
@@ -53,23 +57,27 @@ export default class ExampleApp extends Bootstrap {
 
 
         const box = new Mesh(new BoxGeometry(0.01, 1, 1), new MeshBasicMaterial({color: '#ff3333'}));
-
         box.position.set(-1.5, 1.5, -1.5);
 
+        this.oculusQuestModule = modulesProcessor.modules.get(OculusQuestModule);
         const oculusGoManager = modulesProcessor.modules.get(OculusGoModule).oculusGoManager;
-        const oculusQuestManager = modulesProcessor.modules.get(OculusQuestModule).oculusQuestManager;
+        const oculusQuestManager = this.oculusQuestModule.oculusQuestManager;
 
         this.addObject(box);
 
         let i_box = 0;
 
-        const actionController = modulesProcessor.agents.get(ActionController);
-        actionController.on(ActionControllerEventName.buttonDown, box, (event) => {
+        this.actionController = modulesProcessor.agents.get(ActionController);
+        this.actionController.on(ActionControllerEventName.buttonDown, box, (event) => {
             console.log('Button down event', event);
             if (++i_box === 5) {
                 this.disposeObject(box);
                 oculusGoManager?.setXRControllerView(null);
                 oculusQuestManager?.setXRControllerView(null);
+            }
+
+            if (this.oculusQuestModule.oculusQuestModel) {
+                this.oculusQuestModule.oculusQuestModel.vibrate(300);
             }
         });
 
@@ -175,7 +183,8 @@ export default class ExampleApp extends Bootstrap {
                 mainColor: new Color(0x666666),
                 borderColor: new Color(0x999999)
             }
-        }, actionController);
+        }, this.actionController);
+
         this.circleSlider.on('slideStart', () => orbitControls.enabled = false);
         this.circleSlider.on('slideEnd', () => orbitControls.enabled = true);
         this.circleSlider.uiObject.position.set(0.7, 1.5, -1.5);
@@ -212,7 +221,7 @@ export default class ExampleApp extends Bootstrap {
         modulesProcessor.agents.get(Loader).load().then(() => {
             const hands = modulesProcessor.modules.get(TemplateModule).questHandView;
 
-            modulesProcessor.agents.get(ActionController).on(ActionControllerEventName.buttonDown, _window.uiObject, (event) => {
+            this.actionController.on(ActionControllerEventName.buttonDown, _window.uiObject, (event) => {
                 console.log('Button down event', event);
                 if (++i_window === 5) {
                     this.disposeObject(_window);
@@ -249,15 +258,16 @@ export default class ExampleApp extends Bootstrap {
         //     console.log('EVENT: ', event, event.data.value);
         // });
 
-        this.gamepadModule.gamepadController.on(GamepadEvents.stickChanged, (event) => {
-            if (event.data.stickName === GamepadKeyNames.stickLeft) {
-                this.circleSlider.uiObject.position.x += event.data.axes.x / 30;
-                this.circleSlider.uiObject.position.y -= event.data.axes.y / 30;
-            }
-            else if (event.data.stickName === GamepadKeyNames.stickRight) {
-                this.circleSlider.uiObject.rotation.x += event.data.axes.y / 30;
-                this.circleSlider.uiObject.rotation.y += event.data.axes.x / 30;
-            }
-        });
+
+        // this.gamepadModule.gamepadController.on(GamepadEvents.stickChanged, (event) => {
+        //     if (event.data.stickName === GamepadKeyNames.stickLeft) {
+        //         this.circleSlider.uiObject.position.x += event.data.axes.x / 30;
+        //         this.circleSlider.uiObject.position.y -= event.data.axes.y / 30;
+        //     }
+        //     else if (event.data.stickName === GamepadKeyNames.stickRight) {
+        //         this.circleSlider.uiObject.rotation.x += event.data.axes.y / 30;
+        //         this.circleSlider.uiObject.rotation.y += event.data.axes.x / 30;
+        //     }
+        // });
     }
 }

@@ -1,4 +1,4 @@
-import {EventDispatcher} from 'g.frame.core';
+import {EventDispatcher} from '@verybigthings/g.frame.core';
 import {InputManager} from './InputManager';
 
 export enum InputType {
