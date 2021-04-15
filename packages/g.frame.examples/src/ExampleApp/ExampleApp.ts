@@ -15,6 +15,8 @@ import {oimo} from 'oimophysics';
 // import {DropdownComponent} from '../../../g.frame.components.dropdown/src/DropdownComponent';
 import {OculusGoModule} from '@verybigthings/g.frame.oculus.go';
 import World = oimo.dynamics.World;
+import {GamepadEvents, GamepadModule, GamepadKeyNames} from '@verybigthings/g.frame.common.gamepad';
+// import {GamepadKeyNames} from 'g.frame.common.gamepad/build/main/GamepadModel';
 // import {GamepadEvents, GamepadModule, GamepadKeyNames} from '@verybigthings/g.frame.common.gamepad';
 // import {GamepadKeyNames} from '@verybigthings/g.frame.common.gamepad/build/main/GamepadModel';
 
@@ -55,7 +57,6 @@ export default class ExampleApp extends Bootstrap {
 
 
         const box = new Mesh(new BoxGeometry(0.01, 1, 1), new MeshBasicMaterial({color: '#ff3333'}));
-
         box.position.set(-1.5, 1.5, -1.5);
 
         this.oculusQuestModule = modulesProcessor.modules.get(OculusQuestModule);
@@ -183,6 +184,7 @@ export default class ExampleApp extends Bootstrap {
                 borderColor: new Color(0x999999)
             }
         }, this.actionController);
+
         this.circleSlider.on('slideStart', () => orbitControls.enabled = false);
         this.circleSlider.on('slideEnd', () => orbitControls.enabled = true);
         this.circleSlider.uiObject.position.set(0.7, 1.5, -1.5);
@@ -229,15 +231,6 @@ export default class ExampleApp extends Bootstrap {
         });
 
         this.initGamepadEvents();
-        this.exampleControllerVibration();
-    }
-
-    exampleControllerVibration() {
-        this.actionController.on(ActionControllerEventName.click, null, () => {
-            console.log('click');
-        });
-
-        // this.oculusQuestModule.oculusQuestModel.vibrate(2000);
     }
 
     initGamepadEvents() {
@@ -264,6 +257,7 @@ export default class ExampleApp extends Bootstrap {
         // gamepadModule.gamepadController.on(GamepadEvents.keyTouchEnd, (event) => {
         //     console.log('EVENT: ', event, event.data.value);
         // });
+
 
         // this.gamepadModule.gamepadController.on(GamepadEvents.stickChanged, (event) => {
         //     if (event.data.stickName === GamepadKeyNames.stickLeft) {
