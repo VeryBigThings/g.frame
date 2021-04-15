@@ -1,11 +1,11 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from 'g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 import {TemplateB} from './TemplateB';
 import {TemplateC} from './TemplateC';
 import {Object3D} from 'three';
-import {Loader} from 'g.frame.common.loaders';
-import {PickingController} from 'g.frame.common.picking_controller';
+import {Loader} from '@verybigthings/g.frame.common.loaders';
+import {PickingController} from '@verybigthings/g.frame.common.picking_controller';
 import QuestHandView from './QuestHandView';
-import {ActionController} from 'g.frame.common.action_controller';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
 const delay = async time => new Promise(resolve => setTimeout(resolve, time));
 

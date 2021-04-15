@@ -1,7 +1,7 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from 'g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 import {ButtonComponentFactory} from './ButtonComponentFactory';
 import {IconButtonComponentFactory} from './IconButtonComponentFactory';
-import {ActionController} from 'g.frame.common.action_controller';
+import {ActionController} from '@verybigthings/g.frame.common.action_controller';
 
 export class ButtonsComponentModule extends AbstractModule {
     private buttonComponentFactory: ButtonComponentFactory;

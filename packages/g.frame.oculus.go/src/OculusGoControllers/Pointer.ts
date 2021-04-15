@@ -1,4 +1,4 @@
-import { ViewerModule } from 'g.frame.core';
+import { ViewerModule } from '@verybigthings/g.frame.core';
 import {
     DoubleSide,
     Mesh,

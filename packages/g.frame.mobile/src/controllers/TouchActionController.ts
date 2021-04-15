@@ -1,5 +1,5 @@
 import { WebGLRenderer, Camera, Raycaster, Vector3, Vector2 } from 'three';
-import {ActionController, ActionControllerEventName} from 'g.frame.common.action_controller';
+import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
 
 /**
  * A special config for TouchActionController class to store the most important options

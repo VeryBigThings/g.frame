@@ -7,13 +7,13 @@ import OBoxGeometry = oimo.collision.geometry.BoxGeometry;
 import BroadPhaseType = oimo.collision.broadphase.BroadPhaseType;
 import DebugDraw = oimo.dynamics.common.DebugDraw;
 import Joint = oimo.dynamics.constraint.joint.Joint;
-import {lines, triangles, OimoMousePuller, PhysicMeshUpdater, WorldFactory, OimoUtil} from 'g.frame.physics.oimo';
+import {lines, triangles, OimoMousePuller, PhysicMeshUpdater, WorldFactory, OimoUtil} from '@verybigthings/g.frame.physics.oimo';
 import {PhysicsExample} from './PhysicsExample';
 import {
     ActionController,
     ActionControllerEvent,
     ActionControllerEventName
-} from 'g.frame.common.action_controller';
+} from '@verybigthings/g.frame.common.action_controller';
 
 export default class PhysicsBreakableJointExample extends PhysicsExample {
     private decal: Vector3;

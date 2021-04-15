@@ -1,5 +1,5 @@
-import {Bootstrap, Factory, ModulesProcessor, Tween} from 'g.frame.core';
-import {DesktopModule, OrbitControls} from 'g.frame.desktop';
+import {Bootstrap, Factory, ModulesProcessor, Tween} from '@verybigthings/g.frame.core';
+import {DesktopModule, OrbitControls} from '@verybigthings/g.frame.desktop';
 
 export default class ExampleApp extends Bootstrap {
     constructor() {

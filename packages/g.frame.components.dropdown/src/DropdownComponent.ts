@@ -1,15 +1,14 @@
 import {Color, Mesh, MeshBasicMaterial, Object3D, Vector2, Vector3, Box3, PlaneGeometry} from 'three';
-import {Tween, ViewerModule, ParentEvent} from 'g.frame.core';
+import {Tween, ViewerModule, ParentEvent} from '@verybigthings/g.frame.core';
 
 import {IDropdownComponentOptions} from './DropdownComponent_interfaces';
-import {TextComponent} from 'g.frame.components.text';
-import {WindowComponent} from 'g.frame.components.window';
+import {TextComponent} from '@verybigthings/g.frame.components.text';
+import {WindowComponent} from '@verybigthings/g.frame.components.window';
 import {
     ActionController,
     ActionControllerEventName
-} from 'g.frame.common.action_controller';
+} from '@verybigthings/g.frame.common.action_controller';
 import {ObjectsPositioning} from '../../g.frame.core/build/main/utils';
-import {ActionControllerEvent} from 'g.frame.common.action_controller/build/main';
 // import * as TWEEN from '../libs/TWEEN/Tween';
 
 

@@ -1,4 +1,4 @@
-import {Factory, ParentEvent, ViewerModule} from 'g.frame.core';
+import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
 import {Object3D} from 'three';
 import {Primitive} from './Primitive';
 import {PrimitiveType} from './Primitive_interfaces';

@@ -1,6 +1,6 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from 'g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 import {PresetsRunner, PresetType} from './PresetsRunner';
-import {Loader} from 'g.frame.common.loaders';
+import {Loader} from '@verybigthings/g.frame.common.loaders';
 
 export class EffectsSPEModule extends AbstractModule {
     public presetsRunner: PresetsRunner;

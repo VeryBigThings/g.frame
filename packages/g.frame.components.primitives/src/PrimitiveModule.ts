@@ -1,4 +1,4 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from 'g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
 import {PrimitiveFactory} from './PrimitiveFactory';
 
 export class PrimitiveModule extends AbstractModule {

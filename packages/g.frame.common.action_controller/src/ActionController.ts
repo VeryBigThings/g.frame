@@ -1,6 +1,6 @@
 import {Group, Intersection, Mesh, Object3D, Ray, Raycaster, Scene, Vector3} from 'three';
-import {MeshEventDescriptor, MeshEventDispatcher} from 'g.frame.core';
-import {ParentEvent} from 'g.frame.core';
+import {MeshEventDescriptor, MeshEventDispatcher} from '@verybigthings/g.frame.core';
+import {ParentEvent} from '@verybigthings/g.frame.core';
 
 
 export enum ActionControllerEventName {
