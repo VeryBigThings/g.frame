@@ -15,7 +15,6 @@ import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
 import {LoadersModule} from '@verybigthings/g.frame.common.loaders';
 import {OimoPhysicsModule} from '@verybigthings/g.frame.physics.oimo';
 // import {DropdownComponentModule} from '../../g.frame.components.dropdown/src/DropdownComponentModule';
-import {GamepadModule} from '@verybigthings/g.frame.common.gamepad';
 import {OculusGoModule} from '@verybigthings/g.frame.oculus.go';
 
 
@@ -44,7 +43,6 @@ class App {
                 // new DropdownComponentModule(),
                 new OimoPhysicsModule(),
                 new OculusGoModule(),
-                new GamepadModule(),
             ],
             viewerConfig: {
                 renderer: {

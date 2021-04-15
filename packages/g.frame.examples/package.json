@@ -28,7 +28,6 @@
     "@verybigthings/g.frame.oculus.go": "^0.2.0",
     "@verybigthings/g.frame.oculus.quest": "^0.2.1",
     "@verybigthings/g.frame.physics.oimo": "^0.2.0",
-    "@verybigthings/g.frame.common.gamepad": "^0.2.0",
     "three": "^0.123.0"
   },
   "devDependencies": {
