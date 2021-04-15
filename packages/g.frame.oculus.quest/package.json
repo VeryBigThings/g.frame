@@ -1,7 +1,7 @@
 {
-  "name": "@verybigthings/g.frame.oculus.quest",
-  "version": "0.2.1",
-  "description": "OIMO physics module for g.frame framework",
+  "name": "g.frame.oculus.quest",
+  "version": "0.2.2",
+  "description": "Oculus Quest module for g.frame framework",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "directories": {

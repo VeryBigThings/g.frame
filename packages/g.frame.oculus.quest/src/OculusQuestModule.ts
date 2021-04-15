@@ -23,18 +23,18 @@ const defaultConfig = {
 };
 
 export class OculusQuestModule extends AbstractModule {
-    public oculusQuestManager: OculusQuestManager;
-    public actionController: OculusQuestActionController;
-    public pickingController: OculusQuestPickingController;
-    public config: IOculusQuestOptions;
-    public oculusQuestModel: OculusQuestModel;
+    private _config: IOculusQuestOptions;
+    private _oculusQuestManager: OculusQuestManager;
+    private _actionController: OculusQuestActionController;
+    private _pickingController: OculusQuestPickingController;
+    private _oculusQuestModel: OculusQuestModel;
     private readonly container: Object3D;
 
     constructor(config?: IOculusQuestOptions) {
         super();
-        this.config = config || defaultConfig;
-        this.config.oculusQuestActionController = this.config.oculusQuestActionController || defaultConfig.oculusQuestActionController;
-        this.config.oculusQuestPickingController = this.config.oculusQuestPickingController || defaultConfig.oculusQuestPickingController;
+        this._config = config || defaultConfig;
+        this._config.oculusQuestActionController = this._config.oculusQuestActionController || defaultConfig.oculusQuestActionController;
+        this._config.oculusQuestPickingController = this._config.oculusQuestPickingController || defaultConfig.oculusQuestPickingController;
         this.container = new Object3D();
         this.container.name = 'OculusQuestModuleContainer';
     }
@@ -52,19 +52,19 @@ export class OculusQuestModule extends AbstractModule {
      * Module initialization.. Inits main controllers. Inits Oculus Quest model and manager
      */
     async onInit(data: any): Promise<Array<any>> {
-        this.oculusQuestModel = new OculusQuestModel(data);
-        this.oculusQuestManager = new OculusQuestManager(data.viewer.renderer, this.oculusQuestModel);
+        this._oculusQuestModel = new OculusQuestModel(data);
+        this._oculusQuestManager = new OculusQuestManager(data.viewer.renderer, this._oculusQuestModel);
 
-        this.actionController = new OculusQuestActionController(data, this.config.oculusQuestActionController, this.oculusQuestModel);
-        this.pickingController = new OculusQuestPickingController(data, this.config.oculusQuestPickingController, this.oculusQuestModel);
+        this._actionController = new OculusQuestActionController(data, this._config.oculusQuestActionController, this.oculusQuestModel);
+        this._pickingController = new OculusQuestPickingController(data, this._config.oculusQuestPickingController, this.oculusQuestModel);
 
         // Adds view to the module container
         this.container.add(this.oculusQuestModel.mainContainer);
 
         return [
-            this.oculusQuestManager,
-            this.actionController,
-            this.pickingController,
+            this._oculusQuestManager,
+            this._actionController,
+            this._pickingController,
         ];
     }
 
@@ -72,14 +72,52 @@ export class OculusQuestModule extends AbstractModule {
      * Module after initialization.. Loads all needed resources
      */
     afterInit(agents: ConstructorInstanceMap<any>): void {
-        this.oculusQuestManager.prepareResources(agents.get(Loader));
+        this._oculusQuestManager.prepareResources(agents.get(Loader));
 
-        this.oculusQuestManager.on(XREvent.goToVR, () => {
+        this._oculusQuestManager.on(XREvent.goToVR, () => {
             (<PickingControllerAgent>agents.get(PickingController)).enableSingleInstance(OculusQuestPickingController);
         });
-        this.oculusQuestManager.on(XREvent.goFromVR, () => {
+        this._oculusQuestManager.on(XREvent.goFromVR, () => {
             (<PickingControllerAgent>agents.get(PickingController)).disableSingleInstance(OculusQuestPickingController);
         });
+    }
+
+    get config(): IOculusQuestOptions {
+        return this._config;
+    }
+
+    set config(value: IOculusQuestOptions) {
+        console.error('You are trying to redefine instance in OculusQuestModule');
+    }
+
+    get oculusQuestModel(): OculusQuestModel {
+        return this._oculusQuestModel;
+    }
+
+    set oculusQuestModel(value: OculusQuestModel) {
+        console.error('You are trying to redefine instance in OculusQuestModule');
+    }
+
+    get oculusQuestManager(): OculusQuestManager {
+        return this._oculusQuestManager;
+    }
+
+    set oculusQuestManager(value: OculusQuestManager) {
+        console.error('You are trying to redefine instance in OculusQuestModule');
+    }
+    get pickingController(): OculusQuestPickingController {
+        return this._pickingController;
+    }
+
+    set pickingController(value: OculusQuestPickingController) {
+        console.error('You are trying to redefine instance in OculusQuestModule');
+    }
+    get actionController(): OculusQuestActionController {
+        return this._actionController;
+    }
+
+    set actionController(value: OculusQuestActionController) {
+        console.error('You are trying to redefine instance in OculusQuestModule');
     }
 
     /**
@@ -93,7 +131,7 @@ export class OculusQuestModule extends AbstractModule {
      * Updates module on each frame
      */
     onUpdate(params: { currentTime: number; frame: any }): void {
-        this.oculusQuestManager.manipulateModel(params);
+        this._oculusQuestManager.manipulateModel(params);
     }
 
     onDestroy(): void {
