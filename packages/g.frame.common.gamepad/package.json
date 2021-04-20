@@ -25,12 +25,9 @@
     "g.frame"
   ],
   "author": "Very Big Things",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/VeryBigThings/g.frame/issues"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@VeryBigThings"
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
