@@ -1,5 +1,5 @@
 import {Object3D, Vector2} from 'three';
-import { TextComponent, ITextViewerModuleOptionsTextMargin } from '@verybigthings/g.frame.components.text';
+import { TextComponent, ITextViewerModuleOptionsTextMargin } from '@g.frame/components.text';
 
 
 export interface IDDArrowSymbolsOptions {

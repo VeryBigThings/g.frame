@@ -1,8 +1,8 @@
-import {Input, InputManager, Keyboard, KeyboardEvents} from '@verybigthings/g.frame.input';
+import {Input, InputManager, Keyboard, KeyboardEvents} from '@g.frame/input';
 import {VirtualKeyboardComponentFactory} from './VirtualKeyboardComponentFactory';
 import {VirtualKeyboardComponent} from './VirtualKeyboardComponent';
 import {Object3D, Quaternion, Vector3} from 'three';
-import {ParentEvent} from '@verybigthings/g.frame.core';
+import {ParentEvent} from '@g.frame/core';
 
 export class VirtualKeyboard extends Keyboard {
     private inputManager: InputManager;

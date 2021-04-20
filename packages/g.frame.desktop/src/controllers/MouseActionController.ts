@@ -1,5 +1,5 @@
 import {Camera, Raycaster, Vector2, Vector3, WebGLRenderer} from 'three';
-import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
+import {ActionController, ActionControllerEventName} from '@g.frame/common.action_controller';
 import {IMouseActionControllerConfig} from '../interfaces';
 
 export class MouseActionController extends ActionController {

@@ -23,13 +23,13 @@ import {
     GLTF_MODEL,
     OBJ_MODEL,
     OBJ2_MODEL, JSON_MODEL
-} from '@verybigthings/g.frame.common.loaders';
+} from '@g.frame/common.loaders';
 import {
     PickingController,
     PickingControllerEventNames
-} from '@verybigthings/g.frame.common.picking_controller';
-import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
-import {LoaderEventsName} from '@verybigthings/g.frame.common.loaders/build/main';
+} from '@g.frame/common.picking_controller';
+import {ActionController, ActionControllerEventName} from '@g.frame/common.action_controller';
+import {LoaderEventsName} from '@g.frame/common.loaders/build/main';
 
 
 

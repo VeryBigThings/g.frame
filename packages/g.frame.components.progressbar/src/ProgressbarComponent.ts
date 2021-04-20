@@ -1,6 +1,6 @@
-import {WindowComponent} from '@verybigthings/g.frame.components.window';
+import {WindowComponent} from '@g.frame/components.window';
 import {Box3, Mesh, Vector3} from 'three';
-import {RoundedPlane} from '@verybigthings/g.frame.core';
+import {RoundedPlane} from '@g.frame/core';
 import {IProgressbarComponentOptions} from './ProgressbarComponent_interfaces';
 
 

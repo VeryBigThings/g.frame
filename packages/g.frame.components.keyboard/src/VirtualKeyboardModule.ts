@@ -1,9 +1,9 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap, requires} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap, requires} from '@g.frame/core';
 import {VirtualKeyboardComponentFactory} from './VirtualKeyboardComponentFactory';
-import {InputModule} from '@verybigthings/g.frame.input';
+import {InputModule} from '@g.frame/input';
 import {VirtualKeyboard} from './VirtualKeyboard';
 import {Object3D} from 'three';
-import {ActionController} from '@verybigthings/g.frame.common.action_controller';
+import {ActionController} from '@g.frame/common.action_controller';
 
 @requires({
     modules: [

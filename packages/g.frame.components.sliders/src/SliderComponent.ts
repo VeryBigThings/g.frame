@@ -1,8 +1,8 @@
 import {Color, Group, Mesh, MeshStandardMaterial, Object3D, PlaneGeometry, Vector2} from 'three';
-import {ButtonComponent} from '@verybigthings/g.frame.components.buttons';
-import {WindowComponent} from '@verybigthings/g.frame.components.window';
-import {ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
-import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
+import {ButtonComponent} from '@g.frame/components.buttons';
+import {WindowComponent} from '@g.frame/components.window';
+import {ParentEvent, ViewerModule} from '@g.frame/core';
+import {ActionController, ActionControllerEventName} from '@g.frame/common.action_controller';
 
 declare function require(s: string): string;
 

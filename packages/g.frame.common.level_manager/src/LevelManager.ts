@@ -1,5 +1,5 @@
-import {ViewerModule, ParentEvent} from '@verybigthings/g.frame.core';
-import {Loader, LoaderEventsName, ResourceRaw} from '@verybigthings/g.frame.common.loaders';
+import {ViewerModule, ParentEvent} from '@g.frame/core';
+import {Loader, LoaderEventsName, ResourceRaw} from '@g.frame/common.loaders';
 import {LevelManagerOptions, ScenarioItem} from './LevelManager_interfaces';
 import {Level} from './Level';
 import { Router } from './Router';

@@ -1,5 +1,5 @@
 {
-  "name": "@verybigthings/g.frame.components.depth_scroll",
+  "name": "@g.frame/components.depth_scroll",
   "version": "0.2.0",
   "description": "Depth scroll component for g.frame framework",
   "main": "build/main/index.js",
@@ -33,7 +33,7 @@
   "dependencies": {},
   "peerDependencies": {
     "three": "^0.123.0",
-    "@verybigthings/g.frame.core": "^0.2.0"
+    "@g.frame/core": "^0.2.0"
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
@@ -47,7 +47,7 @@
     "typedoc": "^0.17.4",
     "typescript": "^3.8.3",
     "three": "^0.123.0",
-    "@verybigthings/g.frame.core": "^0.2.0"
+    "@g.frame/core": "^0.2.0"
   },
   "gitHead": "2adcda2e0de0598d1351dea6068d39f70edc7f99"
 }

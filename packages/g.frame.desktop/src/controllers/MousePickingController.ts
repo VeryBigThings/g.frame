@@ -1,6 +1,6 @@
-import {PickingController, PickingControllerEventNames} from '@verybigthings/g.frame.common.picking_controller';
+import {PickingController, PickingControllerEventNames} from '@g.frame/common.picking_controller';
 import {MouseActionController} from './MouseActionController';
-import {ActionControllerEvent, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
+import {ActionControllerEvent, ActionControllerEventName} from '@g.frame/common.action_controller';
 import {Intersection, Object3D, Quaternion, Ray, Raycaster, Scene, Vector3} from 'three';
 import {OrbitControls} from '..';
 import {IMousePickingControllerConfig} from '../interfaces';

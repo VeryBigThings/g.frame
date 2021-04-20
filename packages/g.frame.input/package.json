@@ -1,5 +1,5 @@
 {
-  "name": "@verybigthings/g.frame.input",
+  "name": "@g.frame/input",
   "version": "0.2.0",
   "description": "Input manager for g.frame framework",
   "main": "build/main/index.js",
@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
-    "@verybigthings/g.frame.core": "^0.2.0"
+    "@g.frame/core": "^0.2.0"
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
@@ -44,7 +44,7 @@
     "tslint": "^6.1.0",
     "typedoc": "^0.17.4",
     "typescript": "^3.8.3",
-    "@verybigthings/g.frame.core": "^0.2.0"
+    "@g.frame/core": "^0.2.0"
   },
   "gitHead": "2adcda2e0de0598d1351dea6068d39f70edc7f99"
 }

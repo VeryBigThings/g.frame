@@ -1,7 +1,7 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@g.frame/core';
 import {RadioGroupComponentFactory} from './RadioGroupComponentFactory';
 import {CheckRadioComponentFactory} from './CheckRadioComponentFactory';
-import {ActionController} from '@verybigthings/g.frame.common.action_controller';
+import {ActionController} from '@g.frame/common.action_controller';
 
 export class RadiosComponentsModule extends AbstractModule {
     private radioGroupComponentFactory: RadioGroupComponentFactory;

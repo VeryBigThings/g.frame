@@ -1,5 +1,5 @@
 import { XRManager, XREvent } from './XRManager';
-import { ParentEvent } from '@verybigthings/g.frame.core';
+import { ParentEvent } from '@g.frame/core';
 
 export class XRManagerAgent extends XRManager {
     constructor(private instances: Array<XRManager>) {

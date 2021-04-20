@@ -1,4 +1,4 @@
-import {ParentEvent} from '@verybigthings/g.frame.core';
+import {ParentEvent} from '@g.frame/core';
 import {PickingControllerEventNames} from './PickingController';
 import { Object3D, Raycaster, Vector3, Quaternion } from 'three';
 

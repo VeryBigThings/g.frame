@@ -1,5 +1,5 @@
 {
-  "name": "@verybigthings/g.frame.components.keyboard",
+  "name": "@g.frame/components.keyboard",
   "version": "0.2.0",
   "description": "TKeyboard component module for g.frame framework",
   "main": "build/main/index.js",
@@ -31,14 +31,14 @@
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
-    "@verybigthings/g.frame.common.action_controller": "^0.2.0",
-    "@verybigthings/g.frame.components.text": "^0.2.0",
-    "@verybigthings/g.frame.components.window": "^0.2.0",
-    "@verybigthings/g.frame.input": "^0.2.0"
+    "@g.frame/common.action_controller": "^0.2.0",
+    "@g.frame/components.text": "^0.2.0",
+    "@g.frame/components.window": "^0.2.0",
+    "@g.frame/input": "^0.2.0"
   },
   "peerDependencies": {
     "three": "^0.123.0",
-    "@verybigthings/g.frame.core": "^0.2.0"
+    "@g.frame/core": "^0.2.0"
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
@@ -52,7 +52,7 @@
     "typedoc": "^0.17.4",
     "typescript": "^3.8.3",
     "three": "^0.123.0",
-    "@verybigthings/g.frame.core": "^0.2.0"
+    "@g.frame/core": "^0.2.0"
   },
   "gitHead": "2adcda2e0de0598d1351dea6068d39f70edc7f99"
 }

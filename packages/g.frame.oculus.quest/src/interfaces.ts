@@ -1,4 +1,4 @@
-import {IPickingControllerConfig} from '@verybigthings/g.frame.common.picking_controller';
+import {IPickingControllerConfig} from '@g.frame/common.picking_controller';
 import {Quaternion, Vector3} from 'three';
 
 /**

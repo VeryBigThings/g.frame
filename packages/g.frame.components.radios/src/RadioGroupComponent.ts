@@ -1,7 +1,7 @@
-import {ObjectsPositioning, ViewerModule} from '@verybigthings/g.frame.core';
+import {ObjectsPositioning, ViewerModule} from '@g.frame/core';
 import {CheckRadioComponent, ICheckRadioComponentOptions} from './CheckRadioComponent';
 import {Vector2} from 'three';
-import {ActionController} from '@verybigthings/g.frame.common.action_controller';
+import {ActionController} from '@g.frame/common.action_controller';
 
 export interface IRadioGroupComponentOptions {
     radioData: Array<string>;

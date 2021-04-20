@@ -1,21 +1,21 @@
 import ExampleApp from './ExampleApp/ExampleApp';
-import {ModulesProcessor} from '@verybigthings/g.frame.core';
+import {ModulesProcessor} from '@g.frame/core';
 import {TemplateModule} from './Modules/TemplateModule';
 import {Vector3} from 'three';
-import {DesktopModule} from '@verybigthings/g.frame.desktop';
-import {MobileModule} from '@verybigthings/g.frame.mobile';
-import {WindowComponentModule} from '@verybigthings/g.frame.components.window';
-import {ButtonsComponentModule} from '@verybigthings/g.frame.components.buttons';
-import {TextComponentModule} from '@verybigthings/g.frame.components.text';
-import {SlidersComponentModule} from '@verybigthings/g.frame.components.sliders';
-import {InputModule} from '@verybigthings/g.frame.input';
-import {InputComponentModule} from '@verybigthings/g.frame.components.input';
-import {VirtualKeyboardModule} from '@verybigthings/g.frame.components.keyboard';
-import {OculusQuestModule} from '@verybigthings/g.frame.oculus.quest';
-import {LoadersModule} from '@verybigthings/g.frame.common.loaders';
-import {OimoPhysicsModule} from '@verybigthings/g.frame.physics.oimo';
+import {DesktopModule} from '@g.frame/desktop';
+import {MobileModule} from '@g.frame/mobile';
+import {WindowComponentModule} from '@g.frame/components.window';
+import {ButtonsComponentModule} from '@g.frame/components.buttons';
+import {TextComponentModule} from '@g.frame/components.text';
+import {SlidersComponentModule} from '@g.frame/components.sliders';
+import {InputModule} from '@g.frame/input';
+import {InputComponentModule} from '@g.frame/components.input';
+import {VirtualKeyboardModule} from '@g.frame/components.keyboard';
+import {OculusQuestModule} from '@g.frame/oculus.quest';
+import {LoadersModule} from '@g.frame/common.loaders';
+import {OimoPhysicsModule} from '@g.frame/physics.oimo';
 // import {DropdownComponentModule} from '../../g.frame.components.dropdown/src/DropdownComponentModule';
-import {OculusGoModule} from '@verybigthings/g.frame.oculus.go';
+import {OculusGoModule} from '@g.frame/oculus.go';
 
 
 class App {
@@ -30,19 +30,19 @@ class App {
             modules: [
                 new TemplateModule(),
                 new DesktopModule(),
-                new MobileModule(),
-                new WindowComponentModule(),
-                new InputComponentModule(),
-                new ButtonsComponentModule(),
-                new TextComponentModule(),
-                new SlidersComponentModule(),
+                // new MobileModule(),
+                // new WindowComponentModule(),
+                // new InputComponentModule(),
+                // new ButtonsComponentModule(),
+                // new TextComponentModule(),
+                // new SlidersComponentModule(),
                 new InputModule(),
                 new LoadersModule(),
-                new VirtualKeyboardModule(),
-                new OculusQuestModule(),
+                // new VirtualKeyboardModule(),
+                // new OculusQuestModule(),
                 // new DropdownComponentModule(),
-                new OimoPhysicsModule(),
-                new OculusGoModule(),
+                // new OimoPhysicsModule(),
+                // new OculusGoModule(),
             ],
             viewerConfig: {
                 renderer: {

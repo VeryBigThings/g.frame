@@ -1,5 +1,5 @@
 import {Vector2, Vector3} from 'three';
-import {ITextViewerModuleOptions} from '@verybigthings/g.frame.components.text';
+import {ITextViewerModuleOptions} from '@g.frame/components.text';
 
 
 export interface IButtonComponentOptions extends ITextViewerModuleOptions {
