@@ -1,5 +1,5 @@
 import {AbstractGamepad, GamepadEvents} from './AbstractGamepad';
-import {ParentEvent} from 'g.frame.core';
+import {ParentEvent} from '@g.frame/core';
 import {IGamepadButton, IGamepadModel, IGamepadStick} from './interfaces';
 import {Vector2} from 'three';
 

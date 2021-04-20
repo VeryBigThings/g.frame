@@ -1,4 +1,4 @@
-import {AbstractModule, AbstractModuleStatus} from 'g.frame.core';
+import {AbstractModule, AbstractModuleStatus} from '@g.frame/core';
 import {GamepadModel} from './GamepadModel';
 
 

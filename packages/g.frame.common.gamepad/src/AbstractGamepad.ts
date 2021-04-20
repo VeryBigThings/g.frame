@@ -1,4 +1,4 @@
-import {EventDispatcher, ParentEvent} from 'g.frame.core';
+import {EventDispatcher, ParentEvent} from '@g.frame/core';
 
 export enum GamepadEvents {
     keyDown = 'keydown',
