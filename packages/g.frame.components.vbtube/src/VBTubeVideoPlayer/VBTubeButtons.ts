@@ -12,9 +12,9 @@ import {
     UI_BASIC_COLOR,
     VIDEO_CLICKABLE_PART
 } from './constants';
-import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
-import {ITextComponentOptions, TextComponent} from '@verybigthings/g.frame.components.text';
-import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
+import {GMesh, ViewerModule} from '@g.frame/core';
+import {ITextComponentOptions, TextComponent} from '@g.frame/components.text';
+import {ActionController, ActionControllerEventName} from '@g.frame/common.action_controller';
 
 export interface IDisableButtons {
     subtitlesButton?: boolean;
@@ -204,13 +204,13 @@ export class VBTubeButtons extends ViewerModule {
         // this.resourcesInUse.push(
         //     {
         //         name: 'FontAwesome&woff2-900-normal',
-        //         url: require('@verybigthings/fontawesome-pro/webfonts/fa-solid-900.woff2'),
+        //         url: require('fontawesome-pro/webfonts/fa-solid-900.woff2'),
         //         priority: 0,
         //         type: 'font'
         //     },
         //     {
         //         name: 'FontAwesome&woff2-400-normal',
-        //         url: require('@verybigthings/fontawesome-pro/webfonts/fa-regular-400.woff2'),
+        //         url: require('fontawesome-pro/webfonts/fa-regular-400.woff2'),
         //         priority: 0,
         //         type: 'font'
         //     },

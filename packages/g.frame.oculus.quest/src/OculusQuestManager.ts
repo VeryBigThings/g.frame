@@ -1,5 +1,5 @@
-import { XRInputSource, XRManager, XRViewStatus } from '@verybigthings/g.frame.common.xr_manager';
-import { Loader } from '@verybigthings/g.frame.common.loaders';
+import { XRInputSource, XRManager, XRViewStatus } from '@g.frame/common.xr_manager';
+import { Loader } from '@g.frame/common.loaders';
 import { WebGLRenderer } from 'three';
 import { OculusQuestModel } from './OculusQuestModel';
 import { OculusQuestView } from './OculusQuestView';

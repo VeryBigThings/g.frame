@@ -1,11 +1,11 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@g.frame/core';
 import AttachTransformControls from './AttachTransformControls';
 import RaycastMesh from './RaycastMesh';
 import {DebugGUI} from './DebugGUI';
-import {DesktopModule, IDesktopOptions, OrbitControls} from '@verybigthings/g.frame.desktop';
+import {DesktopModule, IDesktopOptions, OrbitControls} from '@g.frame/desktop';
 import GlobalNamespace from './GlobalNamespace';
-import {ActionController} from '@verybigthings/g.frame.common.action_controller';
-import FrameworkViewer from '@verybigthings/g.frame.core/build/main/rendering/Viewer';
+import {ActionController} from '@g.frame/common.action_controller';
+// import FrameworkViewer from '@g.frame/core/build/main/rendering/Viewer';
 import {IDebugOptions} from './interfaces';
 import { Object3D } from 'three';
 
@@ -18,7 +18,7 @@ export class DebugModule extends AbstractModule {
     public globalNamespace: GlobalNamespace;
     public raycastMesh: RaycastMesh;
     public debugGUI: DebugGUI;
-    public viewer: FrameworkViewer;
+    public viewer: any;
     private config: IDebugOptions;
 
 

@@ -1,36 +1,55 @@
-import {ViewerModule, ParentEvent} from '@verybigthings/g.frame.core';
-import {Loader, LoaderEventsName, ResourceRaw} from '@verybigthings/g.frame.common.loaders';
+import {ViewerModule, ParentEvent} from '@g.frame/core';
+import {Loader, LoaderEventsName, ResourceRaw} from '@g.frame/common.loaders';
 import {LevelManagerOptions, ScenarioItem} from './LevelManager_interfaces';
 import {Level} from './Level';
 import { Router } from './Router';
 
 
-
 export class LevelManager extends ViewerModule {
     public name: string;
     public currentLevel: ScenarioItem;
-    private router: Router;
-    private scenario: Array<ScenarioItem>;
+    private _router: Router;
+    private _scenario: Array<ScenarioItem>;
 
-    constructor(options: LevelManagerOptions, private readonly loader: Loader<any>) {
+    constructor(options: LevelManagerOptions, private readonly _loader: Loader<any>) {
         super();
 
-        this.scenario = options.scenarios;
-        this.router = new Router();
+        this._scenario = options.scenarios;
+        this._router = new Router();
         this.name = options.name || 'NewLevelManager';
 
         this.showPreloader();
 
         const extraResources = this.collectResources();
-        this.loader.addLoadResources(extraResources);
+        this._loader.addResources(extraResources);
 
-        this.loader.once(LoaderEventsName.loaded, () => {
+        this._loader.once(LoaderEventsName.loaded, () => {
             setTimeout(() => {
                 this.changeLevel();
                 this.hidePreloader();
             }, 100);
         });
-        this.loader.load();
+        this._loader.load();
+    }
+
+    get loader(): Loader<any> {
+        return this._loader;
+    }
+
+    get router(): Router {
+        return this._router;
+    }
+
+    set router(value: Router) {
+        console.error('You are trying to redefine instance in LevelManager');
+    }
+
+    get scenario(): Array<ScenarioItem> {
+        return this._scenario;
+    }
+
+    set scenario(value: Array<ScenarioItem>) {
+        console.error('You are trying to redefine instance in LevelManager');
     }
 
     update() {
@@ -43,7 +62,7 @@ export class LevelManager extends ViewerModule {
     }
 
     private changeLevel(nextLevelName?: string, _event?: ParentEvent<string>) {
-        const nextLevel = nextLevelName ? this.scenario.find(item => item.name === nextLevelName) : this.getMainLevel();
+        const nextLevel = nextLevelName ? this._scenario.find(item => item.name === nextLevelName) : this.getMainLevel();
 
         const callback = (event: ParentEvent<string>) => {
             const oldLevel = this.currentLevel;
@@ -54,19 +73,19 @@ export class LevelManager extends ViewerModule {
             oldLevel.instance.endAnimation().then(() => {
                 this.uiObject.remove(oldLevel.instance.uiObject);
                 const newLevelName = oldLevel.events[event.eventName];
-                const newLevel = this.scenario.find(item => item.name === newLevelName);
+                const newLevel = this._scenario.find(item => item.name === newLevelName);
 
                 if (!newLevel.loadForce && !newLevel.processed) {
                     this.showPreloader();
                     const newResources = this.prepareResources(newLevel);
 
-                    this.loader.addResources(newResources);
-                    this.loader.once(LoaderEventsName.loaded, () => {
+                    this._loader.addResources(newResources);
+                    this._loader.once(LoaderEventsName.loaded, () => {
                         newLevel.processed = true;
                         this.changeLevel(newLevelName, event);
                         this.hidePreloader();
                     });
-                    this.loader.load();
+                    this._loader.load();
                 } else {
                     this.changeLevel(newLevelName, event);
                 }
@@ -90,9 +109,9 @@ export class LevelManager extends ViewerModule {
     }
 
     private getMainLevel(): ScenarioItem {
-        return this.scenario.filter(item => item.isMain)[0] ||
-            this.scenario.filter(item => item.routerLink === this.router.currentURL)[0] ||
-            this.scenario[0];
+        return this._scenario.filter(item => item.isMain)[0] ||
+            this._scenario.filter(item => item.routerLink === this._router.currentURL)[0] ||
+            this._scenario[0];
     }
 
     private prepareResources(scenario: ScenarioItem): Array<ResourceRaw> {
@@ -108,14 +127,14 @@ export class LevelManager extends ViewerModule {
 
     private collectResources(): Array<ResourceRaw> {
         const mainLevel = this.getMainLevel();
-        const levels: Array<ScenarioItem> = [mainLevel].concat(this.scenario.filter(item => item.loadForce));
+        const levels: Array<ScenarioItem> = [mainLevel].concat(this._scenario.filter(item => item.loadForce));
         // let flag = false;
         // do {
         //     const oldLevelsLength = levels.length;
         //     levels.forEach(item => {
         //         if (!item.processed) for (let key in item.events) {
         //             if (!levels.find(item2 => item2.name === item.events[key])) {
-        //                 levels.push(this.scenario.find(item2 => item2.name === item.events[key]));
+        //                 levels.push(this._scenario.find(item2 => item2.name === item.events[key]));
         //             }
         //         }
         //     });

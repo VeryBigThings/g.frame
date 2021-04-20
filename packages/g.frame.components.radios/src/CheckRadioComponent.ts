@@ -1,7 +1,7 @@
-import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
-import {ObjectsPositioning, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {ActionController, ActionControllerEventName} from '@g.frame/common.action_controller';
+import {ObjectsPositioning, ParentEvent, ViewerModule} from '@g.frame/core';
 import {Object3D, Vector2} from 'three';
-import {ITextComponentOptions, TextComponent} from '@verybigthings/g.frame.components.text';
+import {ITextComponentOptions, TextComponent} from '@g.frame/components.text';
 
 export interface ICheckRadioComponentOptions extends ITextComponentOptions {
     isCheckbox: boolean;

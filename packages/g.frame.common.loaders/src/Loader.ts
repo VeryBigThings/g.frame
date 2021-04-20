@@ -1,4 +1,4 @@
-import {EventDispatcher} from '@verybigthings/g.frame.core';
+import {EventDispatcher} from '@g.frame/core';
 import {ResourceRaw} from './interfaces';
 
 /**

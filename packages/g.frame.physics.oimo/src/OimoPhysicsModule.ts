@@ -1,6 +1,6 @@
 import {Object3D} from 'three';
 import {PhysicMeshLinkType, PhysicMeshUpdater} from './three.utils';
-import {AbstractModule, AbstractModuleStatus} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus} from '@g.frame/core';
 import {WorldFactory} from './WorldFactory';
 import {afterRender, beforeRender, lines, triangles} from './three.debugger';
 import {oimo} from 'oimophysics';
@@ -44,21 +44,21 @@ export class OimoPhysicsModule extends AbstractModule {
     }
 
     set oimoMousePuller(value: OimoMousePuller) {
-        console.error('You are trying to redefine instance in AbstractModule');
+        console.error('You are trying to redefine instance in OimoPhysicsModule');
     }
     get worldFactory(): WorldFactory {
         return this._worldFactory;
     }
 
     set worldFactory(value: WorldFactory) {
-        console.error('You are trying to redefine instance in AbstractModule');
+        console.error('You are trying to redefine instance in OimoPhysicsModule');
     }
     get physicMeshUpdater(): PhysicMeshUpdater {
         return this._physicMeshUpdater;
     }
 
     set physicMeshUpdater(value: PhysicMeshUpdater) {
-        console.error('You are trying to redefine instance in AbstractModule');
+        console.error('You are trying to redefine instance in OimoPhysicsModule');
     }
 
     onResourcesReady(): void {

@@ -1,4 +1,4 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@g.frame/core';
 import AudiosLoader from './default/AudiosLoader';
 import PositionalAudiosLoader from './default/PositionalAudiosLoader';
 import FontsLoader from './default/FontsLoader';

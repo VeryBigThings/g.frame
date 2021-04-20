@@ -11,7 +11,7 @@ import {
     ActionController,
     ActionControllerEvent,
     ActionControllerEventName
-} from '@verybigthings/g.frame.common.action_controller';
+} from '@g.frame/common.action_controller';
 import { PlaneGeometry, Mesh, MeshBasicMaterial, Vector3, Scene, PerspectiveCamera } from 'three';
 
 export class OimoMousePuller {

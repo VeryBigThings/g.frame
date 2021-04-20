@@ -1,7 +1,7 @@
-import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {Factory, ParentEvent, ViewerModule} from '@g.frame/core';
 import {Object3D} from 'three';
 import {ISliderComponentOptions, SliderComponent} from './SliderComponent';
-import {ActionController} from '@verybigthings/g.frame.common.action_controller';
+import {ActionController} from '@g.frame/common.action_controller';
 
 export class SliderComponentFactory extends Factory<SliderComponent> {
     __constructor: typeof SliderComponent = SliderComponent;

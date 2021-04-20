@@ -1,6 +1,6 @@
 import {Object3D, Quaternion, Vector3} from 'three';
 import {PickingController, PickingControllerEventNames} from './PickingController';
-import {Constructor, ParentEvent} from '@verybigthings/g.frame.core';
+import {Constructor, ParentEvent} from '@g.frame/core';
 
 export class PickingControllerAgent extends PickingController {
     public enabled: boolean = true;

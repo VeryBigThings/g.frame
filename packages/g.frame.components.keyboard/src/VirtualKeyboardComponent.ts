@@ -1,13 +1,13 @@
-import {WindowComponent} from '@verybigthings/g.frame.components.window';
+import {WindowComponent} from '@g.frame/components.window';
 import {Box3, Object3D, Quaternion, Vector2, Vector3} from 'three';
-import {ITextComponentOptions, TextComponent} from '@verybigthings/g.frame.components.text';
+import {ITextComponentOptions, TextComponent} from '@g.frame/components.text';
 import {
     ActionController,
     ActionControllerEvent,
     ActionControllerEventName,
-} from '@verybigthings/g.frame.common.action_controller';
-import {ObjectsPositioning, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
-import {InputType, KeyboardEvents} from '@verybigthings/g.frame.input';
+} from '@g.frame/common.action_controller';
+import {ObjectsPositioning, ParentEvent, ViewerModule} from '@g.frame/core';
+import {InputType, KeyboardEvents} from '@g.frame/input';
 import {IVirtualKeyboardViewOptions} from './interfaces';
 
 
