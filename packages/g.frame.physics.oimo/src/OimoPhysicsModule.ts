@@ -44,21 +44,21 @@ export class OimoPhysicsModule extends AbstractModule {
     }
 
     set oimoMousePuller(value: OimoMousePuller) {
-        console.error('You are trying to redefine instance in AbstractModule');
+        console.error('You are trying to redefine instance in OimoPhysicsModule');
     }
     get worldFactory(): WorldFactory {
         return this._worldFactory;
     }
 
     set worldFactory(value: WorldFactory) {
-        console.error('You are trying to redefine instance in AbstractModule');
+        console.error('You are trying to redefine instance in OimoPhysicsModule');
     }
     get physicMeshUpdater(): PhysicMeshUpdater {
         return this._physicMeshUpdater;
     }
 
     set physicMeshUpdater(value: PhysicMeshUpdater) {
-        console.error('You are trying to redefine instance in AbstractModule');
+        console.error('You are trying to redefine instance in OimoPhysicsModule');
     }
 
     onResourcesReady(): void {

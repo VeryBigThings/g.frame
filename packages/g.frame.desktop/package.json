@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/desktop",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Module to enable interactions on `desktop` devices for g.frame framework",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
