@@ -36,7 +36,7 @@
     "shader-particle-engine": "^1.0.6"
   },
   "peerDependencies": {
-    "three": "^0.123.0",
+    "three": "^0.127.0",
     "@g.frame/core": "^0.2.0"
   },
   "devDependencies": {
@@ -50,7 +50,7 @@
     "tslint": "^6.1.0",
     "typedoc": "^0.17.4",
     "typescript": "^3.8.3",
-    "three": "^0.123.0",
+    "three": "^0.127.0",
     "@g.frame/common.loaders": "^0.2.0",
     "@g.frame/core": "^0.2.0"
   },
