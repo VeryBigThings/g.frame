@@ -8,7 +8,7 @@
     "start": "webpack-dev-server --config webpack.dev.js --mode development"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@g.frame/common.action_controller": "^0.2.0",
     "@g.frame/common.loaders": "^0.2.0",
