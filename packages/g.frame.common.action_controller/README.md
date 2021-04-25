@@ -2,8 +2,7 @@
 
 [![NPM Package][npm]][npm-url]
 [![NPM Downloads][npm-downloads]][npmtrends-url]
-
-[NPM License][npm-license]
+![NPM License][npm-license]
 
 User interaction events module for g.frame framework
 
