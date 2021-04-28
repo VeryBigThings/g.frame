@@ -2,6 +2,7 @@ import {Group, Mesh, Vector2, Vector3} from 'three';
 import {ButtonComponent} from './ButtonComponent';
 import {IIconButtonComponentOptions} from './IconButtonComponent_interfaces';
 import {ActionController} from '@g.frame/common.action_controller';
+import {ButtonComponentType} from "./ButtonComponent_interfaces";
 
 export class IconButtonComponent extends ButtonComponent {
     protected box: Mesh;
@@ -14,7 +15,7 @@ export class IconButtonComponent extends ButtonComponent {
         super({
             size: new Vector3(options.diameter, options.diameter, 0.1),
             sizePx: new Vector2(40 * options.pxRatio, 40 * options.pxRatio),
-            type: 'icon',
+            type: ButtonComponentType.icon,
             text: {
                 value: options.text,
                 lineHeight: (28 - options.differenceBetweenSizeAndLineHeight) * options.pxRatio * options.iconSize,

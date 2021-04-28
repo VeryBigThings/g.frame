@@ -1,7 +1,7 @@
 import {ParentEvent, ViewerModule} from '@g.frame/core';
-import {Mesh, Vector2, Vector3, Object3D} from 'three';
+import {Mesh, Object3D, Vector2, Vector3} from 'three';
 import {DividedCircleComponent} from './DividedCircleComponent';
-import {ButtonComponent} from '@g.frame/components.buttons';
+import {ButtonComponent, ButtonComponentType} from '@g.frame/components.buttons';
 import {DepthScrollComponent, IDepthScrollComponentOptions} from '@g.frame/components.depth_scroll';
 import {IDividedCircleMenu, IMultipleCircleMenuComponent, ISectorItem} from './interfaces';
 import {ActionController} from '@g.frame/common.action_controller';
@@ -38,7 +38,7 @@ export class MultipleCircleMenuComponent extends ViewerModule {
         const maxBorderWidth = Math.max(...borderWidthList.filter(Boolean));
 
         this.backBtn = new ButtonComponent({
-            type: '3dIconEmpty',
+            type: ButtonComponentType.volumetric,
             sizePx: new Vector2(128, 128),
             size: new Vector3(minInnerRadius * 0.7, minInnerRadius * 0.7, 1),
             bordRadius: maxBorderWidth,
