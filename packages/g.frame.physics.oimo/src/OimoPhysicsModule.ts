@@ -84,9 +84,9 @@ export class OimoPhysicsModule extends AbstractModule {
     onUpdate(params: { currentTime: number; frame: any }): void {
         // console.log('onUpdate');
         beforeRender();
+        afterRender();
         this._physicMeshUpdater.update();
         this._worldFactory.update();
-        afterRender();
         // console.info('Module on update function. Use it to update instances.');
     }
 

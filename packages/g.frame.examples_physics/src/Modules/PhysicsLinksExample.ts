@@ -1,10 +1,9 @@
-import {BoxGeometry, DirectionalLight, Mesh, MeshBasicMaterial, Object3D, SphereGeometry, Vector3} from 'three';
+import {BoxGeometry, DirectionalLight, Mesh, MeshBasicMaterial, Object3D, SphereGeometry, Vector3, PerspectiveCamera} from 'three';
 import {oimo} from 'oimophysics';
 import Vec3 = oimo.common.Vec3;
 import RigidBody = oimo.dynamics.rigidbody.RigidBody;
 import OBoxGeometry = oimo.collision.geometry.BoxGeometry;
 import OSphereGeometry = oimo.collision.geometry.SphereGeometry;
-import BroadPhaseType = oimo.collision.broadphase.BroadPhaseType;
 import MathUtil = oimo.common.MathUtil;
 import World = oimo.dynamics.World;
 import RotationalLimitMotor = oimo.dynamics.constraint.joint.RotationalLimitMotor;
@@ -17,7 +16,6 @@ import {
     PhysicMeshLinkType,
     PhysicMeshUpdater,
     triangles,
-    WorldFactory,
     OimoUtil,
     OimoMousePuller
 } from '@g.frame/physics.oimo';
@@ -32,13 +30,10 @@ export default class PhysicsLinksExample extends PhysicsExample {
         const directionLight = new DirectionalLight(0xffffff, 0.2);
         directionLight.position.set(6, 100, 10);
         this.addObject(directionLight);
-
-        this.cameraPosition = new Vector3(0, 2.271217166830045, 11.00889126950031);
-        this.cameraTargetNormal = new Vector3(0, 1.9564181483126553, 10.27582224845674);
     }
 
-    init(actionController: ActionController, physicMeshUpdater: PhysicMeshUpdater, world: World, mousePuller: OimoMousePuller, container: Object3D) {
-        super.init(actionController, physicMeshUpdater, world, mousePuller, container);
+    init(actionController: ActionController, physicMeshUpdater: PhysicMeshUpdater, world: World, mousePuller: OimoMousePuller, container: Object3D, camera: PerspectiveCamera) {
+        super.init(actionController, physicMeshUpdater, world, mousePuller, container, camera);
 
         this.decal = new Vector3(0, 1, 0);
 
@@ -58,6 +53,9 @@ export default class PhysicsLinksExample extends PhysicsExample {
     }
 
     addDemo() {
+        this.camera.position.set(0, 7, 9);
+        this.camera.lookAt(0, 2, 0);
+        
         const {physics: table} = this.addBox(this.world, new Vec3(0, -0.2, 0), new Vec3(6, 0.2, 6), true);
 
         this.createBallChainRotation(new Vec3(-2, 5, -2), 0.4, 7);
