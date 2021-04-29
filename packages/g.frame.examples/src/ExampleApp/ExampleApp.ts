@@ -10,12 +10,12 @@ import {IInputComponentOptions, InputComponent} from '@g.frame/components.input'
 import {ActionController, ActionControllerEventName} from '@g.frame/common.action_controller';
 import {Loader} from '@g.frame/common.loaders';
 import {TemplateModule} from '../Modules/TemplateModule';
-import {OculusQuestModule} from '@g.frame/oculus.quest';
+// import {OculusQuestModule} from '@g.frame/oculus.quest';
 import {oimo} from 'oimophysics';
 // import {DropdownComponent} from '../../../g.frame.components.dropdown/src/DropdownComponent';
 import {OculusGoModule} from '@g.frame/oculus.go';
 import World = oimo.dynamics.World;
-import {GamepadEvents, GamepadModule, GamepadKeyNames} from '@verybigthings/g.frame.common.gamepad';
+// import {GamepadEvents, GamepadModule, GamepadKeyNames} from '@g.frame/common.gamepad';
 // import {GamepadKeyNames} from 'g.frame.common.gamepad/build/main/GamepadModel';
 // import {GamepadEvents, GamepadModule, GamepadKeyNames} from '@verybigthings/g.frame.common.gamepad';
 // import {GamepadKeyNames} from '@verybigthings/g.frame.common.gamepad/build/main/GamepadModel';
