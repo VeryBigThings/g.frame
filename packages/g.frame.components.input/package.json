@@ -37,7 +37,7 @@
     "@g.frame/input": "^0.2.0"
   },
   "peerDependencies": {
-    "three": "^0.127.0",
+    "three": "0.128.0",
     "@g.frame/core": "^0.2.0"
   },
   "devDependencies": {
@@ -51,8 +51,8 @@
     "tslint": "^6.1.0",
     "typedoc": "^0.17.4",
     "typescript": "^3.8.3",
-    "three": "^0.127.0",
-    "@types/three": "^0.127.0",
+    "three": "0.128.0",
+    "@types/three": "0.128.0",
     "@g.frame/core": "^0.2.0"
   },
   "gitHead": "2adcda2e0de0598d1351dea6068d39f70edc7f99"
