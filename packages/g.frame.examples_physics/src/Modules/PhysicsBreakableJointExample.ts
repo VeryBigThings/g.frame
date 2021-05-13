@@ -1,4 +1,4 @@
-import {BoxGeometry, DirectionalLight, Mesh, Object3D, Vector3} from 'three';
+import {BoxGeometry, DirectionalLight, Mesh, Object3D, Vector3, PerspectiveCamera} from 'three';
 import {oimo} from 'oimophysics';
 import World = oimo.dynamics.World;
 import Vec3 = oimo.common.Vec3;
@@ -29,8 +29,8 @@ export default class PhysicsBreakableJointExample extends PhysicsExample {
         // this.cameraTargetNormal = new Vector3(0, 1.9564181483126553, 10.27582224845674);
     }
 
-    init(actionController: ActionController, physicMeshUpdater: PhysicMeshUpdater, world: World, mousePuller: OimoMousePuller, container: Object3D) {
-        super.init(actionController, physicMeshUpdater, world, mousePuller, container);
+    init(actionController: ActionController, physicMeshUpdater: PhysicMeshUpdater, world: World, mousePuller: OimoMousePuller, container: Object3D, camera: PerspectiveCamera) {
+        super.init(actionController, physicMeshUpdater, world, mousePuller, container, camera);
 
         this.decal = new Vector3(0, 1, 0);
 
@@ -50,8 +50,10 @@ export default class PhysicsBreakableJointExample extends PhysicsExample {
     }
 
     addDemo() {
-        const thickness: number = 0.5;
+        this.camera.position.set(0, 7, 9);
+        this.camera.lookAt(0, 2, 0);
 
+        const thickness: number = 0.5;
         const ground = this.addBox(this.world, new Vec3(0, -thickness, 0), new Vec3(7, thickness, 7), true);
 
         const chain: Array<RigidBody> = [];
@@ -83,15 +85,12 @@ export default class PhysicsBreakableJointExample extends PhysicsExample {
             chain[i].setLinearVelocity(this.randVec3In(-1, 1).scaleEq(0.05));
         }
 
-        console.log('chain:', chain);
 
         for (let i = 1; i < chain.length; i++) {
-
             let center: Vec3;
 
-            if (i === 1) {
-                center = chain[0].getPosition();
-            } else {
+            if (i === 1) center = chain[0].getPosition();
+            else {
                 center = chain[i - 1].getPosition().addEq(chain[i].getPosition()).scaleEq(0.5);
             }
 
@@ -106,7 +105,7 @@ export default class PhysicsBreakableJointExample extends PhysicsExample {
         // meshBox.visible = false;
         meshBox.position.set(center.x, center.y, center.z);
 
-        this.addObject(meshBox);
+        // this.addObject(meshBox);
 
         const physics = OimoUtil.addRigidBody(w, center, new OBoxGeometry(new Vec3(halfExtents.x / 2, halfExtents.y / 2, halfExtents.z / 2)), wall);
         meshBox.userData.physics = physics;
@@ -124,7 +123,7 @@ export default class PhysicsBreakableJointExample extends PhysicsExample {
     }
 
     update(): void {
-            this.world.step(1 / 30);
-            this.world.debugDraw();
+        this.world.step(1 / 60);
+        this.world.debugDraw();
     }
 }
