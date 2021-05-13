@@ -5,7 +5,6 @@ import FontsLoader from './default/FontsLoader';
 import FBXModelsLoader from './default/FBXModelsLoader';
 import DAEModelsLoader from './default/DAEModelsLoader';
 import GLTFModelsLoader from './default/GLTFModelsLoader';
-import OBJModelsLoader2 from './default/OBJ2ModelsLoader';
 import OBJModelsLoader from './default/OBJModelsLoader';
 import JSONModelsLoader from './default/JSONModelsLoader';
 import TexturesLoader from './default/TexturesLoader';
@@ -38,7 +37,6 @@ export class LoadersModule extends AbstractModule {
             new DAEModelsLoader(),
             new GLTFModelsLoader(),
             new OBJModelsLoader(),
-            new OBJModelsLoader2(),
             new DAEModelsLoader(),
             new JSONModelsLoader(),
             new TexturesLoader(),

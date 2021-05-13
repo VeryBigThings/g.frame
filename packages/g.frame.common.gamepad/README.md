@@ -1,20 +1,14 @@
-# g.frame.debug
-Module repo template for g.frame
+# g.frame.common.gamepad
 
-## How to use
-* Create new repo and use this project as template
-* Clone it
-* Change all `g.frame.components.debug` occurrences to your module name `g.frame.module_name`
-* Rename `.github_` folder to `.github`
-* Update to use latest version of `g.frame` and `three`
-* Use `npm install` to install all dependencies
+[![NPM Package][npm]][npm-url]
+[![NPM Downloads][npm-downloads]][npmtrends-url]
+[![NPM License][npm-license]][mit-url]
 
+Module to enable gamepad controls for g.frame framework
 
-## How to build
-* Use `npm run build` to build your module
-* Use `npm run lint` to lint your code
-* Use `npm run test` to run unit tests
-* Use `npm run docs` to generate docs
-
-## Useful links
-* `g.frame` repo https://github.com/VeryBigThings/g.frame
+[npm]: https://img.shields.io/npm/v/@g.frame/common.gamepad?style=for-the-badge
+[npm-url]: https://www.npmjs.com/package/@g.frame/common.gamepad
+[npm-downloads]: https://img.shields.io/npm/dw/@g.frame/common.gamepad?style=for-the-badge
+[npmtrends-url]: https://www.npmtrends.com/@g.frame/common.gamepad
+[npm-license]: https://img.shields.io/npm/l/@g.frame/common.gamepad?style=for-the-badge
+[mit-url]: https://opensource.org/licenses/MIT

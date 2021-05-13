@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/components.buttons",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Button component module for g.frame framework",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -36,7 +36,7 @@
     "@g.frame/components.window": "^0.2.0"
   },
   "peerDependencies": {
-    "three": "^0.123.0",
+    "three": "0.128.0",
     "@g.frame/core": "^0.2.0"
   },
   "devDependencies": {
@@ -50,7 +50,8 @@
     "tslint": "^6.1.0",
     "typedoc": "^0.17.4",
     "typescript": "^3.8.3",
-    "three": "^0.123.0",
+    "three": "0.128.0",
+    "@types/three": "0.128.0",
     "@g.frame/core": "^0.2.0"
   },
   "gitHead": "2adcda2e0de0598d1351dea6068d39f70edc7f99"

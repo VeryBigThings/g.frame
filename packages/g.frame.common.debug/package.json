@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/common.debug",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Debug module from g.frame",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -38,7 +38,7 @@
     "@g.frame/core": "^0.1.6",
     "@g.frame/common.action_controller": "^0.2.0",
     "@g.frame/desktop": "^0.2.0",
-    "three": "^0.123.0"
+    "three": "0.128.0"
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
@@ -54,7 +54,8 @@
     "@g.frame/core": "^0.2.0",
     "@g.frame/common.action_controller": "^0.2.0",
     "@g.frame/desktop": "^0.2.0",
-    "three": "^0.123.0"
+    "three": "0.128.0",
+    "@types/three": "0.128.0"
   },
   "gitHead": "2adcda2e0de0598d1351dea6068d39f70edc7f99"
 }

@@ -1,5 +1,5 @@
 import {GMesh, RoundedPlane, ViewerModule} from '@g.frame/core';
-import {CanvasTexture, ExtrudeGeometry, Geometry, Mesh, MeshBasicMaterial, Vector2} from 'three';
+import {CanvasTexture, ExtrudeGeometry, BufferGeometry, Mesh, MeshBasicMaterial, Vector2} from 'three';
 import {ITextViewerModuleOptions, ITextViewerModuleOptionsTextStyle} from './TextViewerModule_interfaces';
 
 export class TextViewerModule extends ViewerModule {
@@ -10,7 +10,7 @@ export class TextViewerModule extends ViewerModule {
     private sizePX: Vector2;
     private sizeTHREE: Vector2;
     private neededSize: Vector2;
-    private geometry: Geometry;
+    private geometry: BufferGeometry;
 
     constructor(sizePX: Vector2, sizeTHREE: Vector2) {
         super();

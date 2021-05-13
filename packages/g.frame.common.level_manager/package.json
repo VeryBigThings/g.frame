@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/common.level_manager",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Level manager module for g.frame framework",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,8 @@
     "@g.frame/input": "^0.2.0",
     "@g.frame/mobile": "^0.2.0",
     "@g.frame/oculus.quest": "^0.2.1",
-    "three": "^0.123.0"
+    "three": "0.128.0",
+    "@types/three": "0.128.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",

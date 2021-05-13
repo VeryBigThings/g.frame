@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/examples_physics",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "private": true,
   "main": "index.js",
@@ -8,7 +8,7 @@
     "start": "webpack-dev-server --config webpack.dev.js --mode development"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@g.frame/common.action_controller": "^0.2.0",
     "@g.frame/common.loaders": "^0.2.0",
@@ -21,7 +21,8 @@
     "@g.frame/oculus.go": "^0.2.0",
     "@g.frame/oculus.quest": "^0.2.0",
     "@g.frame/physics.oimo": "^0.2.1",
-    "three": "^0.123.0"
+    "three": "0.128.0",
+    "@types/three": "0.128.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",
