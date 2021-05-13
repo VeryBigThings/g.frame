@@ -70,7 +70,7 @@ export class Primitive extends ViewerModule {
         if (!this._size.length) this._size = this._getDefaultSize();
 
 
-        this.mesh = new GMesh<BufferGeometry, Material>(
+        this.mesh = new GMesh<PrimitivesGeometryType, Material>(
             new (this._getGeometryConstructor())(...this._size),
             new (this._getMaterialConstructor())({
                 color: this._color,
