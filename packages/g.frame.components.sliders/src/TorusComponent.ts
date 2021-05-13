@@ -1,5 +1,5 @@
 import {GMesh, ViewerModule} from '@g.frame/core';
-import {Color, DoubleSide, MathUtils, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Texture, Vector2} from 'three';
+import {Color, DoubleSide, Float32BufferAttribute, MathUtils, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Texture, Vector2} from 'three';
 import {ActionController} from '@g.frame/common.action_controller';
 
 export interface ISegmentOptions {
@@ -72,12 +72,22 @@ export class TorusComponent extends ViewerModule {
         circleInnerPointList.forEach(point => shape.lineTo(point.x, point.y));
 
         const geometry = new ShapeGeometry(shape);
-        geometry.faceVertexUvs[0].forEach(vec2Array => vec2Array.forEach(vec2 => {
-            vec2.x /= outerRadius * 2;
-            vec2.y /= outerRadius * 2;
-            vec2.x += 0.5;
-            vec2.y += 0.5;
-        }));
+        // geometry.faceVertexUvs[0].forEach(vec2Array => vec2Array.forEach(vec2 => {
+        //     vec2.x /= outerRadius * 2;
+        //     vec2.y /= outerRadius * 2;
+        //     vec2.x += 0.5;
+        //     vec2.y += 0.5;
+        // }));
+
+        const uv = geometry.getAttribute('uv');
+
+        const newUV = (<Float32Array>uv.array).map((value, index) => {
+            return (value / (outerRadius * 2)) / + 0.5;
+        });
+
+        (<Float32BufferAttribute>uv).set(newUV);
+
+        uv.needsUpdate = true;
 
         return new GMesh<ShapeGeometry, MeshBasicMaterial>(
             geometry,
