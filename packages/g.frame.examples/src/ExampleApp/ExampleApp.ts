@@ -1,4 +1,4 @@
-import {BoxGeometry, Color, Mesh, MeshBasicMaterial, Vector2} from 'three';
+import {BoxBufferGeometry, BoxGeometry, Color, Mesh, MeshBasicMaterial, Vector2} from 'three';
 import {Bootstrap, Factory, ModulesProcessor, Tween} from '@g.frame/core';
 import {TemplateA} from '../Modules/TemplateA';
 import {WindowComponent} from '@g.frame/components.window';
@@ -56,6 +56,8 @@ export default class ExampleApp extends Bootstrap {
         // this.addObject(_window);
 
 
+        const box = new Mesh(new BoxBufferGeometry(1, 1, 1), new MeshBasicMaterial({color: '#ee4444'}));
+        this.addObject(box);
 
         // const oculusGoManager = modulesProcessor.modules.get(OculusGoModule).oculusGoManager;
         // const oculusQuestManager = modulesProcessor.modules.get(OculusQuestModule).oculusQuestManager;

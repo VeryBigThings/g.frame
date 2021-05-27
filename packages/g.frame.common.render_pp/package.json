@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/common.render_pp",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "Render with postprocessing module from g.frame",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -37,7 +37,7 @@
   "peerDependencies": {
     "three": "^0.128.0",
     "@g.frame/core": "^0.2.1",
-    "@g.frame/common.render": "^0.1.6"
+    "@g.frame/common.render": "^0.2.0"
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
@@ -52,7 +52,7 @@
     "typescript": "^3.8.3",
     "three": "^0.128.0",
     "@g.frame/core": "^0.2.1",
-    "@g.frame/common.render": "^0.1.6"
+    "@g.frame/common.render": "^0.2.0"
   },
   "gitHead": "2adcda2e0de0598d1351dea6068d39f70edc7f99"
 }

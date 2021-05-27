@@ -14,6 +14,8 @@
     "@g.frame/common.loaders": "^0.2.0",
     "@g.frame/common.picking_controller": "^0.2.0",
     "@g.frame/common.xr_manager": "^0.2.1",
+    "@g.frame/common.render": "^0.2.0",
+    "@g.frame/common.render_pp": "^0.2.0",
     "@g.frame/components.buttons": "^0.2.0",
     "@g.frame/components.dropdown": "^0.2.0",
     "@g.frame/components.input": "^0.2.0",

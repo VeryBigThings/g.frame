@@ -21,8 +21,7 @@ import {
     VIDEO,
     DAE_MODEL,
     GLTF_MODEL,
-    OBJ_MODEL,
-    OBJ2_MODEL, JSON_MODEL
+    OBJ_MODEL, JSON_MODEL
 } from '@g.frame/common.loaders';
 import {
     PickingController,
@@ -72,7 +71,7 @@ export class TemplateB extends TemplateA {
             }, {
                 name: 'sample_model_obj2',
                 url: require('./assets/models/obj/female02/female02.obj'),
-                type: OBJ2_MODEL
+                type: OBJ_MODEL
             }, {
                 name: 'sample_positional_audio',
                 url: require('./assets/sounds/failFx.mp3'),
@@ -101,27 +100,27 @@ export class TemplateB extends TemplateA {
     }
 
     addResources() {
-        let modelCollada, modelGltf, modelObj, modelObj2, modelJson;
+        let modelCollada, modelGltf, modelObj, modelJson;
 
         modelCollada = this.loader.getResource<Object3D>('sample_model_collada');
         modelGltf = this.loader.getResource<Object3D>('sample_model_gltf');
         modelObj = this.loader.getResource<Object3D>('sample_model_obj');
-        modelObj2 = this.loader.getResource<Object3D>('sample_model_obj2');
+        // modelObj2 = this.loader.getResource<Object3D>('sample_model_obj2');
         modelJson = this.loader.getResource<Object3D>('torus_model');
 
         modelCollada.scale.set(0.25, 0.25, 0.25);
         modelGltf.scale.set(0.25, 0.25, 0.25);
         modelObj.scale.set(0.01, 0.01, 0.01);
-        modelObj2.scale.set(0.01, 0.01, 0.01);
+        // modelObj2.scale.set(0.01, 0.01, 0.01);
 
         modelCollada.position.set(-4, 0, -1.5);
         modelGltf.position.set(3.5, 1.5, -1.5);
         modelObj.position.set(-2.5, 0, -1.5);
-        modelObj2.position.set(2.5, 0, -1.5);
+        // modelObj2.position.set(2.5, 0, -1.5);
 
         modelCollada.visible = false;
 
-        this.scene.add(modelCollada, modelGltf, modelObj, modelObj2, modelJson, new AmbientLight());
+        this.scene.add(modelCollada, modelGltf, modelObj, modelJson, new AmbientLight());
 
 
         let model, audio, cube;

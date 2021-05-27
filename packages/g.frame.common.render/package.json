@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/common.render",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "Render module from g.frame",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
