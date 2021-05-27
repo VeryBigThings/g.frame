@@ -1,20 +1,14 @@
 # g.frame.oculus.quest
-Module repo template for g.frame
 
-## How to use
-* Create new repo and use this project as template
-* Clone it
-* Change all `g.frame.oculus.quest` occurrences to your module name `g.frame.module_name`
-* Rename `.github_` folder to `.github`
-* Update to use latest version of `g.frame` and `three`
-* Use `npm install` to install all dependencies
+[![NPM Package][npm]][npm-url]
+[![NPM Downloads][npm-downloads]][npmtrends-url]
+[![NPM License][npm-license]][mit-url]
 
+Module to enable user interactions on Oculus Quest device for g.frame framework
 
-## How to build
-* Use `npm run build` to build your module
-* Use `npm run lint` to lint your code
-* Use `npm run test` to run unit tests
-* Use `npm run docs` to generate docs
-
-## Useful links
-* `g.frame` repo https://github.com/VeryBigThings/g.frame
+[npm]: https://img.shields.io/npm/v/@g.frame/oculus.quest?style=for-the-badge
+[npm-url]: https://www.npmjs.com/package/@g.frame/oculus.quest
+[npm-downloads]: https://img.shields.io/npm/dw/@g.frame/oculus.quest?style=for-the-badge
+[npmtrends-url]: https://www.npmtrends.com/@g.frame/oculus.quest
+[npm-license]: https://img.shields.io/npm/l/@g.frame/oculus.quest?style=for-the-badge
+[mit-url]: https://opensource.org/licenses/MIT

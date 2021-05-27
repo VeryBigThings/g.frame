@@ -1,6 +1,6 @@
 import {Group, Intersection, Mesh, Object3D, Ray, Raycaster, Scene, Vector3} from 'three';
-import {MeshEventDescriptor, MeshEventDispatcher} from '@verybigthings/g.frame.core';
-import {ParentEvent} from '@verybigthings/g.frame.core';
+import {MeshEventDescriptor, MeshEventDispatcher} from '@g.frame/core';
+import {ParentEvent} from '@g.frame/core';
 
 
 export enum ActionControllerEventName {
@@ -195,7 +195,7 @@ export class ActionController extends MeshEventDispatcher {
             !mesh.userData.isButtonDown && (mesh.userData.isButtonDown = []);
             !mesh.userData.isOver && (mesh.userData.isOver = []);
         }
-        super.on(eventName, mesh, callback1, callback2);
+        super.once(eventName, mesh, callback1, callback2);
     }
 
     /**

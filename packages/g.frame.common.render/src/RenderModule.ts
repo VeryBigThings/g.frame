@@ -1,4 +1,4 @@
-import {AbstractModule, AbstractModuleStatus, ViewerAbstract, RenderModuleAbstract, IViewerConfig} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ViewerAbstract, RenderModuleAbstract, IViewerConfig} from '@g.frame/core';
 import { Scene, WebGLRenderer } from 'three';
 import { Renderer } from './Render';
 import { WEBGLRenderer } from './WEBGLRenderer';

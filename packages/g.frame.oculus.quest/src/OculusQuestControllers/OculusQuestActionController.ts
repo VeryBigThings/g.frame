@@ -1,4 +1,4 @@
-import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
+import {ActionController, ActionControllerEventName} from '@g.frame/common.action_controller';
 import {Raycaster, Vector3} from 'three';
 import {IOculusQuestActionControllerConfig} from '../interfaces';
 
@@ -22,16 +22,16 @@ export class OculusQuestActionController extends ActionController {
 
         // Define the callbacks
         this.onButtonDown = (event: any) => {
-            this.update(ActionControllerEventName.buttonDown, this.getRaycaster(event.data.position, event.data.direction), event.controllerNumber);
+            this.update(ActionControllerEventName.buttonDown, this.getRaycaster(event.data.position, event.data.direction), event.data.controllerNumber);
         };
         this.onButtonUp = (event: any) => {
-            this.update(ActionControllerEventName.buttonUp, this.getRaycaster(event.data.position, event.data.direction), event.controllerNumber);
+            this.update(ActionControllerEventName.buttonUp, this.getRaycaster(event.data.position, event.data.direction), event.data.controllerNumber);
         };
         this.onClick = (event: any) => {
-            this.update(ActionControllerEventName.click, this.getRaycaster(event.data.position, event.data.direction), event.controllerNumber);
+            this.update(ActionControllerEventName.click, this.getRaycaster(event.data.position, event.data.direction), event.data.controllerNumber);
         };
         this.onMove = (event: any) => {
-            this.update(ActionControllerEventName.move, this.getRaycaster(event.data.position, event.data.direction), event.controllerNumber);
+            this.update(ActionControllerEventName.move, this.getRaycaster(event.data.position, event.data.direction), event.data.controllerNumber);
         };
 
         // Subscribe on events

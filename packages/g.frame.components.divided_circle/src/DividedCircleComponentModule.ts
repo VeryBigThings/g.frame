@@ -1,8 +1,8 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@g.frame/core';
 import {DividedCircleComponentFactory} from './DividedCircleComponentFactory';
 import {MultipleCircleMenuComponentFactory} from './MultipleCircleMenuComponentFactory';
 import {CirclePreloaderComponentFactory} from './CirclePreloaderComponentFactory';
-import {ActionController} from '@verybigthings/g.frame.common.action_controller';
+import {ActionController} from '@g.frame/common.action_controller';
 
 export class DividedCircleComponentModule extends AbstractModule {
     private dividedCircleComponentFactory: DividedCircleComponentFactory;

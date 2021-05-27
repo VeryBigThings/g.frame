@@ -1,6 +1,6 @@
 import {Camera, Object3D, Scene} from 'three';
 import {TransformControls} from 'three/examples/jsm/controls/TransformControls';
-import {OrbitControls} from '@verybigthings/g.frame.desktop';
+import {OrbitControls} from '@g.frame/desktop';
 
 export default class AttachTransformControls {
     public currentAttachedObject: Object3D;
@@ -8,18 +8,18 @@ export default class AttachTransformControls {
     private scene: Scene;
     private camera: Camera;
     private controls: OrbitControls;
-    private domElement: any;
+    private domElement: HTMLElement;
     private transformControls: TransformControls;
 
     constructor() {
     }
 
-    public init(domElement: any, scene: any, camera: any, controls?: OrbitControls) {
+    public init(domElement: HTMLElement, scene: Scene, camera: Camera, controls?: OrbitControls) {
         this.domElement = domElement;
         this.scene = scene;
         this.camera = camera;
         this.controls = controls || this.controls;
-        this.initTransfromControls();
+        this.initTransformControls();
     }
 
     setControls(controls: OrbitControls) {
@@ -31,6 +31,13 @@ export default class AttachTransformControls {
             console.warn('AttachTransformControls used before inited');
             return;
         }
+
+        if (!object.visible) {
+            console.log(`%cObject invisible`, 'color: red;');
+            return;
+        }
+
+
         if (this.currentAttachedObject) {
             this.transformControls.detach();
             this.scene.remove(this.transformControls);
@@ -39,19 +46,29 @@ export default class AttachTransformControls {
             this.transformControls.attach(object);
             this.scene.add(this.transformControls);
             this.currentAttachedObject = object;
+            console.log('%cTransform result', 'color: green;');
+            console.log('%cTransformControls keyboard shortcuts', 'color: orange;');
+            console.log('"W" translate | "E" rotate | "R" scale | "+" increase size | "-" decrease size \n"Q" toggle world/local space \n"X" toggle X | "Y" toggle Y | "Z" toggle Z | "Spacebar" toggle enabled');
         }
     }
 
-    private initTransfromControls() {
+    public detach() {
+        this.transformControls.detach();
+    }
+
+    private initTransformControls() {
         if (this.inited) return;
 
         this.inited = true;
         this.transformControls = new TransformControls(this.camera, this.domElement);
         const transformControls = this.transformControls;
 
-        this.transformControls.addEventListener('dragging-changed', function (event) {
-            // @ts-ignore
+        this.transformControls.addEventListener('dragging-changed', (event) => {
             this.controls.enabled = !event.value;
+
+            console.log('%cTransform result', 'color: green;');
+            console.log('Local position:', `${this.currentAttachedObject.position.x}, ${this.currentAttachedObject.position.y}, ${this.currentAttachedObject.position.z} `);
+            console.log('Local rotation:', `${this.currentAttachedObject.rotation.x}, ${this.currentAttachedObject.rotation.y}, ${this.currentAttachedObject.rotation.z} `);
         });
 
         window.addEventListener('keydown', function (event) {

@@ -1,4 +1,4 @@
-import {WindowComponentOptions} from '@verybigthings/g.frame.components.window';
+import {WindowComponentOptions} from '@g.frame/components.window';
 
 export interface IProgressbarComponentOptions extends WindowComponentOptions {
     backgroundLoaded: number;

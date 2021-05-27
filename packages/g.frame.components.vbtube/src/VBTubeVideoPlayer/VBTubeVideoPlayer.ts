@@ -36,13 +36,13 @@ import {
     VBTubeTimer,
     VBTubeVolumeBar
 } from './';
-import {TextComponent} from '@verybigthings/g.frame.components.text';
+import {TextComponent} from '@g.frame/components.text';
 import {
     ActionController,
     ActionControllerEvent,
     ActionControllerEventName
-} from '@verybigthings/g.frame.common.action_controller';
-import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
+} from '@g.frame/common.action_controller';
+import {GMesh, ViewerModule} from '@g.frame/core';
 
 export interface IVBTubeVideoPlayerOptions {
     videoScale: number;

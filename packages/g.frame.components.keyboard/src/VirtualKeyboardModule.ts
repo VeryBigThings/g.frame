@@ -1,9 +1,9 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap, requires} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap, requires} from '@g.frame/core';
 import {VirtualKeyboardComponentFactory} from './VirtualKeyboardComponentFactory';
-import {InputModule} from '@verybigthings/g.frame.input';
+import {InputModule} from '@g.frame/input';
 import {VirtualKeyboard} from './VirtualKeyboard';
 import {Object3D} from 'three';
-import {ActionController} from '@verybigthings/g.frame.common.action_controller';
+import {ActionController} from '@g.frame/common.action_controller';
 
 @requires({
     modules: [
@@ -12,7 +12,7 @@ import {ActionController} from '@verybigthings/g.frame.common.action_controller'
 })
 export class VirtualKeyboardModule extends AbstractModule {
     private virtualKeyboardComponentFactory: VirtualKeyboardComponentFactory;
-    private virtualKeyboard: VirtualKeyboard;
+    private _virtualKeyboard: VirtualKeyboard;
     private readonly container: Object3D;
 
     constructor() {
@@ -31,7 +31,7 @@ export class VirtualKeyboardModule extends AbstractModule {
         // console.info('Module initialization. Create all instances.');
         return [
             this.virtualKeyboardComponentFactory = new VirtualKeyboardComponentFactory(),
-            this.virtualKeyboard = new VirtualKeyboard(this.container),
+            this._virtualKeyboard = new VirtualKeyboard(this.container),
         ];
     }
 
@@ -39,8 +39,16 @@ export class VirtualKeyboardModule extends AbstractModule {
         const actionController = agents.get(ActionController);
         this.virtualKeyboardComponentFactory.setActionController(actionController);
         const inputManager = modules.get(InputModule).inputManager;
-        this.virtualKeyboard.setInputManager(inputManager);
-        this.virtualKeyboard.setKeyboardFactory(this.virtualKeyboardComponentFactory);
+        this._virtualKeyboard.setInputManager(inputManager);
+        this._virtualKeyboard.setKeyboardFactory(this.virtualKeyboardComponentFactory);
+    }
+
+    get virtualKeyboard(): VirtualKeyboard {
+        return this._virtualKeyboard;
+    }
+
+    set virtualKeyboard(value: VirtualKeyboard) {
+        console.error('You are trying to redefine instance in VirtualKeyboardModule');
     }
 
     getModuleContainer(): Object3D | void {

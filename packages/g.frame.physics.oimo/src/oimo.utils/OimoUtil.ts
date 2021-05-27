@@ -36,7 +36,7 @@ import Shape = oimo.dynamics.rigidbody.Shape;
 import { Quaternion, Vector3, Euler } from 'three';
 
 
-class OimoUtil {
+export abstract class OimoUtil {
     public static addRagdollJoint(w: World, rb1: RigidBody, rb2: RigidBody, anchor: Vec3, twistAxis: Vec3, swingAxis: Vec3, swingSd: SpringDamper = null, maxSwing1Deg: number = 180, maxSwing2Deg: number = 180, twistSd: SpringDamper = null, twistLm: RotationalLimitMotor = null): RagdollJoint {
         let invRot1: Mat3 = rb1.getRotation().transpose();
         let invRot2: Mat3 = rb2.getRotation().transpose();
@@ -244,26 +244,24 @@ class OimoUtil {
 
 
 
-    public static vec3FromVector3 = (position: Vector3) => {
+    public static vec3FromVector3(position: Vector3): Vec3 {
         return new Vec3(...position.toArray());
     }
 
-    public static quatFromQuaternion = (quaternion: Quaternion) => {
+    public static quatFromQuaternion(quaternion: Quaternion): Quat {
         return new Quat(...quaternion.toArray());
     }
 
-    public static quatFromEuler = (rotation: Euler) => {
+    public static quatFromEuler(rotation: Euler): Quat {
         return new Quat(...new Quaternion().setFromEuler(rotation).toArray());
     }
 
 
-    public static vector3FromVec3 = (pos: Vec3) => {
+    public static vector3FromVec3(pos: Vec3): Vector3 {
         return new Vector3(pos.x, pos.y, pos.z);
     }
 
-    public static quaternionFromQuat = (quat: Quat) => {
+    public static quaternionFromQuat(quat: Quat): Quaternion {
         return new Quaternion(quat.x, quat.y, quat.z, quat.w);
     }
 }
-
-export default OimoUtil;

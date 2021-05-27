@@ -1,4 +1,4 @@
-import {BufferAttribute, BufferGeometry, LineBasicMaterial, LineSegments, Mesh, MeshPhongMaterial} from 'three';
+import {BufferAttribute, BufferGeometry, LineBasicMaterial, LineSegments, Mesh, MeshBasicMaterial} from 'three';
 import {oimo} from 'oimophysics';
 import DebugDraw = oimo.dynamics.common.DebugDraw;
 import Vec3 = oimo.common.Vec3;
@@ -6,7 +6,7 @@ import Vec3 = oimo.common.Vec3;
 
 export const lines = new LineSegments(new BufferGeometry(), new LineBasicMaterial({vertexColors: true}));
 
-export const triangles = new Mesh(new BufferGeometry(), new MeshPhongMaterial({
+export const triangles = new Mesh(new BufferGeometry(), new MeshBasicMaterial({
     wireframe: false,
     vertexColors: true
 }));
@@ -29,7 +29,6 @@ DebugDraw.prototype.triangle = function (v1: Vec3, v2: Vec3, v3: Vec3, n1: Vec3,
     trianglesGeometry_color_array.push(color.x, color.y, color.z,
         color.x, color.y, color.z,
         color.x, color.y, color.z);
-
 };
 
 
@@ -55,7 +54,6 @@ export function beforeRender() {
     trianglesGeometry.setAttribute('color', new BufferAttribute(new Float32Array(trianglesGeometry_color_array), 3));
     triangles.geometry.dispose();
     triangles.geometry = trianglesGeometry;
-
 }
 
 export function afterRender() {

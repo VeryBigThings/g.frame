@@ -1,0 +1,51 @@
+{
+  "name": "@g.frame/examples_physics",
+  "version": "0.2.1",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --config webpack.dev.js --mode development"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@g.frame/common.action_controller": "^0.2.0",
+    "@g.frame/common.loaders": "^0.2.0",
+    "@g.frame/common.picking_controller": "^0.2.0",
+    "@g.frame/common.xr_manager": "^0.2.1",
+    "@g.frame/core": "^0.2.0",
+    "@g.frame/desktop": "^0.2.0",
+    "@g.frame/input": "^0.2.0",
+    "@g.frame/mobile": "^0.2.0",
+    "@g.frame/oculus.go": "^0.2.0",
+    "@g.frame/oculus.quest": "^0.2.0",
+    "@g.frame/physics.oimo": "^0.2.1",
+    "three": "0.128.0",
+    "@types/three": "0.128.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.8.7",
+    "@babel/preset-typescript": "^7.8.3",
+    "@types/jest": "^25.1.4",
+    "@types/node": "^13.9.1",
+    "copyfiles": "^2.2.0",
+    "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "jest": "^25.1.0",
+    "npm-run-all": "^4.1.5",
+    "trash-cli": "^3.0.0",
+    "ts-jest": "^25.2.1",
+    "ts-loader": "^6.2.1",
+    "tslint": "^6.1.0",
+    "typedoc": "^0.17.4",
+    "typescript": "^3.8.3",
+    "url-loader": "^4.0.0",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "gitHead": "2adcda2e0de0598d1351dea6068d39f70edc7f99"
+}

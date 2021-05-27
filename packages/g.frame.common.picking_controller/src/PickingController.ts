@@ -1,9 +1,6 @@
 import {Intersection, Matrix4, Object3D, Quaternion, Raycaster, Vector3} from 'three';
-import {MeshEventDispatcher, ParentEvent} from '@verybigthings/g.frame.core';
-import {
-    IPickingControllerCurrentValue,
-    IPickingControllerConfig,
-} from './interfaces';
+import {MeshEventDispatcher, ParentEvent} from '@g.frame/core';
+import {IPickingControllerConfig, IPickingControllerCurrentValue} from './interfaces';
 
 export enum PickingControllerEventNames {
     PICKED = 'picked', MOVED = 'moved', RELEASED = 'released'
@@ -79,7 +76,7 @@ export class PickingController extends MeshEventDispatcher {
         stylusEnd.addScaledVector(direction, distance);
 
         const offset = new Vector3();
-        offset.subVectors(objectPosition, stylusEnd);
+        if (typeof distance !== 'number') offset.subVectors(objectPosition, stylusEnd);
         scope.startOffset.copy(offset);
         scope.startOffset.applyMatrix4(matrix);
 
@@ -92,25 +89,35 @@ export class PickingController extends MeshEventDispatcher {
 
         this.fire(PickingControllerEventNames.PICKED, scope.currentPickedObject, new ParentEvent<string>('picked', {
             scope: scope,
-            controllerNumber: controllerNumber
+            controllerNumber: controllerNumber,
+            eventData: {
+                newPosition: newPosition,
+                newRotation: newRotation,
+                distance: distance
+            },
         }));
 
         this.onObjectPick(object);
         this.update(newPosition, newRotation, true, controllerNumber);
     }
 
-    forceRelease(controllerNumber: number = 0) {
+    forceRelease(newPosition: Vector3, newRotation: Quaternion, isSqueezed: boolean, controllerNumber: number = 0, distance?: number) {
         if (!this.enabled) return;
         const scope = this.currentValues[controllerNumber];
         this.fire(PickingControllerEventNames.RELEASED, scope.currentPickedObject, new ParentEvent<string>('released', {
             scope: scope,
-            controllerNumber: controllerNumber
+            controllerNumber: controllerNumber,
+            eventData: {
+                newPosition: newPosition,
+                newRotation: newRotation,
+                distance: distance
+            },
         }));
         scope.currentPickedObject = null;
         this.onObjectRelease();
     }
 
-    protected update(newPosition: Vector3, newRotation: Quaternion, isSqueezed: boolean, controllerNumber: number) {
+    protected update(newPosition: Vector3, newRotation: Quaternion, isSqueezed: boolean, controllerNumber: number, distance?: number) {
         const scope = this.currentValues[controllerNumber];
         const direction = new Vector3(0, 0, -1).applyQuaternion(newRotation);
         if (scope.currentPickedObject) {
@@ -120,7 +127,10 @@ export class PickingController extends MeshEventDispatcher {
                 // process the drag operation.
                 const stylusEnd = new Vector3();
                 stylusEnd.copy(newPosition);
-                stylusEnd.addScaledVector(direction, scope.intersectionDistance);
+                if (typeof distance !== 'number')
+                    stylusEnd.addScaledVector(direction, scope.intersectionDistance);
+                else
+                    stylusEnd.addScaledVector(direction, distance);
                 const rotation = newRotation;
                 const _newRotation = new Quaternion();
                 _newRotation.multiplyQuaternions(rotation, scope.startRotation);
@@ -156,14 +166,24 @@ export class PickingController extends MeshEventDispatcher {
                 scope.currentPickedObject.updateMatrixWorld();
                 this.fire(PickingControllerEventNames.MOVED, scope.currentPickedObject, new ParentEvent<string>('moved', {
                     scope: scope,
-                    controllerNumber: controllerNumber
+                    controllerNumber: controllerNumber,
+                    eventData: {
+                        newPosition: newPosition,
+                        newRotation: newRotation,
+                        distance: distance
+                    },
                 }));
                 this.onObjectMove();
             } else {
                 // Releasing picked object, firing event
                 this.fire(PickingControllerEventNames.RELEASED, scope.currentPickedObject, new ParentEvent<string>('released', {
                     scope: scope,
-                    controllerNumber: controllerNumber
+                    controllerNumber: controllerNumber,
+                    eventData: {
+                        newPosition: newPosition,
+                        newRotation: newRotation,
+                        distance: distance
+                    },
                 }));
                 scope.currentPickedObject = null;
                 this.onObjectRelease();

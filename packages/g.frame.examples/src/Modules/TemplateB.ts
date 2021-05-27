@@ -22,14 +22,16 @@ import {
     DAE_MODEL,
     GLTF_MODEL,
     OBJ_MODEL,
-    OBJ2_MODEL
-} from '@verybigthings/g.frame.common.loaders';
+    OBJ2_MODEL, JSON_MODEL
+} from '@g.frame/common.loaders';
 import {
     PickingController,
     PickingControllerEventNames
-} from '@verybigthings/g.frame.common.picking_controller';
-import {ActionController, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
-import {LoaderEventsName} from '@verybigthings/g.frame.common.loaders/build/main';
+} from '@g.frame/common.picking_controller';
+import {ActionController, ActionControllerEventName} from '@g.frame/common.action_controller';
+import {LoaderEventsName} from '@g.frame/common.loaders/build/main';
+
+
 
 declare function require(s: string): string;
 
@@ -48,6 +50,10 @@ export class TemplateB extends TemplateA {
         this.loader = loader;
         this.loader.addResources([
             {
+                name: 'torus_model',
+                url: require('./assets/models/torus.3json'),
+                type: JSON_MODEL
+            }, {
                 name: 'sample_model',
                 url: require('./assets/models/arrow.fbx'),
                 type: FBX_MODEL
@@ -95,12 +101,13 @@ export class TemplateB extends TemplateA {
     }
 
     addResources() {
-        let modelCollada, modelGltf, modelObj, modelObj2;
+        let modelCollada, modelGltf, modelObj, modelObj2, modelJson;
 
         modelCollada = this.loader.getResource<Object3D>('sample_model_collada');
         modelGltf = this.loader.getResource<Object3D>('sample_model_gltf');
         modelObj = this.loader.getResource<Object3D>('sample_model_obj');
         modelObj2 = this.loader.getResource<Object3D>('sample_model_obj2');
+        modelJson = this.loader.getResource<Object3D>('torus_model');
 
         modelCollada.scale.set(0.25, 0.25, 0.25);
         modelGltf.scale.set(0.25, 0.25, 0.25);
@@ -114,7 +121,7 @@ export class TemplateB extends TemplateA {
 
         modelCollada.visible = false;
 
-        this.scene.add(modelCollada, modelGltf, modelObj, modelObj2, new AmbientLight());
+        this.scene.add(modelCollada, modelGltf, modelObj, modelObj2, modelJson, new AmbientLight());
 
 
         let model, audio, cube;

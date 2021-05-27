@@ -1,5 +1,5 @@
 import {Camera, Object3D, PerspectiveCamera, Scene, Vector3, WebGLRenderer} from 'three';
-import {ParentEvent, ViewerModule, ViewerAbstract, IViewerConfig} from '@verybigthings/g.frame.core';
+import {ParentEvent, ViewerModule, ViewerAbstract, IViewerConfig} from '@g.frame/core';
 
 export class Renderer extends ViewerAbstract {
     public renderer: WebGLRenderer;

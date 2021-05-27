@@ -1,5 +1,5 @@
-import {PickingController} from '@verybigthings/g.frame.common.picking_controller';
-import {XRControllerModelEvents} from '@verybigthings/g.frame.common.xr_manager';
+import {PickingController} from '@g.frame/common.picking_controller';
+import {XRControllerModelEvents} from '@g.frame/common.xr_manager';
 import {Object3D, Quaternion, Vector3} from 'three';
 import {IOculusQuestControllersModel, OculusQuestModel} from '../OculusQuestModel';
 import {IOculusQuestPickingControllerConfig, IOculusQuestPickingForcedState} from '../interfaces';
@@ -28,11 +28,11 @@ export class OculusQuestPickingController extends PickingController {
             if (this.enabled) {
                 if (this.forcedState.left.isSqueezed && !event.data.left.squeeze.pressed && this.oldModel.left.squeeze.pressed) {
                     this.forcedState.left.isSqueezed = null;
-                    this.forceRelease(0);
+                    this.forceRelease(new Vector3, new Quaternion, false, 0);
                 }
                 if (this.forcedState.right.isSqueezed && !event.data.right.squeeze.pressed && this.oldModel.right.squeeze.pressed) {
                     this.forcedState.right.isSqueezed = null;
-                    this.forceRelease(1);
+                    this.forceRelease(new Vector3, new Quaternion, false, 1);
                 }
                 this.oldModel = JSON.parse(JSON.stringify(event.data));
                 this.update(this.data.viewer.camera.parent.localToWorld(

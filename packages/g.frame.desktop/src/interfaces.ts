@@ -1,4 +1,4 @@
-import {IPickingControllerConfig} from '@verybigthings/g.frame.common.picking_controller';
+import {IPickingControllerConfig} from '@g.frame/common.picking_controller';
 
 /**
  * A special config for MouseActionController to store the most important options

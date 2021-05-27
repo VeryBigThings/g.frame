@@ -1,6 +1,6 @@
-import {PickingController, PickingControllerEventNames} from '@verybigthings/g.frame.common.picking_controller';
+import {PickingController, PickingControllerEventNames} from '@g.frame/common.picking_controller';
 import {MouseActionController} from './MouseActionController';
-import {ActionControllerEvent, ActionControllerEventName} from '@verybigthings/g.frame.common.action_controller';
+import {ActionControllerEvent, ActionControllerEventName} from '@g.frame/common.action_controller';
 import {Intersection, Object3D, Quaternion, Ray, Raycaster, Scene, Vector3} from 'three';
 import {OrbitControls} from '..';
 import {IMousePickingControllerConfig} from '../interfaces';
@@ -24,18 +24,27 @@ export class MousePickingController extends PickingController {
         this.mouseActionController.on(ActionControllerEventName.move, null, (event) => {
             if (this.currentObject && this.enabled) {
                 const newPosition = this.getPosition(event);
-                // console.log('newPosition', newPosition);
-                this.update(newPosition,
+                this.update(event.data.ray.origin.clone(),
                     new Quaternion().setFromUnitVectors(new Vector3(0, 0, -1), event.data.ray.direction),
                     true,
-                    0
+                    0,
+                    event.data.ray.origin.distanceTo(newPosition)
                 );
             }
         });
 
-        this.mouseActionController.once(ActionControllerEventName.buttonUp, null, (event) => {
+        this.mouseActionController.on(ActionControllerEventName.buttonUp, null, (event) => {
             if (this.enabled) {
-                if (this.currentObject) this.forceRelease();
+                if (this.currentObject) {
+                    const newPosition = this.getPosition(event);
+                    this.forceRelease(
+                        event.data.ray.origin.clone(),
+                        new Quaternion().setFromUnitVectors(new Vector3(0, 0, -1), event.data.ray.direction),
+                        true,
+                        0,
+                        event.data.ray.origin.distanceTo(newPosition)
+                    );
+                }
                 this.controls.enabled = true;
             }
         });
@@ -43,13 +52,15 @@ export class MousePickingController extends PickingController {
 
     on(eventName: PickingControllerEventNames, mesh, callback1: Function, callback2?: Function) {
         this.mouseActionController.on(ActionControllerEventName.buttonDown, mesh, (event) => {
+            if (event.data.intersection.orderNumber !== 0) return;
             if (this.enabled) {
-                const intersectedEventsObjects = this.getIntersectsFromRay(event.data.ray, this.getEventObjects());
+                const intersectedEventsObjects = this.getIntersectsFromRay(event.data.ray, [mesh]);
                 // console.log('intersectedEventsObjects = ', intersectedEventsObjectsAmount, 'newPos = ', this.getPosition(event));
                 if (intersectedEventsObjects.length !== 0 && this.checkDistance(intersectedEventsObjects)) {
                     // console.log('this.currentValues',this.currentValues);
                     this.controls.enabled = false;
-                    this.forcePickUp(intersectedEventsObjects[0].object, intersectedEventsObjects[0].distance, this.getPosition(event), new Quaternion().setFromUnitVectors(new Vector3(0, 0, -1), event.data.ray.direction), 0);
+                    const position = this.getPosition(event);
+                    this.forcePickUp(intersectedEventsObjects[0].object, event.data.ray.origin.distanceTo(position), event.data.ray.origin.clone(), new Quaternion().setFromUnitVectors(new Vector3(0, 0, -1), event.data.ray.direction), 0);
                 }
             }
         });
@@ -95,8 +106,9 @@ export class MousePickingController extends PickingController {
     // }
 
     private updateDistance(event: ActionControllerEvent) {
-        if (this.currentObject && typeof this.currentObject.userData.pickingMoveDistance === 'number') {
-            this.lastDistance = this.currentObject.userData.pickingMoveDistance;
+        const _currentObject = this.currentObject || event?.data?.intersection?.object;
+        if (_currentObject && typeof _currentObject.userData.pickingMoveDistance === 'number') {
+            this.lastDistance = _currentObject.userData.pickingMoveDistance;
         } else {
             const intersects = this.getIntersectsFromRay(event.data.ray);
             const toPoint = intersects[0]?.distance;

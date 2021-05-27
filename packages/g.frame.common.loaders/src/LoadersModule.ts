@@ -1,12 +1,12 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@verybigthings/g.frame.core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@g.frame/core';
 import AudiosLoader from './default/AudiosLoader';
 import PositionalAudiosLoader from './default/PositionalAudiosLoader';
 import FontsLoader from './default/FontsLoader';
 import FBXModelsLoader from './default/FBXModelsLoader';
 import DAEModelsLoader from './default/DAEModelsLoader';
 import GLTFModelsLoader from './default/GLTFModelsLoader';
-import OBJModelsLoader2 from './default/OBJ2ModelsLoader';
 import OBJModelsLoader from './default/OBJModelsLoader';
+import JSONModelsLoader from './default/JSONModelsLoader';
 import TexturesLoader from './default/TexturesLoader';
 import VideosLoader from './default/VideosLoader';
 import {Loader} from './Loader';
@@ -37,8 +37,8 @@ export class LoadersModule extends AbstractModule {
             new DAEModelsLoader(),
             new GLTFModelsLoader(),
             new OBJModelsLoader(),
-            new OBJModelsLoader2(),
             new DAEModelsLoader(),
+            new JSONModelsLoader(),
             new TexturesLoader(),
             new VideosLoader()
         ];

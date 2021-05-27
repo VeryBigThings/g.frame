@@ -15,8 +15,10 @@ import {
     Texture,
     TorusBufferGeometry
 } from 'three';
-import {GMesh, ViewerModule} from '@verybigthings/g.frame.core';
+import {GMesh, ViewerModule} from '@g.frame/core';
 import {PrimitiveMaterials, PrimitiveType} from './Primitive_interfaces';
+
+type PrimitivesGeometryType = BoxBufferGeometry | CircleBufferGeometry | CylinderBufferGeometry | PlaneBufferGeometry | SphereBufferGeometry | TorusBufferGeometry;
 
 export class Primitive extends ViewerModule {
     public mesh: GMesh<BufferGeometry, Material>;
@@ -68,7 +70,7 @@ export class Primitive extends ViewerModule {
         if (!this._size.length) this._size = this._getDefaultSize();
 
 
-        this.mesh = new GMesh<BufferGeometry, Material>(
+        this.mesh = new GMesh<PrimitivesGeometryType, Material>(
             new (this._getGeometryConstructor())(...this._size),
             new (this._getMaterialConstructor())({
                 color: this._color,
@@ -79,7 +81,7 @@ export class Primitive extends ViewerModule {
             }));
     }
 
-    private _getGeometryConstructor(): new (...args: any[]) => BufferGeometry {
+    private _getGeometryConstructor(): new (...args: any[]) => PrimitivesGeometryType {
         switch (this._type) {
             case PrimitiveType.BOX:
                 return BoxBufferGeometry;

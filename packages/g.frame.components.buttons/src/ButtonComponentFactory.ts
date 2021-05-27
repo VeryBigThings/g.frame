@@ -1,8 +1,8 @@
-import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {Factory, ParentEvent, ViewerModule} from '@g.frame/core';
 import {Object3D} from 'three';
 import {ButtonComponent} from './ButtonComponent';
 import {IButtonComponentOptions} from './ButtonComponent_interfaces';
-import {ActionController} from '@verybigthings/g.frame.common.action_controller';
+import {ActionController} from '@g.frame/common.action_controller';
 
 export class ButtonComponentFactory extends Factory<ButtonComponent> {
     __constructor: typeof ButtonComponent = ButtonComponent;

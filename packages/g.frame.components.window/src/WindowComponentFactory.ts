@@ -1,6 +1,6 @@
 import {WindowComponent} from './WindowComponent';
 import {WindowComponentOptions} from './WindowComponent_interfaces';
-import {Factory, ParentEvent, ViewerModule} from '@verybigthings/g.frame.core';
+import {Factory, ParentEvent, ViewerModule} from '@g.frame/core';
 import {Object3D} from 'three';
 
 export class WindowComponentFactory extends Factory<WindowComponent> {

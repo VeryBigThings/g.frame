@@ -1,5 +1,5 @@
-import {GMesh, RoundedPlane, ViewerModule} from '@verybigthings/g.frame.core';
-import {CanvasTexture, ExtrudeGeometry, Geometry, Mesh, MeshBasicMaterial, Vector2} from 'three';
+import {GMesh, RoundedPlane, ViewerModule} from '@g.frame/core';
+import {CanvasTexture, ExtrudeGeometry, BufferGeometry, Mesh, MeshBasicMaterial, Vector2} from 'three';
 import {ITextViewerModuleOptions, ITextViewerModuleOptionsTextStyle} from './TextViewerModule_interfaces';
 
 export class TextViewerModule extends ViewerModule {
@@ -10,7 +10,7 @@ export class TextViewerModule extends ViewerModule {
     private sizePX: Vector2;
     private sizeTHREE: Vector2;
     private neededSize: Vector2;
-    private geometry: Geometry;
+    private geometry: BufferGeometry;
 
     constructor(sizePX: Vector2, sizeTHREE: Vector2) {
         super();
@@ -380,9 +380,9 @@ export class TextViewerModule extends ViewerModule {
             line = '';
         const words = text.split(' ');
         for (let n = 0; n < words.length; n++) {
-            const testLine = line + words[n] + ' ',
-                metrics = this.context.measureText(testLine),
-                testWidth = metrics.width;
+            const testLine = line + words[n] + (n !== words.length - 1 && words[n + 1] !== '\n' ? ' ' : '');
+            const metrics = this.context.measureText(testLine.split(' ').filter(word => word.indexOf('{{') === -1 && word.indexOf('}}') === -1).join(' '));
+            const testWidth = metrics.width;
             if (((testWidth > maxWidth && n > 0) || words[n] === '\n') && wrapOnLines) {
                 lines++;
                 line = words[n] + ' ';

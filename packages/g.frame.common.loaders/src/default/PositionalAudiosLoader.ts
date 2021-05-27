@@ -7,7 +7,7 @@ export default class PositionalAudiosLoader extends Loader<PositionalAudio> {
 
     public readonly loaderType: string = 'positional_audio';
     private readonly audioLoader: AudioLoader;
-    private readonly audioListener: AudioListener;
+    public readonly audioListener: AudioListener;
 
     /**
      * Constructor of PositionalAudioLoader

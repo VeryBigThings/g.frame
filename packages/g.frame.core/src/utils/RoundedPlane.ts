@@ -1,4 +1,4 @@
-import {DoubleSide, ExtrudeGeometry, Geometry, Mesh, MeshBasicMaterial, Shape, ShapeGeometry} from 'three';
+import {DoubleSide, ExtrudeGeometry, BufferGeometry, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Float32BufferAttribute} from 'three';
 
 export interface IOptionsRoundedObject {
     width: number;
@@ -24,12 +24,24 @@ export class RoundedPlane {
 
         const roundedGeom = new ShapeGeometry(roundedPlaneShape);
 
-        roundedGeom.faceVertexUvs[0].forEach((faceVertexUv) => {
-            faceVertexUv.forEach((innerFaceVertexUv) => {
-                innerFaceVertexUv.x = (innerFaceVertexUv.x + options.width / 2) / options.width;
-                innerFaceVertexUv.y = (innerFaceVertexUv.y + options.height / 2) / options.height;
-            });
+        // roundedGeom.faceVertexUvs[0].forEach((faceVertexUv) => {
+        //     faceVertexUv.forEach((innerFaceVertexUv) => {
+        //         innerFaceVertexUv.x = (innerFaceVertexUv.x + options.width / 2) / options.width;
+        //         innerFaceVertexUv.y = (innerFaceVertexUv.y + options.height / 2) / options.height;
+        //     });
+        // });
+
+        const uv = roundedGeom.getAttribute('uv');
+
+        const newUV = (<Float32Array>uv.array).map((value, index) => {
+            const side = (index & 2) === 0 ? options.width : options.height;
+
+            return (value + (side / 2)) / side;
         });
+
+        (<Float32BufferAttribute>uv).set(newUV);
+
+        uv.needsUpdate = true;
 
         const roundedPlane = new Mesh(
             roundedGeom,
@@ -60,7 +72,7 @@ export class RoundedPlane {
         return roundedPlane;
     }
 
-    static getRoundedBoxGeometry(options: IOptionsRoundedObject): Geometry {
+    static getRoundedBoxGeometry(options: IOptionsRoundedObject): BufferGeometry {
 
         if (options.depth === undefined) options.depth = options.height;
 
@@ -75,13 +87,26 @@ export class RoundedPlane {
             bevelThickness: 0
         });
 
-        geometry.faceVertexUvs[0].forEach(vec2Array => vec2Array.forEach(vec2 => {
-            vec2.x /= options.width;
-            vec2.y /= options.height;
-            vec2.x += 0.5;
-            vec2.y += 0.5;
-        }));
-        geometry.uvsNeedUpdate = true;
+        // geometry.faceVertexUvs[0].forEach(vec2Array => vec2Array.forEach(vec2 => {
+        //     vec2.x /= options.width;
+        //     vec2.y /= options.height;
+        //     vec2.x += 0.5;
+        //     vec2.y += 0.5;
+        // }));
+        // geometry.uvsNeedUpdate = true;
+
+        const uv = geometry.getAttribute('uv');
+
+        const newUV = (<Float32Array>uv.array).map((value, index) => {
+            const side = (index & 2) === 0 ? options.width : options.height;
+
+            return (value / side) / + 0.5;
+        });
+
+        (<Float32BufferAttribute>uv).set(newUV);
+
+        uv.needsUpdate = true;
+
         return geometry;
     }
 

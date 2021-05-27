@@ -1,21 +1,14 @@
-![Build and publish](https://github.com/VeryBigThings/g.frame.physics.oimo/workflows/Build%20and%20publish/badge.svg?branch=master)
 # g.frame.physics.oimo
-Module repo template for g.frame
 
-## How to use
-* Create new repo and use this project as template
-* Clone it
-* Change all `g.frame.physics.oimo` occurrences to your module name `g.frame.module_name`
-* Rename `.github_` folder to `.github`
-* Update to use latest version of `g.frame` and `three`
-* Use `npm install` to install all dependencies
+[![NPM Package][npm]][npm-url]
+[![NPM Downloads][npm-downloads]][npmtrends-url]
+[![NPM License][npm-license]][mit-url]
 
+OIMO physics module for g.frame framework
 
-## How to build
-* Use `npm run build` to build your module
-* Use `npm run lint` to lint your code
-* Use `npm run test` to run unit tests
-* Use `npm run docs` to generate docs
-
-## Useful links
-* `g.frame` repo https://github.com/VeryBigThings/g.frame
+[npm]: https://img.shields.io/npm/v/@g.frame/physics.oimo?style=for-the-badge
+[npm-url]: https://www.npmjs.com/package/@g.frame/physics.oimo
+[npm-downloads]: https://img.shields.io/npm/dw/@g.frame/physics.oimo?style=for-the-badge
+[npmtrends-url]: https://www.npmtrends.com/@g.frame/physics.oimo
+[npm-license]: https://img.shields.io/npm/l/@g.frame/physics.oimo?style=for-the-badge
+[mit-url]: https://opensource.org/licenses/MIT

@@ -1,12 +1,12 @@
+import {Object3D, ObjectLoader} from 'three';
 import {Loader} from '../Loader';
-import {Object3D} from 'three';
-import {OBJLoader2} from 'three/examples/jsm/loaders/OBJLoader2';
 import {disposeObject3D} from './utils';
 
-export const OBJ2_MODEL = 'obj2Model';
 
-export default class OBJModelsLoader2 extends Loader<Object3D> {
-    public readonly loaderType: string = OBJ2_MODEL;
+export const JSON_MODEL = 'jsonModel';
+
+export default class JSONModelsLoader extends Loader<Object3D> {
+    public readonly loaderType: string = JSON_MODEL;
 
     constructor() {
         super();
@@ -19,11 +19,11 @@ export default class OBJModelsLoader2 extends Loader<Object3D> {
     protected resourceToPromise(url: string, name: string, crossOrigin?: string): Promise<Object3D> {
 
         return new Promise((resolve, reject) => {
-            const loader = new OBJLoader2();
+            const loader = new ObjectLoader();
             loader.setCrossOrigin(crossOrigin || this.defaultCrossOrigin);
-            loader.load(url, (obj2) => {
-                this.library.set(name, obj2);
-                resolve(obj2);
+            loader.load(url, (object) => {
+                this.library.set(name, object);
+                resolve(object);
             }, () => {
             }, (error) => reject(error));
         });

@@ -1,5 +1,5 @@
 import {Object3D, Quaternion, Vector3, Vector4} from 'three';
-import {EventDispatcher} from '@verybigthings/g.frame.core/build/main';
+import {EventDispatcher} from '@g.frame/core';
 
 export enum XRViewStatus {
     PREPARING,
@@ -12,7 +12,9 @@ export enum XRControllerModelEvents {
     buttonDown = 'buttonDown',
     buttonUp = 'buttonUp',
     click = 'click',
-    controllerChanged = 'controllerChanged'
+    controllerChanged = 'controllerChanged',
+    vibrationStart = 'vibrationstart',
+    vibrationEnd = 'vibrationend',
 }
 
 export interface IXRControllerModel extends EventDispatcher<XRControllerModelEvents> {

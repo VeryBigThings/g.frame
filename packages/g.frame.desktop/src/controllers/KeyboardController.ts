@@ -1,5 +1,5 @@
-import {ParentEvent} from '@verybigthings/g.frame.core';
-import {Keyboard, KeyboardEvents} from '@verybigthings/g.frame.input';
+import {ParentEvent} from '@g.frame/core';
+import {Keyboard, KeyboardEvents} from '@g.frame/input';
 
 export class KeyboardController extends Keyboard {
     public keysPressed: Array<string>;
@@ -10,7 +10,11 @@ export class KeyboardController extends Keyboard {
         super();
         this.keysPressed = [];
         window.addEventListener('keydown', this.keydownEvent = event => {
-            this.fire(KeyboardEvents.keyDown, new ParentEvent(KeyboardEvents.keyDown));
+            this.fire(KeyboardEvents.keyDown, new ParentEvent(KeyboardEvents.keyDown, {
+                key: event.key,
+                keyCode: event.keyCode,
+                code: event.code
+            }));
             if (this.keysPressed.indexOf(event.key) === -1) this.keysPressed.push(event.key);
             this.fire(KeyboardEvents.keyPressed, new ParentEvent(KeyboardEvents.keyPressed, {
                 key: event.key,
@@ -35,7 +39,11 @@ export class KeyboardController extends Keyboard {
         });
         window.addEventListener('keyup', this.keyupEvent = event => {
             const key = event.key;
-            this.fire(KeyboardEvents.keyUp, new ParentEvent(KeyboardEvents.keyUp));
+            this.fire(KeyboardEvents.keyUp, new ParentEvent(KeyboardEvents.keyUp, {
+                key: event.key,
+                keyCode: event.keyCode,
+                code: event.code
+            }));
             this.keysPressed.splice(this.keysPressed.indexOf(key), 1);
         });
     }

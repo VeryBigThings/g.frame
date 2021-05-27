@@ -1,20 +1,16 @@
-# g.frame.debug
-Module repo template for g.frame
+# g.frame.common.debug
 
-## How to use
-* Create new repo and use this project as template
-* Clone it
-* Change all `g.frame.components.debug` occurrences to your module name `g.frame.module_name`
-* Rename `.github_` folder to `.github`
-* Update to use latest version of `g.frame` and `three`
-* Use `npm install` to install all dependencies
+[![NPM Package][npm]][npm-url]
+[![NPM Downloads][npm-downloads]][npmtrends-url]
+[![NPM License][npm-license]][mit-url]
 
+Debug module for g.frame framework
 
-## How to build
-* Use `npm run build` to build your module
-* Use `npm run lint` to lint your code
-* Use `npm run test` to run unit tests
-* Use `npm run docs` to generate docs
+[npm]: https://img.shields.io/npm/v/@g.frame/common.debug?style=for-the-badge
+[npm-url]: https://www.npmjs.com/package/@g.frame/common.debug
 
-## Useful links
-* `g.frame` repo https://github.com/VeryBigThings/g.frame
+[npm-downloads]: https://img.shields.io/npm/dw/@g.frame/common.debug?style=for-the-badge
+[npmtrends-url]: https://www.npmtrends.com/@g.frame/common.debug
+
+[npm-license]: https://img.shields.io/npm/l/@g.frame/common.debug?style=for-the-badge
+[mit-url]: https://opensource.org/licenses/MIT

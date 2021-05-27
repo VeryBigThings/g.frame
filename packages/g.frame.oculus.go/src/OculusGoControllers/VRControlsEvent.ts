@@ -1,4 +1,4 @@
-import { ParentEvent } from '@verybigthings/g.frame.core';
+import { ParentEvent } from '@g.frame/core';
 import { Vector3 } from 'three';
 
 export class VRControlsEvent extends ParentEvent<string> {
