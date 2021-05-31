@@ -93,10 +93,10 @@ export class TorusComponent extends ViewerModule {
         for (let i = 0; i < uvAttribute.count; i++) {
             let u = uvAttribute.getX(i);
             let v = uvAttribute.getY(i);
-      
+
             u = u / outerRadius * 2 + 0.5;
             v = v / outerRadius * 2 + 0.5;
-    
+
             uvAttribute.setXY(i, u, v);
         }
 

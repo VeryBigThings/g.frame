@@ -35,10 +35,10 @@ export class RoundedPlane {
         for (let i = 0; i < uvAttribute.count; i++) {
             let u = uvAttribute.getX(i);
             let v = uvAttribute.getY(i);
-      
+
             u = (u + options.width / 2) / options.width;
             v = (v + options.height / 2) / options.height;
-    
+
             uvAttribute.setXY(i, u, v);
         }
 
@@ -92,10 +92,10 @@ export class RoundedPlane {
         for (let i = 0; i < uvAttribute.count; i++) {
             let u = uvAttribute.getX(i);
             let v = uvAttribute.getY(i);
-      
+
             u = u / options.width + 0.5;
             v = v / options.height + 0.5;
-    
+
             uvAttribute.setXY(i, u, v);
         }
 
