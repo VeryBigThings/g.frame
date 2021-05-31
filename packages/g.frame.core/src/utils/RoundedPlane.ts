@@ -32,9 +32,9 @@ export class RoundedPlane {
         // });
 
         const uvAttribute = roundedGeom.getAttribute('uv');
-        for (var i = 0; i < uvAttribute.count; i++) {
-            var u = uvAttribute.getX(i);
-            var v = uvAttribute.getY(i);
+        for (let i = 0; i < uvAttribute.count; i++) {
+            let u = uvAttribute.getX(i);
+            let v = uvAttribute.getY(i);
       
             u = (u + options.width / 2) / options.width;
             v = (v + options.height / 2) / options.height;
@@ -89,9 +89,9 @@ export class RoundedPlane {
         });
 
         const uvAttribute = geometry.getAttribute('uv');
-        for (var i = 0; i < uvAttribute.count; i++) {
-            var u = uvAttribute.getX(i);
-            var v = uvAttribute.getY(i);
+        for (let i = 0; i < uvAttribute.count; i++) {
+            let u = uvAttribute.getX(i);
+            let v = uvAttribute.getY(i);
       
             u = u / options.width + 0.5;
             v = v / options.height + 0.5;

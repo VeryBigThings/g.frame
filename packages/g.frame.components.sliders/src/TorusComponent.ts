@@ -90,9 +90,9 @@ export class TorusComponent extends ViewerModule {
         // uv.needsUpdate = true;
 
         const uvAttribute = geometry.getAttribute('uv');
-        for (var i = 0; i < uvAttribute.count; i++) {
-            var u = uvAttribute.getX(i);
-            var v = uvAttribute.getY(i);
+        for (let i = 0; i < uvAttribute.count; i++) {
+            let u = uvAttribute.getX(i);
+            let v = uvAttribute.getY(i);
       
             u = u / outerRadius * 2 + 0.5;
             v = v / outerRadius * 2 + 0.5;
