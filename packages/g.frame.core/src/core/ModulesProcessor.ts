@@ -31,13 +31,9 @@ export class ModulesProcessor extends EventDispatcher<string> {
     }) {
         super();
 
-        this.agents = new ConstructorInstanceMap<any>();
-        // this.modules = new ConstructorInstanceMap<AbstractModule>();
+        this.agents = new ConstructorInstanceMap<AbstractModule>();
         // this.modules = new Map<string, AbstractModule>();
         this.modules = [];
-
-        // this.viewer = new Viewer(this.configuration.viewerConfig);
-        // this.viewer = this.configuration.viewer; //ft
 
         console.log('MPConstr', this.configuration);
 

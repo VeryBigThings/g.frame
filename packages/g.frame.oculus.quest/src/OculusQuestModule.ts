@@ -1,4 +1,4 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap} from '@g.frame/core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap, RenderModuleAbstract} from '@g.frame/core';
 import {Loader} from '@g.frame/common.loaders';
 import {Object3D} from 'three';
 import {OculusQuestPickingController} from './OculusQuestControllers/OculusQuestPickingController';
@@ -51,9 +51,16 @@ export class OculusQuestModule extends AbstractModule {
     /**
      * Module initialization.. Inits main controllers. Inits Oculus Quest model and manager
      */
-    async onInit(data: any): Promise<Array<any>> {
-        this._oculusQuestModel = new OculusQuestModel(data);
-        this._oculusQuestManager = new OculusQuestManager(data.viewer.renderer, this._oculusQuestModel);
+    async onInit(data: Array<AbstractModule>): Promise<Array<any>> {
+
+        const renderModule = data.find(module => {
+            return renderModule instanceof RenderModuleAbstract;
+        });
+
+        const viewer = renderModule.getViewer();
+
+        this._oculusQuestModel = new OculusQuestModel(viewer);
+        this._oculusQuestManager = new OculusQuestManager(viewer.renderer, this._oculusQuestModel);
 
         this._actionController = new OculusQuestActionController(data, this._config.oculusQuestActionController, this.oculusQuestModel);
         this._pickingController = new OculusQuestPickingController(data, this._config.oculusQuestPickingController, this.oculusQuestModel);

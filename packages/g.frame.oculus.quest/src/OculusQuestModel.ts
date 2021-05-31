@@ -1,5 +1,5 @@
 import { ControllerHandnessCodes, IXRControllerModel, IXRControllerView, XRControllerModelEvents } from '@g.frame/common.xr_manager';
-import { EventDispatcher, ParentEvent } from '@g.frame/core';
+import { EventDispatcher, ParentEvent, ViewerAbstract } from '@g.frame/core';
 import { Matrix4, Mesh, Object3D, Quaternion, Vector3, Vector4 } from 'three';
 import { VRControlsEvent } from './OculusQuestControllers/VRControlsEvent';
 import { Pointer } from './OculusQuestControllers/Pointer';
@@ -74,7 +74,7 @@ export class OculusQuestModel extends EventDispatcher<XRControllerModelEvents> i
     private inputSourceLeft: any;
     private inputSourceRight: any;
 
-    constructor(private data: any) {
+    constructor(private viewer: ViewerAbstract) {
         super();
 
         this.mainContainer = new Object3D();
@@ -225,7 +225,7 @@ export class OculusQuestModel extends EventDispatcher<XRControllerModelEvents> i
             return;
         }
 
-        const inputPose = this.frame.getPose(inputSource.targetRaySpace, this.data.viewer.renderer.xr.getReferenceSpace());
+        const inputPose = this.frame.getPose(inputSource.targetRaySpace, this.viewer.renderer.xr.getReferenceSpace());
         if (inputPose) {
             new Matrix4().fromArray(inputPose.transform.matrix).decompose(model.pose.position, model.pose.orientation, new Vector3());
             new Matrix4().fromArray(inputPose.transform.matrix).decompose(pointerWrapper.position, pointerWrapper.quaternion, new Vector3());
@@ -299,7 +299,7 @@ export class OculusQuestModel extends EventDispatcher<XRControllerModelEvents> i
         // Left pointer
         this.pointerWrapperLeft = new Object3D();
         this.pointerWrapperLeft.name = 'LeftPointerWrapper';
-        this.pointerLeft = new Pointer(this.data.viewer.scene, { color: 0xff2222 }, this.data.viewer.camera);
+        this.pointerLeft = new Pointer(this.viewer.scene, { color: 0xff2222 }, this.viewer.camera);
         this.pointerLeft.uiObject.position.set(-0.0095, -0.00151, -5);
         this.pointerLeft.uiObject.rotation.set(0, Math.PI, 0);
         this.pointerWrapperLeft.add(this.pointerLeft.uiObject);
@@ -307,7 +307,7 @@ export class OculusQuestModel extends EventDispatcher<XRControllerModelEvents> i
         // Right pointer
         this.pointerWrapperRight = new Object3D();
         this.pointerWrapperLeft.name = 'RightPointerWrapper';
-        this.pointerRight = new Pointer(this.data.viewer.scene, { color: 0x2222ff }, this.data.viewer.camera);
+        this.pointerRight = new Pointer(this.viewer.scene, { color: 0x2222ff }, this.viewer.camera);
         this.pointerRight.uiObject.position.set(0.0095, -0.00151, -5);
         this.pointerRight.uiObject.rotation.set(0, Math.PI, 0);
         this.pointerWrapperRight.add(this.pointerRight.uiObject);
