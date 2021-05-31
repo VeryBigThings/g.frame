@@ -79,15 +79,28 @@ export class TorusComponent extends ViewerModule {
         //     vec2.y += 0.5;
         // }));
 
-        const uv = geometry.getAttribute('uv');
+        // const uv = geometry.getAttribute('uv');
 
-        const newUV = (<Float32Array>uv.array).map((value, index) => {
-            return (value / (outerRadius * 2)) / + 0.5;
-        });
+        // const newUV = (<Float32Array>uv.array).map((value, index) => {
+        //     return (value / (outerRadius * 2)) + 0.5;
+        // });
 
-        (<Float32BufferAttribute>uv).set(newUV);
+        // (<Float32BufferAttribute>uv).set(newUV);
 
-        uv.needsUpdate = true;
+        // uv.needsUpdate = true;
+
+        const uvAttribute = geometry.getAttribute('uv');
+        for (var i = 0; i < uvAttribute.count; i++) {
+            var u = uvAttribute.getX(i);
+            var v = uvAttribute.getY(i);
+      
+            u = u / outerRadius * 2 + 0.5;
+            v = v / outerRadius * 2 + 0.5;
+    
+            uvAttribute.setXY(i, u, v);
+        }
+
+        uvAttribute.needsUpdate = true;
 
         return new GMesh<ShapeGeometry, MeshBasicMaterial>(
             geometry,
