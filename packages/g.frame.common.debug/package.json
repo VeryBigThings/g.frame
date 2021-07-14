@@ -35,7 +35,7 @@
     "dat.gui": "^0.7.6"
   },
   "peerDependencies": {
-    "@g.frame/core": "^0.1.6",
+    "@g.frame/core": "^0.2.1",
     "@g.frame/common.action_controller": "^0.2.0",
     "@g.frame/desktop": "^0.2.0",
     "three": "0.128.0"
