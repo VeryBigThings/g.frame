@@ -14,7 +14,7 @@ export class XRManagerModule extends AbstractModule {
         };
     }
 
-    async onInit(data: any): Promise<Array<any>> {
+    async onInit(data: Array<AbstractModule>): Promise<Array<any>> {
         return [];
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/common.xr_manager",
-  "version": "0.2.3",
+  "version": "0.2.3-pp-alpha-1",
   "description": "VR module for g.frame framework",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -31,11 +31,11 @@
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "peerDependencies": {
-    "@g.frame/core": "^0.2.0",
+    "@g.frame/core": "0.2.2-pp-alpha-1",
     "three": "0.128.0"
   },
   "devDependencies": {
-    "@g.frame/core": "^0.2.2",
+    "@g.frame/core": "0.2.2-pp-alpha-1",
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.1",
     "@types/three": "0.128.0",

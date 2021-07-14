@@ -13,7 +13,7 @@ export class OculusQuestActionController extends ActionController {
      * @param config Config for the class
      * @param oculusQuestController Oculus Quest controller which fires the events
      */
-    constructor(protected data: any, protected config: IOculusQuestActionControllerConfig, protected oculusQuestModel: any) {
+    constructor(protected viewer: any, protected config: IOculusQuestActionControllerConfig, protected oculusQuestModel: any) {
         super();
 
         // Check if they were undefined

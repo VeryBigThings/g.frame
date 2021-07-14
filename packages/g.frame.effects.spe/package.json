@@ -32,16 +32,16 @@
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
-    "@g.frame/common.loaders": "^0.2.3",
+    "@g.frame/common.loaders": "0.2.3-pp-alpha-1",
     "@g.frame/shader-particle-engine": "^1.0.12"
   },
   "peerDependencies": {
-    "@g.frame/core": "^0.2.0",
+    "@g.frame/core": "0.2.2-pp-alpha-1",
     "three": "0.128.0"
   },
   "devDependencies": {
-    "@g.frame/common.loaders": "^0.2.0",
-    "@g.frame/core": "^0.2.2",
+    "@g.frame/common.loaders": "0.2.3-pp-alpha-1",
+    "@g.frame/core": "0.2.2-pp-alpha-1",
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.1",
     "@types/three": "0.128.0",

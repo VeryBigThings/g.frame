@@ -1,4 +1,4 @@
-import { AbstractModule, AbstractModuleStatus, ConstructorInstanceMap } from '@g.frame/core';
+import { AbstractModule, AbstractModuleStatus, ConstructorInstanceMap, RenderModuleAbstract } from '@g.frame/core';
 import { Loader } from '@g.frame/common.loaders';
 import { Object3D } from 'three';
 import { OculusGoActionController } from './OculusGoControllers/OculusGoActionController';
@@ -27,9 +27,15 @@ export class OculusGoModule extends AbstractModule {
     /**
      * Module initialization.. Inits main actionController. Inits Oculus Quest model and manager
      */
-    async onInit(data: any): Promise<Array<any>> {
-        const oculusGoModel = new OculusGoModel(data.viewer);
-        this.oculusGoManager = new OculusGoManager(data.viewer.renderer, oculusGoModel);
+    async onInit(data: Array<AbstractModule>): Promise<Array<any>> {
+        const renderModule = data.find(module => {
+            return module instanceof RenderModuleAbstract;
+        }) as RenderModuleAbstract;
+
+        const viewer = renderModule.getViewer();
+        
+        const oculusGoModel = new OculusGoModel(viewer);
+        this.oculusGoManager = new OculusGoManager(viewer.renderer, oculusGoModel);
 
         const actionController = new OculusGoActionController({
             minRaycasterDistance: 0,

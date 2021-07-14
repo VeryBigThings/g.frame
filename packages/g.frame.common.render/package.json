@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/common.render",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Render module from g.frame",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -34,17 +34,17 @@
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "peerDependencies": {
-    "@g.frame/core": "^0.2.1",
-    "three": "^0.128.0"
+    "@g.frame/core": "0.2.2-pp-alpha-1",
+    "three": "0.128.0"
   },
   "devDependencies": {
-    "@g.frame/core": "^0.2.2",
+    "@g.frame/core": "0.2.2-pp-alpha-1",
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.1",
     "copyfiles": "^2.2.0",
     "jest": "^25.1.0",
     "npm-run-all": "^4.1.5",
-    "three": "^0.128.0",
+    "three": "0.128.0",
     "trash-cli": "^3.0.0",
     "ts-jest": "^25.2.1",
     "tslint": "^6.1.0",

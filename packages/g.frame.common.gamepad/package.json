@@ -35,9 +35,9 @@
     "dat.gui": "^0.7.6"
   },
   "devDependencies": {
-    "@g.frame/common.action_controller": "^0.2.2",
-    "@g.frame/core": "^0.2.2",
-    "@g.frame/desktop": "^0.2.3",
+    "@g.frame/common.action_controller": "0.2.3-pp-alpha-1",
+    "@g.frame/core": "0.2.2-pp-alpha-1",
+    "@g.frame/desktop": "0.2.3-pp-alpha-1",
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.1",
     "@types/three": "0.128.0",

@@ -1,4 +1,4 @@
-import {AbstractModule, AbstractModuleStatus} from '@g.frame/core';
+import {AbstractModule, AbstractModuleStatus, RenderModuleAbstract} from '@g.frame/core';
 import {TouchActionController} from './controllers/TouchActionController';
 
 
@@ -16,12 +16,17 @@ export class MobileModule extends AbstractModule {
     }
 
     async onInit(data: any): Promise<Array<any>> {
-        // console.info('Module initialization. Create all instances.');
+        const renderModule = data.find(module => {
+            return module instanceof RenderModuleAbstract;
+        }) as RenderModuleAbstract;
+
+        const viewer = renderModule.getViewer();
+
         return [
             this._touchActionController = new TouchActionController({
                 minRaycasterDistance: 0,
                 maxRaycasterDistance: Infinity
-            }, data.viewer.renderer, data.viewer.camera),
+            }, viewer.renderer, viewer.camera),
         ];
     }
 

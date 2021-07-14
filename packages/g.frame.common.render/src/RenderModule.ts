@@ -20,12 +20,7 @@ export class RenderModule extends RenderModuleAbstract {
     }
 
     async onInit(data: any): Promise<Array<any>> {
-        // console.info('Module initialization. Create all instances.');
-
-        // this.webglrenderer = new WEBGLRenderer(this.config.renderer);
         this.viewer = new Renderer(this.config);
-
-        // this.webglrenderer.setAnimationLoop(this.viewer.update);
 
         return [
             this.viewer

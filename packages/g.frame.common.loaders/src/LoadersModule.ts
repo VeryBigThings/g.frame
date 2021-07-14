@@ -27,7 +27,7 @@ export class LoadersModule extends AbstractModule {
         };
     }
 
-    async onInit(data: any): Promise<Array<any>> {
+    async onInit(data:  Array<AbstractModule>): Promise<Array<any>> {
         // console.info('Module initialization. Create all instances.');
         this.loaders = [
             new AudiosLoader(),

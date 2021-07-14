@@ -19,13 +19,9 @@ export class PPRenderModule extends RenderModuleAbstract {
         };
     }
 
-    async onInit(data: any): Promise<Array<any>> {
-        // console.info('Module initialization. Create all instances.');
+    async onInit(data: Array<AbstractModule>): Promise<Array<any>> {
 
-        // this.webglrenderer = new WEBGLRenderer(this.config.renderer);
         this.viewer = new PPRender(this.config);
-
-        // this.webglrenderer.setAnimationLoop(this.viewer.update);
 
         return [
             this.viewer

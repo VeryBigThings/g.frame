@@ -9,7 +9,7 @@ export class OculusQuestPickingController extends PickingController {
     private forcedState: IOculusQuestPickingForcedState;
     private oldModel: IOculusQuestControllersModel;
 
-    constructor(protected data: any, protected config: IOculusQuestPickingControllerConfig, protected oculusQuestModel: OculusQuestModel) {
+    constructor(protected viewer: any, protected config: IOculusQuestPickingControllerConfig, protected oculusQuestModel: OculusQuestModel) {
         super(config);
         this.forcedState = {
             left: {
@@ -35,14 +35,14 @@ export class OculusQuestPickingController extends PickingController {
                     this.forceRelease(new Vector3, new Quaternion, false, 1);
                 }
                 this.oldModel = JSON.parse(JSON.stringify(event.data));
-                this.update(this.data.viewer.camera.parent.localToWorld(
+                this.update(this.viewer.camera.parent.localToWorld(
                     event.data.left.pose.position.clone()),
                     event.data.left.pose.orientation.clone(),
                     typeof this.forcedState.left.isSqueezed === 'boolean' ? this.forcedState.left.isSqueezed
                         : this.getSqueezed(event.data.left),
                     0
                 );
-                this.update(this.data.viewer.camera.parent.localToWorld(
+                this.update(this.viewer.camera.parent.localToWorld(
                     event.data.right.pose.position.clone()),
                     event.data.right.pose.orientation.clone(),
                     typeof this.forcedState.right.isSqueezed === 'boolean' ? this.forcedState.right.isSqueezed

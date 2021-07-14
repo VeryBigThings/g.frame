@@ -52,18 +52,17 @@ export class OculusQuestModule extends AbstractModule {
      * Module initialization.. Inits main controllers. Inits Oculus Quest model and manager
      */
     async onInit(data: Array<AbstractModule>): Promise<Array<any>> {
-
         const renderModule = data.find(module => {
-            return renderModule instanceof RenderModuleAbstract;
-        });
+            return module instanceof RenderModuleAbstract;
+        }) as RenderModuleAbstract;
 
         const viewer = renderModule.getViewer();
 
         this._oculusQuestModel = new OculusQuestModel(viewer);
         this._oculusQuestManager = new OculusQuestManager(viewer.renderer, this._oculusQuestModel);
 
-        this._actionController = new OculusQuestActionController(data, this._config.oculusQuestActionController, this.oculusQuestModel);
-        this._pickingController = new OculusQuestPickingController(data, this._config.oculusQuestPickingController, this.oculusQuestModel);
+        this._actionController = new OculusQuestActionController(viewer, this._config.oculusQuestActionController, this.oculusQuestModel);
+        this._pickingController = new OculusQuestPickingController(viewer, this._config.oculusQuestPickingController, this.oculusQuestModel);
 
         // Adds view to the module container
         this.container.add(this.oculusQuestModel.mainContainer);

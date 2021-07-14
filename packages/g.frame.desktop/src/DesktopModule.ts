@@ -49,16 +49,11 @@ export class DesktopModule extends AbstractModule {
     }
 
     async onInit(data: Array<AbstractModule>): Promise<Array<any>> {
-        // console.info('Module initialization. Create all instances.');
-
         const renderModule = data.find(module => {
-            return renderModule instanceof RenderModuleAbstract;
-        });
+            return module instanceof RenderModuleAbstract;
+        }) as RenderModuleAbstract;
 
         const viewer = renderModule.getViewer();
-
-        console.log('ON INIT DESKTOP', data, renderModule, viewer);
-
 
         this._actionController = new MouseActionController(this.config.mouseActionController, viewer.renderer, viewer.camera);
 
