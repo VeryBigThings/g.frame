@@ -81,9 +81,9 @@ export class Loader<T> extends EventDispatcher<LoaderEventsName> {
     dispose(resources: string[] = []) {
         this.off();
 
-        if(resources.length) {
+        if (resources.length) {
             resources.forEach(name => {
-                if(this.library.get(name)) {
+                if (this.library.get(name)) {
                     this.disposeResource(this.library.get(name));
                     this.library.set(name, null);
                 }
