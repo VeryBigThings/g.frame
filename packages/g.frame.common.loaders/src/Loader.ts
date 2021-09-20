@@ -78,12 +78,23 @@ export class Loader<T> extends EventDispatcher<LoaderEventsName> {
         return <C>res;
     }
 
-    dispose() {
+    dispose(resources: string[] = []) {
         this.off();
-        this.library.forEach((resource, name) => {
-            this.disposeResource(resource);
-            this.library.set(name, null);
-        });
+
+        if (resources.length) {
+            resources.forEach(name => {
+                if (this.library.get(name)) {
+                    this.disposeResource(this.library.get(name));
+                    this.library.set(name, null);
+                }
+            });
+        } else {
+            this.library.forEach((resource, name) => {
+                this.disposeResource(resource);
+                this.library.set(name, null);
+            });
+        }
+
     }
 
     protected disposeResource(resource: T) {}
