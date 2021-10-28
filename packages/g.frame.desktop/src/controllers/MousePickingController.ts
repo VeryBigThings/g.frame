@@ -10,6 +10,7 @@ export class MousePickingController extends PickingController {
     private controls: OrbitControls;
     private currentObject: Object3D;
     private scene: Scene;
+    private isControlsWasEnabled: boolean;
 
     constructor(protected data: any, protected config: IMousePickingControllerConfig, protected mouseActionController: MouseActionController) {
         super(config);
@@ -45,7 +46,7 @@ export class MousePickingController extends PickingController {
                         event.data.ray.origin.distanceTo(newPosition)
                     );
                 }
-                this.controls.enabled = true;
+                this.controls.enabled = this.isControlsWasEnabled;
             }
         });
     }
@@ -58,6 +59,7 @@ export class MousePickingController extends PickingController {
                 // console.log('intersectedEventsObjects = ', intersectedEventsObjectsAmount, 'newPos = ', this.getPosition(event));
                 if (intersectedEventsObjects.length !== 0 && this.checkDistance(intersectedEventsObjects)) {
                     // console.log('this.currentValues',this.currentValues);
+                    this.isControlsWasEnabled = this.controls.enabled;
                     this.controls.enabled = false;
                     const position = this.getPosition(event);
                     this.forcePickUp(intersectedEventsObjects[0].object, event.data.ray.origin.distanceTo(position), event.data.ray.origin.clone(), new Quaternion().setFromUnitVectors(new Vector3(0, 0, -1), event.data.ray.direction), 0);
@@ -65,6 +67,11 @@ export class MousePickingController extends PickingController {
             }
         });
         super.on(eventName, mesh, callback1, callback2);
+    }
+
+    off(eventName: PickingControllerEventNames, mesh, callback?: Function) {
+        this.mouseActionController.off(ActionControllerEventName.buttonDown, mesh);
+        super.off(eventName, mesh, callback);
     }
 
     protected onObjectPick(pickedObject: Object3D) {
