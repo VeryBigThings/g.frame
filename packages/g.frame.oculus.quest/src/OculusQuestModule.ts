@@ -59,7 +59,8 @@ export class OculusQuestModule extends AbstractModule {
         this._pickingController = new OculusQuestPickingController(data, this._config.oculusQuestPickingController, this.oculusQuestModel);
 
         // Adds view to the module container
-        this.container.add(this.oculusQuestModel.mainContainer);
+        // this.container.add(this.oculusQuestModel.mainContainer);
+        data.viewer.camera.parent.add(this.oculusQuestModel.mainContainer);
 
         return [
             this._oculusQuestManager,

@@ -34,17 +34,19 @@ export class OculusQuestPickingController extends PickingController {
                     this.forcedState.right.isSqueezed = null;
                     this.forceRelease(new Vector3, new Quaternion, false, 1);
                 }
+                const cameraParentWorldOrientation = new Quaternion();
+                (<Object3D>this.data.viewer.camera.parent).getWorldQuaternion(cameraParentWorldOrientation);
                 this.oldModel = JSON.parse(JSON.stringify(event.data));
                 this.update(this.data.viewer.camera.parent.localToWorld(
                     event.data.left.pose.position.clone()),
-                    event.data.left.pose.orientation.clone(),
+                    cameraParentWorldOrientation.clone().multiply(event.data.left.pose.orientation.clone()),
                     typeof this.forcedState.left.isSqueezed === 'boolean' ? this.forcedState.left.isSqueezed
                         : this.getSqueezed(event.data.left),
                     0
                 );
                 this.update(this.data.viewer.camera.parent.localToWorld(
                     event.data.right.pose.position.clone()),
-                    event.data.right.pose.orientation.clone(),
+                    cameraParentWorldOrientation.clone().multiply(event.data.right.pose.orientation.clone()),
                     typeof this.forcedState.right.isSqueezed === 'boolean' ? this.forcedState.right.isSqueezed
                         : this.getSqueezed(event.data.right),
                     1
