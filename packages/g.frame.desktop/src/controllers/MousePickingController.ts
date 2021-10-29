@@ -45,8 +45,8 @@ export class MousePickingController extends PickingController {
                         0,
                         event.data.ray.origin.distanceTo(newPosition)
                     );
+                    this.controls.enabled = this.isControlsWasEnabled;
                 }
-                this.controls.enabled = this.isControlsWasEnabled;
             }
         });
     }
