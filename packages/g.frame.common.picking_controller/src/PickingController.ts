@@ -65,7 +65,7 @@ export class PickingController extends MeshEventDispatcher {
         const quat = new Quaternion();
         const sposition = new Vector3();
         scope.currentPickedObject.matrixWorld.decompose(sposition, quat, scope.startScale);
-        quat.inverse();
+        quat.invert();
         const matrix = new Matrix4();
         matrix.makeRotationFromQuaternion(quat);
 
@@ -82,7 +82,7 @@ export class PickingController extends MeshEventDispatcher {
 
         const rotation = new Quaternion();
         rotation.copy(newRotation);
-        rotation.inverse();
+        rotation.invert();
 
         scope.currentPickedObject.matrixWorld.decompose(sposition, quat, scope.startScale);
         scope.startRotation.multiplyQuaternions(rotation, quat);
@@ -153,7 +153,7 @@ export class PickingController extends MeshEventDispatcher {
                     const newTransform = new Matrix4();
                     const localTransform = new Matrix4();
 
-                    parentTransform.getInverse(scope.currentPickedObject.parent.matrixWorld);
+                    parentTransform.copy(scope.currentPickedObject.parent.matrixWorld.clone().invert());
                     newTransform.compose(newOffset, newRotation, scope.startScale);
                     localTransform.multiplyMatrices(parentTransform, newTransform);
                     localTransform.decompose(newOffset, newRotation, newScale);
@@ -211,7 +211,7 @@ export class PickingController extends MeshEventDispatcher {
                     const quat = new Quaternion();
                     const sposition = new Vector3();
                     scope.currentPickedObject.matrixWorld.decompose(sposition, quat, scope.startScale);
-                    quat.inverse();
+                    quat.invert();
                     const matrix = new Matrix4();
                     matrix.makeRotationFromQuaternion(quat);
 
@@ -228,7 +228,7 @@ export class PickingController extends MeshEventDispatcher {
 
                     const rotation = new Quaternion();
                     rotation.copy(newRotation);
-                    rotation.inverse();
+                    rotation.invert();
 
                     scope.currentPickedObject.matrixWorld.decompose(sposition, quat, scope.startScale);
                     scope.startRotation.multiplyQuaternions(rotation, quat);
