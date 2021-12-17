@@ -196,7 +196,16 @@ export class PickingController extends MeshEventDispatcher {
                 })
             )];
             scope.raycaster.ray.set(newPosition, direction);
-            const intersection = scope.raycaster.intersectObjects(objectsToRaycast)[0];
+            const intersections = objectsToRaycast.map(object => {
+                const intersection = scope.raycaster.intersectObject(<Object3D>object, true)[0];
+                if (intersection) {
+                    // @ts-ignore
+                    intersection.intersectedObject = intersection.object;
+                    intersection.object = <Object3D>object;
+                }
+                return intersection;
+            }).filter(a => a);
+            const intersection = intersections[0];
             if (intersection) {
                 if (isSqueezed) {
                     // Picking object
