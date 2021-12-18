@@ -70,7 +70,7 @@ export class MousePickingController extends PickingController {
     }
 
     off(eventName: PickingControllerEventNames, mesh, callback?: Function) {
-        if(eventName === PickingControllerEventNames.PICKED)
+        if (eventName === PickingControllerEventNames.PICKED)
             this.mouseActionController.off(ActionControllerEventName.buttonDown, mesh);
         super.off(eventName, mesh, callback);
     }
