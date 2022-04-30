@@ -32,7 +32,7 @@
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
     "@g.frame/common.action_controller": "^0.2.0",
-    "@g.frame/components.buttons": "^0.2.0",
+    "@g.frame/components.buttons": "^0.2.1",
     "@g.frame/components.depth_scroll": "^0.2.0",
     "@g.frame/components.text": "^0.2.0",
     "@g.frame/components.window": "^0.2.0"
