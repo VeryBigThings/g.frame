@@ -1,5 +1,5 @@
 import {Loader} from '../Loader';
-import {Object3D} from 'three';
+import {Object3D, LoadingManager} from 'three';
 import {FBXLoader} from 'three/examples/jsm/loaders/FBXLoader';
 import {disposeObject3D} from './utils';
 
@@ -19,13 +19,16 @@ export default class FBXModelsLoader extends Loader<Object3D> {
     protected resourceToPromise(url: string, name: string, crossOrigin?: string): Promise<Object3D> {
 
         return new Promise((resolve, reject) => {
-            const loader = new FBXLoader();
+            const loadingManager = new LoadingManager();
+            const loader = new FBXLoader(loadingManager);
+            let _object;
             loader.setCrossOrigin(crossOrigin || this.defaultCrossOrigin);
             loader.load(url, (object) => {
                 this.library.set(name, object);
-                resolve(object);
+                _object = object;
             }, () => {
             }, (error) => reject(error));
+            loadingManager.onLoad = () => resolve(_object);
         });
     }
 }
