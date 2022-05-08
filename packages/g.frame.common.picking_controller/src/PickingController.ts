@@ -154,9 +154,9 @@ export class PickingController extends MeshEventDispatcher {
                     const localTransform = new Matrix4();
 
                     parentTransform.copy(scope.currentPickedObject.parent.matrixWorld.clone().invert());
-                    newTransform.compose(newOffset, newRotation, scope.startScale);
+                    newTransform.compose(newOffset, _newRotation, scope.startScale);
                     localTransform.multiplyMatrices(parentTransform, newTransform);
-                    localTransform.decompose(newOffset, newRotation, newScale);
+                    localTransform.decompose(newOffset, _newRotation, newScale);
                 }
 
                 scope.currentPickedObject.position.copy(newOffset);
