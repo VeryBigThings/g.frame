@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/effects.spe",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Shader Particle Engine module for g.frame framework",
   "main": "build/main/index.js",
   "module": "build/module/index.js",
@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
-    "@g.frame/common.loaders": "^0.2.9",
+    "@g.frame/common.loaders": "^0.2.10",
     "@g.frame/shader-particle-engine": "^1.0.12"
   },
   "peerDependencies": {
@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@g.frame/common.loaders": "^0.2.0",
-    "@g.frame/core": "^0.2.7",
+    "@g.frame/core": "^0.2.8",
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.1",
     "@types/three": "0.139.0",

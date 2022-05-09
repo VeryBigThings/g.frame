@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/input",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Input manager for g.frame framework",
   "main": "build/main/index.js",
   "module": "build/module/index.js",
@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
-    "@g.frame/core": "^0.2.7"
+    "@g.frame/core": "^0.2.8"
   },
   "devDependencies": {
     "@g.frame/core": "^0.2.0",

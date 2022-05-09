@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/common.debug",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Debug module from g.frame",
   "main": "build/main/index.js",
   "module": "build/module/index.js",
@@ -43,9 +43,9 @@
     "three": "0.139.2"
   },
   "devDependencies": {
-    "@g.frame/common.action_controller": "^0.2.7",
-    "@g.frame/core": "^0.2.7",
-    "@g.frame/desktop": "^0.2.10",
+    "@g.frame/common.action_controller": "^0.2.8",
+    "@g.frame/core": "^0.2.8",
+    "@g.frame/desktop": "^0.2.11",
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.1",
     "@types/three": "0.139.0",
