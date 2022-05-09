@@ -3,13 +3,15 @@
   "version": "0.2.3",
   "description": "Depth scroll component for g.frame framework",
   "main": "build/main/index.js",
+  "module": "build/module/index.js",
   "typings": "build/main/index.d.ts",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
     "build": "run-s clean && run-p build:*",
-    "build:main": "tsc -p tsconfig.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:module": "tsc -p tsconfig.json",
     "clean": "trash build test",
     "test": "jest --passWithNoTests",
     "lint": "tslint \"src/**/*.ts?(x)\"",

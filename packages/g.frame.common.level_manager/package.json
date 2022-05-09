@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "run-s clean && run-p build:*",
-    "build:main": "tsc -p tsconfig.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:module": "tsc -p tsconfig.json",
     "clean": "trash build test",
     "test": "jest --passWithNoTests",
     "lint": "tslint \"src/**/*.ts?(x)\"",

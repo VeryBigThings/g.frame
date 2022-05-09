@@ -3,13 +3,15 @@
   "version": "0.2.3",
   "description": "Template module from g.frame",
   "main": "build/main/index.js",
+  "module": "build/module/index.js",
   "typings": "build/main/index.d.ts",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
     "build": "run-s clean && run-p build:*",
-    "build:main": "tsc -p tsconfig.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:module": "tsc -p tsconfig.json",
     "build:assets": "copyfiles -f -s ./src/assets/models/* ./build/main/assets/models/",
     "clean": "trash build test",
     "test": "jest --passWithNoTests",
