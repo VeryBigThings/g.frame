@@ -38,7 +38,7 @@
     "@g.frame/common.action_controller": "^0.2.0",
     "@g.frame/core": "^0.2.1",
     "@g.frame/desktop": "^0.2.0",
-    "three": "0.128.0"
+    "three": "0.139.2"
   },
   "devDependencies": {
     "@g.frame/common.action_controller": "^0.2.6",
