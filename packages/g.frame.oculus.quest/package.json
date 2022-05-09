@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/oculus.quest",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Oculus Quest support module g.frame framework",
   "main": "build/main/index.js",
   "module": "build/module/index.js",
@@ -12,7 +12,8 @@
     "build": "run-s clean && run-p build:*",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:module": "tsc -p tsconfig.json",
-    "build:assets": "copyfiles -f -s ./src/assets/models/* ./build/main/assets/models/",
+    "build:cjs_assets": "copyfiles -f -s ./src/assets/models/* ./build/main/assets/models/",
+    "build:module_assets": "copyfiles -f -s ./src/assets/models/* ./build/module/assets/models/",
     "clean": "trash build test",
     "test": "jest --passWithNoTests",
     "lint": "tslint \"src/**/*.ts?(x)\"",
