@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/common.gamepad",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Gamepad module from g.frame",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -35,9 +35,9 @@
     "dat.gui": "^0.7.6"
   },
   "devDependencies": {
-    "@g.frame/common.action_controller": "^0.2.6",
-    "@g.frame/core": "^0.2.6",
-    "@g.frame/desktop": "^0.2.9",
+    "@g.frame/common.action_controller": "^0.2.7",
+    "@g.frame/core": "^0.2.7",
+    "@g.frame/desktop": "^0.2.10",
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.1",
     "@types/three": "0.139.0",

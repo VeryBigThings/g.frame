@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/common.picking_controller",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "User interactions module for g.frame framework",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -35,7 +35,7 @@
     "three": "0.139.2"
   },
   "devDependencies": {
-    "@g.frame/core": "^0.2.6",
+    "@g.frame/core": "^0.2.7",
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.1",
     "@types/three": "0.139.0",
