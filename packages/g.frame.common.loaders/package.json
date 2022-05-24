@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/common.loaders",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "Resource loaders module for g.frame framework",
   "main": "build/main/index.js",
   "module": "build/module/index.js",

@@ -12,7 +12,6 @@ export enum LoaderEventsName {
 
 export class Loader<T> extends EventDispatcher<LoaderEventsName> {
     public __agentConstructor: Function;
-
     public readonly loaderType: string;
     public defaultCrossOrigin: string = 'use-credentials';
     protected readonly library: Map<string, T> = new Map<string, T>();
@@ -21,6 +20,18 @@ export class Loader<T> extends EventDispatcher<LoaderEventsName> {
     constructor(_loaderType?: string) {
         super();
         this.loaderType = _loaderType ?? 'undefined_type';
+    }
+
+    private _progress: number = 0;
+
+    get progress(): number {
+        return this._progress;
+    }
+
+    private _maximumProgress: number = 0;
+
+    get maximumProgress(): number {
+        return this._maximumProgress;
     }
 
     /**
@@ -46,13 +57,19 @@ export class Loader<T> extends EventDispatcher<LoaderEventsName> {
      */
 
     load(): Promise<void> {
+        const notLoadedResources = this.resourcesRaw.filter(a => !a.loaded);
+        this._maximumProgress = notLoadedResources.length;
+        this._progress = 0;
+
         return new Promise<void>((resolve, reject) => {
-            const notLoadedResources = this.resourcesRaw.filter(a => !a.loaded);
-            if (notLoadedResources.length === 0) return resolve();
+            if (notLoadedResources.length === 0) {
+                return resolve();
+            }
             Promise.all(
                 notLoadedResources
                     .map(resourceRaw =>
                         this.resourceToPromise(<string>resourceRaw.url, resourceRaw.name, resourceRaw.crossOrigin)
+                            .then(() => this._progress++)
                     )
             ).then(() => {
                 resolve();
