@@ -26,7 +26,7 @@ export abstract class AbstractModule extends EventDispatcher<string> {
      * Function, that is called before actual initialization. Use it to check hardware, check compatibility, etc.
      * @returns Promise of Module status. For example if this module supported by user's hardware?
      */
-    async abstract preInit(): Promise<AbstractModuleStatus>;
+    abstract preInit(): Promise<AbstractModuleStatus>;
 
     /**
      * Initialization of module. All instances have to be created in this function.
@@ -34,7 +34,7 @@ export abstract class AbstractModule extends EventDispatcher<string> {
      * @todo Describe data argument in initialization function
      * @returns Promise of instances array
      */
-    async abstract onInit(data: any): Promise<Array<any>>;
+    abstract onInit(data: any): Promise<Array<any>>;
 
     /**
      * Function that is called after initialization. Use it only for internal stuff.

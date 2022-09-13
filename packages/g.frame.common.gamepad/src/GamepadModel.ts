@@ -59,6 +59,7 @@ export class GamepadModel extends AbstractGamepad {
         const allGamepads = navigator.getGamepads();
 
         for (let i = 0; i < allGamepads.length; i++) {
+            // @ts-ignore
             if (allGamepads[i] !== null && allGamepads[i].id && !allGamepads[i].pose &&
                 (allGamepads[i].id.toLowerCase().includes('steelseries') || allGamepads[i].id.toLowerCase().includes('xbox') || allGamepads[i].id.toLowerCase().includes('controller') || allGamepads[i].id.toLowerCase().includes('joystick') || allGamepads[i].id.toLowerCase().includes('dualshock'))) {
                 this.gamepad = allGamepads[i];
@@ -204,6 +205,7 @@ export class GamepadModel extends AbstractGamepad {
         let allGamepads = navigator.getGamepads();
 
         for (let i = 0; i < allGamepads.length; i++) {
+            // @ts-ignore
             if (allGamepads[i] !== null && allGamepads[i].id && !allGamepads[i].pose &&
                 (allGamepads[i].id.toLowerCase().includes('steelseries') || allGamepads[i].id.toLowerCase().includes('xbox') || allGamepads[i].id.toLowerCase().includes('controller') || allGamepads[i].id.toLowerCase().includes('joystick') || allGamepads[i].id.toLowerCase().includes('dualshock'))) {
                 this.gamepad = allGamepads[i];

@@ -40,7 +40,7 @@ export default class PositionalAudiosLoader extends Loader<PositionalAudio> {
                 audio.setBuffer(audioBuffer);
                 audio.setRefDistance(20);
                 this.setAudio(name, audio);
-                resolve();
+                resolve(audio);
             }, null, (error) => {
                 console.log(error);
                 reject();

@@ -25,7 +25,7 @@ export default class VideosLoader extends Loader<HTMLVideoElement> {
             video.loop = false;
             video.autoplay = false;
             video.muted = false;
-            video.addEventListener('canplaythrough', () => resolve(), false);
+            video.addEventListener('canplaythrough', () => resolve(video), false);
             video.addEventListener('error', () => reject(), false);
             video.src = url;
             this.library.set(name, video);

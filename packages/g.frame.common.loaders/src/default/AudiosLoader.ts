@@ -23,7 +23,7 @@ export default class AudiosLoader extends Loader<HTMLAudioElement> {
             const audio = new Audio(url);
             audio.crossOrigin = crossOrigin || this.defaultCrossOrigin;
             audio.load();
-            audio.addEventListener('canplaythrough', () => resolve(), false);
+            audio.addEventListener('canplaythrough', () => resolve(audio), false);
             audio.addEventListener('error', () => reject(), false);
 
             this.library.set(name, audio);
