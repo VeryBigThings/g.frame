@@ -1,6 +1,10 @@
 {
   "name": "@g.frame/examples",
+<<<<<<< HEAD:templates/g.frame.examples/package.json
   "version": "0.2.2",
+=======
+  "version": "0.2.4",
+>>>>>>> develop:packages/g.frame.examples/package.json
   "description": "Example project with g.frame framework",
   "private": true,
   "main": "index.js",
@@ -10,6 +14,7 @@
   "author": "Very Big Things",
   "license": "MIT",
   "dependencies": {
+<<<<<<< HEAD:templates/g.frame.examples/package.json
     "@g.frame/common.action_controller": "^0.2.2",
     "@g.frame/common.loaders": "^0.2.3",
     "@g.frame/common.picking_controller": "^0.2.2",
@@ -32,6 +37,28 @@
     "@g.frame/physics.oimo": "^0.2.3",
     "@types/three": "0.128.0",
     "three": "0.128.0"
+=======
+    "@g.frame/common.action_controller": "^0.2.8",
+    "@g.frame/common.loaders": "^0.2.10",
+    "@g.frame/common.picking_controller": "^0.2.7",
+    "@g.frame/common.xr_manager": "^0.2.5",
+    "@g.frame/components.buttons": "^0.2.4",
+    "@g.frame/components.dropdown": "^0.2.4",
+    "@g.frame/components.input": "^0.2.4",
+    "@g.frame/components.keyboard": "^0.2.4",
+    "@g.frame/components.sliders": "^0.2.5",
+    "@g.frame/components.text": "^0.2.4",
+    "@g.frame/components.window": "^0.2.4",
+    "@g.frame/core": "^0.2.8",
+    "@g.frame/desktop": "^0.2.11",
+    "@g.frame/input": "^0.2.7",
+    "@g.frame/mobile": "^0.2.4",
+    "@g.frame/oculus.go": "^0.2.4",
+    "@g.frame/oculus.quest": "^0.2.8",
+    "@g.frame/physics.oimo": "^0.2.5",
+    "@types/three": "0.139.0",
+    "three": "0.139.2"
+>>>>>>> develop:packages/g.frame.examples/package.json
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",

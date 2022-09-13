@@ -65,7 +65,7 @@ export class PickingController extends MeshEventDispatcher {
         const quat = new Quaternion();
         const sposition = new Vector3();
         scope.currentPickedObject.matrixWorld.decompose(sposition, quat, scope.startScale);
-        quat.inverse();
+        quat.invert();
         const matrix = new Matrix4();
         matrix.makeRotationFromQuaternion(quat);
 
@@ -82,7 +82,7 @@ export class PickingController extends MeshEventDispatcher {
 
         const rotation = new Quaternion();
         rotation.copy(newRotation);
-        rotation.inverse();
+        rotation.invert();
 
         scope.currentPickedObject.matrixWorld.decompose(sposition, quat, scope.startScale);
         scope.startRotation.multiplyQuaternions(rotation, quat);
@@ -153,10 +153,10 @@ export class PickingController extends MeshEventDispatcher {
                     const newTransform = new Matrix4();
                     const localTransform = new Matrix4();
 
-                    parentTransform.getInverse(scope.currentPickedObject.parent.matrixWorld);
-                    newTransform.compose(newOffset, newRotation, scope.startScale);
+                    parentTransform.copy(scope.currentPickedObject.parent.matrixWorld.clone().invert());
+                    newTransform.compose(newOffset, _newRotation, scope.startScale);
                     localTransform.multiplyMatrices(parentTransform, newTransform);
-                    localTransform.decompose(newOffset, newRotation, newScale);
+                    localTransform.decompose(newOffset, _newRotation, newScale);
                 }
 
                 scope.currentPickedObject.position.copy(newOffset);
@@ -196,7 +196,16 @@ export class PickingController extends MeshEventDispatcher {
                 })
             )];
             scope.raycaster.ray.set(newPosition, direction);
-            const intersection = scope.raycaster.intersectObjects(objectsToRaycast)[0];
+            const intersections = objectsToRaycast.map(object => {
+                const intersection = scope.raycaster.intersectObject(<Object3D>object, true)[0];
+                if (intersection) {
+                    // @ts-ignore
+                    intersection.intersectedObject = intersection.object;
+                    intersection.object = <Object3D>object;
+                }
+                return intersection;
+            }).filter(a => a);
+            const intersection = intersections[0];
             if (intersection) {
                 if (isSqueezed) {
                     // Picking object
@@ -211,7 +220,7 @@ export class PickingController extends MeshEventDispatcher {
                     const quat = new Quaternion();
                     const sposition = new Vector3();
                     scope.currentPickedObject.matrixWorld.decompose(sposition, quat, scope.startScale);
-                    quat.inverse();
+                    quat.invert();
                     const matrix = new Matrix4();
                     matrix.makeRotationFromQuaternion(quat);
 
@@ -228,7 +237,7 @@ export class PickingController extends MeshEventDispatcher {
 
                     const rotation = new Quaternion();
                     rotation.copy(newRotation);
-                    rotation.inverse();
+                    rotation.invert();
 
                     scope.currentPickedObject.matrixWorld.decompose(sposition, quat, scope.startScale);
                     scope.startRotation.multiplyQuaternions(rotation, quat);

@@ -283,8 +283,8 @@ export class OculusQuestModel extends EventDispatcher<XRControllerModelEvents> i
         }
 
         model.stick.axes = new Vector4(gamepad.axes[0], gamepad.axes[1], gamepad.axes[2], gamepad.axes[3]);
-        model.trigger.value = gamepad.buttons[0].value;
-        model.squeeze.value = gamepad.buttons[1].value;
+        model.trigger.value = gamepad.buttons[0] ? gamepad.buttons[0].value : false;
+        model.squeeze.value = gamepad.buttons[1] ? gamepad.buttons[1].value : false;
         gamepad.buttons.forEach((el: GamepadButton, index: number) => {
             model[config[index]] && (model[config[index]].touched = el.touched);
             model[config[index]] && (model[config[index]].pressed = el.pressed);

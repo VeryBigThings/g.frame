@@ -11,6 +11,14 @@ export class LoaderAgent extends Loader<any> {
         super();
     }
 
+    get progress(): number {
+        return this.loaders.reduce((acc, curr) => acc + curr.progress, 0);
+    }
+
+    get maximumProgress(): number {
+        return this.loaders.reduce((acc, curr) => acc + curr.maximumProgress, 0);
+    }
+
     /**
      * @param newResources ResourceRaw new items that will be added to library once .load() passes through
      * @returns boolean based on if the resource type is supported for the Loader, name and url exist. Defines if is it added to resourcesRaw Array
@@ -80,8 +88,8 @@ export class LoaderAgent extends Loader<any> {
         return loader;
     }
 
-    dispose() {
-        this.loaders.forEach(loader => loader.dispose());
+    dispose(recources: string[] = []) {
+        this.loaders.forEach(loader => loader.dispose(recources));
     }
 }
 

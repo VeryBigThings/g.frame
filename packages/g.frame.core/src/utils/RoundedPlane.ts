@@ -31,17 +31,18 @@ export class RoundedPlane {
         //     });
         // });
 
-        const uv = roundedGeom.getAttribute('uv');
+        const uvAttribute = roundedGeom.getAttribute('uv');
+        for (let i = 0; i < uvAttribute.count; i++) {
+            let u = uvAttribute.getX(i);
+            let v = uvAttribute.getY(i);
 
-        const newUV = (<Float32Array>uv.array).map((value, index) => {
-            const side = (index & 2) === 0 ? options.width : options.height;
+            u = (u + options.width / 2) / options.width;
+            v = (v + options.height / 2) / options.height;
 
-            return (value + (side / 2)) / side;
-        });
+            uvAttribute.setXY(i, u, v);
+        }
 
-        (<Float32BufferAttribute>uv).set(newUV);
-
-        uv.needsUpdate = true;
+        uvAttribute.needsUpdate = true;
 
         const roundedPlane = new Mesh(
             roundedGeom,
@@ -87,25 +88,18 @@ export class RoundedPlane {
             bevelThickness: 0
         });
 
-        // geometry.faceVertexUvs[0].forEach(vec2Array => vec2Array.forEach(vec2 => {
-        //     vec2.x /= options.width;
-        //     vec2.y /= options.height;
-        //     vec2.x += 0.5;
-        //     vec2.y += 0.5;
-        // }));
-        // geometry.uvsNeedUpdate = true;
+        const uvAttribute = geometry.getAttribute('uv');
+        for (let i = 0; i < uvAttribute.count; i++) {
+            let u = uvAttribute.getX(i);
+            let v = uvAttribute.getY(i);
 
-        const uv = geometry.getAttribute('uv');
+            u = u / options.width + 0.5;
+            v = v / options.height + 0.5;
 
-        const newUV = (<Float32Array>uv.array).map((value, index) => {
-            const side = (index & 2) === 0 ? options.width : options.height;
+            uvAttribute.setXY(i, u, v);
+        }
 
-            return (value / side) / + 0.5;
-        });
-
-        (<Float32BufferAttribute>uv).set(newUV);
-
-        uv.needsUpdate = true;
+        uvAttribute.needsUpdate = true;
 
         return geometry;
     }

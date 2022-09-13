@@ -1,15 +1,17 @@
 {
   "name": "@g.frame/input",
-  "version": "0.2.2-pp-alpha-1",
+  "version": "0.2.7",
   "description": "Input manager for g.frame framework",
   "main": "build/main/index.js",
+  "module": "build/module/index.js",
   "typings": "build/main/index.d.ts",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
     "build": "run-s clean && run-p build:*",
-    "build:main": "tsc -p tsconfig.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:module": "tsc -p tsconfig.json",
     "clean": "trash build test",
     "test": "jest --passWithNoTests",
     "lint": "tslint \"src/**/*.ts?(x)\"",
@@ -31,10 +33,10 @@
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "dependencies": {
-    "@g.frame/core": "0.2.2-pp-alpha-1"
+    "@g.frame/core": "^0.2.8"
   },
   "devDependencies": {
-    "@g.frame/core": "0.2.2-pp-alpha-1",
+    "@g.frame/core": "^0.2.0",
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.1",
     "copyfiles": "^2.2.0",

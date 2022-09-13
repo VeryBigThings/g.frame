@@ -10,6 +10,7 @@ export class MousePickingController extends PickingController {
     private controls: OrbitControls;
     private currentObject: Object3D;
     private scene: Scene;
+    private isControlsWasEnabled: boolean;
 
     constructor(protected viewer: any, protected config: IMousePickingControllerConfig, protected mouseActionController: MouseActionController) {
         super(config);
@@ -44,8 +45,8 @@ export class MousePickingController extends PickingController {
                         0,
                         event.data.ray.origin.distanceTo(newPosition)
                     );
+                    this.controls.enabled = this.isControlsWasEnabled;
                 }
-                this.controls.enabled = true;
             }
         });
     }
@@ -58,6 +59,7 @@ export class MousePickingController extends PickingController {
                 // console.log('intersectedEventsObjects = ', intersectedEventsObjectsAmount, 'newPos = ', this.getPosition(event));
                 if (intersectedEventsObjects.length !== 0 && this.checkDistance(intersectedEventsObjects)) {
                     // console.log('this.currentValues',this.currentValues);
+                    this.isControlsWasEnabled = this.controls.enabled;
                     this.controls.enabled = false;
                     const position = this.getPosition(event);
                     this.forcePickUp(intersectedEventsObjects[0].object, event.data.ray.origin.distanceTo(position), event.data.ray.origin.clone(), new Quaternion().setFromUnitVectors(new Vector3(0, 0, -1), event.data.ray.direction), 0);
@@ -67,15 +69,26 @@ export class MousePickingController extends PickingController {
         super.on(eventName, mesh, callback1, callback2);
     }
 
+    off(eventName: PickingControllerEventNames, mesh, callback?: Function) {
+        if (eventName === PickingControllerEventNames.PICKED)
+            this.mouseActionController.off(ActionControllerEventName.buttonDown, mesh);
+        super.off(eventName, mesh, callback);
+    }
+
     protected onObjectPick(pickedObject: Object3D) {
         this.currentObject = pickedObject;
-        this.currentObject.userData.oldRaycast = this.currentObject.raycast;
-        this.currentObject.raycast = () => {
-        };
+        this.currentObject.traverse(obj => {
+            obj.userData.oldRaycast = obj.raycast;
+            obj.raycast = () => {
+            };
+        });
+
     }
 
     protected onObjectRelease() {
-        this.currentObject.raycast = this.currentObject.userData?.oldRaycast;
+        this.currentObject.traverse(obj => {
+            obj.raycast = obj.userData?.oldRaycast;
+        });
         this.currentObject = null;
     }
 
@@ -87,7 +100,15 @@ export class MousePickingController extends PickingController {
         const raycaster = new Raycaster();
         raycaster.set(ray.origin, ray.direction);
         if (objectsToRaycast) {
-            return raycaster.intersectObjects(objectsToRaycast, false);
+            return objectsToRaycast.map(object => {
+                const intersection = raycaster.intersectObject(<Object3D>object, true)[0];
+                if (intersection) {
+                    // @ts-ignore
+                    intersection.intersectedObject = intersection.object;
+                    intersection.object = <Object3D>object;
+                }
+                return intersection;
+            }).filter(a => a);
         }
         return raycaster.intersectObject(this.scene, true);
     }
