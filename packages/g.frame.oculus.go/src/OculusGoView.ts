@@ -1,6 +1,6 @@
 import { IXRControllerView, XRViewStatus, ControllerHandnessCodes, IXRControllerModel } from '@g.frame/common.xr_manager';
 import { Loader, FBX_MODEL } from '@g.frame/common.loaders';
-import { Object3D, Group, Mesh, CircleBufferGeometry, CylinderBufferGeometry, MeshBasicMaterial } from 'three';
+import { Object3D, Group, Mesh, CircleGeometry, CylinderGeometry, MeshBasicMaterial } from 'three';
 import {LoaderEventsName} from '@g.frame/common.loaders/build/main';
 
 declare function require(s: string): string;
@@ -137,7 +137,7 @@ export class OculusGoView implements IOculusGoView {
 
         this.axisContainer.position.set(0, 0.005, 0.02);
 
-        this.axisIndicator = new Mesh(new CircleBufferGeometry(0.002, 16), new MeshBasicMaterial({color: '#4444ee'}));
+        this.axisIndicator = new Mesh(new CircleGeometry(0.002, 16), new MeshBasicMaterial({color: '#4444ee'}));
         this.axisIndicator.rotateX(Math.PI / -2);
         this.axisContainer.add(this.axisIndicator);
         this.modelContainer.add(this.axisContainer);
@@ -149,7 +149,7 @@ export class OculusGoView implements IOculusGoView {
      * Adds ray to the controller
      */
     private showRayView() {
-        this.ray = new Mesh(new CylinderBufferGeometry(0.004, 0.002, 8, 8, 1, true), new MeshBasicMaterial({color: '#44aa44'}));
+        this.ray = new Mesh(new CylinderGeometry(0.004, 0.002, 8, 8, 1, true), new MeshBasicMaterial({color: '#44aa44'}));
         this.ray.rotation.set(Math.PI / 2, 0, 0);
         this.ray.position.set(0, -0.007, -3.98);
         this.modelContainer.add(this.ray);

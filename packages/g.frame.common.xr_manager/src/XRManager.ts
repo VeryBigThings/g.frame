@@ -79,7 +79,7 @@ export class XRManager extends EventDispatcher<XREvent> {
         const session = this.renderer.xr.getSession();
         session.addEventListener('inputsourceschange', () => {
             if (session.inputSources.length) {
-                this.setInputSources(session.inputSources);
+                this.setInputSources([...session.inputSources]);
             } else {
                 this.resetInputSources();
             }

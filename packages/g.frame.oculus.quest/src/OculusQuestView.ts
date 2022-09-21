@@ -1,6 +1,6 @@
 import {ControllerHandnessCodes, IXRControllerView, XRViewStatus, IXRControllerModel} from '@g.frame/common.xr_manager';
 import {FBX_MODEL, Loader, LoaderEventsName} from '@g.frame/common.loaders';
-import {Color, ConeBufferGeometry, Group, Mesh, MeshBasicMaterial, Object3D} from 'three';
+import {Color, ConeGeometry, Group, Mesh, MeshBasicMaterial, Object3D} from 'three';
 
 declare function require(s: string): string;
 
@@ -212,14 +212,14 @@ export class OculusQuestView implements IOculusQuestView {
         this.gamepadRight.userData.emissiveColor = highlightedEmissiveBlue;
 
         // Left ray
-        this.rayLeft = new Mesh(new ConeBufferGeometry(0.0025, 1.5, 16), new MeshBasicMaterial({color: 'red'}));
+        this.rayLeft = new Mesh(new ConeGeometry(0.0025, 1.5, 16), new MeshBasicMaterial({color: 'red'}));
         this.rayLeft.position.set(0.95, -151, -0.5);
         this.rayLeft.scale.set(100, 200, 100);
         this.rayLeft.rotateX(Math.PI);
         this.gamepadLeft.add(this.rayLeft);
 
         // Right ray
-        this.rayRight = new Mesh(new ConeBufferGeometry(0.0025, 1.5, 16), new MeshBasicMaterial({color: 'blue'}));
+        this.rayRight = new Mesh(new ConeGeometry(0.0025, 1.5, 16), new MeshBasicMaterial({color: 'blue'}));
         this.rayRight.position.set(0.95, -151, -0.5);
         this.rayRight.scale.set(100, 200, 100);
         this.rayRight.rotateX(Math.PI);
