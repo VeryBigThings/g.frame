@@ -1,24 +1,24 @@
 import {
-    BoxBufferGeometry,
+    BoxGeometry,
     BufferGeometry,
-    CircleBufferGeometry,
+    CircleGeometry,
     Color,
-    CylinderBufferGeometry,
+    CylinderGeometry,
     Material,
     MeshBasicMaterial,
     MeshLambertMaterial,
     MeshPhongMaterial,
     MeshPhysicalMaterial,
     MeshStandardMaterial,
-    PlaneBufferGeometry,
-    SphereBufferGeometry,
+    PlaneGeometry,
+    SphereGeometry,
     Texture,
-    TorusBufferGeometry
+    TorusGeometry
 } from 'three';
 import {GMesh, ViewerModule} from '@g.frame/core';
 import {PrimitiveMaterials, PrimitiveType} from './Primitive_interfaces';
 
-type PrimitivesGeometryType = BoxBufferGeometry | CircleBufferGeometry | CylinderBufferGeometry | PlaneBufferGeometry | SphereBufferGeometry | TorusBufferGeometry;
+type PrimitivesGeometryType = BoxGeometry | CircleGeometry | CylinderGeometry | PlaneGeometry | SphereGeometry | TorusGeometry;
 
 export class Primitive extends ViewerModule {
     public mesh: GMesh<BufferGeometry, Material>;
@@ -84,17 +84,17 @@ export class Primitive extends ViewerModule {
     private _getGeometryConstructor(): new (...args: any[]) => PrimitivesGeometryType {
         switch (this._type) {
             case PrimitiveType.BOX:
-                return BoxBufferGeometry;
+                return BoxGeometry;
             case PrimitiveType.CIRCLE:
-                return CircleBufferGeometry;
+                return CircleGeometry;
             case PrimitiveType.CYLINDER:
-                return CylinderBufferGeometry;
+                return CylinderGeometry;
             case PrimitiveType.PLANE:
-                return PlaneBufferGeometry;
+                return PlaneGeometry;
             case PrimitiveType.SPHERE:
-                return SphereBufferGeometry;
+                return SphereGeometry;
             case PrimitiveType.TORUS:
-                return TorusBufferGeometry;
+                return TorusGeometry;
         }
     }
 

@@ -35,7 +35,7 @@ export class OculusQuestPickingController extends PickingController {
                     this.forceRelease(new Vector3, new Quaternion, false, 1);
                 }
                 const cameraParentWorldOrientation = new Quaternion();
-                (<Object3D>this.data.viewer.camera.parent).getWorldQuaternion(cameraParentWorldOrientation);
+                (<Object3D>this.viewer.camera.parent).getWorldQuaternion(cameraParentWorldOrientation);
                 this.oldModel = JSON.parse(JSON.stringify(event.data));
                 this.update(this.viewer.camera.parent.localToWorld(
                     event.data.left.pose.position.clone()),
