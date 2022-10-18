@@ -216,7 +216,7 @@ export class ModulesProcessor extends EventDispatcher<string> {
 
             if (!this.modulesStatus.get(module).enabled) continue;
 
-            // module.afterInit(this.agents, this.modules);
+            module.afterInit(this.agents, this.modules);
 
         }
     }

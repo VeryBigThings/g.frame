@@ -1,9 +1,9 @@
-import {RoundedPlane, ViewerModule} from '@g.frame/core';
+import {RoundedPlane, GframeModule} from '@g.frame/core';
 import {Mesh, MeshBasicMaterial, Vector2} from 'three';
 import {WindowComponentOptions} from './WindowComponent_interfaces';
 
 
-export class WindowComponent extends ViewerModule {
+export class WindowComponent extends GframeModule {
     public name: string;
     public uiObject: Mesh;
     private uiObjectOuter: Mesh;

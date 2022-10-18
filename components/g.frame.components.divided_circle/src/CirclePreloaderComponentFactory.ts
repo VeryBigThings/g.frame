@@ -1,4 +1,4 @@
-import {Factory, ParentEvent, ViewerModule} from '@g.frame/core';
+import {Factory, ParentEvent, GframeModule} from '@g.frame/core';
 import {Object3D} from 'three';
 import {ICirclePreloader} from './interfaces';
 import {CirclePreloaderComponent} from './CirclePreloaderComponent';
@@ -26,7 +26,7 @@ export class CirclePreloaderComponentFactory extends Factory<CirclePreloaderComp
         return component;
     }
 
-    onDispose(component: CirclePreloaderComponent, disposedObject: Object3D | ViewerModule) {
+    onDispose(component: CirclePreloaderComponent, disposedObject: Object3D | GframeModule) {
         if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
     }
 

@@ -1,7 +1,7 @@
 import {Color, Group, Mesh, MeshStandardMaterial, Object3D, PlaneGeometry, Vector2} from 'three';
 import {ButtonComponent} from '@g.frame/components.buttons';
 import {WindowComponent} from '@g.frame/components.window';
-import {ParentEvent, ViewerModule} from '@g.frame/core';
+import {ParentEvent, GframeModule} from '@g.frame/core';
 import {ActionController, ActionControllerEventName} from '@g.frame/common.action_controller';
 
 declare function require(s: string): string;
@@ -40,7 +40,7 @@ export interface ISliderComponentOptions {
 
 }
 
-export class SliderComponent extends ViewerModule {
+export class SliderComponent extends GframeModule {
     private mode: SliderComponentSlidingMode;
     private magnetOnSides: number;
     private mainContainer: Group;
@@ -214,7 +214,7 @@ export class SliderComponent extends ViewerModule {
 
     }
 
-    disposeObject(object?: Object3D | ViewerModule, disposeParams?: any): void {
+    disposeObject(object?: Object3D | GframeModule, disposeParams?: any): void {
         super.disposeObject(object, disposeParams);
 
         if (!object && disposeParams) object = disposeParams.object;

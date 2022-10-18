@@ -1,4 +1,4 @@
-import {Factory, ParentEvent, ViewerModule} from '@g.frame/core';
+import {Factory, ParentEvent, GframeModule} from '@g.frame/core';
 import {Object3D} from 'three';
 import {CheckRadioComponent, ICheckRadioComponentOptions} from './CheckRadioComponent';
 import {ActionController} from '@g.frame/common.action_controller';
@@ -25,7 +25,7 @@ export class CheckRadioComponentFactory extends Factory<CheckRadioComponent> {
         return component;
     }
 
-    onDispose(component: CheckRadioComponent, disposedObject: Object3D | ViewerModule) {
+    onDispose(component: CheckRadioComponent, disposedObject: Object3D | GframeModule) {
         if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
     }
 

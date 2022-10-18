@@ -1,5 +1,5 @@
 import {Object3D, Vector3, PerspectiveCamera} from 'three';
-import {ViewerModule} from '@g.frame/core';
+import {GframeModule} from '@g.frame/core';
 import {ActionController} from '@g.frame/common.action_controller';
 import {OimoMousePuller, PhysicMeshUpdater, WorldFactory} from '@g.frame/physics.oimo';
 import {oimo} from 'oimophysics';
@@ -9,7 +9,7 @@ import Vec3 = oimo.common.Vec3;
 import MathUtil = oimo.common.MathUtil;
 
 
-export class PhysicsExample extends ViewerModule {
+export class PhysicsExample extends GframeModule {
     public world: World;
     public dt: number;
     public camera: PerspectiveCamera;

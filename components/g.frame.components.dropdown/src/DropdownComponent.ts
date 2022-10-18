@@ -1,5 +1,5 @@
 import {Color, Mesh, MeshBasicMaterial, Object3D, Vector2, Vector3, Box3, PlaneGeometry} from 'three';
-import {Tween, ViewerModule, ParentEvent} from '@g.frame/core';
+import {Tween, GframeModule, ParentEvent} from '@g.frame/core';
 
 import {IDropdownComponentOptions} from './DropdownComponent_interfaces';
 import {TextComponent} from '@g.frame/components.text';
@@ -8,11 +8,11 @@ import {
     ActionController,
     ActionControllerEventName
 } from '@g.frame/common.action_controller';
-import {ObjectsPositioning} from '../../g.frame.core/build/main/utils';
+import {ObjectsPositioning} from '../../../packages/g.frame.core/build/main/utils';
 // import * as TWEEN from '../libs/TWEEN/Tween';
 
 
-export class DropdownComponent extends ViewerModule {
+export class DropdownComponent extends GframeModule {
     public isOpened: boolean = true;
     private wrapHead: Object3D;
     private selectedText: TextComponent;

@@ -2,7 +2,6 @@ import {
     LinearFilter,
     Mesh,
     MeshBasicMaterial,
-    PlaneBufferGeometry,
     PlaneGeometry,
     RGBFormat,
     Vector2,
@@ -42,7 +41,7 @@ import {
     ActionControllerEvent,
     ActionControllerEventName
 } from '@g.frame/common.action_controller';
-import {GMesh, ViewerModule} from '@g.frame/core';
+import {GMesh, GframeModule} from '@g.frame/core';
 
 export interface IVBTubeVideoPlayerOptions {
     videoScale: number;
@@ -54,7 +53,7 @@ export interface IVBTubeVideoPlayerOptions {
  * VBTubeVideoPlayer is a main class that unites other modules, such as VBTubeButtons, VBTubeProgressbar, VBTubeSubtitles, etc.
  * It is extended form VideoViewerComponent, so you can set video as well and use different events
  */
-export class VBTubeVideoPlayer extends ViewerModule {
+export class VBTubeVideoPlayer extends GframeModule {
     private progressbar: VBTubeProgressbar;
     private bars: VBTubeCinematographicBars;
     private buttons: VBTubeButtons;
@@ -411,8 +410,8 @@ export class VBTubeVideoPlayer extends ViewerModule {
             if (!this.timer.uiObject.userData.moved) {
                 this.timer.uiObject.userData.moved = true;
                 this.timer.move('right');
-                const soundBackground = new GMesh<PlaneBufferGeometry, MeshBasicMaterial>(
-                    new PlaneBufferGeometry(this.videoParameters.width / 2, this.videoParameters.height / SOUND_BACKGROUND),
+                const soundBackground = new GMesh<PlaneGeometry, MeshBasicMaterial>(
+                    new PlaneGeometry(this.videoParameters.width / 2, this.videoParameters.height / SOUND_BACKGROUND),
                     new MeshBasicMaterial({color: BACKGROUND_BLACK_COLOR, visible: false})
                 );
                 soundBackground.position.set(this.videoParameters.width / -2 + this.videoParameters.width / SPACE_BETWEEN_BUTTONS * (VOLUME_BAR_POSITION - 0.4), this.videoParameters.height / -2 + this.videoParameters.height / BOTTOM_SPACE, this.videoParameters.layer * 2);
@@ -467,13 +466,13 @@ export class VBTubeVideoPlayer extends ViewerModule {
         // Button down action
         this.volumebar.on('volumebarButtonDown', (event: ActionControllerEvent) => {
             this.controls.enableRotate = false;
-            const supplyBackground = new GMesh<PlaneBufferGeometry, MeshBasicMaterial>(
-                new PlaneBufferGeometry(this.videoParameters.width * MULTIPLY_SCALAR, this.videoParameters.height * MULTIPLY_SCALAR),
+            const supplyBackground = new GMesh<PlaneGeometry, MeshBasicMaterial>(
+                new PlaneGeometry(this.videoParameters.width * MULTIPLY_SCALAR, this.videoParameters.height * MULTIPLY_SCALAR),
                 new MeshBasicMaterial({visible: false})
             );
             this.addObject(supplyBackground);
-            const volumeBackground = new GMesh<PlaneBufferGeometry, MeshBasicMaterial>(
-                new PlaneBufferGeometry(this.videoParameters.width / VOLUME_BAR_WIDTH, this.videoParameters.height * MULTIPLY_SCALAR),
+            const volumeBackground = new GMesh<PlaneGeometry, MeshBasicMaterial>(
+                new PlaneGeometry(this.videoParameters.width / VOLUME_BAR_WIDTH, this.videoParameters.height * MULTIPLY_SCALAR),
                 new MeshBasicMaterial({visible: false})
             );
             volumeBackground.position.set(this.videoParameters.width / -2 + this.videoParameters.width / SPACE_BETWEEN_BUTTONS * VOLUME_BAR_POSITION,
@@ -519,13 +518,13 @@ export class VBTubeVideoPlayer extends ViewerModule {
         // Button down action
         this.progressbar.on('progressbarButtonDown', (event: ActionControllerEvent) => {
             this.controls.enableRotate = false;
-            const supplyBackground = new GMesh<PlaneBufferGeometry, MeshBasicMaterial>(
-                new PlaneBufferGeometry(this.videoParameters.width * MULTIPLY_SCALAR, this.videoParameters.height * MULTIPLY_SCALAR),
+            const supplyBackground = new GMesh<PlaneGeometry, MeshBasicMaterial>(
+                new PlaneGeometry(this.videoParameters.width * MULTIPLY_SCALAR, this.videoParameters.height * MULTIPLY_SCALAR),
                 new MeshBasicMaterial({visible: false})
             );
             this.addObject(supplyBackground);
-            const progressbarBackground = new GMesh<PlaneBufferGeometry, MeshBasicMaterial>(
-                new PlaneBufferGeometry(this.videoParameters.width - this.videoParameters.width / PROGRESS_BAR_WIDTH, this.videoParameters.height * MULTIPLY_SCALAR),
+            const progressbarBackground = new GMesh<PlaneGeometry, MeshBasicMaterial>(
+                new PlaneGeometry(this.videoParameters.width - this.videoParameters.width / PROGRESS_BAR_WIDTH, this.videoParameters.height * MULTIPLY_SCALAR),
                 new MeshBasicMaterial({visible: false})
             );
             progressbarBackground.position.z = this.videoParameters.layer * 5;

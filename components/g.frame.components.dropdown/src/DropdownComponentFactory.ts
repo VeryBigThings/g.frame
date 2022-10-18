@@ -1,4 +1,4 @@
-import {Factory, ParentEvent, ViewerModule} from '@g.frame/core';
+import {Factory, ParentEvent, GframeModule} from '@g.frame/core';
 import {Object3D} from 'three';
 import {DropdownComponent} from './DropdownComponent';
 import { IDropdownComponentOptions } from './DropdownComponent_interfaces';
@@ -26,7 +26,7 @@ export class DropdownComponentFactory extends Factory<DropdownComponent> {
         return component;
     }
 
-    onDispose(component: DropdownComponent, disposedObject: Object3D | ViewerModule) {
+    onDispose(component: DropdownComponent, disposedObject: Object3D | GframeModule) {
         if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
     }
 

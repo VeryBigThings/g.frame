@@ -1,4 +1,4 @@
-import {MeshBasicMaterial, PlaneBufferGeometry, Vector2, Vector3} from 'three';
+import {MeshBasicMaterial, PlaneGeometry, Vector2, Vector3} from 'three';
 import {
     AVERAGE_VOLUME,
     BACKGROUND_TRANSPARENT,
@@ -12,7 +12,7 @@ import {
     UI_BASIC_COLOR,
     VIDEO_CLICKABLE_PART
 } from './constants';
-import {GMesh, ViewerModule} from '@g.frame/core';
+import {GMesh, GframeModule} from '@g.frame/core';
 import {ITextComponentOptions, TextComponent} from '@g.frame/components.text';
 import {ActionController, ActionControllerEventName} from '@g.frame/common.action_controller';
 
@@ -25,14 +25,14 @@ export interface IDisableButtons {
 /**
  * Class to contain buttons
  */
-export class VBTubeButtons extends ViewerModule {
+export class VBTubeButtons extends GframeModule {
     public playPauseButton: TextComponent;
     public skipButton: TextComponent;
     public soundButton: TextComponent;
     public lightButton: TextComponent;
     public subtitlesButton: TextComponent;
     public zoomButton: TextComponent;
-    public screenClick: GMesh<PlaneBufferGeometry, MeshBasicMaterial>;
+    public screenClick: GMesh<PlaneGeometry, MeshBasicMaterial>;
     public screenClickButtonIcon: TextComponent;
     private disabledButtons: IDisableButtons;
 
@@ -170,8 +170,8 @@ export class VBTubeButtons extends ViewerModule {
         }
 
         // Screen clickable area
-        this.screenClick = new GMesh<PlaneBufferGeometry, MeshBasicMaterial>(
-            new PlaneBufferGeometry(this.videoParameters.width, this.videoParameters.height * VIDEO_CLICKABLE_PART),
+        this.screenClick = new GMesh<PlaneGeometry, MeshBasicMaterial>(
+            new PlaneGeometry(this.videoParameters.width, this.videoParameters.height * VIDEO_CLICKABLE_PART),
             new MeshBasicMaterial({visible: false})
         );
         this.screenClick.translateY(this.videoParameters.height * CLICKABLE_PART_CENTER);

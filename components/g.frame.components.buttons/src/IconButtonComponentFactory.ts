@@ -1,4 +1,4 @@
-import {Factory, ParentEvent, ViewerModule} from '@g.frame/core';
+import {Factory, ParentEvent, GframeModule} from '@g.frame/core';
 import {Object3D} from 'three';
 import {IconButtonComponent} from './IconButtonComponent';
 import {IIconButtonComponentOptions} from './IconButtonComponent_interfaces';
@@ -26,7 +26,7 @@ export class IconButtonComponentFactory extends Factory<IconButtonComponent> {
         return component;
     }
 
-    onDispose(component: IconButtonComponent, disposedObject: Object3D | ViewerModule) {
+    onDispose(component: IconButtonComponent, disposedObject: Object3D | GframeModule) {
         if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
     }
 

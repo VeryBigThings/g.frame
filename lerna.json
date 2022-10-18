@@ -1,8 +1,6 @@
 {
   "packages": [
-    "packages/*",
-    "templates/*",
-    "components/*"
+    "packages/*"
   ],
   "npmClient": "npm",
   "command": {

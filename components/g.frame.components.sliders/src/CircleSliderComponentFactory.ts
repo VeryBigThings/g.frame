@@ -1,4 +1,4 @@
-import {Factory, ParentEvent, ViewerModule} from '@g.frame/core';
+import {Factory, ParentEvent, GframeModule} from '@g.frame/core';
 import {Object3D} from 'three';
 import {CircleSliderComponent, ICircleSliderComponentOptions} from './CircleSliderComponent';
 import {ActionController} from '@g.frame/common.action_controller';
@@ -25,7 +25,7 @@ export class CircleSliderComponentFactory extends Factory<CircleSliderComponent>
         return component;
     }
 
-    onDispose(component: CircleSliderComponent, disposedObject: Object3D | ViewerModule) {
+    onDispose(component: CircleSliderComponent, disposedObject: Object3D | GframeModule) {
         if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
     }
 

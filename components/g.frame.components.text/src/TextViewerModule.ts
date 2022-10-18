@@ -1,8 +1,8 @@
-import {GMesh, RoundedPlane, ViewerModule} from '@g.frame/core';
+import {GMesh, RoundedPlane, GframeModule} from '@g.frame/core';
 import {CanvasTexture, ExtrudeGeometry, BufferGeometry, Mesh, MeshBasicMaterial, Vector2} from 'three';
 import {ITextViewerModuleOptions, ITextViewerModuleOptionsTextStyle} from './TextViewerModule_interfaces';
 
-export class TextViewerModule extends ViewerModule {
+export class TextViewerModule extends GframeModule {
     public mesh: Mesh;
     public material: MeshBasicMaterial;
     private canvas: HTMLCanvasElement;

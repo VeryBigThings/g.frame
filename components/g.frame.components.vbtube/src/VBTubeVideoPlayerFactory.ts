@@ -1,4 +1,4 @@
-import {Factory, ParentEvent, ViewerModule} from '@g.frame/core';
+import {Factory, ParentEvent, GframeModule} from '@g.frame/core';
 import {Object3D} from 'three';
 import {IVBTubeVideoPlayerOptions, VBTubeVideoPlayer} from './VBTubeVideoPlayer';
 import {ActionController} from '@g.frame/common.action_controller';
@@ -25,7 +25,7 @@ export class VBTubeVideoPlayerFactory extends Factory<VBTubeVideoPlayer> {
         return component;
     }
 
-    onDispose(component: VBTubeVideoPlayer, disposedObject: Object3D | ViewerModule) {
+    onDispose(component: VBTubeVideoPlayer, disposedObject: Object3D | GframeModule) {
         if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
     }
 

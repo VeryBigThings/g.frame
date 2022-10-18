@@ -1,4 +1,4 @@
-import {Factory, ParentEvent, ViewerModule} from '@g.frame/core';
+import {Factory, ParentEvent, GframeModule} from '@g.frame/core';
 import {Object3D} from 'three';
 import {InputComponent} from './InputComponent';
 import {IInputComponentOptions} from './interfaces';
@@ -32,7 +32,7 @@ export class InputComponentFactory extends Factory<InputComponent> {
         return component;
     }
 
-    onDispose(component: InputComponent, disposedObject: Object3D | ViewerModule) {
+    onDispose(component: InputComponent, disposedObject: Object3D | GframeModule) {
         if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
     }
 

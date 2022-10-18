@@ -39,7 +39,7 @@ export abstract class AbstractModule extends EventDispatcher<string> {
     /**
      * Function that is called after initialization. Use it only for internal stuff.
      */
-    abstract afterInit(agents?: ConstructorInstanceMap<any>, modules?: ConstructorInstanceMap<AbstractModule>): void;
+    abstract afterInit(agents?: ConstructorInstanceMap<any>, modules?: Array<AbstractModule>): void;
 
 
     public getModuleContainer(): Object3D | void {}

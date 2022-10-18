@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/oculus.quest",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Oculus Quest support module g.frame framework",
   "main": "build/main/index.js",
   "module": "build/module/index.js",

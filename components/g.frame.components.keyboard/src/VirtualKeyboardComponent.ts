@@ -6,19 +6,19 @@ import {
     ActionControllerEvent,
     ActionControllerEventName,
 } from '@g.frame/common.action_controller';
-import {ObjectsPositioning, ParentEvent, ViewerModule} from '@g.frame/core';
+import {ObjectsPositioning, ParentEvent, GframeModule} from '@g.frame/core';
 import {InputType, KeyboardEvents} from '@g.frame/input';
 import {IVirtualKeyboardViewOptions} from './interfaces';
 
 
-export class VirtualKeyboardComponent extends ViewerModule {
-    private letterKeyboard: ViewerModule;
-    private symbolKeyboard: ViewerModule;
+export class VirtualKeyboardComponent extends GframeModule {
+    private letterKeyboard: GframeModule;
+    private symbolKeyboard: GframeModule;
 
-    private rightKeyboard: ViewerModule;
-    private numberKeyboard: ViewerModule;
+    private rightKeyboard: GframeModule;
+    private numberKeyboard: GframeModule;
 
-    private wordKeyboard: ViewerModule;
+    private wordKeyboard: GframeModule;
 
     private lettersKeyList: Array<TextComponent> = [];
     private symbolKeyList: Array<TextComponent> = [];
@@ -63,7 +63,7 @@ export class VirtualKeyboardComponent extends ViewerModule {
         this.uiObject.visible = show;
     }
 
-    disposeObject(object?: Object3D | ViewerModule, disposeParams?: any): void {
+    disposeObject(object?: Object3D | GframeModule, disposeParams?: any): void {
         super.disposeObject(object, disposeParams);
 
         if (!object && disposeParams) object = disposeParams.object;
@@ -71,7 +71,7 @@ export class VirtualKeyboardComponent extends ViewerModule {
     }
 
     private initWordKeyboard() {
-        this.wordKeyboard = new ViewerModule();
+        this.wordKeyboard = new GframeModule();
 
         for (let i = 0; i < this.options.customWords.length - 1; i++) {
             const key = new TextComponent(this.getOptions(this.options.customWords[i]));
@@ -112,8 +112,8 @@ export class VirtualKeyboardComponent extends ViewerModule {
             'ABC', '@', ' ', ',', '.', '3'
         ];
 
-        this.letterKeyboard = new ViewerModule();
-        this.symbolKeyboard = new ViewerModule();
+        this.letterKeyboard = new GframeModule();
+        this.symbolKeyboard = new GframeModule();
 
         for (let i = 0; i < this.letterList.length - 1; i++) {
             const key = new TextComponent(this.getOptions(this.letterList[i]));
@@ -164,7 +164,7 @@ export class VirtualKeyboardComponent extends ViewerModule {
             '.', '0', '+', '3'
         ];
 
-        this.numberKeyboard = new ViewerModule();
+        this.numberKeyboard = new GframeModule();
 
         for (let i = 0; i < this.numberList.length - 1; i++) {
             const key = new TextComponent(this.getOptions(this.numberList[i]));
@@ -188,7 +188,7 @@ export class VirtualKeyboardComponent extends ViewerModule {
     }
 
     private initRightKeyboard() {
-        this.rightKeyboard = new ViewerModule();
+        this.rightKeyboard = new GframeModule();
 
         this.rightList = [
             '',

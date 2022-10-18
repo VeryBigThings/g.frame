@@ -1,12 +1,12 @@
 import {Object3D} from 'three';
-import {ViewerModule} from '@g.frame/core';
+import {GframeModule} from '@g.frame/core';
 import {IDepthScrollComponentOptions} from '@g.frame/components.depth_scroll';
 import {ITextViewerModuleOptionsText} from '@g.frame/components.text';
 import {ButtonComponent} from '@g.frame/components.buttons';
 
 export interface ISectorItem {
     name: string;
-    mesh: Object3D | ViewerModule;
+    mesh: Object3D | GframeModule;
 }
 
 export interface IPrimarySectorProps {

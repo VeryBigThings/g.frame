@@ -12,14 +12,14 @@ import {
     Vector2,
     Vector3
 } from 'three';
-import {ParentEvent, ViewerModule} from '@g.frame/core';
+import {ParentEvent, GframeModule} from '@g.frame/core';
 import {TextComponent} from '@g.frame/components.text';
 import {ButtonComponent, IconButtonComponent} from '@g.frame/components.buttons';
 import {IDividedCircleMenu, ISectorItem, ISectorOptions} from './interfaces';
 import {ActionController, ActionControllerEventName} from '@g.frame/common.action_controller';
 
 
-export class Sector extends ViewerModule {
+export class Sector extends GframeModule {
     public sector: Mesh;
     public numbCurrSector: number;
     public color: number;
@@ -236,7 +236,7 @@ export class Sector extends ViewerModule {
 }
 
 
-export class DividedCircleComponent extends ViewerModule {
+export class DividedCircleComponent extends GframeModule {
     public innerRadius: number;
     public outerRadius: number;
     public sectors: Array<Sector> = [];
@@ -453,7 +453,7 @@ export class DividedCircleComponent extends ViewerModule {
         });
     }
 
-    disposeObject(object?: Object3D | ViewerModule, disposeParams?: any): void {
+    disposeObject(object?: Object3D | GframeModule, disposeParams?: any): void {
         super.disposeObject(object, disposeParams);
 
         if (!object && disposeParams) object = disposeParams.object;

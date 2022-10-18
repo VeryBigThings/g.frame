@@ -7,13 +7,13 @@ import {
     UI_BASIC_COLOR
 } from './constants';
 import {Vector2} from 'three';
-import {ViewerModule} from '@g.frame/core';
+import {GframeModule} from '@g.frame/core';
 import {TextComponent} from '@g.frame/components.text';
 
 /**
  * Class to add HH:MM:SS timer
  */
-export class VBTubeTimer extends ViewerModule {
+export class VBTubeTimer extends GframeModule {
     private timer: TextComponent;
 
     /**

@@ -1,4 +1,4 @@
-import { ViewerModule } from '@g.frame/core';
+import { GframeModule } from '@g.frame/core';
 import {
     DoubleSide,
     Mesh,
@@ -23,7 +23,7 @@ interface IPointerOptions {
     color?: number;
 }
 
-export class Pointer extends ViewerModule {
+export class Pointer extends GframeModule {
     public defaultPointerMesh: Mesh;
     public pointerContainer: Object3D;
     public currentCustomPointer: Object3D;

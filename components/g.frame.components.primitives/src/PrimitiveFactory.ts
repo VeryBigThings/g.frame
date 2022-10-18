@@ -1,4 +1,4 @@
-import {Factory, ParentEvent, ViewerModule} from '@g.frame/core';
+import {Factory, ParentEvent, GframeModule} from '@g.frame/core';
 import {Object3D} from 'three';
 import {Primitive} from './Primitive';
 import {PrimitiveType} from './Primitive_interfaces';
@@ -21,7 +21,7 @@ export class PrimitiveFactory extends Factory<Primitive> {
         return component;
     }
 
-    onDispose(component: Primitive, disposedObject: Object3D | ViewerModule) {
+    onDispose(component: Primitive, disposedObject: Object3D | GframeModule) {
         if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
     }
 

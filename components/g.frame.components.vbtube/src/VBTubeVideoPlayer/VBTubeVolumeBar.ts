@@ -5,21 +5,21 @@ import {
     VOLUME_BAR_HEIGHT,
     VOLUME_BAR_WIDTH
 } from './constants';
-import {CircleBufferGeometry, MeshBasicMaterial, PlaneBufferGeometry} from 'three';
+import {CircleGeometry, MeshBasicMaterial, PlaneGeometry} from 'three';
 import {
     ActionController,
     ActionControllerEvent,
     ActionControllerEventName
 } from '@g.frame/common.action_controller';
-import {GMesh, ViewerModule} from '@g.frame/core';
+import {GMesh, GframeModule} from '@g.frame/core';
 
 /**
  * Class to manipulate volume bar
  */
-export class VBTubeVolumeBar extends ViewerModule {
-    private grayBar: GMesh<PlaneBufferGeometry, MeshBasicMaterial>;
-    private whiteBar: GMesh<PlaneBufferGeometry, MeshBasicMaterial>;
-    private whiteCircle: GMesh<CircleBufferGeometry, MeshBasicMaterial>;
+export class VBTubeVolumeBar extends GframeModule {
+    private grayBar: GMesh<PlaneGeometry, MeshBasicMaterial>;
+    private whiteBar: GMesh<PlaneGeometry, MeshBasicMaterial>;
+    private whiteCircle: GMesh<CircleGeometry, MeshBasicMaterial>;
 
     /**
      * Constructor of the class. Adds volume bar to the scene
@@ -30,19 +30,19 @@ export class VBTubeVolumeBar extends ViewerModule {
 
         // Volume bar items
         this.grayBar = new GMesh(
-            new PlaneBufferGeometry(this.videoParameters.width / VOLUME_BAR_WIDTH,
+            new PlaneGeometry(this.videoParameters.width / VOLUME_BAR_WIDTH,
                 this.videoParameters.height / VOLUME_BAR_HEIGHT),
             new MeshBasicMaterial({color: VOLUME_BAR_COLOR})
         );
         this.grayBar.position.set(0, 0, this.videoParameters.layer * 2);
         this.whiteBar = new GMesh(
-            new PlaneBufferGeometry(this.videoParameters.width / VOLUME_BAR_WIDTH - this.videoParameters.height / VOLUME_BAR_CIRCLE_RADIUS,
+            new PlaneGeometry(this.videoParameters.width / VOLUME_BAR_WIDTH - this.videoParameters.height / VOLUME_BAR_CIRCLE_RADIUS,
                 this.videoParameters.height / VOLUME_BAR_HEIGHT),
             new MeshBasicMaterial()
         );
         this.whiteBar.position.set(this.videoParameters.height / VOLUME_BAR_CIRCLE_RADIUS / -2, 0, this.videoParameters.layer * 1);
         this.whiteCircle = new GMesh(
-            new CircleBufferGeometry(this.videoParameters.height / VOLUME_BAR_CIRCLE_RADIUS, BAR_CIRCLE_SEGMENTS_NUMBER),
+            new CircleGeometry(this.videoParameters.height / VOLUME_BAR_CIRCLE_RADIUS, BAR_CIRCLE_SEGMENTS_NUMBER),
             new MeshBasicMaterial()
         );
         this.whiteCircle.position.set(this.videoParameters.height / VOLUME_BAR_CIRCLE_RADIUS / -2 + this.videoParameters.width / VOLUME_BAR_WIDTH / 2 - this.videoParameters.height / VOLUME_BAR_CIRCLE_RADIUS / 2, 0, this.videoParameters.layer * 1);

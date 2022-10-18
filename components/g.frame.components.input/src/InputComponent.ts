@@ -7,7 +7,7 @@ import {
     ActionControllerEvent,
     ActionControllerEventName
 } from '@g.frame/common.action_controller';
-import {ViewerModule} from '@g.frame/core';
+import {GframeModule} from '@g.frame/core';
 import {Input, InputManager, InputType} from '@g.frame/input';
 
 export class InputComponent extends WindowComponent implements Input {
@@ -117,7 +117,7 @@ export class InputComponent extends WindowComponent implements Input {
         this.updateTextPos();
     }
 
-    disposeObject(object?: Object3D | ViewerModule, disposeParams?: any): void {
+    disposeObject(object?: Object3D | GframeModule, disposeParams?: any): void {
         super.disposeObject(object, disposeParams);
 
         if (!object && disposeParams) object = disposeParams.object;

@@ -3,6 +3,7 @@
   "version": "0.3.0",
   "description": "Render module from g.frame",
   "main": "build/main/index.js",
+  "module": "build/module/index.js",
   "typings": "build/main/index.d.ts",
   "directories": {
     "doc": "docs"
@@ -29,9 +30,6 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/VeryBigThings/g.frame/issues"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@VeryBigThings"
   },
   "homepage": "https://github.com/VeryBigThings/g.frame#readme",
   "peerDependencies": {

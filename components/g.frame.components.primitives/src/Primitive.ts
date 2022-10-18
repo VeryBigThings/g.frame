@@ -15,12 +15,12 @@ import {
     Texture,
     TorusGeometry
 } from 'three';
-import {GMesh, ViewerModule} from '@g.frame/core';
+import {GMesh, GframeModule} from '@g.frame/core';
 import {PrimitiveMaterials, PrimitiveType} from './Primitive_interfaces';
 
 type PrimitivesGeometryType = BoxGeometry | CircleGeometry | CylinderGeometry | PlaneGeometry | SphereGeometry | TorusGeometry;
 
-export class Primitive extends ViewerModule {
+export class Primitive extends GframeModule {
     public mesh: GMesh<BufferGeometry, Material>;
     private _size: Array<Number>;
     private _materialType: PrimitiveMaterials;

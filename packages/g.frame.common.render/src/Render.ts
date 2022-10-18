@@ -1,5 +1,5 @@
 import {Camera, Object3D, PerspectiveCamera, Scene, Vector3, WebGLRenderer} from 'three';
-import {ParentEvent, ViewerModule, ViewerAbstract, IViewerConfig} from '@g.frame/core';
+import {ParentEvent, GframeModule, ViewerAbstract, IViewerConfig} from '@g.frame/core';
 
 export class Renderer extends ViewerAbstract {
     public renderer: WebGLRenderer;
@@ -9,7 +9,7 @@ export class Renderer extends ViewerAbstract {
     public cameraWrap: Object3D;
     public modulesContainer: Object3D;
     protected container: Element;
-    protected currentViewer: ViewerModule;
+    protected currentViewer: GframeModule;
     protected _onResizeCallback: () => void;
 
     protected renderQue: Array<Function>;
@@ -113,7 +113,7 @@ export class Renderer extends ViewerAbstract {
         // this.renderQue.forEach(func => func());
     }
 
-    setCurrentViewer(newViewer?: ViewerModule) {
+    setCurrentViewer(newViewer?: GframeModule) {
         if (newViewer === this.currentViewer) return;
         if (this.currentViewer && this.currentViewer.uiObject.parent) {
             this.currentViewer.uiObject.parent.remove(this.currentViewer.uiObject);

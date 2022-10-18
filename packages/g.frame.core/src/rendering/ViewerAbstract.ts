@@ -1,7 +1,7 @@
 import {Camera, Object3D, Scene, WebGLRenderer} from 'three';
 import {IViewerConfig} from './IViewerConfig';
 import {EventDispatcher, ParentEvent} from '../core/EventDispatcher';
-import {ViewerModule} from '../core/ViewerModule';
+import {GframeModule} from '../core/GframeModule';
 
 
 export class ViewerAbstract extends EventDispatcher<string> {
@@ -13,7 +13,7 @@ export class ViewerAbstract extends EventDispatcher<string> {
     public cameraWrap: Object3D;
     public modulesContainer: Object3D;
     protected container: Element;
-    protected currentViewer: ViewerModule;
+    protected currentViewer: GframeModule;
     protected _onResizeCallback: () => void;
 
     protected renderQue: Array<Function>;
@@ -39,7 +39,7 @@ export class ViewerAbstract extends EventDispatcher<string> {
 
     }
 
-    setCurrentViewer(newViewer?: ViewerModule) {
+    setCurrentViewer(newViewer?: GframeModule) {
         
     }
 

@@ -1,4 +1,4 @@
-import {ParentEvent, ViewerModule} from '@g.frame/core';
+import {ParentEvent, GframeModule} from '@g.frame/core';
 import {Mesh, Vector2, Vector3, Object3D} from 'three';
 import {DividedCircleComponent} from './DividedCircleComponent';
 import {ButtonComponent} from '@g.frame/components.buttons';
@@ -7,7 +7,7 @@ import {IDividedCircleMenu, IMultipleCircleMenuComponent, ISectorItem} from './i
 import {ActionController} from '@g.frame/common.action_controller';
 
 
-export class MultipleCircleMenuComponent extends ViewerModule {
+export class MultipleCircleMenuComponent extends GframeModule {
     public uiObject: Mesh;
     private _indexDispMenu: number = -1;
     private depthScrollComponent: DepthScrollComponent;
@@ -162,7 +162,7 @@ export class MultipleCircleMenuComponent extends ViewerModule {
         }
     }
 
-    disposeObject(object?: Object3D | ViewerModule, disposeParams?: any): void {
+    disposeObject(object?: Object3D | GframeModule, disposeParams?: any): void {
         super.disposeObject(object, disposeParams);
 
         if (!object && disposeParams) object = disposeParams.object;

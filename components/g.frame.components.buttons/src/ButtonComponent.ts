@@ -2,7 +2,7 @@ import {CircleGeometry, Color, DoubleSide, Group, Mesh, MeshBasicMaterial, Objec
 import {ITextViewerModuleOptions, TextViewerModule} from '@g.frame/components.text';
 import {IButtonComponentOptions} from './ButtonComponent_interfaces';
 // import * as TWEEN from '../libs/TWEEN/Tween';
-import {RoundedPlane, ViewerModule} from '@g.frame/core';
+import {RoundedPlane, GframeModule} from '@g.frame/core';
 import {
     ActionController,
     ActionControllerEvent,
@@ -233,7 +233,7 @@ export class ButtonComponent extends TextViewerModule {
         //     .start();
     }
 
-    disposeObject(object?: Object3D | ViewerModule, disposeParams?: any): void {
+    disposeObject(object?: Object3D | GframeModule, disposeParams?: any): void {
         super.disposeObject(object, disposeParams);
 
         if (!object && disposeParams) object = disposeParams.object;

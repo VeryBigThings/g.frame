@@ -1,4 +1,4 @@
-import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap, RenderModuleAbstract} from '@g.frame/core';
+import {AbstractModule, AbstractModuleStatus, ConstructorInstanceMap, RenderModuleAbstract, requires} from '@g.frame/core';
 import {Loader} from '@g.frame/common.loaders';
 import {Object3D} from 'three';
 import {OculusQuestPickingController} from './OculusQuestControllers/OculusQuestPickingController';
@@ -21,6 +21,12 @@ const defaultConfig = {
         buttonToPick: OculusPickButton.SQUEEZE,
     }
 };
+
+@requires({
+    modules: [
+        RenderModuleAbstract
+    ]
+})
 
 export class OculusQuestModule extends AbstractModule {
     private _config: IOculusQuestOptions;

@@ -1,11 +1,11 @@
-import { Vector2, CircleBufferGeometry, MeshBasicMaterial, PlaneBufferGeometry } from 'three';
+import { Vector2, CircleGeometry, MeshBasicMaterial, PlaneGeometry } from 'three';
 import {
     PROGRESS_BAR_CIRCLE_RADIUS, PROGRESS_BAR_CIRCLE_POSITION,
     PROGRESS_BAR_HEIGHT, PROGRESS_BAR_OVER_COLOR, PROGRESS_BAR_BUFFER_COLOR, BAR_CIRCLE_SEGMENTS_NUMBER,
     PROGRESS_BAR_WIDTH, PROGRESS_BAR_BACKGROUND_COLOR,
     PROGRESS_BAR_BACKGROUND_LOADED_COLOR, PROGRESS_BAR_SCALE, MINIMAL_SCALE, BOTTOM_SPACE
 } from './constants';
-import {ViewerModule} from '@g.frame/core';
+import {GframeModule} from '@g.frame/core';
 import { ProgressbarComponent } from '@g.frame/components.progressbar';
 import { GMesh } from '@g.frame/core';
 import {
@@ -17,11 +17,11 @@ import {
 /**
  * Class to manipulate progress bar
  */
-export class VBTubeProgressbar extends ViewerModule {
+export class VBTubeProgressbar extends GframeModule {
     public progressbar: ProgressbarComponent;
-    private redCircle: GMesh<CircleBufferGeometry, MeshBasicMaterial>;
-    private grayMoveProgressbar: GMesh<PlaneBufferGeometry, MeshBasicMaterial>;
-    private whiteVideoProgressbar: GMesh<PlaneBufferGeometry, MeshBasicMaterial>;
+    private redCircle: GMesh<CircleGeometry, MeshBasicMaterial>;
+    private grayMoveProgressbar: GMesh<PlaneGeometry, MeshBasicMaterial>;
+    private whiteVideoProgressbar: GMesh<PlaneGeometry, MeshBasicMaterial>;
     private progressbarWidth: number;
     private progressbarHeight: number;
     private tweenReady: boolean;
@@ -51,21 +51,21 @@ export class VBTubeProgressbar extends ViewerModule {
         this.addObject(this.progressbar);
 
         // Progress bar items
-        this.redCircle = new GMesh<CircleBufferGeometry, MeshBasicMaterial>(
-                            new CircleBufferGeometry(this.videoParameters.height / PROGRESS_BAR_CIRCLE_RADIUS, BAR_CIRCLE_SEGMENTS_NUMBER),
+        this.redCircle = new GMesh<CircleGeometry, MeshBasicMaterial>(
+                            new CircleGeometry(this.videoParameters.height / PROGRESS_BAR_CIRCLE_RADIUS, BAR_CIRCLE_SEGMENTS_NUMBER),
                             new MeshBasicMaterial({color: 'red'})
                         );
         this.redCircle.position.set(this.videoParameters.width / -2 + this.videoParameters.width / PROGRESS_BAR_CIRCLE_POSITION, 0, this.videoParameters.layer * 3);
         this.redCircle.visible = false;
-        this.grayMoveProgressbar = new GMesh<PlaneBufferGeometry, MeshBasicMaterial>(
-                            new PlaneBufferGeometry(this.videoParameters.width - this.videoParameters.width / PROGRESS_BAR_WIDTH,
+        this.grayMoveProgressbar = new GMesh<PlaneGeometry, MeshBasicMaterial>(
+                            new PlaneGeometry(this.videoParameters.width - this.videoParameters.width / PROGRESS_BAR_WIDTH,
                                 this.videoParameters.height / PROGRESS_BAR_HEIGHT),
                             new MeshBasicMaterial({color: PROGRESS_BAR_OVER_COLOR})
                         );
         this.grayMoveProgressbar.position.set(0, 0, this.videoParameters.layer * 1);
         this.grayMoveProgressbar.visible = false;
-        this.whiteVideoProgressbar = new GMesh<PlaneBufferGeometry, MeshBasicMaterial>(
-                            new PlaneBufferGeometry(this.videoParameters.width - this.videoParameters.width / PROGRESS_BAR_WIDTH,
+        this.whiteVideoProgressbar = new GMesh<PlaneGeometry, MeshBasicMaterial>(
+                            new PlaneGeometry(this.videoParameters.width - this.videoParameters.width / PROGRESS_BAR_WIDTH,
                                 this.videoParameters.height / PROGRESS_BAR_HEIGHT),
                             new MeshBasicMaterial({color: PROGRESS_BAR_BUFFER_COLOR})
                         );

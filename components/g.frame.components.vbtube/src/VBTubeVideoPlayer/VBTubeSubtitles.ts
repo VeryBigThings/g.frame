@@ -11,18 +11,18 @@ import {
     SUBTITLES_WIDTH,
     UI_BASIC_COLOR
 } from './constants';
-import {Group, MeshBasicMaterial, PlaneBufferGeometry, Vector2} from 'three';
+import {Group, MeshBasicMaterial, PlaneGeometry, Vector2} from 'three';
 import {TextComponent} from '@g.frame/components.text';
-import {GMesh, ViewerModule} from '@g.frame/core';
+import {GMesh, GframeModule} from '@g.frame/core';
 import {IDisableButtons} from './';
 
 /**
  * Class to add subtitles
  */
-export class VBTubeSubtitles extends ViewerModule {
+export class VBTubeSubtitles extends GframeModule {
     public subtitlesWrapper: Group;
     private subtitles: TextComponent;
-    private redUnderline: GMesh<PlaneBufferGeometry, MeshBasicMaterial>;
+    private redUnderline: GMesh<PlaneGeometry, MeshBasicMaterial>;
 
     constructor(private videoParameters: any, disabledButtons: IDisableButtons = {
         subtitlesButton: false,
@@ -72,8 +72,8 @@ export class VBTubeSubtitles extends ViewerModule {
         }
         if (disabledButtons.zoomButton && disabledButtons.lightButton) subtitlesTransition = 3;
         if (!disabledButtons.subtitlesButton && subtitlesText) {
-            this.redUnderline = new GMesh<PlaneBufferGeometry, MeshBasicMaterial>(
-                new PlaneBufferGeometry(this.videoParameters.width / SUBTITLES_UNDERLINE_WIDTH, this.videoParameters.height / SUBTITLES_UNDERLINE_HEIGHT),
+            this.redUnderline = new GMesh<PlaneGeometry, MeshBasicMaterial>(
+                new PlaneGeometry(this.videoParameters.width / SUBTITLES_UNDERLINE_WIDTH, this.videoParameters.height / SUBTITLES_UNDERLINE_HEIGHT),
                 new MeshBasicMaterial({color: 'red', transparent: true})
             );
             this.redUnderline.position.set(this.videoParameters.width / 2 - this.videoParameters.width / SUBTITLES_UNDERLINE_POSITION_X / subtitlesTransition,

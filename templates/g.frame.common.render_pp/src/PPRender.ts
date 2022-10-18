@@ -1,5 +1,5 @@
 import {Object3D, PerspectiveCamera, Scene, Vector3, WebGLRenderer} from 'three';
-import {ParentEvent, ViewerModule, ViewerAbstract, IViewerConfig} from '@g.frame/core';
+import {ParentEvent, GframeModule, ViewerAbstract, IViewerConfig} from '@g.frame/core';
 
 
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
@@ -15,7 +15,7 @@ export class PPRender extends ViewerAbstract {
     public composer: EffectComposer;
 
     protected container: Element;
-    protected currentViewer: ViewerModule;
+    protected currentViewer: GframeModule;
     protected _onResizeCallback: () => void;
 
     constructor(private config: IViewerConfig) {
@@ -117,7 +117,7 @@ export class PPRender extends ViewerAbstract {
         this.renderQue.push(pass);
     }
 
-    setCurrentViewer(newViewer?: ViewerModule) {
+    setCurrentViewer(newViewer?: GframeModule) {
         if (newViewer === this.currentViewer) return;
         if (this.currentViewer && this.currentViewer.uiObject.parent) {
             this.currentViewer.uiObject.parent.remove(this.currentViewer.uiObject);

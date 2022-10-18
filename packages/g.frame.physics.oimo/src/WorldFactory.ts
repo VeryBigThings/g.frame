@@ -1,4 +1,4 @@
-import {Factory, ParentEvent, ViewerModule} from '@g.frame/core';
+import {Factory, ParentEvent} from '@g.frame/core';
 import {Object3D} from 'three';
 import {oimo} from 'oimophysics';
 import World = oimo.dynamics.World;

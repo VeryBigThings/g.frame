@@ -1,4 +1,4 @@
-import {Factory, ParentEvent, ViewerModule} from '@g.frame/core';
+import {Factory, ParentEvent, GframeModule} from '@g.frame/core';
 import {Object3D} from 'three';
 import {InputManager} from '@g.frame/input';
 import {VirtualKeyboardComponent} from './VirtualKeyboardComponent';
@@ -32,7 +32,7 @@ export class VirtualKeyboardComponentFactory extends Factory<VirtualKeyboardComp
         return component;
     }
 
-    onDispose(component: VirtualKeyboardComponent, disposedObject: Object3D | ViewerModule) {
+    onDispose(component: VirtualKeyboardComponent, disposedObject: Object3D | GframeModule) {
         if (disposedObject === component) this.components.splice(this.components.indexOf(component), 1);
     }
 
