@@ -36,7 +36,7 @@ export class MousePickingController extends PickingController {
 
         this.mouseActionController.on(ActionControllerEventName.buttonUp, null, (event) => {
             if (this.enabled) {
-                if (this.currentObject) {
+                if (this.currentObject && !this.currentObject.userData.onlyForceRelease) {
                     const newPosition = this.getPosition(event);
                     this.forceRelease(
                         event.data.ray.origin.clone(),
