@@ -35,8 +35,6 @@ export class ModulesProcessor extends EventDispatcher<string> {
         // this.modules = new Map<string, AbstractModule>();
         this.modules = [];
 
-        console.log('MPConstr', this.configuration);
-
         const modulesList = this.modulesPrioritySort(this.configuration.modules);
 
         console.log('SORT', modulesList);
@@ -52,14 +50,16 @@ export class ModulesProcessor extends EventDispatcher<string> {
                 });
 
                 this.viewer = renderModule.getViewer();
-
-                this.viewer.setCurrentViewer(this.configuration.bootstrap);
-                this.configuration.bootstrap.onInit(this);
             })
 
             .then(() => this.placeModulesOnScene())
 
             .then(() => this.modulesAfterInitialization())
+
+            .then(() => {
+                this.viewer.setCurrentViewer(this.configuration.bootstrap);
+                this.configuration.bootstrap.onInit(this);
+            })
 
             .then(() => this.viewer.on('update', (event) => this.update(event.data.frame)));
     }
@@ -75,7 +75,7 @@ export class ModulesProcessor extends EventDispatcher<string> {
 
                 // this.modules.set(Object.getPrototypeOf(module).constructor, module);
                 // this.modules.set(module.getModuleName(), module);
-                this.modules.push(module);
+                if(status.enabled) this.modules.push(module);
             }
 
         }   
@@ -157,6 +157,8 @@ export class ModulesProcessor extends EventDispatcher<string> {
         for (const prio in list) {
 
             for (const module of list[prio]) {
+                if (!this.modulesStatus.get(module).enabled) continue;
+    
                 const instances: Array<any> = await module.onInit(this.modules);
 
                 this.modulesInstances.set(Object.getPrototypeOf(module).constructor, instances);

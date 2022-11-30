@@ -53,7 +53,6 @@ export class WEBGLRenderer {
 
         this.renderer.setPixelRatio(1);
         this.renderer.setClearColor(this.config.clearColor, this.config.clearColorAlpha);
-        // this.renderer.setClearColor('#333355', this.config.clearColorAlpha);
         this.renderer.setSize(this.config.width || window.innerWidth, this.config.height || window.innerHeight);
         // this.renderer.setAnimationLoop(this.update);
 
