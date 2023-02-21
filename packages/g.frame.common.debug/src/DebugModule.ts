@@ -61,7 +61,7 @@ export class DebugModule extends AbstractModule {
         this.globalNamespace.add('atc', (object?: Object3D) => this.attachTransformControls.attach(object));
         this.globalNamespace.add('dtc', (object?: Object3D) => this.attachTransformControls.detach());
         this.globalNamespace.add('attachTransformControls', (object?: Object3D) => this.attachTransformControls.attach(object));
-        this.globalNamespace.add('detachTransformControls', (object?: Object3D) => this.attachTransformControls.detach(object));
+        this.globalNamespace.add('detachTransformControls', (object?: Object3D) => this.attachTransformControls.detach());
         this.globalNamespace.add('attachClickedMesh', () => {
             this.attachTransformControls.detach();
             this.raycastMesh.raycastMesh((object?: Object3D) => this.attachTransformControls.attach(object));
