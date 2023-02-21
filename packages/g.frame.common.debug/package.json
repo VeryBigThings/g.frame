@@ -1,6 +1,6 @@
 {
   "name": "@g.frame/common.debug",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Debug module from g.frame",
   "main": "build/main/index.js",
   "module": "build/module/index.js",

@@ -32,12 +32,10 @@ export default class AttachTransformControls {
             return;
         }
 
-        if (!object.visible) {
+        if (object && !object.visible) {
             console.log(`%cObject invisible`, 'color: red;');
             return;
         }
-
-
         if (this.currentAttachedObject) {
             this.transformControls.detach();
             this.scene.remove(this.transformControls);
