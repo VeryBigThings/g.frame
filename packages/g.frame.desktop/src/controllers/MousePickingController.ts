@@ -11,6 +11,7 @@ export class MousePickingController extends PickingController {
     private currentObject: Object3D;
     private scene: Scene;
     private isControlsWasEnabled: boolean;
+    private lastMouseMoveEvent: any;
 
     constructor(protected data: any, protected config: IMousePickingControllerConfig, protected mouseActionController: MouseActionController) {
         super(config);
@@ -18,20 +19,25 @@ export class MousePickingController extends PickingController {
         this.scene = data.viewer.scene;
     }
 
+    frameUpdate() {
+        const event = this.lastMouseMoveEvent;
+        if (this.currentObject && this.enabled && this.lastMouseMoveEvent) {
+            const newPosition = this.getPosition(event);
+            this.update(event.data.ray.origin.clone(),
+                new Quaternion().setFromUnitVectors(new Vector3(0, 0, -1), event.data.ray.direction),
+                true,
+                0,
+                event.data.ray.origin.distanceTo(newPosition)
+            );
+        }
+    }
+
     init(controls: OrbitControls) {
         this.lastDistance = this.config.maxPickingDistance;
         this.controls = controls;
 
         this.mouseActionController.on(ActionControllerEventName.move, null, (event) => {
-            if (this.currentObject && this.enabled) {
-                const newPosition = this.getPosition(event);
-                this.update(event.data.ray.origin.clone(),
-                    new Quaternion().setFromUnitVectors(new Vector3(0, 0, -1), event.data.ray.direction),
-                    true,
-                    0,
-                    event.data.ray.origin.distanceTo(newPosition)
-                );
-            }
+            this.lastMouseMoveEvent = event;
         });
 
         this.mouseActionController.on(ActionControllerEventName.buttonUp, null, (event) => {

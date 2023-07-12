@@ -113,6 +113,8 @@ export class DesktopModule extends AbstractModule {
 
     onUpdate(params: { currentTime: number; frame: any }): void {
         // console.info('Module on update function. Use it to update instances.');
+        if(this._pickingController)
+            (this._pickingController as MousePickingController).frameUpdate();
     }
 
     onDestroy(): void {
