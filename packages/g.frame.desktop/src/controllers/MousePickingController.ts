@@ -58,20 +58,21 @@ export class MousePickingController extends PickingController {
     }
 
     on(eventName: PickingControllerEventNames, mesh, callback1: Function, callback2?: Function) {
-        this.mouseActionController.on(ActionControllerEventName.buttonDown, mesh, (event) => {
-            if (event.data.intersection.orderNumber !== 0) return;
-            if (this.enabled) {
-                const intersectedEventsObjects = this.getIntersectsFromRay(event.data.ray, [mesh]);
-                // console.log('intersectedEventsObjects = ', intersectedEventsObjectsAmount, 'newPos = ', this.getPosition(event));
-                if (intersectedEventsObjects.length !== 0 && this.checkDistance(intersectedEventsObjects)) {
-                    // console.log('this.currentValues',this.currentValues);
-                    this.isControlsWasEnabled = this.controls.enabled;
-                    this.controls.enabled = false;
-                    const position = this.getPosition(event);
-                    this.forcePickUp(intersectedEventsObjects[0].object, event.data.ray.origin.distanceTo(position), event.data.ray.origin.clone(), new Quaternion().setFromUnitVectors(new Vector3(0, 0, -1), event.data.ray.direction), 0);
+        if (eventName === PickingControllerEventNames.PICKED)
+            this.mouseActionController.on(ActionControllerEventName.buttonDown, mesh, (event) => {
+                if (event.data.intersection.orderNumber !== 0) return;
+                if (this.enabled) {
+                    const intersectedEventsObjects = this.getIntersectsFromRay(event.data.ray, [mesh]);
+                    // console.log('intersectedEventsObjects = ', intersectedEventsObjectsAmount, 'newPos = ', this.getPosition(event));
+                    if (intersectedEventsObjects.length !== 0 && this.checkDistance(intersectedEventsObjects)) {
+                        // console.log('this.currentValues',this.currentValues);
+                        this.isControlsWasEnabled = this.controls.enabled;
+                        this.controls.enabled = false;
+                        const position = this.getPosition(event);
+                        this.forcePickUp(intersectedEventsObjects[0].object, event.data.ray.origin.distanceTo(position), event.data.ray.origin.clone(), new Quaternion().setFromUnitVectors(new Vector3(0, 0, -1), event.data.ray.direction), 0);
+                    }
                 }
-            }
-        });
+            });
         super.on(eventName, mesh, callback1, callback2);
     }
 
